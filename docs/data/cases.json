@@ -1,0 +1,26 @@
+[
+  {
+    "id": "case-bmw-x5-2021",
+    "model": "BMW X5 xDrive45e 2021",
+    "turnkey": 13500,
+    "market": 18000,
+    "currency": "EUR",
+    "source": "BIDDERS internal delivery ledger"
+  },
+  {
+    "id": "case-porsche-cayenne-2024",
+    "model": "PORSCHE CAYENNE COUPE 2024",
+    "turnkey": 20200,
+    "market": 26000,
+    "currency": "EUR",
+    "source": "BIDDERS internal delivery ledger"
+  },
+  {
+    "id": "case-toyota-camry-2026",
+    "model": "TOYOTA CAMRY XSE 2026",
+    "turnkey": 16900,
+    "market": 21100,
+    "currency": "EUR",
+    "source": "BIDDERS internal delivery ledger"
+  }
+]
