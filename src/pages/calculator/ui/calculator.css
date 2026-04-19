@@ -1,0 +1,335 @@
+.calculator-react-page {
+  background: linear-gradient(180deg, #f7f8fc 0%, #f1f4fb 100%);
+  padding-bottom: 64px;
+}
+
+.calculator-react-page .calculator-hero {
+  padding: 24px 24px 8px;
+}
+
+.calculator-react-page .calculator-hero__inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 34px 36px;
+  border-radius: 28px;
+  border: 1px solid rgba(27, 42, 74, 0.12);
+  background: linear-gradient(125deg, rgba(27, 42, 74, 0.95) 0%, rgba(27, 42, 74, 0.82) 44%, rgba(255, 255, 255, 0.72) 170%);
+  box-shadow: 0 20px 50px rgba(27, 42, 74, 0.08);
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.6fr);
+  gap: 24px;
+  align-items: end;
+}
+
+.calculator-react-page .calculator-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffb07d;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.calculator-react-page .calculator-hero h1 {
+  margin: 16px 0 14px;
+  color: #fff;
+  font-size: clamp(30px, 4vw, 56px);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+}
+
+.calculator-react-page .calculator-hero p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.calculator-react-page .calculator-hero__note {
+  display: grid;
+  gap: 8px;
+  padding: 18px 18px 20px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.calculator-react-page .calculator-hero__note strong {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.calculator-react-page .calculator-hero__note span {
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.calculator-react-page .calculator-shell {
+  max-width: calc(1440px + 48px);
+  margin: 0 auto;
+  padding: 12px 24px 0;
+}
+
+.calculator-react-page .calculator-layout {
+  display: grid;
+  grid-template-columns: minmax(340px, 460px) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.calculator-react-page .calculator-card {
+  border-radius: 24px;
+  border: 1px solid rgba(27, 42, 74, 0.12);
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow: 0 20px 50px rgba(27, 42, 74, 0.08);
+}
+
+.calculator-react-page .calculator-card--form,
+.calculator-react-page .calculator-card--result {
+  padding: 24px;
+}
+
+.calculator-react-page .calculator-card--result {
+  display: grid;
+  gap: 18px;
+}
+
+.calculator-react-page .calculator-kicker,
+.calculator-react-page .calculator-group__title {
+  color: #ff5c00;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.calculator-react-page .calculator-card__head {
+  margin-bottom: 16px;
+}
+
+.calculator-react-page .calculator-card__head h2 {
+  margin: 6px 0 0;
+  color: #1b2a4a;
+  font-size: 26px;
+}
+
+.calculator-react-page .calculator-card__head p {
+  margin: 8px 0 0;
+  color: #5a6478;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.calculator-react-page .calc-simple-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 11px 0;
+  border-bottom: 1px solid rgba(27, 42, 74, 0.08);
+}
+
+.calculator-react-page .calc-simple-row label {
+  flex: 0 0 155px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a2236;
+}
+
+.calculator-react-page .calc-input,
+.calculator-react-page .calc-select {
+  width: 100%;
+  min-height: 42px;
+  border-radius: 12px;
+  border: 1px solid rgba(27, 42, 74, 0.12);
+  background: rgba(245, 246, 250, 0.92);
+  padding: 0 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a2236;
+}
+
+.calculator-react-page .calc-toggle-grid {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.calculator-react-page .calc-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid rgba(27, 42, 74, 0.1);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.72);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.calculator-react-page .calc-toggle input {
+  width: 16px;
+  height: 16px;
+  accent-color: #ff5c00;
+}
+
+.calculator-react-page .calc-input-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.calculator-react-page .calc-primary,
+.calculator-react-page .calc-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.calculator-react-page .calc-primary {
+  flex: 1;
+  color: #fff;
+  background: linear-gradient(135deg, #ff5c00 0%, #ff7f32 100%);
+  box-shadow: 0 12px 26px rgba(255, 92, 0, 0.24);
+}
+
+.calculator-react-page .calc-secondary {
+  color: #1b2a4a;
+  background: rgba(255, 255, 255, 0.78);
+  border-color: rgba(27, 42, 74, 0.12);
+}
+
+.calculator-react-page .calculator-total {
+  border-radius: 20px;
+  border: 1px solid rgba(255, 92, 0, 0.12);
+  background: linear-gradient(180deg, rgba(255, 92, 0, 0.08) 0%, rgba(255, 92, 0, 0.03) 100%);
+  padding: 20px;
+}
+
+.calculator-react-page .calculator-total__row {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.calculator-react-page .calculator-total__value {
+  color: #1b2a4a;
+  font-size: clamp(36px, 4.2vw, 62px);
+  line-height: 0.95;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+}
+
+.calculator-react-page .calculator-total__badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  border-radius: 999px;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 92, 0, 0.16);
+  background: rgba(255, 92, 0, 0.1);
+  color: #ff5c00;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.calculator-react-page .calculator-total__caption {
+  margin: 10px 0 0;
+  color: #5a6478;
+  font-size: 14px;
+}
+
+.calculator-react-page .calculator-groups {
+  display: grid;
+  gap: 14px;
+}
+
+.calculator-react-page .calculator-group {
+  border-radius: 18px;
+  border: 1px solid rgba(27, 42, 74, 0.1);
+  background: rgba(255, 255, 255, 0.72);
+  overflow: hidden;
+}
+
+.calculator-react-page .calculator-group__title {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(27, 42, 74, 0.08);
+  background: rgba(27, 42, 74, 0.04);
+}
+
+.calculator-react-page .calc-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(27, 42, 74, 0.08);
+  font-size: 13px;
+}
+
+.calculator-react-page .calc-row:last-child {
+  border-bottom: 0;
+}
+
+.calculator-react-page .calc-row span {
+  color: #5a6478;
+}
+
+.calculator-react-page .calc-row strong {
+  color: #1a2236;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+@media (max-width: 1120px) {
+  .calculator-react-page .calculator-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .calculator-react-page .calculator-hero {
+    padding: 16px 12px 8px;
+  }
+
+  .calculator-react-page .calculator-hero__inner {
+    padding: 22px 16px;
+    grid-template-columns: 1fr;
+  }
+
+  .calculator-react-page .calculator-shell {
+    padding: 10px 12px 0;
+  }
+
+  .calculator-react-page .calc-simple-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+
+  .calculator-react-page .calc-simple-row label {
+    flex: none;
+  }
+
+  .calculator-react-page .calc-toggle-grid {
+    grid-template-columns: 1fr;
+  }
+}

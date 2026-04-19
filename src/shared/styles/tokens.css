@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,600..800,50,1&family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap');
+
+:root {
+  --color-accent: #ff5c00;
+  --color-accent-2: #ff7a2f;
+  --color-navy: #1b2a4a;
+  --color-navy-2: #22345c;
+  --color-surface: #f5f6fa;
+  --color-border: #e4e7ef;
+  --color-text: #1a2236;
+  --color-text-muted: #5a6478;
+  --color-text-soft: #9aa3b8;
+  --color-white: #ffffff;
+
+  --font-body: 'Manrope', system-ui, sans-serif;
+  --font-heading: 'Sora', 'Manrope', sans-serif;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+
+  --radius-sm: 0.625rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.125rem;
+  --radius-xl: 1.5rem;
+
+  --shadow-1: 0 12px 28px rgba(27, 42, 74, 0.14);
+  --shadow-2: 0 12px 24px rgba(27, 42, 74, 0.22);
+}

@@ -1,0 +1,28 @@
+.bb-button {
+  border: 0;
+  border-radius: var(--radius-md);
+  padding: 0.8rem 1rem;
+  font-weight: 700;
+  font-family: var(--font-body);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.bb-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-2);
+}
+
+.bb-button-solid {
+  background: var(--color-accent);
+  color: var(--color-white);
+}
+
+.bb-button-solid:hover {
+  background: var(--color-accent-2);
+}
+
+.bb-button-ghost {
+  border: 1px solid color-mix(in srgb, var(--color-navy) 20%, transparent);
+  background: var(--color-white);
+  color: var(--color-navy);
+}

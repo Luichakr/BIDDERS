@@ -1,0 +1,224 @@
+.inventory-page {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 18px;
+  margin-top: 14px;
+}
+
+.inventory-sidebar {
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: var(--color-white);
+  overflow: hidden;
+  height: fit-content;
+}
+
+.inventory-sidebar-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.inventory-sidebar-head button {
+  border: 0;
+  background: transparent;
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+.inventory-filter-group {
+  border-bottom: 1px solid #f0f2f7;
+  padding: 12px 14px;
+}
+
+.inventory-filter-group h3 {
+  margin: 0 0 8px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--color-text-muted);
+}
+
+.inventory-filter-options {
+  display: grid;
+  gap: 7px;
+}
+
+.inventory-filter-options label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text);
+  font-size: 0.93rem;
+}
+
+.inventory-filter-options input {
+  accent-color: var(--color-accent);
+}
+
+.inventory-results-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 10px 14px;
+  background: linear-gradient(180deg, #ffffff 0%, #f7f8fc 100%);
+}
+
+.inventory-results-head h1 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--color-navy);
+}
+
+.inventory-results-head p {
+  font-size: 0.9rem;
+}
+
+.inventory-sort {
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  border-radius: 10px;
+  padding: 0.45rem 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.inventory-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.inventory-row {
+  display: grid;
+  grid-template-columns: 240px 1fr 210px;
+  gap: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  background: var(--color-white);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.inventory-row:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 24px rgba(27, 42, 74, 0.12);
+}
+
+.inventory-photo-wrap {
+  position: relative;
+  min-height: 154px;
+}
+
+.inventory-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.inventory-photo-badges {
+  position: absolute;
+  inset: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-content: flex-start;
+}
+
+.inventory-photo-badges span {
+  padding: 0.24rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.03em;
+}
+
+.badge-auction {
+  background: rgba(17, 27, 54, 0.85);
+}
+
+.badge-hot {
+  background: rgba(255, 92, 0, 0.92);
+}
+
+.badge-discount {
+  background: rgba(216, 40, 40, 0.92);
+}
+
+.badge-damage {
+  background: rgba(26, 34, 54, 0.72);
+}
+
+.inventory-main {
+  padding: 12px 0;
+}
+
+.inventory-main h3 {
+  margin: 0;
+  color: var(--color-navy);
+  font-size: 1.04rem;
+}
+
+.inventory-sub {
+  margin-top: 7px;
+  font-size: 0.9rem;
+}
+
+.inventory-price {
+  padding: 12px;
+  border-left: 1px solid var(--color-border);
+  background: linear-gradient(160deg, #ffffff 0%, #fff6f0 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.inventory-price p {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.inventory-price strong {
+  font-size: 1.4rem;
+  color: var(--color-navy);
+}
+
+.inventory-price span {
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.inventory-price small {
+  color: var(--color-text-muted);
+}
+
+.inventory-price button {
+  margin-top: auto;
+  border: 0;
+  border-radius: 10px;
+  background: var(--color-accent);
+  color: #fff;
+  font-weight: 700;
+  padding: 0.6rem 0.75rem;
+}
+
+@media (max-width: 1024px) {
+  .inventory-page {
+    grid-template-columns: 1fr;
+  }
+
+  .inventory-row {
+    grid-template-columns: 1fr;
+  }
+
+  .inventory-price {
+    border-left: 0;
+    border-top: 1px solid var(--color-border);
+  }
+}
