@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { HashRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AppLayout } from './AppLayout'
 import { HomePage } from '../pages/home/ui/HomePage'
 import { CatalogPage } from '../pages/catalog/ui/CatalogPage'
@@ -20,7 +20,7 @@ function NotFoundRoute() {
 
 export function AppRouter() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route element={<AppLayout />}>
           <Route path={routes.home} element={<HomePage />} />
@@ -39,6 +39,6 @@ export function AppRouter() {
         </Route>
         <Route path="*" element={<NotFoundRoute />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
