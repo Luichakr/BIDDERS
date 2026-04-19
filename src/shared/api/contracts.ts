@@ -33,6 +33,7 @@ export type InventoryFilterGroup = {
 export type InventoryItem = {
   id: string
   image: string
+  images?: string[]
   year: string
   makeModel: string
   auction: 'COPART' | 'IAAI'
@@ -40,10 +41,19 @@ export type InventoryItem = {
   vin: string
   location: string
   engine: string
+  transmission?: string
+  drivetrain?: string
+  fuel?: string
   mileage: string
   currentBid: string
   buyNow: string | null
   estimate: string
+  auctionDate?: string
+  seller?: string
+  titleStatus?: string
+  bodyStyle?: string
+  color?: string
+  keys?: string
   hot: boolean
   discount: string | null
   sourceUrl?: string

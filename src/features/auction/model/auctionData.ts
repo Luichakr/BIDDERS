@@ -17,6 +17,13 @@ export interface AuctionCardData {
   transmission: string
   fuel: string
   drive: string
+  bodyStyle: string
+  color: string
+  keys: string
+  seller: string
+  titleStatus: string
+  auctionDateLabel: string
+  sourceUrl?: string
   engine: string
   damage: string
   currentBid: number
@@ -65,13 +72,20 @@ function mapInventoryItem(item: InventoryItem, status: 'catalog' | 'transit'): A
     vin: item.vin,
     auction: item.auction,
     image: item.image,
-    images: [item.image],
+    images: item.images && item.images.length > 0 ? item.images : [item.image],
     location: item.location,
     mileageKm: parseKm(item.mileage),
     mileageLabel: item.mileage,
-    transmission: 'AUTOMATIC',
-    fuel: item.engine.split('·')[1]?.trim().toUpperCase() || 'GAS',
-    drive: 'AWD',
+    transmission: item.transmission || 'AUTOMATIC',
+    fuel: item.fuel || item.engine.split('·')[1]?.trim().toUpperCase() || 'GAS',
+    drive: item.drivetrain || 'AWD',
+    bodyStyle: item.bodyStyle || '—',
+    color: item.color || '—',
+    keys: item.keys || '—',
+    seller: item.seller || '—',
+    titleStatus: item.titleStatus || '—',
+    auctionDateLabel: item.auctionDate || 'TBD',
+    sourceUrl: item.sourceUrl,
     engine: item.engine,
     damage: item.damage,
     currentBid: parseMoney(item.currentBid),

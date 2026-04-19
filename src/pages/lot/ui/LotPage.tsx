@@ -132,7 +132,7 @@ export function LotPage() {
         </div>
       </section>
 
-      <div className="auction-direct-bar"><div className="auction-direct-badge">★ Прямий аукціон - 2 травня, 15:30</div></div>
+      <div className="auction-direct-bar"><div className="auction-direct-badge">★ Прямий аукціон - {car.auctionDateLabel}</div></div>
 
       <section className="car-main">
         <div className="gallery-col">
@@ -159,18 +159,18 @@ export function LotPage() {
             <div className="specs-section-title">Основні характеристики</div>
             <div className="spec-row"><span className="spec-label">Lot</span><span className="spec-value" id="sLot">{car.id}</span></div>
             <div className="spec-row"><span className="spec-label">VIN</span><span className="spec-value vin-val" id="sVin">{car.vin}</span><button className="copy-btn" type="button" onClick={() => navigator.clipboard.writeText(car.vin)}>Копіювати</button></div>
-            <div className="spec-row"><span className="spec-label">Продавець</span><span className="spec-value"><span className="seller-dot"></span>BIDDERS</span></div>
-            <div className="spec-row"><span className="spec-label">Документи</span><span className="spec-value doc-ok">Salvage</span></div>
+            <div className="spec-row"><span className="spec-label">Продавець</span><span className="spec-value"><span className="seller-dot"></span>{car.seller}</span></div>
+            <div className="spec-row"><span className="spec-label">Документи</span><span className="spec-value doc-ok">{car.titleStatus}</span></div>
             <div className="spec-row"><span className="spec-label">Первинне пошкодження</span><span className="spec-value damage-val">{car.damage}</span></div>
             <div className="spec-row"><span className="spec-label">Вторинне пошкодження</span><span className="spec-value">—</span></div>
             <div className="spec-row"><span className="spec-label">Пробіг</span><span className="spec-value">{car.mileageLabel}</span></div>
-            <div className="spec-row"><span className="spec-label">Ключ</span><span className="spec-value">Присутній</span></div>
+            <div className="spec-row"><span className="spec-label">Ключ</span><span className="spec-value">{car.keys}</span></div>
           </div>
 
           <div className="specs-section">
             <div className="specs-section-title">Технічні характеристики</div>
-            <div className="spec-row"><span className="spec-label">Тип кузова</span><span className="spec-value">SUV</span></div>
-            <div className="spec-row"><span className="spec-label">Колір</span><span className="spec-value">Чорний</span></div>
+            <div className="spec-row"><span className="spec-label">Тип кузова</span><span className="spec-value">{car.bodyStyle}</span></div>
+            <div className="spec-row"><span className="spec-label">Колір</span><span className="spec-value">{car.color}</span></div>
             <div className="spec-row"><span className="spec-label">Двигун</span><span className="spec-value">{car.engine}</span></div>
             <div className="spec-row"><span className="spec-label">Коробка передач</span><span className="spec-value">{car.transmission}</span></div>
             <div className="spec-row"><span className="spec-label">Тип палива</span><span className="spec-value">{car.fuel}</span></div>
@@ -186,6 +186,11 @@ export function LotPage() {
             <button className="show-more-btn" type="button" onClick={() => setMoreSpecsOpen((prev) => !prev)}>
               {moreSpecsOpen ? 'Показати менше' : 'Показати більше (4)'}
             </button>
+            {car.sourceUrl ? (
+              <a href={car.sourceUrl} target="_blank" rel="noreferrer" className="gallery-show-all">
+                Відкрити оригінальний лот на {car.auction}
+              </a>
+            ) : null}
           </div>
 
           <div className="services-section">
