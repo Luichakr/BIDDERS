@@ -28,7 +28,7 @@ export function Header() {
       <header className={scrolled ? 'px-header scrolled' : 'px-header'}>
         <div className="px-header__bar">
           <NavLink className="px-header__logo" to={routes.home} aria-label="BIDDERS" onClick={closeMobile}>
-            <img src="/images/logo-carwaw-black.png" alt="BIDDERS" />
+            <img src={`${import.meta.env.BASE_URL}images/logo-carwaw-black.png`} alt="BIDDERS" />
           </NavLink>
 
           <nav className="px-header__nav" aria-label="Primary navigation">

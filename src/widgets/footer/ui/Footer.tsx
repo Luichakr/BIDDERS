@@ -12,7 +12,7 @@ export function Footer() {
         <div className="px-footer__top">
           <div className="px-footer__brand">
             <div className="px-footer__logo">
-              <img src="/images/logo-carwaw-white.png" alt="BIDDERS" />
+              <img src={`${import.meta.env.BASE_URL}images/logo-carwaw-white.png`} alt="BIDDERS" />
             </div>
             <p className="px-footer__tag">{t('footerTaglineLong')}</p>
             <div className="px-footer__soc">
@@ -68,12 +68,12 @@ export function Footer() {
         <div className="px-footer__brands">
           <span className="px-footer__brands-label">Офіційні джерела лотів</span>
           <div className="px-footer__brands-row">
-            <img src="/images/copart-logo.png" alt="Copart" />
-            <img src="/images/copart-logo.png" alt="IAAI" />
-            <img src="/images/copart-logo.png" alt="Manheim" />
-            <img src="/images/copart-logo.png" alt="ADESA" />
-            <img src="/images/copart-logo.png" alt="Auto Auction" />
-            <img src="/images/copart-logo.png" alt="Impact Auto" />
+            <img src={`${import.meta.env.BASE_URL}images/copart-logo.png`} alt="Copart" />
+            <img src={`${import.meta.env.BASE_URL}images/copart-logo.png`} alt="IAAI" />
+            <img src={`${import.meta.env.BASE_URL}images/copart-logo.png`} alt="Manheim" />
+            <img src={`${import.meta.env.BASE_URL}images/copart-logo.png`} alt="ADESA" />
+            <img src={`${import.meta.env.BASE_URL}images/copart-logo.png`} alt="Auto Auction" />
+            <img src={`${import.meta.env.BASE_URL}images/copart-logo.png`} alt="Impact Auto" />
           </div>
         </div>
 
