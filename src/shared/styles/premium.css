@@ -2,10 +2,9 @@
    BIDDERS — PREMIUM DESIGN SYSTEM
    Brand palette: navy #1b2a4a + orange #ff5c00
    Namespace: .px-*
-   Fonts already loaded: Fraunces (display), Sora, Manrope
+   Font: Manrope (unified across the whole site)
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 :root {
   --px-navy: #1b2a4a;
@@ -24,9 +23,9 @@
   --px-line-2: rgba(26, 34, 54, 0.16);
   --px-line-dark: rgba(255, 255, 255, 0.1);
   --px-line-dark-2: rgba(255, 255, 255, 0.18);
-  --px-display: 'Fraunces', 'Times New Roman', serif;
-  --px-body: 'Manrope', system-ui, sans-serif;
-  --px-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --px-display: 'Manrope', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --px-body: 'Manrope', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --px-mono: 'Manrope', ui-monospace, monospace;
 }
 
 .px {
@@ -115,7 +114,7 @@
 }
 
 .px-h2 {
-  font-family: 'Sora', var(--px-body);
+  font-family: var(--px-body);
   font-weight: 700;
   font-size: clamp(32px, 3.6vw, 52px);
   line-height: 1.02;
@@ -1044,7 +1043,7 @@
   animation: px-pulse 2s ease-in-out infinite;
 }
 .px-hero__title {
-  font-family: 'Sora', var(--px-body);
+  font-family: var(--px-body);
   font-weight: 800;
   font-size: clamp(38px, 5vw, 72px);
   line-height: 1.02;
@@ -1067,7 +1066,7 @@
   border-radius: 2px;
 }
 .px-hero__dominant {
-  font-family: 'Sora', var(--px-body);
+  font-family: var(--px-body);
   font-weight: 700;
   font-size: clamp(20px, 1.7vw, 24px);
   color: var(--px-orange);
@@ -1093,7 +1092,7 @@
   max-width: 540px;
 }
 .px-hero__stat-num {
-  font-family: 'Sora', var(--px-body);
+  font-family: var(--px-body);
   font-weight: 800;
   font-size: clamp(24px, 2.4vw, 32px);
   color: #fff;
@@ -1197,7 +1196,7 @@
 }
 .px-trust__icon svg { width: 22px; height: 22px; }
 .px-trust__title {
-  font-family: 'Sora', var(--px-body);
+  font-family: var(--px-body);
   font-weight: 700;
   font-size: 14px;
   color: #fff;
@@ -1271,7 +1270,7 @@
 .px-econ__row:last-of-type { border-bottom: none; }
 .px-econ__row span { color: rgba(255,255,255,0.55); }
 .px-econ__row strong {
-  font-family: 'Sora', var(--px-body);
+  font-family: var(--px-body);
   font-weight: 700; color: #fff; font-size: 15px;
 }
 .px-econ__save {
@@ -1280,7 +1279,7 @@
   background: linear-gradient(135deg, rgba(255,92,0,0.15), rgba(255,92,0,0.05));
   border: 1px solid rgba(255,92,0,0.35);
   border-radius: 10px;
-  font-family: 'Sora', var(--px-body);
+  font-family: var(--px-body);
   font-weight: 700;
   color: var(--px-orange);
   font-size: 15px;
@@ -1304,7 +1303,7 @@
   margin: 0 0 12px;
 }
 .px-econ__big-num {
-  font-family: 'Sora', var(--px-body);
+  font-family: var(--px-body);
   font-weight: 800;
   font-size: clamp(40px, 5vw, 68px);
   line-height: 1;
@@ -1389,7 +1388,7 @@
   font-size: 13px; color: rgba(255,255,255,0.7);
   position: relative; z-index: 1;
 }
-.px-calc__line strong { color: #fff; font-family: 'Sora', var(--px-body); font-weight: 600; }
+.px-calc__line strong { color: #fff; font-family: var(--px-body); font-weight: 600; }
 .px-calc__total {
   margin-top: 12px; padding-top: 12px;
   border-top: 2px solid var(--px-orange);
@@ -1398,7 +1397,7 @@
 }
 .px-calc__total span { color: rgba(255,255,255,0.7); font-size: 13px; }
 .px-calc__total strong {
-  font-family: 'Sora', var(--px-body); font-weight: 800;
+  font-family: var(--px-body); font-weight: 800;
   font-size: 24px; color: var(--px-orange);
 }
 .px-calc__actions { display: flex; flex-wrap: wrap; gap: 12px; }
@@ -1441,7 +1440,7 @@
 }
 .px-catalog__stat:last-child { border-bottom: none; }
 .px-catalog__stat-num {
-  font-family: 'Sora', var(--px-body); font-weight: 800;
+  font-family: var(--px-body); font-weight: 800;
   font-size: 26px; color: var(--px-orange); letter-spacing: -0.02em;
 }
 .px-catalog__stat-label {
@@ -1505,7 +1504,7 @@
   font-size: 13px;
 }
 .px-app__screen-row strong {
-  font-family: 'Sora', var(--px-body); color: var(--px-orange);
+  font-family: var(--px-body); color: var(--px-orange);
 }
 .px-app__live {
   display: inline-flex; align-items: center; gap: 8px;
@@ -1550,7 +1549,7 @@
 }
 .px-case:hover::before { opacity: 1; }
 .px-case__title {
-  font-family: 'Sora', var(--px-body); font-weight: 700;
+  font-family: var(--px-body); font-weight: 700;
   font-size: 18px; margin: 0 0 16px; letter-spacing: -0.01em;
   position: relative;
 }
@@ -1563,7 +1562,7 @@
 }
 .px-case__row span { color: var(--px-text-muted); }
 .px-case__row strong {
-  font-family: 'Sora', var(--px-body); font-weight: 700;
+  font-family: var(--px-body); font-weight: 700;
   color: var(--px-text); font-size: 14px;
 }
 .px-case__row--save {
@@ -1604,7 +1603,7 @@
   color: var(--px-orange);
   display: grid; place-items: center;
 }
-.px-loc__address strong { display: block; font-family: 'Sora', var(--px-body); margin-bottom: 4px; }
+.px-loc__address strong { display: block; font-family: var(--px-body); margin-bottom: 4px; }
 .px-loc__address p { margin: 0; font-size: 14px; color: var(--px-text-muted); }
 .px-loc__phones {
   display: grid; gap: 10px;
@@ -1615,7 +1614,7 @@
   background: #fff;
   border: 1px solid var(--px-line);
   border-radius: 12px;
-  font-family: 'Sora', var(--px-body); font-weight: 600;
+  font-family: var(--px-body); font-weight: 600;
   color: var(--px-text);
   transition: border-color 0.3s ease, transform 0.3s ease;
   text-decoration: none;
@@ -1691,7 +1690,7 @@
   margin-bottom: 14px;
 }
 .px-b2b__title {
-  font-family: 'Sora', var(--px-body); font-weight: 700;
+  font-family: var(--px-body); font-weight: 700;
   font-size: 22px; margin: 0 0 10px;
 }
 .px-b2b__desc { font-size: 14px; color: var(--px-text-muted); margin: 0 0 20px; line-height: 1.5; }
@@ -1721,7 +1720,7 @@
 .px-faq details[open] { border-color: var(--px-orange); }
 .px-faq summary {
   padding: 18px 22px;
-  font-family: 'Sora', var(--px-body);
+  font-family: var(--px-body);
   font-weight: 600;
   font-size: 16px;
   cursor: pointer;
@@ -1777,7 +1776,7 @@
   margin: 0 auto;
 }
 .px-final__title {
-  font-family: 'Sora', var(--px-body);
+  font-family: var(--px-body);
   font-weight: 800;
   font-size: clamp(32px, 4.5vw, 60px);
   letter-spacing: -0.025em;
@@ -1877,7 +1876,7 @@ header.px-header {
   -webkit-backdrop-filter: saturate(180%) blur(18px);
   border-bottom: 1px solid rgba(27,42,74,0.08);
   transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-  font-family: 'Manrope', system-ui, sans-serif;
+  font-family: var(--px-body);
   display: block;
   margin: 0;
   gap: 0;
@@ -1945,7 +1944,7 @@ header.px-header {
   gap: 8px;
   color: #1a2236;
   text-decoration: none;
-  font-family: 'Sora', 'Manrope', sans-serif;
+  font-family: var(--px-body);
   font-weight: 600;
   font-size: 14px;
   letter-spacing: 0.01em;
@@ -1968,7 +1967,7 @@ header.px-header {
   border: none;
   background: transparent;
   color: #5a6478;
-  font-family: 'Manrope', sans-serif;
+  font-family: var(--px-body);
   font-weight: 600;
   font-size: 12px;
   letter-spacing: 0.04em;
@@ -1990,7 +1989,7 @@ header.px-header {
   background: var(--px-orange);
   color: #fff;
   text-decoration: none;
-  font-family: 'Manrope', sans-serif;
+  font-family: var(--px-body);
   font-weight: 600;
   font-size: 14px;
   border-radius: 100px;
@@ -2090,7 +2089,7 @@ header.px-header {
   position: relative;
 }
 .px-mobile__kicker {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--px-body);
   font-size: 11px;
   letter-spacing: 0.26em;
   text-transform: uppercase;
@@ -2119,7 +2118,7 @@ header.px-header {
   padding: 14px 16px;
   color: rgba(255,255,255,0.85);
   text-decoration: none;
-  font-family: 'Sora', sans-serif;
+  font-family: var(--px-body);
   font-weight: 600;
   font-size: 17px;
   border-radius: 12px;
@@ -2142,7 +2141,7 @@ header.px-header {
 .px-mobile__phone {
   color: #fff;
   text-decoration: none;
-  font-family: 'Sora', sans-serif;
+  font-family: var(--px-body);
   font-weight: 700;
   font-size: 20px;
   letter-spacing: 0.01em;
@@ -2165,7 +2164,7 @@ header.px-header {
   padding: clamp(64px, 8vw, 100px) 0 32px;
   overflow: hidden;
   isolation: isolate;
-  font-family: 'Manrope', sans-serif;
+  font-family: var(--px-body);
 }
 .px-footer::before {
   content: '';
@@ -2249,7 +2248,7 @@ header.px-header {
   gap: clamp(20px, 3vw, 40px);
 }
 .px-footer__col h4 {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--px-body);
   font-size: 11px;
   letter-spacing: 0.24em;
   text-transform: uppercase;
@@ -2295,7 +2294,7 @@ header.px-header {
 }
 .px-footer__brands-label {
   display: block;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--px-body);
   font-size: 10px;
   letter-spacing: 0.24em;
   text-transform: uppercase;
@@ -2381,7 +2380,7 @@ header.px-header {
 .cookie-banner__actions { position: relative; z-index: 1; }
 .cookie-banner__title {
   color: #fff;
-  font-family: 'Sora', 'Manrope', sans-serif;
+  font-family: var(--px-body);
   letter-spacing: -0.01em;
   display: inline-flex;
   align-items: center;
@@ -2398,7 +2397,7 @@ header.px-header {
 }
 .cookie-banner__text { color: rgba(255,255,255,0.62); }
 .cookie-banner__actions .bp-btn {
-  font-family: 'Manrope', sans-serif;
+  font-family: var(--px-body);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   border-radius: 100px;

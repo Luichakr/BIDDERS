@@ -9,7 +9,7 @@
   background: #ffffff;
   border-bottom: 1px solid var(--color-border);
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--font-body);
 }
 
 .global-header-in {
@@ -241,7 +241,7 @@
   background-size: cover;
   background-position: 68% center;
   overflow: hidden;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--font-body);
 }
 
 .home-hero-overlay {
@@ -294,7 +294,7 @@
 }
 
 .home-hero h1 {
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--font-body);
   font-size: clamp(28px, 3.8vw, 54px);
   line-height: 1.12;
   color: #ffffff;
@@ -445,7 +445,7 @@
 .trust {
   padding: 0 24px;
   background: var(--color-navy);
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--font-body);
 }
 
 .trust-in {
@@ -504,7 +504,7 @@
   border-bottom: 1px solid var(--color-border);
   background: #ffffff;
   overflow: hidden;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--font-body);
 }
 
 .partners-in {
@@ -729,7 +729,7 @@
 .blueprint-home h1,
 .blueprint-home h2,
 .bp-page-title {
-  font-family: 'Fraunces', var(--font-heading);
+  font-family: var(--font-heading);
   font-variation-settings: 'SOFT' 50, 'WONK' 1;
 }
 
