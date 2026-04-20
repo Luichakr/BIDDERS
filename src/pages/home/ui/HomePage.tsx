@@ -276,11 +276,15 @@ export function HomePage() {
       <section className="px px-hero bp-animate" id="top">
         <div className="px-hero__bg" aria-hidden="true"></div>
         <div className="px-wrap">
-          <div className="px-hero__grid">
+          <div className="px-hero__grid px-hero__grid--single">
             <div>
               <span className="px-hero__eyebrow">BIDDERS · 13 років довіри</span>
               <h1 className="px-hero__title">
-                Ваш надійний партнер по імпорту авто з <em>США, Канади та Кореї</em>
+                Ваш надійний партнер
+                <br />
+                по імпорту авто з
+                <br />
+                <em>США, Канади та Кореї</em>
               </h1>
               <p className="px-hero__dominant">Економте до €7,000 на купівлі авто зі США</p>
               <p className="px-hero__lead">
@@ -307,9 +311,6 @@ export function HomePage() {
                   <span className="px-hero__stat-label">Років на ринку</span>
                 </div>
               </div>
-            </div>
-            <div className="px-hero__visual" aria-hidden="true">
-              <span className="px-hero__visual-badge">Live · 847 авто в роботі</span>
             </div>
           </div>
         </div>
@@ -461,7 +462,7 @@ export function HomePage() {
             <div>
               <p className="px-tag">Економіка · Real numbers</p>
               <h2 className="px-h2">Чому це <em>вигідніше</em>, ніж ринок Польщі</h2>
-              <p className="px-sub">Реальна економіка на прикладах клієнтів — без округлень і маркетингу.</p>
+              <p className="px-sub px-sub--one-line">Реальна економіка на прикладах клієнтів — без округлень і маркетингу.</p>
             </div>
           </div>
           <div className="px-econ__grid">
