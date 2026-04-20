@@ -7,7 +7,7 @@ import './auction-catalog.css'
 interface AuctionCatalogPageProps {
   title: string
   cards: AuctionCardData[]
-  mode: 'catalog' | 'transit'
+  mode: 'catalog' | 'transit' | 'in-stock'
 }
 
 type SortMode = 'price_desc' | 'price_asc' | 'year_desc' | 'year_asc' | 'mileage_asc' | 'mileage_desc'
@@ -220,9 +220,21 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
     const currentImage = slides[slideIndex] || card.image
     const docType = docByCardId[card.id] ?? docs[0]
 
-    return (
+    const isFixedPrice = mode === 'transit' || mode === 'in-stock'
+      const topBadgeLabel = mode === 'transit' ? 'В ДОРОЗІ' : mode === 'in-stock' ? 'В НАЯВНОСТІ' : 'NEW'
+      const auctionBadgeLabel = mode === 'transit' ? 'В НАЯВН.' : mode === 'in-stock' ? 'ГОТОВЕ' : card.auction
+      const sellerLabel = mode === 'transit' ? 'Локальний' : mode === 'in-stock' ? 'CULT CARS' : card.auction
+      const statusLabel = mode === 'transit' ? 'В дорозі' : mode === 'in-stock' ? 'В наявності' : 'На аукціоні'
+      const priceLabel = mode === 'transit' ? 'Ціна' : mode === 'in-stock' ? 'Ціна' : 'Поточна ставка'
+      const priceNote = mode === 'transit'
+        ? 'Продавець: BIDDERS'
+        : mode === 'in-stock'
+          ? 'Доступне до лізингу'
+          : `Оцінка: ${card.estimateLabel}`
+
+      return (
       <article className="car-card" key={card.id} onClick={() => navigate(routes.lotDetail.replace(':lotId', card.id))}>
-        <div className="card-badge-new">{mode === 'transit' ? 'В ДОРОЗІ' : 'NEW'}</div>
+        <div className="card-badge-new">{topBadgeLabel}</div>
 
         <div className="card-photo" data-slides={slides.length}>
           <img src={currentImage} className="slide-img" alt={card.title} />
@@ -242,9 +254,9 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
           <div className="card-top">
             <div className="card-title-block">
               <h3 className="card-title">{card.title}</h3>
-              <div className="card-vin">{card.vin} · <span>{mode === 'transit' ? 'Локальний' : card.auction}</span></div>
+              <div className="card-vin">{card.vin} · <span>{sellerLabel}</span></div>
             </div>
-            <span className={mode === 'transit' ? 'auction-badge available' : 'auction-badge'}>{mode === 'transit' ? 'В НАЯВН.' : card.auction}</span>
+            <span className={isFixedPrice ? 'auction-badge available' : 'auction-badge'}>{auctionBadgeLabel}</span>
             <button className="fav-btn" type="button" onClick={(event) => event.stopPropagation()}>♡</button>
           </div>
 
@@ -260,16 +272,16 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
             <div className="detail-item"><span className="detail-label">Кілометраж</span><span className="detail-value">{card.mileageLabel}</span></div>
             <div className="detail-item"><span className="detail-label">Місце</span><span className="detail-value">{card.location}</span></div>
             <div className="detail-item"><span className="detail-label">Пошкодження</span><span className="detail-value">{card.damage}</span></div>
-            <div className="detail-item"><span className="detail-label">Статус</span><span className={mode === 'transit' ? 'detail-value status-onward' : 'detail-value'}>{mode === 'transit' ? 'В дорозі' : 'На аукціоні'}</span></div>
+            <div className="detail-item"><span className="detail-label">Статус</span><span className={isFixedPrice ? 'detail-value status-onward' : 'detail-value'}>{statusLabel}</span></div>
           </div>
         </div>
 
         <div className="card-price">
           <div>
-            <div className="current-bid-label">{mode === 'transit' ? 'Ціна' : 'Поточна ставка'}</div>
+            <div className="current-bid-label">{priceLabel}</div>
             <div className="current-bid-val">{card.currentBidLabel || formatUsd(card.currentBid)}</div>
           </div>
-          <div className="bid-note">{mode === 'transit' ? 'Продавець: BIDDERS' : `Оцінка: ${card.estimateLabel}`}</div>
+          <div className="bid-note">{priceNote}</div>
           <button className="btn-auction" type="button">Детальніше</button>
         </div>
       </article>
@@ -566,6 +578,12 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
                 <button className="tab-item" type="button">Завершені сьогодні <span className="tab-count">1</span></button>
                 <button className="tab-item" type="button">Швидка покупка <span className="tab-count">{Math.max(1, Math.round(filteredCards.length / 2))}</span></button>
                 <button className="tab-archive" type="button">Архівні аукціони</button>
+              </>
+            ) : mode === 'in-stock' ? (
+              <>
+                <button className="tab-item active" type="button">В наявності <span className="tab-count">{filteredCards.length}</span></button>
+                <button className="tab-item" type="button">Готові до передачі <span className="tab-count">{Math.min(2, filteredCards.length)}</span></button>
+                <button className="tab-item" type="button">Під замовлення <span className="tab-count">{Math.max(1, Math.round(filteredCards.length / 2))}</span></button>
               </>
             ) : (
               <button className="tab-item active" type="button">Авто в дорозі <span className="tab-count" id="tabCount">{filteredCards.length}</span></button>

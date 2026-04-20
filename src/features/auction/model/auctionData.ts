@@ -31,7 +31,7 @@ export interface AuctionCardData {
   estimateLow: number
   estimateHigh: number
   estimateLabel: string
-  status: 'catalog' | 'transit'
+  status: 'catalog' | 'transit' | 'in-stock'
 }
 
 function parseMoney(value: string): number {
@@ -58,7 +58,7 @@ function parseMakeModel(value: string): { make: string; model: string } {
   }
 }
 
-function mapInventoryItem(item: InventoryItem, status: 'catalog' | 'transit'): AuctionCardData {
+function mapInventoryItem(item: InventoryItem, status: 'catalog' | 'transit' | 'in-stock'): AuctionCardData {
   const year = Number.parseInt(item.year, 10) || 2024
   const { make, model } = parseMakeModel(item.makeModel)
   const estimate = parseMoney(item.estimate)
@@ -101,7 +101,16 @@ export const catalogAuctionCards: AuctionCardData[] = catalogParserInventory.map
 
 export const transitAuctionCards: AuctionCardData[] = transitParserInventory.map((item) => mapInventoryItem(item, 'transit'))
 
-export const allAuctionCards: AuctionCardData[] = [...catalogAuctionCards, ...transitAuctionCards]
+// In-stock is a placeholder pool until the parser is wired — we derive it from transit/catalog
+// so the UI has data to display. Prefix ids with "stock-" so they don't collide with the other pools.
+export const inStockAuctionCards: AuctionCardData[] = [...transitParserInventory, ...catalogParserInventory]
+  .slice(0, 6)
+  .map((item) => ({
+    ...mapInventoryItem(item, 'in-stock'),
+    id: `stock-${item.id}`,
+  }))
+
+export const allAuctionCards: AuctionCardData[] = [...catalogAuctionCards, ...transitAuctionCards, ...inStockAuctionCards]
 
 export function getAuctionCardById(id: string | undefined): AuctionCardData | undefined {
   if (!id) {
