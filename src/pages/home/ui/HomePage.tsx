@@ -468,26 +468,47 @@ export function HomePage() {
           <div className="px-econ__grid">
             <div className="px-econ__cards">
               <article className="px-econ__card">
-                <p className="px-econ__case">Кейс · 01</p>
-                <div className="px-econ__row"><span>Ринок Польщі</span><strong>€18,000</strong></div>
-                <div className="px-econ__row"><span>BIDDERS під ключ</span><strong>€13,500</strong></div>
-                <div className="px-econ__save">Економія €4,500</div>
+                <div className="px-econ__card-top">
+                  <p className="px-econ__case">Кейс · 01</p>
+                  <div className="px-econ__row"><span>Ринок Польщі</span><strong>€18,000</strong></div>
+                  <div className="px-econ__row"><span>BIDDERS під ключ</span><strong>€13,500</strong></div>
+                  <div className="px-econ__save">
+                    <span>Економія €4,500</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>
+                  </div>
+                </div>
+                <div className="px-econ__card-media" aria-hidden="true">
+                  <img src={`${import.meta.env.BASE_URL}images/economy/case-01.jpg`} alt="" loading="lazy" />
+                </div>
               </article>
               <article className="px-econ__card">
-                <p className="px-econ__case">Кейс · 02</p>
-                <div className="px-econ__row"><span>Ринок Польщі</span><strong>€26,000</strong></div>
-                <div className="px-econ__row"><span>BIDDERS під ключ</span><strong>€20,200</strong></div>
-                <div className="px-econ__save">Економія €5,800</div>
+                <div className="px-econ__card-top">
+                  <p className="px-econ__case">Кейс · 02</p>
+                  <div className="px-econ__row"><span>Ринок Польщі</span><strong>€26,000</strong></div>
+                  <div className="px-econ__row"><span>BIDDERS під ключ</span><strong>€20,200</strong></div>
+                  <div className="px-econ__save">
+                    <span>Економія €5,800</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>
+                  </div>
+                </div>
+                <div className="px-econ__card-media" aria-hidden="true">
+                  <img src={`${import.meta.env.BASE_URL}images/economy/case-02.jpg`} alt="" loading="lazy" />
+                </div>
               </article>
             </div>
             <aside className="px-econ__big">
-              <p className="px-econ__big-label">Середня економія</p>
-              <p className="px-econ__big-num"><em>€3.5K–€7K</em></p>
-              <p className="px-econ__big-desc">Приклади базуються на реальних кейсах. Фінальна вартість залежить від моделі, стану авто та логістики.</p>
-              <button type="button" className="px-btn px-btn--primary" onClick={() => openB2C('Економіка')}>
-                <span>Порахувати мою економію</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-              </button>
+              <div className="px-econ__big-media" aria-hidden="true">
+                <img src={`${import.meta.env.BASE_URL}images/economy/money.png`} alt="" loading="lazy" />
+              </div>
+              <div className="px-econ__big-content">
+                <p className="px-econ__big-label">Середня економія</p>
+                <p className="px-econ__big-num"><em>€3.5K–€7K</em></p>
+                <p className="px-econ__big-desc">Приклади базуються на реальних кейсах. Фінальна вартість залежить від моделі, стану авто та логістики.</p>
+                <button type="button" className="px-btn px-btn--primary px-econ__big-btn" onClick={() => openB2C('Економіка')}>
+                  <span>Порахувати мою економію</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                </button>
+              </div>
             </aside>
           </div>
         </div>
@@ -895,54 +916,101 @@ export function HomePage() {
       <section className="px px-section px-section--light bp-animate" id="instagram">
         <div className="px-wrap">
           <div className="px-insta">
-            <div>
-              <p className="px-tag">Instagram · Live feed</p>
-              <h2 className="px-h2">Поставки та видачі — <em>щодня</em></h2>
+            <div className="px-insta__lead">
+              <p className="px-tag">Стежте за нами · Live feed</p>
+              <h2 className="px-h2">Підписуйтесь на наші <em>соціальні мережі</em></h2>
               <p className="px-sub" style={{ marginTop: 12, marginBottom: 28 }}>
-                Показуємо реальні авто в дорозі, огляди на майданчику та передачі клієнтам. Підписуйтесь — побачите процес зсередини.
+                Показуємо реальні авто в дорозі, огляди на майданчику та видачі клієнтам. Підписуйтесь — побачите процес зсередини.
               </p>
-              <a className="px-btn px-btn--primary" href="https://www.instagram.com/" target="_blank" rel="noreferrer">
-                <span>Підписатися</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
-              </a>
+              <div className="px-socials">
+                <a className="px-social px-social--instagram" href="https://www.instagram.com/bidders_com" target="_blank" rel="noreferrer" aria-label="Instagram">
+                  <span className="px-social__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+                  </span>
+                  <span className="px-social__label">@bidders_com</span>
+                </a>
+                <a className="px-social px-social--tiktok" href="https://www.tiktok.com/@bidders_com" target="_blank" rel="noreferrer" aria-label="TikTok">
+                  <span className="px-social__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.6 6.3c-1.3-.4-2.4-1.3-3-2.5-.3-.6-.5-1.2-.5-1.8h-3.3v13.6c0 .9-.4 1.7-1 2.2-.7.6-1.6.9-2.5.8-1.4-.1-2.5-1.3-2.5-2.8 0-1.7 1.4-3.1 3.1-3.1.3 0 .6 0 .9.1V9.4c-.3 0-.6-.1-.9-.1C6 9.3 3 12.3 3 16s3 6.7 6.7 6.7 6.7-3 6.7-6.7V9.4c1.3.9 2.9 1.4 4.6 1.4V7.5c-.5 0-1-.4-1.4-1.2z"/></svg>
+                  </span>
+                  <span className="px-social__label">@bidders_com</span>
+                </a>
+                <a className="px-social px-social--youtube" href="https://www.youtube.com/@bidders" target="_blank" rel="noreferrer" aria-label="YouTube">
+                  <span className="px-social__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.2c-.3-1-1-1.8-2-2.1C19.2 4.6 12 4.6 12 4.6s-7.2 0-9 .5c-1 .3-1.7 1.1-2 2.1C.5 9 .5 12 .5 12s0 3 .5 4.8c.3 1 1 1.8 2 2.1 1.8.5 9 .5 9 .5s7.2 0 9-.5c1-.3 1.7-1.1 2-2.1.5-1.8.5-4.8.5-4.8s0-3-.5-4.8zM9.7 15.5V8.5l6 3.5-6 3.5z"/></svg>
+                  </span>
+                  <span className="px-social__label">BIDDERS</span>
+                </a>
+                <a className="px-social px-social--facebook" href="https://www.facebook.com/bidders.com.ua" target="_blank" rel="noreferrer" aria-label="Facebook">
+                  <span className="px-social__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.5-4.5-10-10-10S2 6.5 2 12c0 5 3.7 9.1 8.4 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7C18.3 21.1 22 17 22 12z"/></svg>
+                  </span>
+                  <span className="px-social__label">bidders.com.ua</span>
+                </a>
+                <a className="px-social px-social--telegram" href="https://t.me/bidders" target="_blank" rel="noreferrer" aria-label="Telegram">
+                  <span className="px-social__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3L2.8 11.7c-1.3.5-1.3 1.3-.2 1.6l4.9 1.5 1.9 5.8c.2.6.1.9.8.9.5 0 .7-.2 1-.5l2.4-2.3 5 3.7c.9.5 1.6.2 1.8-.9l3.3-15.5c.3-1.3-.5-1.9-1.4-1.5zm-3.6 3.4L9 15.2l-.4 3.8L7.7 15l10.6-7.3z"/></svg>
+                  </span>
+                  <span className="px-social__label">t.me/bidders</span>
+                </a>
+                <a className="px-social px-social--whatsapp" href="https://wa.me/48784890644" target="_blank" rel="noreferrer" aria-label="WhatsApp">
+                  <span className="px-social__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.2-1.7-.8-2-.9-.3-.1-.5-.2-.7.2-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.5-1.5-.9-.8-1.5-1.8-1.7-2.2-.2-.3 0-.5.1-.6.1-.1.3-.4.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.2-.1-.3-.2-.6-.3zM12 2.1C6.5 2.1 2.1 6.5 2.1 12c0 1.8.5 3.5 1.3 5L2 22l5.1-1.3c1.4.8 3.1 1.2 4.9 1.2 5.5 0 9.9-4.4 9.9-9.9S17.5 2.1 12 2.1zm0 18c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.2.8.8-3.1-.2-.3c-.9-1.4-1.3-3-1.3-4.6C3.4 7.2 7.2 3.4 12 3.4s8.6 3.8 8.6 8.6-3.8 8.6-8.6 8.6z"/></svg>
+                  </span>
+                  <span className="px-social__label">+48 784 890 644</span>
+                </a>
+              </div>
             </div>
-            <div className="px-insta__mosaic" aria-hidden="true">
-              <div className="px-insta__tile"></div>
-              <div className="px-insta__tile"></div>
-              <div className="px-insta__tile"></div>
-              <div className="px-insta__tile"></div>
-              <div className="px-insta__tile"></div>
-              <div className="px-insta__tile"></div>
+            <div className="px-insta__phone" aria-hidden="true">
+              <img src={`${import.meta.env.BASE_URL}images/economy/insta.png`} alt="" loading="lazy" />
             </div>
           </div>
         </div>
       </section>
 
-      <section className="px px-section bp-animate" id="location">
+      <section className="px px-section bp-animate px-location" id="location">
         <div className="px-wrap">
-          <div className="px-header">
-            <div>
-              <p className="px-tag">Майданчик · Польща</p>
-              <h2 className="px-h2">Дивіться авто <em>наживо</em></h2>
-              <p className="px-sub">Покажемо автомобілі, порівняємо варіанти під бюджет, пояснимо все щодо документів і строків.</p>
-            </div>
-          </div>
-          <div className="px-loc" style={{ marginTop: 40 }}>
+          <div className="px-loc">
             <div className="px-loc__info">
-              <div className="px-loc__address">
-                <div className="px-loc__address-icon">
+              <p className="px-tag">Майданчик · Польща</p>
+              <h2 className="px-h2 px-loc__title">Дивіться авто <em>наживо</em></h2>
+              <p className="px-sub px-loc__sub">Покажемо автомобілі, порівняємо варіанти під бюджет, пояснимо все щодо документів і строків.</p>
+
+              <a
+                className="px-loc__address"
+                href="https://maps.google.com/?q=Jawczyce%20ul.%20Pozna%C5%84ska%2056%2005-850%20Polska"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Відкрити на карті"
+              >
+                <span className="px-loc__address-icon" aria-hidden="true">
                   <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>
-                </div>
-                <div>
+                </span>
+                <span className="px-loc__address-text">
                   <strong>Jawczyce, Polska</strong>
                   <p>ul. Poznańska, 56, 05-850</p>
+                </span>
+              </a>
+
+              <div className="px-loc__phones">
+                <a className="px-loc__phone" href="tel:+48784890644" aria-label="Call +48 784 890 644">
+                  <span className="px-loc__phone-num">+48 784 890 644</span>
+                  <svg className="px-loc__phone-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                </a>
+                <div className="px-loc__phone px-loc__phone--combo">
+                  <a className="px-loc__phone-link" href="tel:+48571660242" aria-label="Call +48 571 660 242">
+                    <span className="px-loc__phone-num">+48 571 660 242</span>
+                  </a>
+                  <a className="px-loc__phone-wa" href="https://wa.me/48571660242" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.29-.14-1.7-.84-1.96-.94-.26-.1-.45-.14-.64.14-.19.28-.74.94-.9 1.13-.17.19-.33.21-.62.07-.29-.14-1.22-.45-2.33-1.43-.86-.77-1.44-1.72-1.61-2-.17-.28-.02-.44.12-.58.13-.12.29-.33.43-.49.14-.17.19-.28.29-.47.09-.19.05-.35-.02-.49-.07-.14-.64-1.54-.88-2.12-.23-.55-.47-.48-.64-.48l-.55-.01c-.19 0-.5.07-.76.35-.26.28-1 .97-1 2.37 0 1.4 1.02 2.76 1.16 2.95.14.19 2.02 3.09 4.89 4.33.68.29 1.22.47 1.63.6.69.22 1.31.19 1.81.12.55-.08 1.7-.69 1.94-1.37.24-.68.24-1.26.17-1.37-.07-.12-.26-.19-.55-.33zM12.04 2C6.52 2 2.05 6.48 2.05 12c0 1.76.46 3.45 1.32 4.93L2 22l5.26-1.38c1.43.78 3.05 1.19 4.78 1.19 5.52 0 10-4.48 10-10S17.56 2 12.04 2z"/></svg>
+                  </a>
+                  <a className="px-loc__phone-arrowlink" href="tel:+48571660242" aria-label="Call +48 571 660 242">
+                    <svg className="px-loc__phone-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                  </a>
                 </div>
               </div>
-              <div className="px-loc__phones">
-                <a className="px-loc__phone" href="tel:+48784890644">+48 784 890 644</a>
-                <a className="px-loc__phone" href="tel:+48571660242">+48 571 660 242</a>
-              </div>
-              <div className="px-cta-row" style={{ marginTop: 8 }}>
+
+              <div className="px-loc__actions">
                 <a className="px-btn px-btn--ghost" href="https://maps.google.com/?q=Jawczyce%20ul.%20Pozna%C5%84ska%2056%2005-850%20Polska" target="_blank" rel="noreferrer">
                   Побудувати маршрут
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
@@ -953,11 +1021,13 @@ export function HomePage() {
                 </button>
               </div>
             </div>
-            <div className="px-loc__map" aria-hidden="true">
-              <p className="px-loc__label">BIDDERS · Showroom</p>
-              <div className="px-loc__pin">
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>
-              </div>
+
+            <div className="px-loc__showroom" aria-hidden="true">
+              <img src={`${import.meta.env.BASE_URL}images/location/showroom.webp`} alt="" loading="lazy" />
+              <span className="px-loc__kicker">BIDDERS · SHOWROOM</span>
+              <span className="px-loc__pin">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>
+              </span>
             </div>
           </div>
         </div>
