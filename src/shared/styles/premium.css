@@ -1338,7 +1338,7 @@
   content: '';
   position: absolute; inset: 0;
   border-radius: inherit;
-  background: linear-gradient(180deg, transparent 55%, rgba(8,15,33,0.75) 100%);
+  background: none;
   pointer-events: none;
   z-index: 2;
 }
@@ -1403,8 +1403,6 @@
   margin: 22px -26px 0;
   height: 180px;
   overflow: hidden;
-  mask-image: linear-gradient(180deg, rgba(0,0,0,0.95) 20%, rgba(0,0,0,0.4) 100%);
-  -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,0.95) 20%, rgba(0,0,0,0.4) 100%);
 }
 .px-econ__card-media img {
   width: 100%; height: 100%;
@@ -1412,7 +1410,7 @@
   display: block;
   transform: scale(1.04);
   transition: transform 0.7s ease;
-  filter: saturate(0.92) brightness(0.88);
+  filter: none;
 }
 .px-econ__card:hover .px-econ__card-media img {
   transform: scale(1.1);
@@ -1420,7 +1418,7 @@
 
 .px-econ__big {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   padding: 32px;
   background:
     radial-gradient(90% 70% at 100% 0%, rgba(255,92,0,0.18), transparent 60%),
@@ -1441,12 +1439,15 @@
 }
 .px-econ__big-media {
   position: absolute;
-  top: -24px; right: -16px;
-  width: clamp(240px, 46%, 340px);
+  top: 38px;
+  left: 50%;
+  right: auto;
+  width: clamp(384px, 74%, 544px);
   aspect-ratio: 1 / 1;
   pointer-events: none;
   filter: drop-shadow(0 24px 38px rgba(0,0,0,0.55));
-  z-index: 1;
+  z-index: 5;
+  transform: translateX(-50%);
 }
 .px-econ__big-media img {
   width: 100%; height: 100%;
@@ -1465,7 +1466,7 @@
   text-align: center;
   flex: 1;
   gap: 0;
-  margin-top: clamp(160px, 26%, 220px);
+  margin-top: clamp(210px, 34%, 300px);
 }
 .px-econ__big-label {
   font-family: var(--px-mono);
@@ -1495,8 +1496,8 @@
   justify-content: center;
 }
 @media (max-width: 1100px) {
-  .px-econ__big-media { width: 240px; top: -12px; right: -8px; }
-  .px-econ__big-content { margin-top: 170px; }
+  .px-econ__big-media { width: 320px; top: 90px; left: 50%; right: auto; transform: translateX(-50%); }
+  .px-econ__big-content { margin-top: 190px; }
 }
 @media (max-width: 900px) {
   .px-econ__grid { grid-template-columns: 1fr; }
