@@ -5,6 +5,7 @@ export interface CaseRecord {
   market: number
   currency: 'EUR' | 'USD'
   source: string
+  image?: string
 }
 
 const FALLBACK_CASES: CaseRecord[] = [
@@ -15,6 +16,7 @@ const FALLBACK_CASES: CaseRecord[] = [
     market: 18000,
     currency: 'EUR',
     source: 'BIDDERS internal delivery ledger',
+    image: 'images/routes/in-stock.webp',
   },
   {
     id: 'case-porsche-cayenne-2024',
@@ -23,6 +25,7 @@ const FALLBACK_CASES: CaseRecord[] = [
     market: 26000,
     currency: 'EUR',
     source: 'BIDDERS internal delivery ledger',
+    image: 'images/routes/transit.webp',
   },
   {
     id: 'case-toyota-camry-2026',
@@ -31,6 +34,34 @@ const FALLBACK_CASES: CaseRecord[] = [
     market: 21100,
     currency: 'EUR',
     source: 'BIDDERS internal delivery ledger',
+    image: 'images/routes/catalog.webp',
+  },
+  {
+    id: 'case-bmw-m4-2023',
+    model: 'BMW M4 COMPETITION 2023',
+    turnkey: 41200,
+    market: 49800,
+    currency: 'EUR',
+    source: 'BIDDERS internal delivery ledger',
+    image: 'images/routes/auction.jpg',
+  },
+  {
+    id: 'case-audi-q7-2022',
+    model: 'AUDI Q7 PREMIUM 2022',
+    turnkey: 28400,
+    market: 34900,
+    currency: 'EUR',
+    source: 'BIDDERS internal delivery ledger',
+    image: 'images/routes/in-stock.webp',
+  },
+  {
+    id: 'case-mercedes-gle-2024',
+    model: 'MERCEDES GLE 350 2024',
+    turnkey: 37800,
+    market: 46200,
+    currency: 'EUR',
+    source: 'BIDDERS internal delivery ledger',
+    image: 'images/routes/transit.webp',
   },
 ]
 

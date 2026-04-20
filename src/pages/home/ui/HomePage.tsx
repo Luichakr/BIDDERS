@@ -52,6 +52,48 @@ export function HomePage() {
   const [showSticky, setShowSticky] = useState(false)
   const b2cModalRef = useRef<HTMLDivElement | null>(null)
   const b2bModalRef = useRef<HTMLDivElement | null>(null)
+  const casesScrollRef = useRef<HTMLDivElement | null>(null)
+  const [casesProgress, setCasesProgress] = useState(0)
+  const [casesPage, setCasesPage] = useState(1)
+  const [casesPages, setCasesPages] = useState(1)
+  const [casesCanPrev, setCasesCanPrev] = useState(false)
+  const [casesCanNext, setCasesCanNext] = useState(true)
+
+  useEffect(() => {
+    const el = casesScrollRef.current
+    if (!el) return
+    const update = () => {
+      const max = el.scrollWidth - el.clientWidth
+      const ratio = max > 0 ? el.scrollLeft / max : 0
+      setCasesProgress(ratio * 100)
+      setCasesCanPrev(el.scrollLeft > 4)
+      setCasesCanNext(el.scrollLeft < max - 4)
+      const card = el.querySelector('.px-case') as HTMLElement | null
+      if (card) {
+        const step = card.offsetWidth
+        const perView = Math.max(1, Math.round(el.clientWidth / step))
+        const pages = Math.max(1, Math.ceil(casesData.length / perView))
+        const current = Math.min(pages, Math.round((el.scrollLeft / (step * perView)) + 1))
+        setCasesPages(pages)
+        setCasesPage(current)
+      }
+    }
+    update()
+    el.addEventListener('scroll', update, { passive: true })
+    window.addEventListener('resize', update)
+    return () => {
+      el.removeEventListener('scroll', update)
+      window.removeEventListener('resize', update)
+    }
+  }, [casesData.length])
+
+  const scrollCases = (direction: 'prev' | 'next') => {
+    const el = casesScrollRef.current
+    if (!el) return
+    const card = el.querySelector('.px-case') as HTMLElement | null
+    const step = card ? card.offsetWidth + 20 : 320
+    el.scrollBy({ left: direction === 'next' ? step * 3 : -step * 3, behavior: 'smooth' })
+  }
 
   useEffect(() => {
     document.title = 'Ваш надійний партнер по імпорту авто з США, Канади та Кореї | BIDDERS'
@@ -327,67 +369,87 @@ export function HomePage() {
           </div>
           <div className="px-grid-4">
             <article className="px-route">
-              <div className="px-route__top">
-                <span className="px-route__num">01</span>
-                <span className="px-route__pill">В наявності</span>
+              <div className="px-route__media">
+                <img src={`${import.meta.env.BASE_URL}images/routes/in-stock.webp`} alt="Авто в наявності" loading="lazy" />
+                <div className="px-route__top">
+                  <span className="px-route__num">01</span>
+                  <span className="px-route__pill">В наявності</span>
+                </div>
               </div>
-              <div className="px-route__icon-wrap">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M3 10.5L12 4l9 6.5"/><path d="M5 9.5V20h14V9.5"/><path d="M9 20v-6h6v6"/></svg>
+              <div className="px-route__body">
+                <div className="px-route__icon-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M3 10.5L12 4l9 6.5"/><path d="M5 9.5V20h14V9.5"/><path d="M9 20v-6h6v6"/></svg>
+                </div>
+                <h3 className="px-route__title">Авто в наявності</h3>
+                <p className="px-route__desc">Можна подивитися наживо вже сьогодні на нашому майданчику.</p>
+                <Link className="px-route__cta" to={routes.inStock}>
+                  Дивитися авто
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                </Link>
               </div>
-              <h3 className="px-route__title">Авто в наявності</h3>
-              <p className="px-route__desc">Можна подивитися наживо вже сьогодні на нашому майданчику.</p>
-              <Link className="px-route__cta" to={routes.inStock}>
-                Дивитися авто
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-              </Link>
             </article>
 
             <article className="px-route">
-              <div className="px-route__top">
-                <span className="px-route__num">02</span>
-                <span className="px-route__pill">В дорозі</span>
+              <div className="px-route__media">
+                <img src={`${import.meta.env.BASE_URL}images/routes/transit.webp`} alt="Авто в дорозі" loading="lazy" />
+                <div className="px-route__top">
+                  <span className="px-route__num">02</span>
+                  <span className="px-route__pill">В дорозі</span>
+                </div>
               </div>
-              <div className="px-route__icon-wrap">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M3 17h13a4 4 0 004-4v0H8a5 5 0 00-5 4z"/><path d="M8 13l2-4h5l2 4"/><path d="M7 7h10"/></svg>
+              <div className="px-route__body">
+                <div className="px-route__icon-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M3 17h13a4 4 0 004-4v0H8a5 5 0 00-5 4z"/><path d="M8 13l2-4h5l2 4"/><path d="M7 7h10"/></svg>
+                </div>
+                <h3 className="px-route__title">Авто в дорозі</h3>
+                <p className="px-route__desc">Вже викуплено та рухається до Польщі. Слідкуйте за ETA.</p>
+                <Link className="px-route__cta" to={routes.transit}>
+                  Дивитися авто
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                </Link>
               </div>
-              <h3 className="px-route__title">Авто в дорозі</h3>
-              <p className="px-route__desc">Вже викуплено та рухається до Польщі. Слідкуйте за ETA.</p>
-              <Link className="px-route__cta" to={routes.transit}>
-                Дивитися авто
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-              </Link>
             </article>
 
             <article className="px-route px-route--primary">
-              <div className="px-route__top">
-                <span className="px-route__num">03</span>
-                <span className="px-route__pill">Під замовлення</span>
+              <div className="px-route__media">
+                <img src={`${import.meta.env.BASE_URL}images/routes/auction.jpg`} alt="Під замовлення з аукціону" loading="lazy" />
+                <div className="px-route__top">
+                  <span className="px-route__num">03</span>
+                  <span className="px-route__pill">Під замовлення</span>
+                </div>
               </div>
-              <div className="px-route__icon-wrap">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 20h16"/><path d="M6 17l4-10 4 4 4-7"/></svg>
+              <div className="px-route__body">
+                <div className="px-route__icon-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 20h16"/><path d="M6 17l4-10 4 4 4-7"/></svg>
+                </div>
+                <h3 className="px-route__title">Під замовлення з аукціону</h3>
+                <p className="px-route__desc">Підбір, перевірка та торги під ваш бюджет — від US/EU/CN.</p>
+                <button type="button" className="px-route__cta" onClick={() => openB2C('Під замовлення')}>
+                  Отримати розрахунок
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                </button>
               </div>
-              <h3 className="px-route__title">Під замовлення з аукціону</h3>
-              <p className="px-route__desc">Підбір, перевірка та торги під ваш бюджет — від US/EU/CN.</p>
-              <button type="button" className="px-route__cta" onClick={() => openB2C('Під замовлення')}>
-                Отримати розрахунок
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-              </button>
             </article>
 
             <article className="px-route">
-              <div className="px-route__top">
-                <span className="px-route__num">04</span>
-                <span className="px-route__pill">Каталог</span>
+              <div className="px-route__media">
+                <img src={`${import.meta.env.BASE_URL}images/routes/catalog.webp`} alt="Каталог авто" loading="lazy" />
+                <div className="px-route__top">
+                  <span className="px-route__num">04</span>
+                  <span className="px-route__pill">Каталог</span>
+                </div>
               </div>
-              <div className="px-route__icon-wrap">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/></svg>
+              <div className="px-route__body">
+                <div className="px-route__icon-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/></svg>
+                </div>
+                <h3 className="px-route__title">Каталог авто</h3>
+                <p className="px-route__desc">Масштабний вибір у реальному часі — 200K+ лотів на день.</p>
+                <Link className="px-route__cta" to={routes.catalog}>
+                  Дивитися авто
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                </Link>
               </div>
-              <h3 className="px-route__title">Каталог авто</h3>
-              <p className="px-route__desc">Масштабний вибір у реальному часі — 200K+ лотів на день.</p>
-              <Link className="px-route__cta" to={routes.catalog}>
-                Дивитися авто
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-              </Link>
             </article>
           </div>
         </div>
@@ -750,24 +812,77 @@ export function HomePage() {
 
       <section className="px px-section px-section--dark bp-animate" id="cases">
         <div className="px-wrap">
-          <div className="px-header">
+          <div className="px-header px-cases__header">
             <div>
               <p className="px-tag">Кейси · Receipts, not promises</p>
               <h2 className="px-h2">Реальні <em>кейси</em> клієнтів</h2>
               <p className="px-sub">Модель, ціна під ключ, ціна на ринку, підсумкова економія.</p>
             </div>
+            <div className="px-cases__nav" aria-label="Навігація по кейсах">
+              <div className="px-cases__count">
+                <span>{String(casesPage).padStart(2, '0')}</span>
+                <span className="px-cases__count-divider">/</span>
+                <span>{String(casesPages).padStart(2, '0')}</span>
+              </div>
+              <button
+                type="button"
+                className="px-cases__arrow"
+                aria-label="Попередні"
+                onClick={() => scrollCases('prev')}
+                disabled={!casesCanPrev}
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <button
+                type="button"
+                className="px-cases__arrow"
+                aria-label="Наступні"
+                onClick={() => scrollCases('next')}
+                disabled={!casesCanNext}
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+              </button>
+            </div>
           </div>
-          <div className="px-cases-grid">
-            {casesData.map((item) => (
-              <article className="px-case" key={item.id}>
-                <h3 className="px-case__title">{item.model}</h3>
-                <div className="px-case__row"><span>Під ключ</span><strong>{formatCaseMoney(item.turnkey, item.currency)}</strong></div>
-                <div className="px-case__row"><span>Ринок Польщі</span><strong>{formatCaseMoney(item.market, item.currency)}</strong></div>
-                <div className="px-case__row px-case__row--save"><span>Економія</span><strong>{formatCaseMoney(getCaseSavings(item), item.currency)}</strong></div>
-              </article>
-            ))}
+
+          <div className="px-cases__viewport">
+            <div
+              className="px-cases-grid"
+              ref={casesScrollRef}
+              role="region"
+              aria-label="Кейси клієнтів — прокрутка горизонтально"
+              tabIndex={0}
+            >
+              {casesData.map((item) => (
+                <article className="px-case" key={item.id}>
+                  <div className="px-case__media">
+                    {item.image ? (
+                      <img src={`${import.meta.env.BASE_URL}${item.image}`} alt={item.model} loading="lazy" />
+                    ) : null}
+                  </div>
+                  <div className="px-case__body">
+                    <h3 className="px-case__title">{item.model}</h3>
+                    <div className="px-case__row"><span>Під ключ</span><strong>{formatCaseMoney(item.turnkey, item.currency)}</strong></div>
+                    <div className="px-case__row"><span>Ринок Польщі</span><strong>{formatCaseMoney(item.market, item.currency)}</strong></div>
+                    <div className="px-case__row px-case__row--save"><span>Економія</span><strong>{formatCaseMoney(getCaseSavings(item), item.currency)}</strong></div>
+                    <Link className="px-case__cta" to={routes.cases} aria-label={`Дізнатися більше про ${item.model}`}>
+                      Дізнатися більше
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+            <div className="px-cases__hint" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l-6-6 6-6"/><path d="M15 6l6 6-6 6"/></svg>
+              <span>Прокрутіть, щоб побачити більше</span>
+            </div>
+            <div className="px-cases__progress" aria-hidden="true">
+              <div className="px-cases__progress-bar" style={{ width: `${Math.max(16, casesProgress)}%` }}></div>
+            </div>
           </div>
-          <div style={{ marginTop: 16 }}>
+
+          <div className="px-cases__footer">
             <Link className="px-btn px-btn--ghost" to={routes.cases}>
               Всі кейси
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
