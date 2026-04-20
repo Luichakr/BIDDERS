@@ -32,6 +32,15 @@ function parseYearRange(cards: AuctionCardData[]): [number, number] {
   return [Number.isFinite(min) ? min : 2005, Number.isFinite(max) ? max : 2027]
 }
 
+function parseMileageRange(cards: AuctionCardData[]): [number, number] {
+  const mileages = cards.map((card) => card.mileageKm)
+  const minRaw = Math.min(...mileages)
+  const maxRaw = Math.max(...mileages)
+  const min = Number.isFinite(minRaw) ? Math.floor(minRaw / 5000) * 5000 : 0
+  const max = Number.isFinite(maxRaw) ? Math.ceil(maxRaw / 5000) * 5000 : 300000
+  return [Math.max(0, min), Math.max(5000, max)]
+}
+
 function toggleStringFilter(value: string, list: string[]): string[] {
   return list.includes(value) ? list.filter((entry) => entry !== value) : [...list, value]
 }
@@ -47,15 +56,15 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
   const [sortMode, setSortMode] = useState<SortMode>('price_desc')
   const [layout, setLayout] = useState<LayoutMode>('list')
 
-  const [selectedDocTypes, setSelectedDocTypes] = useState<string[]>(['ENGINE START', 'ENHANCED'])
+  const [selectedDocTypes, setSelectedDocTypes] = useState<string[]>([])
   const [selectedBrands, setSelectedBrands] = useState<string[]>([])
   const [selectedModels, setSelectedModels] = useState<string[]>([])
   const [selectedFuels, setSelectedFuels] = useState<string[]>([])
   const [selectedTransmission, setSelectedTransmission] = useState<string[]>([])
   const [selectedDrive, setSelectedDrive] = useState<string[]>([])
   const [selectedYears, setSelectedYears] = useState<number[]>([])
-  const [odoMin, setOdoMin] = useState(0)
-  const [odoMax, setOdoMax] = useState(300000)
+  const [odoMin, setOdoMin] = useState<number>(() => parseMileageRange(cards)[0])
+  const [odoMax, setOdoMax] = useState<number>(() => parseMileageRange(cards)[1])
   const [yearFrom, setYearFrom] = useState<number | ''>('')
   const [yearTo, setYearTo] = useState<number | ''>('')
   const [openGroups, setOpenGroups] = useState<Record<FilterGroupKey, boolean>>({
@@ -94,6 +103,10 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
   }, [cards])
 
   const [minYearAll, maxYearAll] = useMemo(() => parseYearRange(cards), [cards])
+  const [odoMinLimit, odoMaxLimit] = useMemo(() => parseMileageRange(cards), [cards])
+  const odoRange = Math.max(1, odoMaxLimit - odoMinLimit)
+  const odoFillLeft = ((odoMin - odoMinLimit) / odoRange) * 100
+  const odoFillRight = 100 - ((odoMax - odoMinLimit) / odoRange) * 100
 
   const uniqueBrands = useMemo(() => Array.from(new Set(cards.map((card) => card.make))).sort(), [cards])
   const uniqueModels = useMemo(() => Array.from(new Set(cards.map((card) => card.model))).sort(), [cards])
@@ -166,15 +179,15 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
   ]
 
   const resetAll = () => {
-    setSelectedDocTypes(['ENGINE START', 'ENHANCED'])
+    setSelectedDocTypes([])
     setSelectedBrands([])
     setSelectedModels([])
     setSelectedFuels([])
     setSelectedTransmission([])
     setSelectedDrive([])
     setSelectedYears([])
-    setOdoMin(0)
-    setOdoMax(300000)
+    setOdoMin(odoMinLimit)
+    setOdoMax(odoMaxLimit)
     setYearFrom('')
     setYearTo('')
     setBrandSearch('')
@@ -372,8 +385,8 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
               <div className="filter-head-left"><span className="filter-name">Одометр</span></div>
               <button className="filter-reset" type="button" onClick={(event) => {
                 event.stopPropagation()
-                setOdoMin(0)
-                setOdoMax(300000)
+                setOdoMin(odoMinLimit)
+                setOdoMax(odoMaxLimit)
               }}>Скинути</button>
               <span className={openGroups.odo ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
             </div>
@@ -386,9 +399,29 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
                       <span>до <span className="range-val" id="odoMaxLabel">{formatKm(odoMax)}</span> km</span>
                     </div>
                     <div className="dual-range">
-                      <div className="dual-range-track"><div className="dual-range-fill" id="odoRangeFill"></div></div>
-                      <input type="range" min={0} max={300000} step={5000} value={odoMin} onChange={(event) => setOdoMin(Math.min(Number(event.target.value), odoMax))} />
-                      <input type="range" min={0} max={300000} step={5000} value={odoMax} onChange={(event) => setOdoMax(Math.max(Number(event.target.value), odoMin))} />
+                      <div className="dual-range-track">
+                        <div
+                          className="dual-range-fill"
+                          id="odoRangeFill"
+                          style={{ left: `${odoFillLeft}%`, right: `${odoFillRight}%` }}
+                        ></div>
+                      </div>
+                      <input
+                        type="range"
+                        min={odoMinLimit}
+                        max={odoMaxLimit}
+                        step={5000}
+                        value={odoMin}
+                        onChange={(event) => setOdoMin(Math.min(Number(event.target.value), odoMax))}
+                      />
+                      <input
+                        type="range"
+                        min={odoMinLimit}
+                        max={odoMaxLimit}
+                        step={5000}
+                        value={odoMax}
+                        onChange={(event) => setOdoMax(Math.max(Number(event.target.value), odoMin))}
+                      />
                     </div>
                   </div>
                 </div>

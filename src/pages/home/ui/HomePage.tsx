@@ -492,7 +492,7 @@ export function HomePage() {
                   </div>
                 </div>
                 <div className="px-econ__card-media" aria-hidden="true">
-                  <img src={`${import.meta.env.BASE_URL}images/economy/case-02.jpg`} alt="" loading="lazy" />
+                  <img src={`${import.meta.env.BASE_URL}images/economy/case-02.avif`} alt="" loading="lazy" />
                 </div>
               </article>
             </div>
