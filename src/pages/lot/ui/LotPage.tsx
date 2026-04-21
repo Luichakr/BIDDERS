@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { allAuctionCards, getAuctionCardById } from '../../../features/auction/model/auctionData'
+import { fetchInRouteCardById } from '../../../features/auction/model/inRoute.service'
 import { routes } from '../../../shared/config/routes'
 import './lot.css'
 
@@ -71,7 +72,46 @@ const PURCHASE_STEPS = [
 
 export function LotPage() {
   const { lotId } = useParams<{ lotId: string }>()
-  const car = getAuctionCardById(lotId)
+  const fallbackCar = getAuctionCardById(lotId)
+  const [liveCar, setLiveCar] = useState<typeof fallbackCar>(undefined)
+  const [liveLoadState, setLiveLoadState] = useState<'idle' | 'loading' | 'loaded' | 'failed'>('idle')
+  const isNumericLotId = /^\d+$/.test(lotId ?? '')
+
+  useEffect(() => {
+    if (!lotId || !isNumericLotId) {
+      setLiveCar(undefined)
+      setLiveLoadState('idle')
+      return
+    }
+
+    let mounted = true
+    setLiveLoadState('loading')
+
+    const load = async () => {
+      try {
+        const response = await fetchInRouteCardById(lotId)
+        if (!mounted) {
+          return
+        }
+        setLiveCar(response ?? undefined)
+        setLiveLoadState(response ? 'loaded' : 'failed')
+      } catch {
+        if (!mounted) {
+          return
+        }
+        setLiveCar(undefined)
+        setLiveLoadState('failed')
+      }
+    }
+
+    void load()
+
+    return () => {
+      mounted = false
+    }
+  }, [isNumericLotId, lotId])
+
+  const car = liveCar ?? fallbackCar
   const mode: LotMode = (car?.status as LotMode) ?? 'catalog'
 
   const [galleryIndex, setGalleryIndex] = useState(0)
@@ -130,6 +170,17 @@ export function LotPage() {
   const broker = 250
   const customsTotal = customsTax + vat + broker
   const finalTotal = subtotalEur + customsTotal
+
+  if (!car && isNumericLotId && liveLoadState === 'loading') {
+    return (
+      <main className="lot-page">
+        <section className="lot-empty">
+          <h2>Завантажуємо авто</h2>
+          <p>Отримуємо актуальні дані з API авто в дорозі.</p>
+        </section>
+      </main>
+    )
+  }
 
   if (!car) {
     return (

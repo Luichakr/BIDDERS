@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { routes } from '../../../shared/config/routes'
-import { transitInventory } from '../../../features/inventory/model/catalog.mock'
 import { formatCaseMoney, getCasesData, getCaseSavings, type CaseRecord } from '../../../features/cases/model/cases.service'
 
 type FormType = 'b2c' | 'b2b' | null
@@ -220,7 +219,59 @@ export function HomePage() {
     ],
     [],
   )
-  const stockItems = useMemo(() => transitInventory.slice(3, 6), [])
+  const stockItems = useMemo(
+    () => [
+      {
+        id: 'stock-placeholder-1',
+        image: `${import.meta.env.BASE_URL}images/routes/in-stock-cars-bidders-poland.png`,
+        year: '2022',
+        makeModel: 'BMW X7',
+        vin: 'WBA000...1201',
+        currentBid: '€59,900',
+      },
+      {
+        id: 'stock-placeholder-2',
+        image: `${import.meta.env.BASE_URL}images/routes/in-stock.webp`,
+        year: '2021',
+        makeModel: 'Audi A6',
+        vin: 'WAU000...2202',
+        currentBid: '€33,500',
+      },
+      {
+        id: 'stock-placeholder-3',
+        image: `${import.meta.env.BASE_URL}images/location/showroom.webp`,
+        year: '2020',
+        makeModel: 'BMW M3',
+        vin: 'WBS000...3303',
+        currentBid: '€48,700',
+      },
+      {
+        id: 'stock-placeholder-4',
+        image: `${import.meta.env.BASE_URL}images/transit-showcase/bmw-5-series-19272.jpg`,
+        year: '2019',
+        makeModel: 'BMW 5 Series',
+        vin: 'WBA000...4404',
+        currentBid: '€27,900',
+      },
+      {
+        id: 'stock-placeholder-5',
+        image: `${import.meta.env.BASE_URL}images/transit-showcase/audi-a6-20021.jpg`,
+        year: '2018',
+        makeModel: 'Audi Q5',
+        vin: 'WAU000...5505',
+        currentBid: '€24,300',
+      },
+      {
+        id: 'stock-placeholder-6',
+        image: `${import.meta.env.BASE_URL}images/transit-showcase/mercedes-gle53-amg-17634.jpg`,
+        year: '2022',
+        makeModel: 'Mercedes-Benz GLE',
+        vin: '4JG000...6606',
+        currentBid: '€62,400',
+      },
+    ],
+    [],
+  )
 
   const openB2C = (scenario: string) => {
     setB2c((prev) => ({ ...prev, scenario }))
@@ -779,24 +830,17 @@ export function HomePage() {
             ))}
 
             <article className="px-lot px-lot--cta">
+              <div className="px-lot__image px-lot__image--cta">
+                <img
+                  src={`${import.meta.env.BASE_URL}images/transit-showcase/bmw-x7-18378.jpg`}
+                  alt="Авто в дорозі до Польщі — понад 1800 варіантів"
+                  loading="lazy"
+                />
+                <span className="px-lot__badge px-lot__badge--cta">1800+ в дорозі</span>
+              </div>
               <div className="px-lot__body px-lot__body--cta">
-                <div className="px-lot__icon-wrap" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M3 12h18" />
-                    <path d="M12 3v18" />
-                  </svg>
-                </div>
                 <h3 className="px-lot__title px-lot__title--cta">Переглянути всі варіанти</h3>
                 <p className="px-lot__desc px-lot__desc--cta">Більше <strong>1800 автомобілів</strong> в дорозі. Відкрийте повний список і оберіть найкращий варіант.</p>
-                <div className="px-lot__journey px-lot__journey--cta">
-                  <span className="px-lot__journey-point">USA</span>
-                  <div className="px-lot__journey-line" />
-                  <span className="px-lot__journey-point">POL</span>
-                </div>
-                <div className="px-lot__eta px-lot__eta--cta">
-                  <span>Прибуття</span>
-                  <strong>~ 45–60 днів</strong>
-                </div>
                 <Link className="px-route__cta px-route__cta--inline" to={routes.transit}>
                   Усі авто в дорозі
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -828,13 +872,13 @@ export function HomePage() {
               </Link>
             </div>
           </div>
-          <div className="px-grid-3">
+          <div className="px-grid-3 px-grid-3--scroll">
             {stockItems.map((item) => (
               <article className="px-lot" key={item.id}>
                 <div className="px-lot__image">
                   <img src={item.image} alt={item.makeModel} loading="lazy" />
                   <span className="px-lot__badge">В наявності</span>
-                  <span className="px-lot__price-tag">{item.currentBid.replace('$', '€')}</span>
+                  <span className="px-lot__price-tag">{item.currentBid}</span>
                 </div>
                 <div className="px-lot__body">
                   <h3 className="px-lot__title">{item.year} {item.makeModel}</h3>
@@ -846,6 +890,27 @@ export function HomePage() {
                 </div>
               </article>
             ))}
+
+            <article className="px-lot px-lot--cta">
+              <div className="px-lot__image px-lot__image--cta">
+                <img
+                  src={`${import.meta.env.BASE_URL}images/routes/in-stock-cars-bidders-poland.png`}
+                  alt="Авто в наявності на майданчику BIDDERS"
+                  loading="lazy"
+                />
+                <span className="px-lot__badge px-lot__badge--cta">В наявності</span>
+              </div>
+              <div className="px-lot__body px-lot__body--cta">
+                <h3 className="px-lot__title px-lot__title--cta">Дивитися всі авто в наявності</h3>
+                <p className="px-lot__desc px-lot__desc--cta">Перейдіть у повний каталог авто на майданчику та оберіть варіант для огляду вже сьогодні.</p>
+                <Link className="px-route__cta px-route__cta--inline" to={routes.inStock}>
+                  Каталог в наявності
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14M13 5l7 7-7 7" />
+                  </svg>
+                </Link>
+              </div>
+            </article>
           </div>
           <div className="px-cta-row">
             <p className="px-cta-row__text">Хочете <em>подивитися</em> наживо?</p>

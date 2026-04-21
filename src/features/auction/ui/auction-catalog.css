@@ -277,10 +277,9 @@
   max-width: 1440px;
   margin: 0 auto;
   padding: 28px clamp(20px, 4vw, 64px) 72px;
-  display: grid;
-  grid-template-columns: 300px 1fr;
+  display: flex;
+  align-items: flex-start;
   gap: 28px;
-  align-items: start;
 }
 
 /* ======== SIDEBAR ======== */
@@ -288,13 +287,18 @@
 .catalog-page-react .sidebar {
   position: sticky;
   top: 160px;
+  align-self: start;
+  flex: 0 0 300px;
+  width: 300px;
   background: #fff;
   border: 1px solid var(--cat-line);
   border-radius: var(--cat-radius-lg);
   padding: 22px 20px;
   box-shadow: var(--cat-shadow-1);
+  height: auto;
   max-height: calc(100vh - 180px);
   overflow-y: auto;
+  overscroll-behavior: contain;
   animation: catSlideUp 0.5s var(--cat-ease-out) 0.05s both;
   scrollbar-width: thin;
   scrollbar-color: var(--cat-line-2) transparent;
@@ -610,15 +614,36 @@
 }
 
 .catalog-page-react .cb-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
   font-size: 13px;
   color: var(--cat-text);
   font-weight: 500;
   line-height: 1.3;
 }
 
+.catalog-page-react .cb-count {
+  flex-shrink: 0;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(27, 42, 74, 0.08);
+  color: var(--cat-text-2);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
 .catalog-page-react .cb-item input:checked ~ .cb-label {
   color: var(--cat-accent);
   font-weight: 700;
+}
+
+.catalog-page-react .cb-item input:checked ~ .cb-label .cb-count {
+  background: rgba(255, 92, 0, 0.14);
+  color: var(--cat-accent);
 }
 
 /* ======== DUAL RANGE SLIDER ======== */
@@ -630,15 +655,40 @@
 .catalog-page-react .dual-range-labels {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: 12px;
   font-weight: 600;
   color: var(--cat-text-2);
   margin-bottom: 14px;
 }
 
+.catalog-page-react .dual-range-labels > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
 .catalog-page-react .dual-range-labels .range-val {
   color: var(--cat-accent);
   font-weight: 800;
+}
+
+.catalog-page-react .range-val-input {
+  width: 84px;
+  border: none;
+  border-bottom: 1px dashed rgba(255, 92, 0, 0.35);
+  background: transparent;
+  color: var(--cat-accent);
+  font-size: 12px;
+  font-weight: 800;
+  font-family: inherit;
+  text-align: right;
+  padding: 0 1px;
+}
+
+.catalog-page-react .range-val-input:focus {
+  outline: none;
+  border-bottom-color: var(--cat-accent);
 }
 
 .catalog-page-react .dual-range {
@@ -789,6 +839,7 @@
 /* ======== MAIN COLUMN ======== */
 
 .catalog-page-react .catalog-main {
+  flex: 1;
   min-width: 0;
   animation: catSlideUp 0.5s var(--cat-ease-out) 0.1s both;
 }
@@ -970,7 +1021,7 @@
 
 .catalog-page-react .car-list:not(.layout-grid) .car-card {
   display: grid;
-  grid-template-columns: 280px 1fr 230px;
+  grid-template-columns: 364px minmax(0, 1fr) 180px;
   align-items: stretch;
   min-height: 240px;
 }
@@ -1045,13 +1096,13 @@
 .catalog-page-react .slide-btn {
   position: absolute;
   top: 50%;
-  width: 36px;
-  height: 36px;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
   border: none;
   background: rgba(255, 255, 255, 0.92);
   color: var(--cat-navy);
-  font-size: 22px;
+  font-size: 15px;
   line-height: 1;
   font-weight: 700;
   cursor: pointer;
@@ -1064,8 +1115,8 @@
   z-index: 2;
 }
 
-.catalog-page-react .slide-prev { left: 10px; }
-.catalog-page-react .slide-next { right: 10px; }
+.catalog-page-react .slide-prev { left: 7px; }
+.catalog-page-react .slide-next { right: 7px; }
 
 .catalog-page-react .car-card:hover .slide-btn {
   opacity: 1;
@@ -1076,21 +1127,6 @@
   background: var(--cat-accent);
   color: #fff;
   transform: translateY(-50%) scale(1.08);
-}
-
-.catalog-page-react .slide-counter {
-  position: absolute;
-  bottom: 12px;
-  right: 12px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: rgba(15, 26, 51, 0.72);
-  backdrop-filter: blur(8px);
-  color: #fff;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  z-index: 2;
 }
 
 /* ======== CARD BODY ======== */
@@ -1409,12 +1445,16 @@
 
 @media (max-width: 1280px) {
   .catalog-page-react .catalog-layout {
-    grid-template-columns: 270px 1fr;
     gap: 22px;
   }
 
+  .catalog-page-react .sidebar {
+    flex-basis: 270px;
+    width: 270px;
+  }
+
   .catalog-page-react .car-list:not(.layout-grid) .car-card {
-    grid-template-columns: 240px 1fr 210px;
+    grid-template-columns: 312px minmax(0, 1fr) 170px;
   }
 
   .catalog-page-react .current-bid-val {
@@ -1473,7 +1513,7 @@
   }
 
   .catalog-page-react .catalog-layout {
-    grid-template-columns: 1fr;
+    display: block;
     padding: 20px 20px 60px;
   }
 
@@ -1484,6 +1524,7 @@
     width: min(340px, 90vw);
     height: 100vh;
     max-height: none;
+    overflow-y: auto;
     border-radius: 0;
     border: none;
     border-right: 1px solid var(--cat-line);

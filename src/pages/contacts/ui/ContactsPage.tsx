@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
 import { routes } from '../../../shared/config/routes'
 import './contacts.css'
@@ -22,8 +23,8 @@ const EUROPE_REPS: EuropeRep[] = [
     city: 'Jawczyce (Warszawa)',
     role: 'Головний офіс · логістика · передача авто',
     hq: true,
-    x: 280,
-    y: 165,
+    x: 430,
+    y: 240,
   },
   {
     id: 'lt',
@@ -31,8 +32,8 @@ const EUROPE_REPS: EuropeRep[] = [
     flag: '🇱🇹',
     city: 'Клайпеда',
     role: 'Порт · прийом контейнерів з США',
-    x: 300,
-    y: 110,
+    x: 490,
+    y: 140,
   },
   {
     id: 'cz',
@@ -40,8 +41,8 @@ const EUROPE_REPS: EuropeRep[] = [
     flag: '🇨🇿',
     city: 'Прага',
     role: 'Сертифікація · оцінка · супровід',
-    x: 235,
-    y: 210,
+    x: 365,
+    y: 320,
   },
   {
     id: 'uk',
@@ -49,8 +50,8 @@ const EUROPE_REPS: EuropeRep[] = [
     flag: '🇬🇧',
     city: 'Лондон',
     role: 'Представник · підбір RHD-авто',
-    x: 110,
-    y: 160,
+    x: 180,
+    y: 210,
   },
 ]
 
@@ -250,106 +251,117 @@ export function ContactsPage() {
       </section>
 
       {/* Europe Reps Map */}
-      <section className="ct-section">
+      <section className="ct-section ct-section--dark">
         <div className="ct-section__inner">
           <div className="ct-europe">
-            <div className="ct-europe__head">
-              <div>
-                <span className="ct-europe__badge">Представники у ЄС</span>
-                <h2 style={{ marginTop: 12 }}>Карта представників у Європі</h2>
-                <p>Наші офіси та партнери в ключових країнах імпорту та логістики.</p>
-              </div>
-            </div>
-
             <div className="ct-europe__layout">
-              {/* Decorative SVG map of Europe */}
+              {/* LEFT: heading + cards */}
+              <div className="ct-europe__left">
+                <div className="ct-europe__head">
+                  <span className="ct-europe__badge">Представники у ЄС</span>
+                  <h2 className="ct-europe__title">Карта представників<br/>у <em>Європі</em></h2>
+                  <p className="ct-europe__lead">Наші офіси та партнери в ключових країнах<br/>імпорту та логістики.</p>
+                </div>
+
+                <div className="ct-reps">
+                  {EUROPE_REPS.map((rep) => (
+                    <article key={rep.id} className={rep.hq ? 'ct-rep ct-rep--hq' : 'ct-rep'}>
+                      <span className="ct-rep__flag" aria-hidden="true">{rep.flag}</span>
+                      <div className="ct-rep__body">
+                        <span className="ct-rep__country">{rep.country}</span>
+                        <span className="ct-rep__city">{rep.city}</span>
+                      </div>
+                      {rep.hq
+                        ? <span className="ct-rep__hq-tag">Головний офіс</span>
+                        : null}
+                      <svg className="ct-rep__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M9 6l6 6-6 6"/>
+                      </svg>
+                    </article>
+                  ))}
+                </div>
+              </div>
+
+              {/* RIGHT: clean map canvas with animated pins + arcs (no continent silhouette) */}
               <div className="ct-europe__map" aria-hidden="true">
-                <svg viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
-                  {/* Stylized continent silhouette */}
+                <svg viewBox="0 0 600 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
                   <defs>
-                    <radialGradient id="ctEuroGlow" cx="55%" cy="45%" r="60%">
-                      <stop offset="0%" stopColor="rgba(255, 92, 0, 0.18)" />
-                      <stop offset="60%" stopColor="rgba(255, 92, 0, 0.04)" />
+                    <radialGradient id="ctEuroGlow" cx="62%" cy="45%" r="60%">
+                      <stop offset="0%" stopColor="rgba(255, 92, 0, 0.22)" />
+                      <stop offset="55%" stopColor="rgba(255, 92, 0, 0.05)" />
                       <stop offset="100%" stopColor="rgba(255, 92, 0, 0)" />
                     </radialGradient>
-                    <filter id="ctEuroSoft" x="-20%" y="-20%" width="140%" height="140%">
-                      <feGaussianBlur stdDeviation="2" />
+                    <filter id="ctPinGlow" x="-120%" y="-120%" width="340%" height="340%">
+                      <feGaussianBlur stdDeviation="10" />
                     </filter>
                   </defs>
 
-                  <rect x="0" y="0" width="500" height="400" fill="url(#ctEuroGlow)" />
+                  {/* Ambient orange glow */}
+                  <rect x="0" y="0" width="600" height="500" fill="url(#ctEuroGlow)" />
 
-                  {/* Abstract Europe shape */}
-                  <path
-                    d="M95,140 Q80,115 110,95 Q125,75 160,85 Q190,80 205,95 Q235,80 260,90 Q290,80 315,95 Q335,85 355,100 Q380,110 385,140 Q400,160 385,185 Q370,210 340,220 Q320,235 290,230 Q275,250 250,255 Q225,260 205,250 Q180,270 155,260 Q130,265 115,245 Q95,230 90,205 Q78,180 95,140 Z"
-                    fill="rgba(255, 255, 255, 0.06)"
-                    stroke="rgba(255, 255, 255, 0.2)"
-                    strokeWidth="1.5"
-                    filter="url(#ctEuroSoft)"
-                  />
-
-                  {/* Secondary blobs (UK / Scandinavia hints) */}
-                  <ellipse cx="110" cy="155" rx="22" ry="32" fill="rgba(255, 255, 255, 0.06)" stroke="rgba(255, 255, 255, 0.18)" strokeWidth="1" />
-                  <ellipse cx="300" cy="75" rx="30" ry="22" fill="rgba(255, 255, 255, 0.04)" stroke="rgba(255, 255, 255, 0.12)" strokeWidth="1" />
-
-                  {/* Connection lines from HQ (PL) to all reps */}
-                  {EUROPE_REPS.filter((r) => !r.hq).map((rep) => {
+                  {/* Animated dashed arcs from HQ (PL) out to each rep */}
+                  {EUROPE_REPS.filter((r) => !r.hq).map((rep, i) => {
                     const hq = EUROPE_REPS.find((r) => r.hq)!
+                    const mx = (hq.x + rep.x) / 2
+                    const my = (hq.y + rep.y) / 2 - 40
                     return (
-                      <line
+                      <path
                         key={rep.id}
-                        x1={hq.x}
-                        y1={hq.y}
-                        x2={rep.x}
-                        y2={rep.y}
-                        stroke="rgba(255, 92, 0, 0.4)"
-                        strokeWidth="1.3"
-                        strokeDasharray="4 4"
+                        d={`M${hq.x},${hq.y} Q${mx},${my} ${rep.x},${rep.y}`}
+                        fill="none"
+                        stroke="rgba(255, 92, 0, 0.85)"
+                        strokeWidth="1.8"
+                        strokeDasharray="5 7"
+                        strokeLinecap="round"
+                        className={`ct-europe__line ct-europe__line--${i}`}
                       />
                     )
                   })}
 
                   {/* Pins */}
-                  {EUROPE_REPS.map((rep) => (
-                    <g key={rep.id}>
-                      {/* soft glow halo */}
-                      <circle cx={rep.x} cy={rep.y} r={rep.hq ? 18 : 12} fill="rgba(255, 92, 0, 0.22)" />
-                      {/* core */}
+                  {EUROPE_REPS.map((rep, i) => (
+                    <g key={rep.id} className={`ct-europe__pin ${rep.hq ? 'ct-europe__pin--hq' : ''}`} style={{ animationDelay: `${i * 0.35}s` } as CSSProperties}>
+                      <circle cx={rep.x} cy={rep.y} r={rep.hq ? 34 : 24} fill="rgba(255, 92, 0, 0.32)" filter="url(#ctPinGlow)" />
+                      <circle className="ct-europe__pulse ct-europe__pulse--a" cx={rep.x} cy={rep.y} r={rep.hq ? 11 : 8} fill="none" stroke="rgba(255, 92, 0, 0.75)" strokeWidth="2" />
+                      <circle className="ct-europe__pulse ct-europe__pulse--b" cx={rep.x} cy={rep.y} r={rep.hq ? 11 : 8} fill="none" stroke="rgba(255, 92, 0, 0.5)" strokeWidth="2" />
                       <circle
                         cx={rep.x}
                         cy={rep.y}
-                        r={rep.hq ? 9 : 6}
-                        fill={rep.hq ? '#ff5c00' : '#ffffff'}
-                        stroke={rep.hq ? '#ffffff' : '#ff5c00'}
-                        strokeWidth="2"
+                        r={rep.hq ? 10 : 7}
+                        fill="#ff5c00"
+                        stroke="#ffffff"
+                        strokeWidth={rep.hq ? 3 : 2}
+                        className="ct-europe__dot"
                       />
-                      {/* city label */}
                       <text
                         x={rep.x}
-                        y={rep.y - (rep.hq ? 20 : 15)}
+                        y={rep.y - (rep.hq ? 22 : 16)}
                         fill="#ffffff"
                         textAnchor="middle"
                         fontFamily="Manrope, sans-serif"
-                        fontWeight="700"
-                        fontSize="11"
+                        fontWeight="800"
+                        fontSize={rep.hq ? 14 : 12}
+                        className="ct-europe__label"
                       >
-                        {rep.country.split(' ')[0]}
+                        {rep.hq ? 'Jawczyce' : rep.city.split(' ')[0]}
                       </text>
+                      {rep.hq ? (
+                        <text
+                          x={rep.x}
+                          y={rep.y - 8}
+                          fill="rgba(255,255,255,0.85)"
+                          textAnchor="middle"
+                          fontFamily="Manrope, sans-serif"
+                          fontWeight="700"
+                          fontSize="11"
+                          className="ct-europe__label"
+                        >
+                          (Warszawa)
+                        </text>
+                      ) : null}
                     </g>
                   ))}
                 </svg>
-              </div>
-
-              <div className="ct-reps">
-                {EUROPE_REPS.map((rep) => (
-                  <article key={rep.id} className={rep.hq ? 'ct-rep ct-rep--hq' : 'ct-rep'}>
-                    <span className="ct-rep__flag" aria-hidden="true">{rep.flag}</span>
-                    <span className="ct-rep__country">{rep.country}</span>
-                    <span className="ct-rep__city">{rep.city}</span>
-                    <span className="ct-rep__role">{rep.role}</span>
-                    {rep.hq ? <span className="ct-rep__hq-tag">Головний офіс</span> : null}
-                  </article>
-                ))}
               </div>
             </div>
           </div>

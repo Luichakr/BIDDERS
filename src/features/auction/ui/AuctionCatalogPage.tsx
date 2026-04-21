@@ -1,6 +1,7 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import type { AuctionCardData } from '../model/auctionData'
+import { fetchInRouteCardById } from '../model/inRoute.service'
 import { routes } from '../../../shared/config/routes'
 import './auction-catalog.css'
 
@@ -16,13 +17,6 @@ type FilterGroupKey = 'doc' | 'odo' | 'year' | 'brand' | 'model' | 'engine' | 't
 
 function formatUsd(value: number): string {
   return `$${Math.round(value).toLocaleString('en-US')}`
-}
-
-function formatKm(value: number): string {
-  if (value >= 1000) {
-    return `${Math.round(value / 1000)} 000`
-  }
-  return String(Math.round(value))
 }
 
 function parseYearRange(cards: AuctionCardData[]): [number, number] {
@@ -55,6 +49,7 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [sortMode, setSortMode] = useState<SortMode>('price_desc')
   const [layout, setLayout] = useState<LayoutMode>('list')
+  const [visibleCount, setVisibleCount] = useState(20)
 
   const [selectedDocTypes, setSelectedDocTypes] = useState<string[]>([])
   const [selectedBrands, setSelectedBrands] = useState<string[]>([])
@@ -65,6 +60,10 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
   const [selectedYears, setSelectedYears] = useState<number[]>([])
   const [odoMin, setOdoMin] = useState<number>(() => parseMileageRange(cards)[0])
   const [odoMax, setOdoMax] = useState<number>(() => parseMileageRange(cards)[1])
+  const [odoMinInput, setOdoMinInput] = useState<string>('')
+  const [odoMaxInput, setOdoMaxInput] = useState<string>('')
+  const [yearMinInput, setYearMinInput] = useState<string>('')
+  const [yearMaxInput, setYearMaxInput] = useState<string>('')
   const [yearFrom, setYearFrom] = useState<number | ''>('')
   const [yearTo, setYearTo] = useState<number | ''>('')
   const [openGroups, setOpenGroups] = useState<Record<FilterGroupKey, boolean>>({
@@ -89,6 +88,8 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
     })
     return init
   })
+  const [galleryOverrides, setGalleryOverrides] = useState<Record<string, string[]>>({})
+  const [galleryLoadingIds, setGalleryLoadingIds] = useState<Record<string, boolean>>({})
 
   const docs = ['ENGINE START', 'ENHANCED', 'RUNS & DRIVES', 'Run & Drive']
   const transmissions = ['AUTOMATIC', 'MANUAL']
@@ -108,22 +109,31 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
   const odoFillLeft = ((odoMin - odoMinLimit) / odoRange) * 100
   const odoFillRight = 100 - ((odoMax - odoMinLimit) / odoRange) * 100
 
+  useEffect(() => {
+    setOdoMin(odoMinLimit)
+    setOdoMax(odoMaxLimit)
+  }, [odoMaxLimit, odoMinLimit])
+
+  useEffect(() => {
+    setOdoMinInput(String(Math.round(odoMin)))
+    setOdoMaxInput(String(Math.round(odoMax)))
+  }, [odoMax, odoMin])
+
+  useEffect(() => {
+    if (yearFrom === '') return
+    setYearMinInput(String(Math.round(yearFrom)))
+  }, [yearFrom])
+
+  useEffect(() => {
+    if (yearTo === '') return
+    setYearMaxInput(String(Math.round(yearTo)))
+  }, [yearTo])
+
   const uniqueBrands = useMemo(() => Array.from(new Set(cards.map((card) => card.make))).sort(), [cards])
   const uniqueModels = useMemo(() => Array.from(new Set(cards.map((card) => card.model))).sort(), [cards])
   const uniqueFuels = useMemo(() => Array.from(new Set(cards.map((card) => card.fuel))).sort(), [cards])
+  const uniqueTransmissions = useMemo(() => Array.from(new Set(cards.map((card) => card.transmission))).sort(), [cards])
   const uniqueYears = useMemo(() => Array.from(new Set(cards.map((card) => card.year))).sort((a, b) => b - a), [cards])
-
-  const filteredBrands = useMemo(() => {
-    const query = brandSearch.trim().toLowerCase()
-    if (!query) return uniqueBrands
-    return uniqueBrands.filter((brand) => brand.toLowerCase().includes(query))
-  }, [brandSearch, uniqueBrands])
-
-  const filteredModels = useMemo(() => {
-    const query = modelSearch.trim().toLowerCase()
-    if (!query) return uniqueModels
-    return uniqueModels.filter((model) => model.toLowerCase().includes(query))
-  }, [modelSearch, uniqueModels])
 
   const sortLabelMap: Record<SortMode, string> = {
     price_desc: 'Спочатку дорожчі',
@@ -134,22 +144,51 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
     mileage_desc: 'Більший пробіг',
   }
 
+  const matchesCard = (
+    card: AuctionCardData,
+    overrides?: {
+      selectedDocTypes?: string[]
+      selectedBrands?: string[]
+      selectedModels?: string[]
+      selectedFuels?: string[]
+      selectedTransmission?: string[]
+      selectedDrive?: string[]
+      selectedYears?: number[]
+      yearFrom?: number | ''
+      yearTo?: number | ''
+      odoMin?: number
+      odoMax?: number
+    },
+  ) => {
+    const docFilter = overrides?.selectedDocTypes ?? selectedDocTypes
+    const brandFilter = overrides?.selectedBrands ?? selectedBrands
+    const modelFilter = overrides?.selectedModels ?? selectedModels
+    const fuelFilter = overrides?.selectedFuels ?? selectedFuels
+    const transmissionFilter = overrides?.selectedTransmission ?? selectedTransmission
+    const driveFilter = overrides?.selectedDrive ?? selectedDrive
+    const yearFilter = overrides?.selectedYears ?? selectedYears
+    const yearFromFilter = overrides?.yearFrom ?? yearFrom
+    const yearToFilter = overrides?.yearTo ?? yearTo
+    const odoMinFilter = overrides?.odoMin ?? odoMin
+    const odoMaxFilter = overrides?.odoMax ?? odoMax
+
+    if (docFilter.length > 0 && !docFilter.includes(docByCardId[card.id] ?? docs[0])) return false
+    if (brandFilter.length > 0 && !brandFilter.includes(card.make)) return false
+    if (modelFilter.length > 0 && !modelFilter.includes(card.model)) return false
+    if (fuelFilter.length > 0 && !fuelFilter.includes(card.fuel)) return false
+    if (transmissionFilter.length > 0 && !transmissionFilter.includes(card.transmission)) return false
+    if (driveFilter.length > 0 && !driveFilter.includes(card.drive)) return false
+    if (yearFilter.length > 0 && !yearFilter.includes(card.year)) return false
+
+    if (yearFromFilter !== '' && card.year < yearFromFilter) return false
+    if (yearToFilter !== '' && card.year > yearToFilter) return false
+    if (card.mileageKm < odoMinFilter || card.mileageKm > odoMaxFilter) return false
+
+    return true
+  }
+
   const filteredCards = useMemo(() => {
-    const items = cards.filter((card) => {
-      if (selectedDocTypes.length > 0 && !selectedDocTypes.includes(docByCardId[card.id] ?? docs[0])) return false
-      if (selectedBrands.length > 0 && !selectedBrands.includes(card.make)) return false
-      if (selectedModels.length > 0 && !selectedModels.includes(card.model)) return false
-      if (selectedFuels.length > 0 && !selectedFuels.includes(card.fuel)) return false
-      if (selectedTransmission.length > 0 && !selectedTransmission.includes(card.transmission)) return false
-      if (selectedDrive.length > 0 && !selectedDrive.includes(card.drive)) return false
-      if (selectedYears.length > 0 && !selectedYears.includes(card.year)) return false
-
-      if (yearFrom !== '' && card.year < yearFrom) return false
-      if (yearTo !== '' && card.year > yearTo) return false
-      if (card.mileageKm < odoMin || card.mileageKm > odoMax) return false
-
-      return true
-    })
+    const items = cards.filter((card) => matchesCard(card))
 
     const sorted = [...items]
     sorted.sort((a, b) => {
@@ -167,6 +206,85 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
     return sorted
   }, [cards, docByCardId, docs, odoMax, odoMin, selectedBrands, selectedDocTypes, selectedDrive, selectedFuels, selectedModels, selectedTransmission, selectedYears, sortMode, yearFrom, yearTo])
 
+  const brandOptionCounts = useMemo(() => {
+    const counts = new Map<string, number>()
+    cards.forEach((card) => {
+      if (!matchesCard(card, { selectedBrands: [] })) return
+      counts.set(card.make, (counts.get(card.make) ?? 0) + 1)
+    })
+    return counts
+  }, [cards, docByCardId, docs, odoMax, odoMin, selectedDocTypes, selectedDrive, selectedFuels, selectedModels, selectedTransmission, selectedYears, yearFrom, yearTo])
+
+  const modelOptionCounts = useMemo(() => {
+    const counts = new Map<string, number>()
+    cards.forEach((card) => {
+      if (!matchesCard(card, { selectedModels: [] })) return
+      counts.set(card.model, (counts.get(card.model) ?? 0) + 1)
+    })
+    return counts
+  }, [cards, docByCardId, docs, odoMax, odoMin, selectedBrands, selectedDocTypes, selectedDrive, selectedFuels, selectedTransmission, selectedYears, yearFrom, yearTo])
+
+  const fuelOptionCounts = useMemo(() => {
+    const counts = new Map<string, number>()
+    cards.forEach((card) => {
+      if (!matchesCard(card, { selectedFuels: [] })) return
+      counts.set(card.fuel, (counts.get(card.fuel) ?? 0) + 1)
+    })
+    return counts
+  }, [cards, docByCardId, docs, odoMax, odoMin, selectedBrands, selectedDocTypes, selectedDrive, selectedModels, selectedTransmission, selectedYears, yearFrom, yearTo])
+
+  const transmissionOptionCounts = useMemo(() => {
+    const counts = new Map<string, number>()
+    cards.forEach((card) => {
+      if (!matchesCard(card, { selectedTransmission: [] })) return
+      counts.set(card.transmission, (counts.get(card.transmission) ?? 0) + 1)
+    })
+    return counts
+  }, [cards, docByCardId, docs, odoMax, odoMin, selectedBrands, selectedDocTypes, selectedDrive, selectedFuels, selectedModels, selectedYears, yearFrom, yearTo])
+
+  const yearOptionCounts = useMemo(() => {
+    const counts = new Map<number, number>()
+    cards.forEach((card) => {
+      if (!matchesCard(card, { selectedYears: [] })) return
+      counts.set(card.year, (counts.get(card.year) ?? 0) + 1)
+    })
+    return counts
+  }, [cards, docByCardId, docs, odoMax, odoMin, selectedBrands, selectedDocTypes, selectedDrive, selectedFuels, selectedModels, selectedTransmission, yearFrom, yearTo])
+
+  const filteredBrands = useMemo(() => {
+    const query = brandSearch.trim().toLowerCase()
+    const available = uniqueBrands.filter((brand) => {
+      const count = brandOptionCounts.get(brand) ?? 0
+      return count > 0 || selectedBrands.includes(brand)
+    })
+    if (!query) return available
+    return available.filter((brand) => brand.toLowerCase().includes(query))
+  }, [brandOptionCounts, brandSearch, selectedBrands, uniqueBrands])
+
+  const filteredModels = useMemo(() => {
+    const query = modelSearch.trim().toLowerCase()
+    const available = uniqueModels.filter((model) => {
+      const count = modelOptionCounts.get(model) ?? 0
+      return count > 0 || selectedModels.includes(model)
+    })
+    if (!query) return available
+    return available.filter((model) => model.toLowerCase().includes(query))
+  }, [modelOptionCounts, modelSearch, selectedModels, uniqueModels])
+
+  useEffect(() => {
+    setVisibleCount(20)
+  }, [cards, mode, sortMode, selectedBrands, selectedDocTypes, selectedDrive, selectedFuels, selectedModels, selectedTransmission, selectedYears, yearFrom, yearTo, odoMin, odoMax])
+
+  useEffect(() => {
+    if (mode !== 'transit') return
+    setSelectedYears([])
+    setYearFrom(minYearAll)
+    setYearTo(maxYearAll)
+  }, [maxYearAll, minYearAll, mode])
+
+  const visibleCards = useMemo(() => filteredCards.slice(0, visibleCount), [filteredCards, visibleCount])
+  const hasMoreCards = visibleCount < filteredCards.length
+
   const activeChips = [
     ...selectedDocTypes.map((value) => ({ type: 'doc' as const, value })),
     ...selectedBrands.map((value) => ({ type: 'brand' as const, value })),
@@ -175,7 +293,7 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
     ...selectedTransmission.map((value) => ({ type: 'trans' as const, value })),
     ...selectedDrive.map((value) => ({ type: 'drive' as const, value })),
     ...selectedYears.map((value) => ({ type: 'year' as const, value: String(value) })),
-    ...(yearFrom !== '' || yearTo !== '' ? [{ type: 'yearRange' as const, value: `${yearFrom || minYearAll} - ${yearTo || maxYearAll}` }] : []),
+    ...(mode !== 'transit' && (yearFrom !== '' || yearTo !== '') ? [{ type: 'yearRange' as const, value: `${yearFrom || minYearAll} - ${yearTo || maxYearAll}` }] : []),
   ]
 
   const resetAll = () => {
@@ -188,8 +306,8 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
     setSelectedYears([])
     setOdoMin(odoMinLimit)
     setOdoMax(odoMaxLimit)
-    setYearFrom('')
-    setYearTo('')
+    setYearFrom(mode === 'transit' ? minYearAll : '')
+    setYearTo(mode === 'transit' ? maxYearAll : '')
     setBrandSearch('')
     setModelSearch('')
   }
@@ -212,14 +330,129 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
     setOpenGroups((prev) => ({ ...prev, [key]: !prev[key] }))
   }
 
+  const handleOdoMinChange = (rawValue: number) => {
+    const nextValue = Math.max(odoMinLimit, Math.min(rawValue, odoMax))
+    setOdoMin(nextValue)
+  }
+
+  const handleOdoMaxChange = (rawValue: number) => {
+    const nextValue = Math.min(odoMaxLimit, Math.max(rawValue, odoMin))
+    setOdoMax(nextValue)
+  }
+
+  const handleYearMinChange = (rawValue: number) => {
+    const currentMax = yearTo === '' ? maxYearAll : yearTo
+    const nextValue = Math.max(minYearAll, Math.min(rawValue, currentMax))
+    setYearFrom(nextValue)
+  }
+
+  const handleYearMaxChange = (rawValue: number) => {
+    const currentMin = yearFrom === '' ? minYearAll : yearFrom
+    const nextValue = Math.min(maxYearAll, Math.max(rawValue, currentMin))
+    setYearTo(nextValue)
+  }
+
+  const handleOdoMinInputChange = (rawValue: string) => {
+    setOdoMinInput(rawValue)
+    if (rawValue.trim() === '') return
+    const parsed = Number(rawValue)
+    if (!Number.isFinite(parsed)) return
+    handleOdoMinChange(parsed)
+  }
+
+  const handleOdoMaxInputChange = (rawValue: string) => {
+    setOdoMaxInput(rawValue)
+    if (rawValue.trim() === '') return
+    const parsed = Number(rawValue)
+    if (!Number.isFinite(parsed)) return
+    handleOdoMaxChange(parsed)
+  }
+
+  const commitOdoInputs = () => {
+    const minParsed = Number(odoMinInput)
+    const maxParsed = Number(odoMaxInput)
+
+    if (Number.isFinite(minParsed)) {
+      handleOdoMinChange(minParsed)
+    } else {
+      setOdoMinInput(String(Math.round(odoMin)))
+    }
+
+    if (Number.isFinite(maxParsed)) {
+      handleOdoMaxChange(maxParsed)
+    } else {
+      setOdoMaxInput(String(Math.round(odoMax)))
+    }
+  }
+
+  const handleYearMinInputChange = (rawValue: string) => {
+    setYearMinInput(rawValue)
+    if (rawValue.trim() === '') return
+    const parsed = Number(rawValue)
+    if (!Number.isFinite(parsed)) return
+    handleYearMinChange(parsed)
+  }
+
+  const handleYearMaxInputChange = (rawValue: string) => {
+    setYearMaxInput(rawValue)
+    if (rawValue.trim() === '') return
+    const parsed = Number(rawValue)
+    if (!Number.isFinite(parsed)) return
+    handleYearMaxChange(parsed)
+  }
+
+  const commitYearInputs = () => {
+    const minParsed = Number(yearMinInput)
+    const maxParsed = Number(yearMaxInput)
+
+    if (Number.isFinite(minParsed)) {
+      handleYearMinChange(minParsed)
+    } else if (yearFrom !== '') {
+      setYearMinInput(String(Math.round(yearFrom)))
+    }
+
+    if (Number.isFinite(maxParsed)) {
+      handleYearMaxChange(maxParsed)
+    } else if (yearTo !== '') {
+      setYearMaxInput(String(Math.round(yearTo)))
+    }
+  }
+
   const showSlidesForCard = (card: AuctionCardData): string[] => {
+    const overrideGallery = galleryOverrides[card.id]
+    if (overrideGallery && overrideGallery.length > 0) {
+      return overrideGallery
+    }
     if (card.images.length > 0) {
       return card.images
     }
     return [card.image]
   }
 
+  const hydrateGalleryForTransitCard = async (cardId: string) => {
+    if (mode !== 'transit' || !/^\d+$/.test(cardId) || galleryLoadingIds[cardId]) {
+      return
+    }
+
+    setGalleryLoadingIds((prev) => ({ ...prev, [cardId]: true }))
+    try {
+      const liveCard = await fetchInRouteCardById(cardId)
+      const images = liveCard?.images?.filter(Boolean) ?? []
+      if (images.length > 1) {
+        setGalleryOverrides((prev) => ({ ...prev, [cardId]: images }))
+      }
+    } catch {
+      // keep single image state if gallery request fails
+    } finally {
+      setGalleryLoadingIds((prev) => ({ ...prev, [cardId]: false }))
+    }
+  }
+
   const moveSlide = (cardId: string, total: number, step: -1 | 1) => {
+    if (total <= 1) {
+      void hydrateGalleryForTransitCard(cardId)
+      return
+    }
     setSlideByCard((prev) => {
       const current = prev[cardId] ?? 0
       const next = (current + step + total) % total
@@ -259,7 +492,6 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
             event.stopPropagation()
             moveSlide(card.id, slides.length, 1)
           }}>›</button>
-          <div className="slide-counter"><span className="slide-cur">{slideIndex + 1}</span> / <span className="slide-tot">{slides.length}</span></div>
           <div className="photo-overlay"></div>
         </div>
 
@@ -352,10 +584,15 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
             <button className="reset-btn" type="button" onClick={resetAll}>Reset All</button>
           </div>
 
-          <div className="toggle-row"><span className="toggle-label">Wholesale - Тільки автомобілі</span><button className="toggle-switch on" type="button"></button></div>
-          <div className="toggle-row"><span className="toggle-label">Нещодавно додані - Last 24 Hours</span><button className="toggle-switch" type="button"></button></div>
-          <div className="toggle-row"><span className="toggle-label">Виключити авто на аукціоні</span><button className="toggle-switch" type="button"></button></div>
+          {mode !== 'transit' ? (
+            <>
+              <div className="toggle-row"><span className="toggle-label">Wholesale - Тільки автомобілі</span><button className="toggle-switch on" type="button"></button></div>
+              <div className="toggle-row"><span className="toggle-label">Нещодавно додані - Last 24 Hours</span><button className="toggle-switch" type="button"></button></div>
+              <div className="toggle-row"><span className="toggle-label">Виключити авто на аукціоні</span><button className="toggle-switch" type="button"></button></div>
+            </>
+          ) : null}
 
+          {mode !== 'transit' ? (
           <div className={selectedDocTypes.length > 0 ? 'filter-group open has-selection' : 'filter-group open'} data-filter="doc">
             <div className="filter-head" onClick={() => toggleGroup('doc')}>
               <div className="filter-head-left"><span className="filter-name">Тип документа</span><span className="filter-count">{selectedDocTypes.length}</span></div>
@@ -379,226 +616,530 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
               </div>
             ) : null}
           </div>
+          ) : null}
 
-          <div className="filter-group odo-group open" data-filter="odo">
-            <div className="filter-head" onClick={() => toggleGroup('odo')}>
-              <div className="filter-head-left"><span className="filter-name">Одометр</span></div>
-              <button className="filter-reset" type="button" onClick={(event) => {
-                event.stopPropagation()
-                setOdoMin(odoMinLimit)
-                setOdoMax(odoMaxLimit)
-              }}>Скинути</button>
-              <span className={openGroups.odo ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
-            </div>
-            {openGroups.odo ? (
-              <div className="filter-body">
-                <div className="filter-inner">
-                  <div className="dual-range-wrap">
-                    <div className="dual-range-labels">
-                      <span>від <span className="range-val" id="odoMinLabel">{formatKm(odoMin)}</span> km</span>
-                      <span>до <span className="range-val" id="odoMaxLabel">{formatKm(odoMax)}</span> km</span>
-                    </div>
-                    <div className="dual-range">
-                      <div className="dual-range-track">
-                        <div
-                          className="dual-range-fill"
-                          id="odoRangeFill"
-                          style={{ left: `${odoFillLeft}%`, right: `${odoFillRight}%` }}
-                        ></div>
+          {mode === 'transit' ? (
+            <>
+              <div className={(selectedYears.length > 0 || yearFrom !== '' || yearTo !== '') ? 'filter-group year-group open has-selection' : 'filter-group year-group open'} data-filter="year">
+                <div className="filter-head" onClick={() => toggleGroup('year')}>
+                  <div className="filter-head-left"><span className="filter-name">Рік</span></div>
+                  <button className="filter-reset" type="button" onClick={(event) => {
+                    event.stopPropagation()
+                    setYearFrom(minYearAll)
+                    setYearTo(maxYearAll)
+                  }}>Скинути</button>
+                  <span className={openGroups.year ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
+                </div>
+                {openGroups.year ? (
+                  <div className="filter-body">
+                    <div className="filter-inner">
+                      <div className="dual-range-wrap">
+                        <div className="dual-range-labels">
+                          <span>
+                            від
+                            <input
+                              className="range-val-input"
+                              inputMode="numeric"
+                              value={yearMinInput}
+                              onChange={(event) => handleYearMinInputChange(event.target.value.replace(/[^0-9]/g, ''))}
+                              onBlur={commitYearInputs}
+                            />
+                          </span>
+                          <span>
+                            до
+                            <input
+                              className="range-val-input"
+                              inputMode="numeric"
+                              value={yearMaxInput}
+                              onChange={(event) => handleYearMaxInputChange(event.target.value.replace(/[^0-9]/g, ''))}
+                              onBlur={commitYearInputs}
+                            />
+                          </span>
+                        </div>
+                        <div className="dual-range">
+                          <div className="dual-range-track">
+                            <div
+                              className="dual-range-fill"
+                              style={{
+                                left: `${(((yearFrom === '' ? minYearAll : yearFrom) - minYearAll) / Math.max(1, maxYearAll - minYearAll)) * 100}%`,
+                                right: `${100 - ((((yearTo === '' ? maxYearAll : yearTo) - minYearAll) / Math.max(1, maxYearAll - minYearAll)) * 100)}%`,
+                              }}
+                            ></div>
+                          </div>
+                          <input
+                            type="range"
+                            min={minYearAll}
+                            max={maxYearAll}
+                            step={1}
+                            value={yearFrom === '' ? minYearAll : yearFrom}
+                            onInput={(event) => handleYearMinChange(Number((event.target as HTMLInputElement).value))}
+                            onChange={(event) => handleYearMinChange(Number(event.target.value))}
+                          />
+                          <input
+                            type="range"
+                            min={minYearAll}
+                            max={maxYearAll}
+                            step={1}
+                            value={yearTo === '' ? maxYearAll : yearTo}
+                            onInput={(event) => handleYearMaxChange(Number((event.target as HTMLInputElement).value))}
+                            onChange={(event) => handleYearMaxChange(Number(event.target.value))}
+                          />
+                        </div>
                       </div>
-                      <input
-                        type="range"
-                        min={odoMinLimit}
-                        max={odoMaxLimit}
-                        step={5000}
-                        value={odoMin}
-                        onChange={(event) => setOdoMin(Math.min(Number(event.target.value), odoMax))}
-                      />
-                      <input
-                        type="range"
-                        min={odoMinLimit}
-                        max={odoMaxLimit}
-                        step={5000}
-                        value={odoMax}
-                        onChange={(event) => setOdoMax(Math.max(Number(event.target.value), odoMin))}
-                      />
+
+                      <div id="filterYearList" className="filter-list">
+                        {uniqueYears
+                          .filter((year) => (yearOptionCounts.get(year) ?? 0) > 0 || selectedYears.includes(year))
+                          .map((year) => {
+                            const count = yearOptionCounts.get(year) ?? 0
+                            return (
+                              <label className="cb-item" key={year}>
+                                <input type="checkbox" checked={selectedYears.includes(year)} onChange={() => setSelectedYears((prev) => toggleNumberFilter(year, prev))} />
+                                <span className="cb-box"></span>
+                                <span className="cb-label"><span>{year}</span><span className="cb-count">{count} шт</span></span>
+                              </label>
+                            )
+                          })}
+                      </div>
                     </div>
                   </div>
-                </div>
+                ) : null}
               </div>
-            ) : null}
-          </div>
 
-          <div className={(selectedYears.length > 0 || yearFrom !== '' || yearTo !== '') ? 'filter-group year-group open has-selection' : 'filter-group year-group open'} data-filter="year">
-            <div className="filter-head" onClick={() => toggleGroup('year')}>
-              <div className="filter-head-left"><span className="filter-name">Рік</span><span className="filter-count">{selectedYears.length + ((yearFrom !== '' || yearTo !== '') ? 1 : 0)}</span></div>
-              <button className="filter-reset" type="button" onClick={(event) => {
-                event.stopPropagation()
-                setSelectedYears([])
-                setYearFrom('')
-                setYearTo('')
-              }}>Скинути</button>
-              <span className={openGroups.year ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
-            </div>
-            {openGroups.year ? (
-              <div className="filter-body">
-                <div className="filter-inner">
-                  <div className="year-range">
-                    <input className="year-input" type="number" placeholder="Від" value={yearFrom} min={minYearAll} max={maxYearAll} onChange={(event) => setYearFrom(event.target.value ? Number(event.target.value) : '')} />
-                    <span className="year-sep">-</span>
-                    <input className="year-input" type="number" placeholder="До" value={yearTo} min={minYearAll} max={maxYearAll} onChange={(event) => setYearTo(event.target.value ? Number(event.target.value) : '')} />
+              <div className={selectedBrands.length > 0 ? 'filter-group open has-selection' : 'filter-group open'} data-filter="brand">
+                <div className="filter-head" onClick={() => toggleGroup('brand')}>
+                  <div className="filter-head-left"><span className="filter-name">Марка</span><span className="filter-count">{selectedBrands.length}</span></div>
+                  <button className="filter-reset" type="button" onClick={(event) => {
+                    event.stopPropagation()
+                    setSelectedBrands([])
+                  }}>Скинути</button>
+                  <span className={openGroups.brand ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
+                </div>
+                {openGroups.brand ? (
+                  <div className="filter-body">
+                    <div className="filter-inner">
+                      <div className="filter-search-wrap"><input className="filter-search" type="text" placeholder="Шукати..." value={brandSearch} onChange={(event) => setBrandSearch(event.target.value)} /></div>
+                      <div id="filterBrandList" className="filter-list">
+                        {filteredBrands.map((brand) => {
+                          const count = brandOptionCounts.get(brand) ?? 0
+                          return (
+                            <label className="cb-item" key={brand}>
+                              <input type="checkbox" checked={selectedBrands.includes(brand)} onChange={() => setSelectedBrands((prev) => toggleStringFilter(brand, prev))} />
+                              <span className="cb-box"></span>
+                              <span className="cb-label"><span>{brand}</span><span className="cb-count">{count} шт</span></span>
+                            </label>
+                          )
+                        })}
+                      </div>
+                    </div>
                   </div>
-                  <div id="filterYearList">
-                    {uniqueYears.map((year) => (
-                      <label className="cb-item" key={year}>
-                        <input type="checkbox" checked={selectedYears.includes(year)} onChange={() => setSelectedYears((prev) => toggleNumberFilter(year, prev))} />
+                ) : null}
+              </div>
+
+              <div className={selectedModels.length > 0 ? 'filter-group open has-selection' : 'filter-group open'} data-filter="model">
+                <div className="filter-head" onClick={() => toggleGroup('model')}>
+                  <div className="filter-head-left"><span className="filter-name">Модель</span><span className="filter-count">{selectedModels.length}</span></div>
+                  <button className="filter-reset" type="button" onClick={(event) => {
+                    event.stopPropagation()
+                    setSelectedModels([])
+                  }}>Скинути</button>
+                  <span className={openGroups.model ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
+                </div>
+                {openGroups.model ? (
+                  <div className="filter-body">
+                    <div className="filter-inner">
+                      <div className="filter-search-wrap"><input className="filter-search" type="text" placeholder="Шукати..." value={modelSearch} onChange={(event) => setModelSearch(event.target.value)} /></div>
+                      <div id="filterModelList" className="filter-list">
+                        {filteredModels.map((model) => {
+                          const count = modelOptionCounts.get(model) ?? 0
+                          return (
+                            <label className="cb-item" key={model}>
+                              <input type="checkbox" checked={selectedModels.includes(model)} onChange={() => setSelectedModels((prev) => toggleStringFilter(model, prev))} />
+                              <span className="cb-box"></span>
+                              <span className="cb-label"><span>{model}</span><span className="cb-count">{count} шт</span></span>
+                            </label>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+
+              <div className="filter-group odo-group open" data-filter="odo">
+                <div className="filter-head" onClick={() => toggleGroup('odo')}>
+                  <div className="filter-head-left"><span className="filter-name">Одометр</span></div>
+                  <button className="filter-reset" type="button" onClick={(event) => {
+                    event.stopPropagation()
+                    setOdoMin(odoMinLimit)
+                    setOdoMax(odoMaxLimit)
+                  }}>Скинути</button>
+                  <span className={openGroups.odo ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
+                </div>
+                {openGroups.odo ? (
+                  <div className="filter-body">
+                    <div className="filter-inner">
+                      <div className="dual-range-wrap">
+                        <div className="dual-range-labels">
+                          <span>
+                            від
+                            <input
+                              className="range-val-input"
+                              id="odoMinLabel"
+                              inputMode="numeric"
+                              value={odoMinInput}
+                              onChange={(event) => handleOdoMinInputChange(event.target.value.replace(/[^0-9]/g, ''))}
+                              onBlur={commitOdoInputs}
+                            />
+                            km
+                          </span>
+                          <span>
+                            до
+                            <input
+                              className="range-val-input"
+                              id="odoMaxLabel"
+                              inputMode="numeric"
+                              value={odoMaxInput}
+                              onChange={(event) => handleOdoMaxInputChange(event.target.value.replace(/[^0-9]/g, ''))}
+                              onBlur={commitOdoInputs}
+                            />
+                            km
+                          </span>
+                        </div>
+                        <div className="dual-range">
+                          <div className="dual-range-track">
+                            <div
+                              className="dual-range-fill"
+                              id="odoRangeFill"
+                              style={{ left: `${odoFillLeft}%`, right: `${odoFillRight}%` }}
+                            ></div>
+                          </div>
+                          <input
+                            type="range"
+                            min={odoMinLimit}
+                            max={odoMaxLimit}
+                            step={1000}
+                            value={odoMin}
+                            onInput={(event) => handleOdoMinChange(Number((event.target as HTMLInputElement).value))}
+                            onChange={(event) => handleOdoMinChange(Number(event.target.value))}
+                          />
+                          <input
+                            type="range"
+                            min={odoMinLimit}
+                            max={odoMaxLimit}
+                            step={1000}
+                            value={odoMax}
+                            onInput={(event) => handleOdoMaxChange(Number((event.target as HTMLInputElement).value))}
+                            onChange={(event) => handleOdoMaxChange(Number(event.target.value))}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+
+              <div className={selectedFuels.length > 0 ? 'filter-group has-selection' : 'filter-group'} data-filter="engine">
+                <div className="filter-head" onClick={() => toggleGroup('engine')}>
+                  <div className="filter-head-left"><span className="filter-name">Тип двигуна</span><span className="filter-count">{selectedFuels.length}</span></div>
+                  <button className="filter-reset" type="button" onClick={(event) => {
+                    event.stopPropagation()
+                    setSelectedFuels([])
+                  }}>Скинути</button>
+                  <span className={openGroups.engine ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
+                </div>
+                {openGroups.engine ? (
+                  <div className="filter-body"><div className="filter-inner">
+                    {uniqueFuels
+                      .filter((fuel) => (fuelOptionCounts.get(fuel) ?? 0) > 0 || selectedFuels.includes(fuel))
+                      .map((fuel) => {
+                        const count = fuelOptionCounts.get(fuel) ?? 0
+                        return (
+                          <label className="cb-item" key={fuel}>
+                            <input type="checkbox" checked={selectedFuels.includes(fuel)} onChange={() => setSelectedFuels((prev) => toggleStringFilter(fuel, prev))} />
+                            <span className="cb-box"></span>
+                            <span className="cb-label"><span>{fuel}</span><span className="cb-count">{count} шт</span></span>
+                          </label>
+                        )
+                      })}
+                  </div></div>
+                ) : null}
+              </div>
+
+              <div className={selectedTransmission.length > 0 ? 'filter-group has-selection' : 'filter-group'} data-filter="trans">
+                <div className="filter-head" onClick={() => toggleGroup('trans')}>
+                  <div className="filter-head-left"><span className="filter-name">Тип коробки</span><span className="filter-count">{selectedTransmission.length}</span></div>
+                  <button className="filter-reset" type="button" onClick={(event) => {
+                    event.stopPropagation()
+                    setSelectedTransmission([])
+                  }}>Скинути</button>
+                  <span className={openGroups.trans ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
+                </div>
+                {openGroups.trans ? (
+                  <div className="filter-body"><div className="filter-inner">
+                    {uniqueTransmissions
+                      .filter((value) => (transmissionOptionCounts.get(value) ?? 0) > 0 || selectedTransmission.includes(value))
+                      .map((value) => {
+                        const count = transmissionOptionCounts.get(value) ?? 0
+                        return (
+                          <label className="cb-item" key={value}>
+                            <input type="checkbox" checked={selectedTransmission.includes(value)} onChange={() => setSelectedTransmission((prev) => toggleStringFilter(value, prev))} />
+                            <span className="cb-box"></span>
+                            <span className="cb-label"><span>{value}</span><span className="cb-count">{count} шт</span></span>
+                          </label>
+                        )
+                      })}
+                  </div></div>
+                ) : null}
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="filter-group odo-group open" data-filter="odo">
+                <div className="filter-head" onClick={() => toggleGroup('odo')}>
+                  <div className="filter-head-left"><span className="filter-name">Одометр</span></div>
+                  <button className="filter-reset" type="button" onClick={(event) => {
+                    event.stopPropagation()
+                    setOdoMin(odoMinLimit)
+                    setOdoMax(odoMaxLimit)
+                  }}>Скинути</button>
+                  <span className={openGroups.odo ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
+                </div>
+                {openGroups.odo ? (
+                  <div className="filter-body">
+                    <div className="filter-inner">
+                      <div className="dual-range-wrap">
+                        <div className="dual-range-labels">
+                          <span>
+                            від
+                            <input
+                              className="range-val-input"
+                              id="odoMinLabel"
+                              inputMode="numeric"
+                              value={odoMinInput}
+                              onChange={(event) => handleOdoMinInputChange(event.target.value.replace(/[^0-9]/g, ''))}
+                              onBlur={commitOdoInputs}
+                            />
+                            km
+                          </span>
+                          <span>
+                            до
+                            <input
+                              className="range-val-input"
+                              id="odoMaxLabel"
+                              inputMode="numeric"
+                              value={odoMaxInput}
+                              onChange={(event) => handleOdoMaxInputChange(event.target.value.replace(/[^0-9]/g, ''))}
+                              onBlur={commitOdoInputs}
+                            />
+                            km
+                          </span>
+                        </div>
+                        <div className="dual-range">
+                          <div className="dual-range-track">
+                            <div
+                              className="dual-range-fill"
+                              id="odoRangeFill"
+                              style={{ left: `${odoFillLeft}%`, right: `${odoFillRight}%` }}
+                            ></div>
+                          </div>
+                          <input
+                            type="range"
+                            min={odoMinLimit}
+                            max={odoMaxLimit}
+                            step={1000}
+                            value={odoMin}
+                            onInput={(event) => handleOdoMinChange(Number((event.target as HTMLInputElement).value))}
+                            onChange={(event) => handleOdoMinChange(Number(event.target.value))}
+                          />
+                          <input
+                            type="range"
+                            min={odoMinLimit}
+                            max={odoMaxLimit}
+                            step={1000}
+                            value={odoMax}
+                            onInput={(event) => handleOdoMaxChange(Number((event.target as HTMLInputElement).value))}
+                            onChange={(event) => handleOdoMaxChange(Number(event.target.value))}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+
+              <div className={(selectedYears.length > 0 || yearFrom !== '' || yearTo !== '') ? 'filter-group year-group open has-selection' : 'filter-group year-group open'} data-filter="year">
+                <div className="filter-head" onClick={() => toggleGroup('year')}>
+                  <div className="filter-head-left"><span className="filter-name">Рік</span><span className="filter-count">{selectedYears.length + ((yearFrom !== '' || yearTo !== '') ? 1 : 0)}</span></div>
+                  <button className="filter-reset" type="button" onClick={(event) => {
+                    event.stopPropagation()
+                    setSelectedYears([])
+                    setYearFrom('')
+                    setYearTo('')
+                  }}>Скинути</button>
+                  <span className={openGroups.year ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
+                </div>
+                {openGroups.year ? (
+                  <div className="filter-body">
+                    <div className="filter-inner">
+                      <div className="year-range">
+                        <input className="year-input" type="number" placeholder="Від" value={yearFrom} min={minYearAll} max={maxYearAll} onChange={(event) => setYearFrom(event.target.value ? Number(event.target.value) : '')} />
+                        <span className="year-sep">-</span>
+                        <input className="year-input" type="number" placeholder="До" value={yearTo} min={minYearAll} max={maxYearAll} onChange={(event) => setYearTo(event.target.value ? Number(event.target.value) : '')} />
+                      </div>
+                      <div id="filterYearList">
+                        {uniqueYears.map((year) => (
+                          <label className="cb-item" key={year}>
+                            <input type="checkbox" checked={selectedYears.includes(year)} onChange={() => setSelectedYears((prev) => toggleNumberFilter(year, prev))} />
+                            <span className="cb-box"></span>
+                            <span className="cb-label">{year}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+
+              <div className={selectedBrands.length > 0 ? 'filter-group open has-selection' : 'filter-group open'} data-filter="brand">
+                <div className="filter-head" onClick={() => toggleGroup('brand')}>
+                  <div className="filter-head-left"><span className="filter-name">Марка</span><span className="filter-count">{selectedBrands.length}</span></div>
+                  <button className="filter-reset" type="button" onClick={(event) => {
+                    event.stopPropagation()
+                    setSelectedBrands([])
+                  }}>Скинути</button>
+                  <span className={openGroups.brand ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
+                </div>
+                {openGroups.brand ? (
+                  <div className="filter-body">
+                    <div className="filter-inner">
+                      <div className="filter-search-wrap"><input className="filter-search" type="text" placeholder="Шукати..." value={brandSearch} onChange={(event) => setBrandSearch(event.target.value)} /></div>
+                      <div id="filterBrandList" className="filter-list">
+                        {filteredBrands.map((brand) => (
+                          <label className="cb-item" key={brand}>
+                            <input type="checkbox" checked={selectedBrands.includes(brand)} onChange={() => setSelectedBrands((prev) => toggleStringFilter(brand, prev))} />
+                            <span className="cb-box"></span>
+                            <span className="cb-label">{brand}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+
+              <div className={selectedModels.length > 0 ? 'filter-group open has-selection' : 'filter-group open'} data-filter="model">
+                <div className="filter-head" onClick={() => toggleGroup('model')}>
+                  <div className="filter-head-left"><span className="filter-name">Модель</span><span className="filter-count">{selectedModels.length}</span></div>
+                  <button className="filter-reset" type="button" onClick={(event) => {
+                    event.stopPropagation()
+                    setSelectedModels([])
+                  }}>Скинути</button>
+                  <span className={openGroups.model ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
+                </div>
+                {openGroups.model ? (
+                  <div className="filter-body">
+                    <div className="filter-inner">
+                      <div className="filter-search-wrap"><input className="filter-search" type="text" placeholder="Шукати..." value={modelSearch} onChange={(event) => setModelSearch(event.target.value)} /></div>
+                      <div id="filterModelList" className="filter-list">
+                        {filteredModels.map((model) => (
+                          <label className="cb-item" key={model}>
+                            <input type="checkbox" checked={selectedModels.includes(model)} onChange={() => setSelectedModels((prev) => toggleStringFilter(model, prev))} />
+                            <span className="cb-box"></span>
+                            <span className="cb-label">{model}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+
+              <div className={selectedFuels.length > 0 ? 'filter-group has-selection' : 'filter-group'} data-filter="engine">
+                <div className="filter-head" onClick={() => toggleGroup('engine')}>
+                  <div className="filter-head-left"><span className="filter-name">Тип двигуна</span><span className="filter-count">{selectedFuels.length}</span></div>
+                  <button className="filter-reset" type="button" onClick={(event) => {
+                    event.stopPropagation()
+                    setSelectedFuels([])
+                  }}>Скинути</button>
+                  <span className={openGroups.engine ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
+                </div>
+                {openGroups.engine ? (
+                  <div className="filter-body"><div className="filter-inner">
+                    {uniqueFuels.map((fuel) => (
+                      <label className="cb-item" key={fuel}>
+                        <input type="checkbox" checked={selectedFuels.includes(fuel)} onChange={() => setSelectedFuels((prev) => toggleStringFilter(fuel, prev))} />
                         <span className="cb-box"></span>
-                        <span className="cb-label">{year}</span>
+                        <span className="cb-label">{fuel}</span>
                       </label>
                     ))}
-                  </div>
-                </div>
+                  </div></div>
+                ) : null}
               </div>
-            ) : null}
-          </div>
 
-          <div className={selectedBrands.length > 0 ? 'filter-group open has-selection' : 'filter-group open'} data-filter="brand">
-            <div className="filter-head" onClick={() => toggleGroup('brand')}>
-              <div className="filter-head-left"><span className="filter-name">Марка</span><span className="filter-count">{selectedBrands.length}</span></div>
-              <button className="filter-reset" type="button" onClick={(event) => {
-                event.stopPropagation()
-                setSelectedBrands([])
-              }}>Скинути</button>
-              <span className={openGroups.brand ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
-            </div>
-            {openGroups.brand ? (
-              <div className="filter-body">
-                <div className="filter-inner">
-                  <div className="filter-search-wrap"><input className="filter-search" type="text" placeholder="Шукати..." value={brandSearch} onChange={(event) => setBrandSearch(event.target.value)} /></div>
-                  <div id="filterBrandList" className="filter-list">
-                    {filteredBrands.map((brand) => (
-                      <label className="cb-item" key={brand}>
-                        <input type="checkbox" checked={selectedBrands.includes(brand)} onChange={() => setSelectedBrands((prev) => toggleStringFilter(brand, prev))} />
+              <div className={selectedTransmission.length > 0 ? 'filter-group has-selection' : 'filter-group'} data-filter="trans">
+                <div className="filter-head" onClick={() => toggleGroup('trans')}>
+                  <div className="filter-head-left"><span className="filter-name">Передача</span><span className="filter-count">{selectedTransmission.length}</span></div>
+                  <button className="filter-reset" type="button" onClick={(event) => {
+                    event.stopPropagation()
+                    setSelectedTransmission([])
+                  }}>Скинути</button>
+                  <span className={openGroups.trans ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
+                </div>
+                {openGroups.trans ? (
+                  <div className="filter-body"><div className="filter-inner">
+                    {transmissions.map((value) => (
+                      <label className="cb-item" key={value}>
+                        <input type="checkbox" checked={selectedTransmission.includes(value)} onChange={() => setSelectedTransmission((prev) => toggleStringFilter(value, prev))} />
                         <span className="cb-box"></span>
-                        <span className="cb-label">{brand}</span>
+                        <span className="cb-label">{value}</span>
                       </label>
                     ))}
-                  </div>
-                </div>
+                  </div></div>
+                ) : null}
               </div>
-            ) : null}
-          </div>
 
-          <div className={selectedModels.length > 0 ? 'filter-group open has-selection' : 'filter-group open'} data-filter="model">
-            <div className="filter-head" onClick={() => toggleGroup('model')}>
-              <div className="filter-head-left"><span className="filter-name">Модель</span><span className="filter-count">{selectedModels.length}</span></div>
-              <button className="filter-reset" type="button" onClick={(event) => {
-                event.stopPropagation()
-                setSelectedModels([])
-              }}>Скинути</button>
-              <span className={openGroups.model ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
-            </div>
-            {openGroups.model ? (
-              <div className="filter-body">
-                <div className="filter-inner">
-                  <div className="filter-search-wrap"><input className="filter-search" type="text" placeholder="Шукати..." value={modelSearch} onChange={(event) => setModelSearch(event.target.value)} /></div>
-                  <div id="filterModelList" className="filter-list">
-                    {filteredModels.map((model) => (
-                      <label className="cb-item" key={model}>
-                        <input type="checkbox" checked={selectedModels.includes(model)} onChange={() => setSelectedModels((prev) => toggleStringFilter(model, prev))} />
+              <div className={selectedDrive.length > 0 ? 'filter-group has-selection' : 'filter-group'} data-filter="drive">
+                <div className="filter-head" onClick={() => toggleGroup('drive')}>
+                  <div className="filter-head-left"><span className="filter-name">Привідний механізм</span><span className="filter-count">{selectedDrive.length}</span></div>
+                  <button className="filter-reset" type="button" onClick={(event) => {
+                    event.stopPropagation()
+                    setSelectedDrive([])
+                  }}>Скинути</button>
+                  <span className={openGroups.drive ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
+                </div>
+                {openGroups.drive ? (
+                  <div className="filter-body"><div className="filter-inner">
+                    {drives.map((value) => (
+                      <label className="cb-item" key={value}>
+                        <input type="checkbox" checked={selectedDrive.includes(value)} onChange={() => setSelectedDrive((prev) => toggleStringFilter(value, prev))} />
                         <span className="cb-box"></span>
-                        <span className="cb-label">{model}</span>
+                        <span className="cb-label">{value}</span>
                       </label>
                     ))}
-                  </div>
-                </div>
+                  </div></div>
+                ) : null}
               </div>
-            ) : null}
-          </div>
 
-          <div className={selectedFuels.length > 0 ? 'filter-group has-selection' : 'filter-group'} data-filter="engine">
-            <div className="filter-head" onClick={() => toggleGroup('engine')}>
-              <div className="filter-head-left"><span className="filter-name">Тип двигуна</span><span className="filter-count">{selectedFuels.length}</span></div>
-              <button className="filter-reset" type="button" onClick={(event) => {
-                event.stopPropagation()
-                setSelectedFuels([])
-              }}>Скинути</button>
-              <span className={openGroups.engine ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
-            </div>
-            {openGroups.engine ? (
-              <div className="filter-body"><div className="filter-inner">
-                {uniqueFuels.map((fuel) => (
-                  <label className="cb-item" key={fuel}>
-                    <input type="checkbox" checked={selectedFuels.includes(fuel)} onChange={() => setSelectedFuels((prev) => toggleStringFilter(fuel, prev))} />
-                    <span className="cb-box"></span>
-                    <span className="cb-label">{fuel}</span>
-                  </label>
-                ))}
-              </div></div>
-            ) : null}
-          </div>
-
-          <div className={selectedTransmission.length > 0 ? 'filter-group has-selection' : 'filter-group'} data-filter="trans">
-            <div className="filter-head" onClick={() => toggleGroup('trans')}>
-              <div className="filter-head-left"><span className="filter-name">Передача</span><span className="filter-count">{selectedTransmission.length}</span></div>
-              <button className="filter-reset" type="button" onClick={(event) => {
-                event.stopPropagation()
-                setSelectedTransmission([])
-              }}>Скинути</button>
-              <span className={openGroups.trans ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
-            </div>
-            {openGroups.trans ? (
-              <div className="filter-body"><div className="filter-inner">
-                {transmissions.map((value) => (
-                  <label className="cb-item" key={value}>
-                    <input type="checkbox" checked={selectedTransmission.includes(value)} onChange={() => setSelectedTransmission((prev) => toggleStringFilter(value, prev))} />
-                    <span className="cb-box"></span>
-                    <span className="cb-label">{value}</span>
-                  </label>
-                ))}
-              </div></div>
-            ) : null}
-          </div>
-
-          <div className={selectedDrive.length > 0 ? 'filter-group has-selection' : 'filter-group'} data-filter="drive">
-            <div className="filter-head" onClick={() => toggleGroup('drive')}>
-              <div className="filter-head-left"><span className="filter-name">Привідний механізм</span><span className="filter-count">{selectedDrive.length}</span></div>
-              <button className="filter-reset" type="button" onClick={(event) => {
-                event.stopPropagation()
-                setSelectedDrive([])
-              }}>Скинути</button>
-              <span className={openGroups.drive ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
-            </div>
-            {openGroups.drive ? (
-              <div className="filter-body"><div className="filter-inner">
-                {drives.map((value) => (
-                  <label className="cb-item" key={value}>
-                    <input type="checkbox" checked={selectedDrive.includes(value)} onChange={() => setSelectedDrive((prev) => toggleStringFilter(value, prev))} />
-                    <span className="cb-box"></span>
-                    <span className="cb-label">{value}</span>
-                  </label>
-                ))}
-              </div></div>
-            ) : null}
-          </div>
-
-          <div className="filter-group" data-filter="postal">
-            <div className="filter-head" onClick={() => toggleGroup('postal')}>
-              <div className="filter-head-left"><span className="filter-name">Пошук за поштовим індексом</span></div>
-              <span className={openGroups.postal ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
-            </div>
-            {openGroups.postal ? (
-              <div className="filter-body">
-                <div className="filter-inner">
-                  <div className="postal-row">
-                    <input className="postal-input" type="text" placeholder="Поштовий індекс" />
-                    <select className="postal-select"><option>50 mi</option><option>100 mi</option><option>200 mi</option></select>
-                  </div>
-                  <div className="postal-btn-wrap"><button className="postal-btn" type="button">Шукати</button></div>
+              <div className="filter-group" data-filter="postal">
+                <div className="filter-head" onClick={() => toggleGroup('postal')}>
+                  <div className="filter-head-left"><span className="filter-name">Пошук за поштовим індексом</span></div>
+                  <span className={openGroups.postal ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
                 </div>
+                {openGroups.postal ? (
+                  <div className="filter-body">
+                    <div className="filter-inner">
+                      <div className="postal-row">
+                        <input className="postal-input" type="text" placeholder="Поштовий індекс" />
+                        <select className="postal-select"><option>50 mi</option><option>100 mi</option><option>200 mi</option></select>
+                      </div>
+                      <div className="postal-btn-wrap"><button className="postal-btn" type="button">Шукати</button></div>
+                    </div>
+                  </div>
+                ) : null}
               </div>
-            ) : null}
-          </div>
+            </>
+          )}
         </aside>
 
         <section className="catalog-main">
@@ -632,10 +1173,14 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
           </div>
 
           <div className={layout === 'grid' ? 'car-list layout-grid' : 'car-list'} id="carList">
-            {filteredCards.map(renderCard)}
+            {visibleCards.map(renderCard)}
           </div>
 
-          <div className="load-more"><button className="btn-load" type="button">Завантажити ще</button></div>
+          {hasMoreCards ? (
+            <div className="load-more">
+              <button className="btn-load" type="button" onClick={() => setVisibleCount((prev) => prev + 20)}>Завантажити ще</button>
+            </div>
+          ) : null}
         </section>
       </section>
 
