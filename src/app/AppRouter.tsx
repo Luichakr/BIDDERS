@@ -12,6 +12,7 @@ import { FaqPage } from '../pages/faq/ui/FaqPage'
 import { ContactsPage } from '../pages/contacts/ui/ContactsPage'
 import { PrivacyPolicyPage } from '../pages/privacy/ui/PrivacyPolicyPage'
 import { TermsPage } from '../pages/terms/ui/TermsPage'
+import { CalculatorPage as CalculatorBaseSnapshotPage } from '../features/calculator-base/snapshot/CalculatorBase.snapshot'
 import { routes } from '../shared/config/routes'
 
 function NotFoundRoute() {
@@ -28,6 +29,8 @@ export function AppRouter() {
           <Route path={routes.inStock} element={<InStockPage />} />
           <Route path={routes.transit} element={<TransitPage />} />
           <Route path={routes.calculator} element={<CalculatorPage />} />
+          <Route path={routes.calculatorOrest} element={<CalculatorBaseSnapshotPage />} />
+          <Route path={routes.calculatorBase} element={<CalculatorBaseSnapshotPage />} />
           <Route path={routes.blog} element={<BlogPage />} />
           <Route path={routes.cases} element={<CasesPage />} />
           <Route path={routes.faq} element={<FaqPage />} />

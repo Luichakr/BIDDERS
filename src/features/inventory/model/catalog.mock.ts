@@ -1,4 +1,4 @@
-import type { InventoryFilterGroup, InventoryItem } from '../../../shared/api/contracts'
+import type { InventoryFilterGroup, InventoryItem } from '../../../shared/types/contracts'
 
 export const inventoryFilters: InventoryFilterGroup[] = [
   { id: 'auction', title: 'Auction', options: ['COPART', 'IAAI'] },

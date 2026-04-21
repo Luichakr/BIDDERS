@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import type { InventoryFilterGroup, InventoryItem } from '../../../shared/api/contracts'
+import type { InventoryFilterGroup, InventoryItem } from '../../../shared/types/contracts'
 
 const FILTER_KEYS = ['auction', 'damage', 'fuel', 'year'] as const
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { routes } from '../../../shared/config/routes'
-import { formatCaseMoney, getCasesData, getCaseSavings, type CaseRecord } from '../../../features/cases/api/cases.service'
+import { formatCaseMoney, getCasesData, getCaseSavings, type CaseRecord } from '../../../features/cases/model/cases.service'
 
 export function CasesPage() {
   const [caseData, setCaseData] = useState<CaseRecord[]>([])

@@ -1,4 +1,4 @@
-import type { MarketMetric } from '../../../shared/api/contracts'
+import type { MarketMetric } from '../../../shared/types/contracts'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
 
 interface MarketMetricsProps {

@@ -1,7 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import './calculator.css'
+import './calculator-base.snapshot.css'
+import {
+  EU_PORT_OPTIONS,
+  IMPORT_TAX_PROFILES,
+  VAT_PROFILES,
+  computeEuCustoms,
+  percentLabel,
+  type EuPortCode,
+} from './calculatorOrest.config'
 
-type RoutePreset = 'klaipeda' | 'odesa'
 type CarType = 'Automobiles' | 'Crossover' | 'SUVs' | 'Moto' | 'PickupTrucks'
 type FuelType = string
 type AuctionType = 'Copart' | 'IAAI' | 'Manheim'
@@ -280,11 +287,13 @@ export function CalculatorPage() {
   const [breakdownRows, setBreakdownRows] = useState<BreakdownRow[]>([])
   const [liveTotal, setLiveTotal] = useState(0)
 
-  const [routePreset, setRoutePreset] = useState<RoutePreset>('klaipeda')
   const [carType, setCarType] = useState<CarType>('Automobiles')
   const [fuelType, setFuelType] = useState<FuelType>('Gas')
   const [auctionType, setAuctionType] = useState<AuctionType>('Copart')
   const [exportDocsType, setExportDocsType] = useState<ExportDocsType>('Usa')
+  const [euPort, setEuPort] = useState<EuPortCode>('bremerhaven')
+  const [importTaxProfileId, setImportTaxProfileId] = useState<string>('auto-10')
+  const [vatProfileId, setVatProfileId] = useState<string>('bremerhaven-19')
   const [deliveryOrigin, setDeliveryOrigin] = useState('')
   const [carYear, setCarYear] = useState('')
   const [engineVolume, setEngineVolume] = useState('')
@@ -292,6 +301,21 @@ export function CalculatorPage() {
   const [insuranceIncluded, setInsuranceIncluded] = useState(true)
   const [transferIncluded, setTransferIncluded] = useState(true)
   const [derived, setDerived] = useState<DerivedValues>(EMPTY_DERIVED)
+
+  const selectedEuPort = useMemo(
+    () => EU_PORT_OPTIONS.find((option) => option.id === euPort) ?? EU_PORT_OPTIONS[0],
+    [euPort],
+  )
+
+  const selectedImportTaxProfile = useMemo(
+    () => IMPORT_TAX_PROFILES.find((profile) => profile.id === importTaxProfileId) ?? IMPORT_TAX_PROFILES[0],
+    [importTaxProfileId],
+  )
+
+  const selectedVatProfile = useMemo(
+    () => VAT_PROFILES.find((profile) => profile.id === vatProfileId) ?? VAT_PROFILES[0],
+    [vatProfileId],
+  )
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -334,28 +358,24 @@ export function CalculatorPage() {
 
     const details = referenceData.calculatorDetails
     const auctionFee = getAuctionFee(referenceData, auctionType, lotPriceValue)
-    const oceanRaw = routePreset === 'odesa'
-      ? toSafeNumber(selectedOrigin.deliveryCoefficient.odesaValue)
-      : toSafeNumber(selectedOrigin.deliveryCoefficient.klaipedaValue)
-
-    const oceanDelivery = oceanRaw >= 999999 ? 0 : oceanRaw
+    const oceanDelivery = toSafeNumber(selectedEuPort.oceanDeliveryUsd)
     const next: DerivedValues = {
       auctionFee,
       usDelivery: toSafeNumber(selectedOrigin.value),
       exportDocs: toSafeNumber(details.exportDocumentsFee[exportDocsType]),
       oceanDelivery,
-      portUnload: routePreset === 'odesa' ? toSafeNumber(details.unloadingFromPortBrokerOdesa) : toSafeNumber(details.unloadingFromPortKlaidepa),
-      europeDelivery: routePreset === 'odesa' ? 0 : toSafeNumber(details.deliveryToLvivKlaidepa),
-      customsDelivery: routePreset === 'odesa' ? 0 : toSafeNumber(details.deliveryToBorderKlaidepa),
-      borderHandling: toSafeNumber(details.specialTransportPrice),
-      brokerFee: routePreset === 'odesa' ? 0 : toSafeNumber(details.brokerPriceKlaidepa),
+      portUnload: 0,
+      europeDelivery: toSafeNumber(selectedEuPort.deliveryToWarsawUsd),
+      customsDelivery: 0,
+      borderHandling: 0,
+      brokerFee: 0,
       companyFee: toSafeNumber(details.lubeAvtoFee),
       insuranceFee: insuranceIncluded ? toSafeNumber(details.insuranceFee || 1) : 0,
       transferFee: calculateTransferFee(lotPriceValue, auctionFee),
     }
 
     setDerived(next)
-  }, [auctionType, calculateTransferFee, exportDocsType, hasRequiredInputs, insuranceIncluded, lotPriceValue, referenceData, routePreset, selectedOrigin])
+  }, [auctionType, calculateTransferFee, exportDocsType, hasRequiredInputs, insuranceIncluded, lotPriceValue, referenceData, selectedEuPort, selectedOrigin])
 
   useEffect(() => {
     if (referenceData.calculatorDetails.deliveryCoefficientToPort.length === 0) {
@@ -452,7 +472,7 @@ export function CalculatorPage() {
       engineSize: isElectricFuel(fuelType) ? undefined : (carType === 'Moto' ? Math.max(0, engineValue * 1000) : engineValue),
       batteryCapacity: isElectricFuel(fuelType) ? Math.max(0, engineValue) : 0,
       auction: auctionType,
-      isKlaipeda: routePreset !== 'odesa',
+      isKlaipeda: selectedEuPort.id === 'klaipeda',
       exportDocumentFee: { key: exportDocsType, value: exportDocsValue },
       deliveryCoefficientToPort: selectedOrigin,
       vehicleCoefficients: referenceData.coefficients.vehicle.find((row) => row.item === carType) ?? null,
@@ -493,22 +513,15 @@ export function CalculatorPage() {
       const resultDelivery = (result.deliveryCoefficientToPort && typeof result.deliveryCoefficientToPort === 'object')
         ? result.deliveryCoefficientToPort as Record<string, unknown>
         : null
-      const resultDeliveryCoefficient = (resultDelivery?.deliveryCoefficient && typeof resultDelivery.deliveryCoefficient === 'object')
-        ? resultDelivery.deliveryCoefficient as Record<string, unknown>
-        : null
-
       const apiAuctionFee = toSafeNumber(resultAuction?.coefficient)
       const apiUsDelivery = toSafeNumber(resultDelivery?.value)
       const apiExportDocs = toSafeNumber(result.exportDocumentsFee)
-      const apiOceanRaw = routePreset === 'odesa'
-        ? toSafeNumber(resultDeliveryCoefficient?.odesaValue)
-        : toSafeNumber(resultDeliveryCoefficient?.klaipedaValue)
-      const apiOceanDelivery = apiOceanRaw >= 999999 ? 0 : apiOceanRaw
-      const apiPortUnload = routePreset === 'odesa' ? toSafeNumber(result.unloadingFromPortBrokerOdesa) : toSafeNumber(result.unloadingFromPortKlaidepa)
-      const apiEuropeDelivery = routePreset === 'odesa' ? 0 : toSafeNumber(result.deliveryToLvivKlaidepa)
-      const apiCustomsDelivery = routePreset === 'odesa' ? 0 : toSafeNumber(result.deliveryToBorderKlaidepa)
-      const apiBorderHandling = toSafeNumber(result.specialTransportPrice)
-      const apiBrokerFee = routePreset === 'odesa' ? 0 : toSafeNumber(result.brokerPriceKlaidepa)
+      const apiOceanDelivery = toSafeNumber(selectedEuPort.oceanDeliveryUsd)
+      const apiPortUnload = 0
+      const apiEuropeDelivery = toSafeNumber(selectedEuPort.deliveryToWarsawUsd)
+      const apiCustomsDelivery = 0
+      const apiBorderHandling = 0
+      const apiBrokerFee = 0
       const apiCompanyFee = toSafeNumber(result.lubeAvtoFee)
       const apiInsuranceFee = insuranceIncluded ? toSafeNumber(result.insuranceFee) : 0
       const apiTransferFee = calculateTransferFee(lotPriceValue, apiAuctionFee)
@@ -528,10 +541,6 @@ export function CalculatorPage() {
         transferFee: apiTransferFee,
       }
 
-      const excise = toSafeNumber(result.excise)
-      const importDuty = toSafeNumber(result.toll)
-      const vat = toSafeNumber(result.vat)
-      const nonVatFee = toSafeNumber(result.nonVatFee)
       const carBlock = lotPriceValue + nextDerived.auctionFee
       const logisticsBlock =
         nextDerived.usDelivery +
@@ -541,7 +550,17 @@ export function CalculatorPage() {
         nextDerived.europeDelivery +
         nextDerived.customsDelivery +
         nextDerived.borderHandling
-      const customsBlock = excise + importDuty + vat + nonVatFee
+      const customsBase = carBlock + logisticsBlock
+      const customs = computeEuCustoms(
+        customsBase,
+        selectedImportTaxProfile.rate,
+        selectedVatProfile.rate,
+        toSafeNumber(selectedEuPort.customsAgencyUsd),
+      )
+      const importDuty = customs.importDuty
+      const vat = customs.vat
+      const customsAgency = customs.customsAgency
+      const customsBlock = customs.customsBlock
       const serviceBlock = nextDerived.brokerFee + nextDerived.companyFee + nextDerived.insuranceFee + nextDerived.transferFee
       const total = carBlock + logisticsBlock + customsBlock + serviceBlock
 
@@ -550,20 +569,12 @@ export function CalculatorPage() {
         { label: `Аукціонний збір (${auctionType})`, value: nextDerived.auctionFee },
         { label: `Доставка по США - ${selectedOrigin.cityName}`, value: nextDerived.usDelivery },
         { label: 'Документи на експорт авто', value: nextDerived.exportDocs },
-        { label: `Доставка з США - ${selectedOrigin.deliveryCoefficient.portName}`, value: nextDerived.oceanDelivery },
-        { label: routePreset === 'odesa' ? 'Вигрузка з порту Одеса + брокер' : 'Вигрузка з порту Клайпеда', value: nextDerived.portUnload },
+        { label: `Доставка з США - ${selectedEuPort.label}`, value: nextDerived.oceanDelivery },
+        { label: `Доставка ${selectedEuPort.label} - Варшава`, value: nextDerived.europeDelivery },
       ]
-
-      if (routePreset !== 'odesa') {
-        rows.push({ label: 'Доставка Клайпеда - Варшава', value: nextDerived.europeDelivery })
-        rows.push({ label: 'Доставка на митницю', value: nextDerived.customsDelivery })
-      }
-
-      rows.push({ label: 'Проходження кордону та залучення спец. транспорту', value: nextDerived.borderHandling })
-      rows.push({ label: 'Акциз', value: excise })
-      rows.push({ label: 'Ввізне мито', value: importDuty })
-      rows.push({ label: 'ПДВ', value: vat })
-      if (nonVatFee > 0) rows.push({ label: 'Фінансовий збір за не сплату ПДВ', value: nonVatFee })
+      rows.push({ label: `Налог ${percentLabel(selectedImportTaxProfile.rate)}`, value: importDuty })
+      rows.push({ label: `НДС ${percentLabel(selectedVatProfile.rate)}`, value: vat })
+      rows.push({ label: 'Таможенное агентство', value: customsAgency })
       if (nextDerived.brokerFee > 0) rows.push({ label: 'Брокерські послуги', value: nextDerived.brokerFee })
       rows.push({ label: 'Комісія BIDDERS', value: nextDerived.companyFee })
       if (nextDerived.insuranceFee > 0) rows.push({ label: 'Страхування', value: nextDerived.insuranceFee })
@@ -572,7 +583,7 @@ export function CalculatorPage() {
       setDerived(nextDerived)
       setBreakdownRows(rows)
       setLiveTotal(total)
-      setCaption('Підсумкова сума вже враховує логістику, митницю та сервісні витрати.')
+      setCaption('Підсумкова сума враховує логістику в ЄС, вибраний податок, профіль НДС та сервісні витрати.')
       setCalcMode('live')
     } catch (error) {
       if (requestId !== requestSeqRef.current) return
@@ -598,7 +609,7 @@ export function CalculatorPage() {
       }
       setCaption('Точний підсумок зараз не отримано. Для ручного прорахунку перейдіть у контакти.')
     }
-  }, [auctionType, carType, engineValue, exportDocsType, fuelType, hasRequiredInputs, lotPriceValue, referenceData, routePreset, selectedOrigin, yearValue, calculateTransferFee, insuranceIncluded])
+  }, [auctionType, carType, engineValue, exportDocsType, fuelType, hasRequiredInputs, lotPriceValue, referenceData, selectedEuPort, selectedImportTaxProfile, selectedVatProfile, selectedOrigin, yearValue, calculateTransferFee, insuranceIncluded])
 
   useEffect(() => {
     if (!hasRequiredInputs || !selectedOrigin) {
@@ -619,7 +630,6 @@ export function CalculatorPage() {
   }, [calculateWithApi, hasRequiredInputs, selectedOrigin])
 
   const resetPreset = () => {
-    setRoutePreset('klaipeda')
     setCarType('Automobiles')
     setFuelType('Gas')
     setAuctionType('Copart')
@@ -636,7 +646,7 @@ export function CalculatorPage() {
   }
 
   const splitIndex = useMemo(() => {
-    const explicit = breakdownRows.findIndex((row) => /Акциз|Ввізне мито|ПДВ/i.test(row.label))
+    const explicit = breakdownRows.findIndex((row) => /Налог|НДС|Таможенное/i.test(row.label))
     return explicit === -1 ? Math.ceil(breakdownRows.length / 2) : explicit
   }, [breakdownRows])
 
@@ -680,10 +690,11 @@ export function CalculatorPage() {
 
             <div className="calc-simple-list">
               <div className="calc-simple-row">
-                <label htmlFor="routePreset">Маршрут / порт</label>
-                <select id="routePreset" className="calc-select" value={routePreset} onChange={(event) => setRoutePreset(event.target.value as RoutePreset)}>
-                  <option value="klaipeda">Клайпеда</option>
-                  <option value="odesa">Одеса</option>
+                <label htmlFor="euPort">Порт призначення (ЄС)</label>
+                <select id="euPort" className="calc-select" value={euPort} onChange={(event) => setEuPort(event.target.value as EuPortCode)}>
+                  {EU_PORT_OPTIONS.map((option) => (
+                    <option key={option.id} value={option.id}>{option.label}</option>
+                  ))}
                 </select>
               </div>
 
@@ -764,6 +775,24 @@ export function CalculatorPage() {
               <div className="calc-simple-row">
                 <label htmlFor="lotPrice">Ціна авто / ставка</label>
                 <input id="lotPrice" className="calc-input" type="number" min={0} value={lotPrice} onChange={(event) => setLotPrice(event.target.value)} />
+              </div>
+
+              <div className="calc-simple-row">
+                <label htmlFor="importTaxProfile">Налог</label>
+                <select id="importTaxProfile" className="calc-select" value={importTaxProfileId} onChange={(event) => setImportTaxProfileId(event.target.value)}>
+                  {IMPORT_TAX_PROFILES.map((profile) => (
+                    <option key={profile.id} value={profile.id}>{profile.label}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="calc-simple-row">
+                <label htmlFor="vatProfile">НДС</label>
+                <select id="vatProfile" className="calc-select" value={vatProfileId} onChange={(event) => setVatProfileId(event.target.value)}>
+                  {VAT_PROFILES.map((profile) => (
+                    <option key={profile.id} value={profile.id}>{profile.label}</option>
+                  ))}
+                </select>
               </div>
 
               <div className="calc-toggle-grid">

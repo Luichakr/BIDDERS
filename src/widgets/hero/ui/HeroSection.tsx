@@ -1,4 +1,4 @@
-import type { HomePageContract } from '../../../shared/api/contracts'
+import type { HomePageContract } from '../../../shared/types/contracts'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
 import { Link } from 'react-router-dom'
 import { routes } from '../../../shared/config/routes'

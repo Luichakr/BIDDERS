@@ -1,5 +1,5 @@
-import type { InventoryItem } from '../../../shared/api/contracts'
-import { catalogParserInventory, transitParserInventory } from '../../inventory/model/parser.data'
+import type { InventoryItem } from '../../../shared/types/contracts'
+import { catalogInventory, transitInventory } from '../../inventory/model/catalog.mock'
 
 export interface AuctionCardData {
   id: string
@@ -97,13 +97,13 @@ function mapInventoryItem(item: InventoryItem, status: 'catalog' | 'transit' | '
   }
 }
 
-export const catalogAuctionCards: AuctionCardData[] = catalogParserInventory.map((item) => mapInventoryItem(item, 'catalog'))
+export const catalogAuctionCards: AuctionCardData[] = catalogInventory.map((item) => mapInventoryItem(item, 'catalog'))
 
-export const transitAuctionCards: AuctionCardData[] = transitParserInventory.map((item) => mapInventoryItem(item, 'transit'))
+export const transitAuctionCards: AuctionCardData[] = transitInventory.map((item) => mapInventoryItem(item, 'transit'))
 
 // In-stock is a placeholder pool until the parser is wired — we derive it from transit/catalog
 // so the UI has data to display. Prefix ids with "stock-" so they don't collide with the other pools.
-export const inStockAuctionCards: AuctionCardData[] = [...transitParserInventory, ...catalogParserInventory]
+export const inStockAuctionCards: AuctionCardData[] = [...transitInventory, ...catalogInventory]
   .slice(0, 6)
   .map((item) => ({
     ...mapInventoryItem(item, 'in-stock'),

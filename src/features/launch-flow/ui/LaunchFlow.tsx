@@ -1,4 +1,4 @@
-import type { LaunchStep } from '../../../shared/api/contracts'
+import type { LaunchStep } from '../../../shared/types/contracts'
 import { normalizeLaunchSteps } from '../model/launchFlow'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
 

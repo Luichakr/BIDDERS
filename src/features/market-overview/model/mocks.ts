@@ -1,4 +1,4 @@
-import type { HomePageContract } from '../../../shared/api/contracts'
+import type { HomePageContract } from '../../../shared/types/contracts'
 
 export const homePageMock: HomePageContract = {
   hero: {

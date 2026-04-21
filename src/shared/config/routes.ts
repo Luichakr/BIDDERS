@@ -4,6 +4,8 @@ export const routes = {
   inStock: '/in-stock',
   transit: '/in-transit',
   calculator: '/calculator',
+  calculatorOrest: '/calculator/orest',
+  calculatorBase: '/calculator-base',
   blog: '/blog',
   cases: '/cases',
   faq: '/faq',

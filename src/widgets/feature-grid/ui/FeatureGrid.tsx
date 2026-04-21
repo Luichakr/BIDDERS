@@ -1,4 +1,4 @@
-import type { FeatureHighlight } from '../../../shared/api/contracts'
+import type { FeatureHighlight } from '../../../shared/types/contracts'
 import { SurfaceCard } from '../../../shared/ui/surface/SurfaceCard'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
 

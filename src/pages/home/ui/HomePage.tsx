@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { routes } from '../../../shared/config/routes'
-import { transitParserInventory } from '../../../features/inventory/model/parser.data'
-import { formatCaseMoney, getCasesData, getCaseSavings, type CaseRecord } from '../../../features/cases/api/cases.service'
+import { transitInventory } from '../../../features/inventory/model/catalog.mock'
+import { formatCaseMoney, getCasesData, getCaseSavings, type CaseRecord } from '../../../features/cases/model/cases.service'
 
 type FormType = 'b2c' | 'b2b' | null
 
@@ -138,8 +138,8 @@ export function HomePage() {
     return () => observer.disconnect()
   }, [])
 
-  const transitItems = useMemo(() => transitParserInventory.slice(0, 3), [])
-  const stockItems = useMemo(() => transitParserInventory.slice(3, 6), [])
+  const transitItems = useMemo(() => transitInventory.slice(0, 3), [])
+  const stockItems = useMemo(() => transitInventory.slice(3, 6), [])
 
   const openB2C = (scenario: string) => {
     setB2c((prev) => ({ ...prev, scenario }))

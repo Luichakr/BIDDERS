@@ -1,4 +1,4 @@
-import type { HomePageContract } from '../../../shared/api/contracts'
+import type { HomePageContract } from '../../../shared/types/contracts'
 import { Button } from '../../../shared/ui/button/Button'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
 

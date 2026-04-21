@@ -1,4 +1,4 @@
-import type { InventoryFilterGroup } from '../../../shared/api/contracts'
+import type { InventoryFilterGroup } from '../../../shared/types/contracts'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
 
 interface InventoryFilterSidebarProps {
