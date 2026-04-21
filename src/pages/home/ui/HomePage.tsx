@@ -167,7 +167,59 @@ export function HomePage() {
     return () => observer.disconnect()
   }, [])
 
-  const transitItems = useMemo(() => transitInventory.slice(0, 3), [])
+  const transitItems = useMemo(
+    () => [
+      {
+        id: '19272',
+        image: `${import.meta.env.BASE_URL}images/transit-showcase/bmw-5-series-19272.jpg`,
+        year: '2024',
+        makeModel: 'BMW 5 Series',
+        vin: 'WBA53FJ02RCS33742',
+        currentBid: '€53,400',
+      },
+      {
+        id: '17634',
+        image: `${import.meta.env.BASE_URL}images/transit-showcase/mercedes-gle53-amg-17634.jpg`,
+        year: '2022',
+        makeModel: 'Mercedes-Benz GLE 53 AMG',
+        vin: '4JGFB6BB9NA588130',
+        currentBid: '€50,900',
+      },
+      {
+        id: '17325',
+        image: `${import.meta.env.BASE_URL}images/transit-showcase/range-rover-17325.jpg`,
+        year: '2019',
+        makeModel: 'Land Rover Range Rover',
+        vin: 'SALGS2RK6JA383116',
+        currentBid: '€49,900',
+      },
+      {
+        id: '18378',
+        image: `${import.meta.env.BASE_URL}images/transit-showcase/bmw-x7-18378.jpg`,
+        year: '2019',
+        makeModel: 'BMW X7',
+        vin: '5UXCW2C51KL083498',
+        currentBid: '€46,500',
+      },
+      {
+        id: '18911',
+        image: `${import.meta.env.BASE_URL}images/transit-showcase/audi-q5-18911.jpg`,
+        year: '2012',
+        makeModel: 'Audi Q5',
+        vin: 'WA1LFAFP2CA048307',
+        currentBid: '€7,800',
+      },
+      {
+        id: '20021',
+        image: `${import.meta.env.BASE_URL}images/transit-showcase/audi-a6-20021.jpg`,
+        year: '2020',
+        makeModel: 'Audi A6',
+        vin: 'WAUZZZF22LN062806',
+        currentBid: '€31,500',
+      },
+    ],
+    [],
+  )
   const stockItems = useMemo(() => transitInventory.slice(3, 6), [])
 
   const openB2C = (scenario: string) => {
@@ -400,7 +452,12 @@ export function HomePage() {
           <div className="px-grid-4">
             <article className="px-route">
               <div className="px-route__media">
-                <img src={`${import.meta.env.BASE_URL}images/routes/in-stock.webp`} alt="Авто в наявності" loading="lazy" />
+                <img
+                  src={`${import.meta.env.BASE_URL}images/routes/in-stock-cars-bidders-poland.png`}
+                  alt="Авто в наявності в Польщі — BIDDERS"
+                  title="Авто в наявності в Польщі — BIDDERS"
+                  loading="lazy"
+                />
                 <div className="px-route__top">
                   <span className="px-route__num">01</span>
                   <span className="px-route__pill">В наявності</span>
@@ -697,13 +754,13 @@ export function HomePage() {
               </Link>
             </div>
           </div>
-          <div className="px-grid-3">
+          <div className="px-grid-3 px-grid-3--scroll">
             {transitItems.map((item) => (
-              <article className="px-lot" key={item.id}>
+              <Link className="px-lot px-lot--link" key={item.id} to={routes.lotDetail.replace(':lotId', item.id)}>
                 <div className="px-lot__image">
-                  <img src={item.image} alt={item.makeModel} loading="lazy" />
+                  <img src={item.image} alt={`${item.year} ${item.makeModel} в дорозі до Польщі`} loading="lazy" />
                   <span className="px-lot__badge">В дорозі</span>
-                  <span className="px-lot__price-tag">{item.currentBid.replace('$', '€')}</span>
+                  <span className="px-lot__price-tag">{item.currentBid}</span>
                 </div>
                 <div className="px-lot__body">
                   <h3 className="px-lot__title">{item.year} {item.makeModel}</h3>
@@ -718,8 +775,36 @@ export function HomePage() {
                     <strong>~ 45–60 днів</strong>
                   </div>
                 </div>
-              </article>
+              </Link>
             ))}
+
+            <article className="px-lot px-lot--cta">
+              <div className="px-lot__body px-lot__body--cta">
+                <div className="px-lot__icon-wrap" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 12h18" />
+                    <path d="M12 3v18" />
+                  </svg>
+                </div>
+                <h3 className="px-lot__title px-lot__title--cta">Переглянути всі варіанти</h3>
+                <p className="px-lot__desc px-lot__desc--cta">Більше <strong>1800 автомобілів</strong> в дорозі. Відкрийте повний список і оберіть найкращий варіант.</p>
+                <div className="px-lot__journey px-lot__journey--cta">
+                  <span className="px-lot__journey-point">USA</span>
+                  <div className="px-lot__journey-line" />
+                  <span className="px-lot__journey-point">POL</span>
+                </div>
+                <div className="px-lot__eta px-lot__eta--cta">
+                  <span>Прибуття</span>
+                  <strong>~ 45–60 днів</strong>
+                </div>
+                <Link className="px-route__cta px-route__cta--inline" to={routes.transit}>
+                  Усі авто в дорозі
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14M13 5l7 7-7 7" />
+                  </svg>
+                </Link>
+              </div>
+            </article>
           </div>
         </div>
       </section>
