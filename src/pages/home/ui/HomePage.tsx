@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { routes } from '../../../shared/config/routes'
 import { formatCaseMoney, getCasesData, getCaseSavings, type CaseRecord } from '../../../features/cases/model/cases.service'
+import { useI18n } from '../../../shared/i18n/I18nProvider'
 
 type FormType = 'b2c' | 'b2b' | null
 
@@ -36,6 +37,7 @@ const INITIAL_B2B: B2BState = {
 }
 
 export function HomePage() {
+  const { locale, t } = useI18n()
   const [openForm, setOpenForm] = useState<FormType>(null)
   const [casesData, setCasesData] = useState<CaseRecord[]>([])
   const [b2c, setB2c] = useState<B2CState>(INITIAL_B2C)
@@ -124,16 +126,37 @@ export function HomePage() {
   }
 
   useEffect(() => {
-    document.title = 'Ваш надійний партнер по імпорту авто з США, Канади та Кореї | BIDDERS'
-    const description = 'Авто під ключ від €8,000. Економія до €7,000. Доставка 45-60 днів. Каталог, авто в дорозі, авто в наявності, огляд на майданчику, застосунок для купівлі на аукціоні.'
-    let meta = document.querySelector('meta[name="description"]')
-    if (!meta) {
-      meta = document.createElement('meta')
-      meta.setAttribute('name', 'description')
-      document.head.append(meta)
+    const title = t('seoHomeTitle')
+    const description = t('seoHomeDescription')
+    document.title = title
+
+    const setMetaName = (name: string, content: string) => {
+      let meta = document.querySelector(`meta[name="${name}"]`)
+      if (!meta) {
+        meta = document.createElement('meta')
+        meta.setAttribute('name', name)
+        document.head.append(meta)
+      }
+      meta.setAttribute('content', content)
     }
-    meta.setAttribute('content', description)
-  }, [])
+
+    const setMetaProperty = (property: string, content: string) => {
+      let meta = document.querySelector(`meta[property="${property}"]`)
+      if (!meta) {
+        meta = document.createElement('meta')
+        meta.setAttribute('property', property)
+        document.head.append(meta)
+      }
+      meta.setAttribute('content', content)
+    }
+
+    setMetaName('description', description)
+    setMetaName('twitter:title', title)
+    setMetaName('twitter:description', description)
+    setMetaProperty('og:title', title)
+    setMetaProperty('og:description', description)
+    setMetaProperty('og:locale', locale)
+  }, [locale, t])
 
   useEffect(() => {
     const onScroll = () => setShowSticky(window.scrollY > 280)
@@ -505,8 +528,8 @@ export function HomePage() {
               <div className="px-route__media">
                 <img
                   src={`${import.meta.env.BASE_URL}images/routes/in-stock-cars-bidders-poland.png`}
-                  alt="Авто в наявності в Польщі — BIDDERS"
-                  title="Авто в наявності в Польщі — BIDDERS"
+                  alt={t('routeInStockAlt')}
+                  title={t('routeInStockAlt')}
                   loading="lazy"
                 />
                 <div className="px-route__top">
@@ -529,7 +552,7 @@ export function HomePage() {
 
             <article className="px-route">
               <div className="px-route__media">
-                <img src={`${import.meta.env.BASE_URL}images/routes/transit.webp`} alt="Авто в дорозі" loading="lazy" />
+                <img src={`${import.meta.env.BASE_URL}images/routes/transit.webp`} alt={t('routeTransitAlt')} loading="lazy" />
                 <div className="px-route__top">
                   <span className="px-route__num">02</span>
                   <span className="px-route__pill">В дорозі</span>
@@ -550,7 +573,7 @@ export function HomePage() {
 
             <article className="px-route px-route--primary">
               <div className="px-route__media">
-                <img src={`${import.meta.env.BASE_URL}images/routes/auction.jpg`} alt="Під замовлення з аукціону" loading="lazy" />
+                <img src={`${import.meta.env.BASE_URL}images/routes/auction.jpg`} alt={t('routeAuctionAlt')} loading="lazy" />
                 <div className="px-route__top">
                   <span className="px-route__num">03</span>
                   <span className="px-route__pill">Під замовлення</span>
@@ -571,7 +594,7 @@ export function HomePage() {
 
             <article className="px-route">
               <div className="px-route__media">
-                <img src={`${import.meta.env.BASE_URL}images/routes/catalog.webp`} alt="Каталог авто" loading="lazy" />
+                <img src={`${import.meta.env.BASE_URL}images/routes/catalog.webp`} alt={t('routeCatalogAlt')} loading="lazy" />
                 <div className="px-route__top">
                   <span className="px-route__num">04</span>
                   <span className="px-route__pill">Каталог</span>
@@ -833,7 +856,7 @@ export function HomePage() {
               <div className="px-lot__image px-lot__image--cta">
                 <img
                   src={`${import.meta.env.BASE_URL}images/transit-showcase/bmw-x7-18378.jpg`}
-                  alt="Авто в дорозі до Польщі — понад 1800 варіантів"
+                  alt={t('transitCtaAlt')}
                   loading="lazy"
                 />
                 <span className="px-lot__badge px-lot__badge--cta">1800+ в дорозі</span>
@@ -895,7 +918,7 @@ export function HomePage() {
               <div className="px-lot__image px-lot__image--cta">
                 <img
                   src={`${import.meta.env.BASE_URL}images/routes/in-stock-cars-bidders-poland.png`}
-                  alt="Авто в наявності на майданчику BIDDERS"
+                  alt={t('stockCtaAlt')}
                   loading="lazy"
                 />
                 <span className="px-lot__badge px-lot__badge--cta">В наявності</span>

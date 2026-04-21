@@ -128,6 +128,31 @@ export type MessageKey =
   | 'whyStatThreeLabel'
   | 'whyStatFourValue'
   | 'whyStatFourLabel'
+  | 'navInStock'
+  | 'navBlog'
+  | 'navCases'
+  | 'navContacts'
+  | 'headerPrimaryNavAria'
+  | 'headerSocialAria'
+  | 'headerLanguageSwitcherAria'
+  | 'headerToggleMenu'
+  | 'headerMobileNavAria'
+  | 'headerMenuLabel'
+  | 'headerMenuClose'
+  | 'cookieAriaLabel'
+  | 'cookieTitle'
+  | 'cookieText'
+  | 'cookieNecessary'
+  | 'cookieAccept'
+  | 'cookieDetails'
+  | 'seoHomeTitle'
+  | 'seoHomeDescription'
+  | 'routeInStockAlt'
+  | 'routeTransitAlt'
+  | 'routeAuctionAlt'
+  | 'routeCatalogAlt'
+  | 'transitCtaAlt'
+  | 'stockCtaAlt'
 
 type Messages = Record<MessageKey, string>
 
@@ -260,6 +285,31 @@ export const messages: Record<Locale, Messages> = {
     whyStatThreeLabel: 'Складів у США',
     whyStatFourValue: '45',
     whyStatFourLabel: 'Днів доставки',
+    navInStock: 'Авто в наявності',
+    navBlog: 'Блог',
+    navCases: 'Кейси',
+    navContacts: 'Контакти',
+    headerPrimaryNavAria: 'Основна навігація',
+    headerSocialAria: 'Соціальні мережі',
+    headerLanguageSwitcherAria: 'Перемикач мови',
+    headerToggleMenu: 'Відкрити меню',
+    headerMobileNavAria: 'Мобільне меню',
+    headerMenuLabel: 'Меню · BIDDERS',
+    headerMenuClose: 'Закрити меню',
+    cookieAriaLabel: 'Налаштування cookie',
+    cookieTitle: 'Ми використовуємо файли cookie',
+    cookieText: 'Щоб сайт працював стабільно та швидко, ми використовуємо необхідні cookie. Аналітичні cookie допомагають покращувати сервіс. Ви можете обрати формат згоди.',
+    cookieNecessary: 'Лише необхідні',
+    cookieAccept: 'Прийняти всі',
+    cookieDetails: 'Детальніше',
+    seoHomeTitle: 'Ваш надійний партнер по імпорту авто з США, Канади та Кореї | BIDDERS',
+    seoHomeDescription: 'Авто під ключ від €8,000. Економія до €7,000. Доставка 45-60 днів. Каталог, авто в дорозі, авто в наявності, огляд на майданчику, застосунок для купівлі на аукціоні.',
+    routeInStockAlt: 'Авто в наявності в Польщі — BIDDERS',
+    routeTransitAlt: 'Авто в дорозі',
+    routeAuctionAlt: 'Під замовлення з аукціону',
+    routeCatalogAlt: 'Каталог авто',
+    transitCtaAlt: 'Авто в дорозі до Польщі — понад 1800 варіантів',
+    stockCtaAlt: 'Авто в наявності на майданчику BIDDERS',
   },
   en: {
     navHome: 'Home',
@@ -389,6 +439,31 @@ export const messages: Record<Locale, Messages> = {
     whyStatThreeLabel: 'US warehouses',
     whyStatFourValue: '45',
     whyStatFourLabel: 'delivery days',
+    navInStock: 'Cars in stock',
+    navBlog: 'Blog',
+    navCases: 'Cases',
+    navContacts: 'Contacts',
+    headerPrimaryNavAria: 'Primary navigation',
+    headerSocialAria: 'Social links',
+    headerLanguageSwitcherAria: 'Language switcher',
+    headerToggleMenu: 'Open menu',
+    headerMobileNavAria: 'Mobile menu',
+    headerMenuLabel: 'Menu · BIDDERS',
+    headerMenuClose: 'Close menu',
+    cookieAriaLabel: 'Cookie preferences',
+    cookieTitle: 'We use cookies',
+    cookieText: 'We use required cookies to keep the site fast and stable. Analytics cookies help us improve the service. You can choose your consent option.',
+    cookieNecessary: 'Required only',
+    cookieAccept: 'Accept all',
+    cookieDetails: 'Learn more',
+    seoHomeTitle: 'Your trusted partner for importing cars from the USA, Canada, and Korea | BIDDERS',
+    seoHomeDescription: 'Turnkey car import from €8,000. Save up to €7,000. Delivery in 45-60 days. Catalog, cars in transit, in-stock offers, yard inspection, and an auction purchase app.',
+    routeInStockAlt: 'Cars in stock in Poland — BIDDERS',
+    routeTransitAlt: 'Cars in transit',
+    routeAuctionAlt: 'Custom order from auction',
+    routeCatalogAlt: 'Vehicle catalog',
+    transitCtaAlt: 'Cars in transit to Poland — over 1800 options',
+    stockCtaAlt: 'Cars in stock at the BIDDERS lot',
   },
   pl: {
     navHome: 'Start',
@@ -518,5 +593,30 @@ export const messages: Record<Locale, Messages> = {
     whyStatThreeLabel: 'magazynów w USA',
     whyStatFourValue: '45',
     whyStatFourLabel: 'dni dostawy',
+    navInStock: 'Auta dostępne',
+    navBlog: 'Blog',
+    navCases: 'Case studies',
+    navContacts: 'Kontakt',
+    headerPrimaryNavAria: 'Nawigacja główna',
+    headerSocialAria: 'Profile społecznościowe',
+    headerLanguageSwitcherAria: 'Przełącznik języka',
+    headerToggleMenu: 'Otwórz menu',
+    headerMobileNavAria: 'Menu mobilne',
+    headerMenuLabel: 'Menu · BIDDERS',
+    headerMenuClose: 'Zamknij menu',
+    cookieAriaLabel: 'Ustawienia cookie',
+    cookieTitle: 'Używamy plików cookie',
+    cookieText: 'Aby serwis działał stabilnie i szybko, używamy niezbędnych cookie. Analityczne cookie pomagają nam ulepszać usługę. Możesz wybrać rodzaj zgody.',
+    cookieNecessary: 'Tylko niezbędne',
+    cookieAccept: 'Akceptuj wszystkie',
+    cookieDetails: 'Dowiedz się więcej',
+    seoHomeTitle: 'Zaufany partner importu aut z USA, Kanady i Korei | BIDDERS',
+    seoHomeDescription: 'Import auta pod klucz od 8 000 EUR. Oszczędność do 7 000 EUR. Dostawa w 45-60 dni. Katalog, auta w drodze, auta dostępne od ręki, oględziny i aplikacja do zakupu na aukcji.',
+    routeInStockAlt: 'Auta dostępne w Polsce — BIDDERS',
+    routeTransitAlt: 'Auta w drodze',
+    routeAuctionAlt: 'Na zamówienie z aukcji',
+    routeCatalogAlt: 'Katalog aut',
+    transitCtaAlt: 'Auta w drodze do Polski — ponad 1800 opcji',
+    stockCtaAlt: 'Auta dostępne na placu BIDDERS',
   },
 }

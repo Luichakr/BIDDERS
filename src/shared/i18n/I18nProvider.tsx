@@ -1,5 +1,6 @@
-import { createContext, useContext, useMemo, useState, type ReactNode } from 'react'
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { messages, type Locale, type MessageKey } from './messages'
+import { autoOverrides, manualOverrides } from './overrides'
 
 type I18nContextValue = {
   locale: Locale
@@ -25,11 +26,21 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     window.localStorage.setItem(STORAGE_KEY, next)
   }
 
+  useEffect(() => {
+    document.documentElement.lang = locale
+  }, [locale])
+
   const value = useMemo<I18nContextValue>(
     () => ({
       locale,
       setLocale,
-      t: (key) => messages[locale][key],
+      t: (key) => {
+        const manual = manualOverrides[locale]?.[key]
+        if (manual) return manual
+        const auto = autoOverrides[locale]?.[key]
+        if (auto) return auto
+        return messages[locale][key] ?? messages.uk[key]
+      },
     }),
     [locale],
   )

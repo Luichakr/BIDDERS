@@ -1,59 +1,7 @@
-import type { CSSProperties } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { routes } from '../../../shared/config/routes'
 import './contacts.css'
-
-interface EuropeRep {
-  id: string
-  country: string
-  flag: string
-  city: string
-  role: string
-  hq?: boolean
-  // SVG coordinates on our decorative map (viewBox 0 0 500 400)
-  x: number
-  y: number
-}
-
-const EUROPE_REPS: EuropeRep[] = [
-  {
-    id: 'pl',
-    country: 'Польща',
-    flag: '🇵🇱',
-    city: 'Jawczyce (Warszawa)',
-    role: 'Головний офіс · логістика · передача авто',
-    hq: true,
-    x: 430,
-    y: 240,
-  },
-  {
-    id: 'lt',
-    country: 'Литва',
-    flag: '🇱🇹',
-    city: 'Клайпеда',
-    role: 'Порт · прийом контейнерів з США',
-    x: 490,
-    y: 140,
-  },
-  {
-    id: 'cz',
-    country: 'Чехія',
-    flag: '🇨🇿',
-    city: 'Прага',
-    role: 'Сертифікація · оцінка · супровід',
-    x: 365,
-    y: 320,
-  },
-  {
-    id: 'uk',
-    country: 'Великобританія',
-    flag: '🇬🇧',
-    city: 'Лондон',
-    role: 'Представник · підбір RHD-авто',
-    x: 180,
-    y: 210,
-  },
-]
 
 const CONTACT_CHANNELS = [
   { label: 'Телефон (PL)', value: '+48 784 890 644', href: 'tel:+48784890644', ico: '📞', hint: 'Головний номер, Polska' },
@@ -63,6 +11,114 @@ const CONTACT_CHANNELS = [
 ]
 
 export function ContactsPage() {
+  const MAP_POS_STORAGE_KEY = 'BIDDERS_CONTACTS_EU_MAP_POS_V1'
+  const MAP_POINTS_STORAGE_KEY = 'BIDDERS_CONTACTS_EU_MAP_POINTS_V1'
+  const SVG_VIEWBOX = { width: 760, height: 520 }
+  const defaultPoints = {
+    london: { x: 260, y: 263 },
+    warsaw: { x: 524, y: 256 },
+    klaipeda: { x: 526, y: 207 },
+    prague: { x: 442, y: 273 },
+    constanta: { x: 621, y: 360 },
+  }
+
+  const [points, setPoints] = useState(defaultPoints)
+  const dragStateRef = useRef<{ key: keyof typeof defaultPoints; dx: number; dy: number } | null>(null)
+  const svgRef = useRef<SVGSVGElement | null>(null)
+  const [mapOffset, setMapOffset] = useState<{ x: number; y: number }>(() => {
+    if (typeof window === 'undefined') {
+      return { x: -250, y: 0 }
+    }
+    try {
+      const raw = window.localStorage.getItem(MAP_POS_STORAGE_KEY)
+      if (!raw) return { x: -250, y: 0 }
+      const parsed = JSON.parse(raw) as { x?: number; y?: number }
+      return {
+        x: Number.isFinite(parsed?.x) ? Number(parsed.x) : -250,
+        y: Number.isFinite(parsed?.y) ? Number(parsed.y) : 0,
+      }
+    } catch {
+      return { x: -250, y: 0 }
+    }
+  })
+
+  const nudgeMap = (dx: number, dy: number) => {
+    setMapOffset((prev) => ({ x: prev.x + dx, y: prev.y + dy }))
+  }
+
+  const saveMapPosition = () => {
+    if (typeof window === 'undefined') return
+    window.localStorage.setItem(MAP_POS_STORAGE_KEY, JSON.stringify(mapOffset))
+  }
+
+  const resetMapPosition = () => {
+    const defaults = { x: -250, y: 0 }
+    setMapOffset(defaults)
+    if (typeof window === 'undefined') return
+    window.localStorage.setItem(MAP_POS_STORAGE_KEY, JSON.stringify(defaults))
+  }
+
+  const savePoints = () => {
+    if (typeof window === 'undefined') return
+    window.localStorage.setItem(MAP_POINTS_STORAGE_KEY, JSON.stringify(points))
+  }
+
+  const resetPoints = () => {
+    setPoints(defaultPoints)
+    if (typeof window === 'undefined') return
+    window.localStorage.setItem(MAP_POINTS_STORAGE_KEY, JSON.stringify(defaultPoints))
+  }
+
+  const toSvgPoint = (clientX: number, clientY: number) => {
+    const svg = svgRef.current
+    if (!svg) return null
+    const rect = svg.getBoundingClientRect()
+    if (!rect.width || !rect.height) return null
+    return {
+      x: ((clientX - rect.left) / rect.width) * SVG_VIEWBOX.width,
+      y: ((clientY - rect.top) / rect.height) * SVG_VIEWBOX.height,
+    }
+  }
+
+  const startDrag = (key: keyof typeof defaultPoints, clientX: number, clientY: number) => {
+    const p = toSvgPoint(clientX, clientY)
+    if (!p) return
+    dragStateRef.current = { key, dx: p.x - points[key].x, dy: p.y - points[key].y }
+  }
+
+  const moveDrag = (clientX: number, clientY: number) => {
+    const drag = dragStateRef.current
+    if (!drag) return
+    const p = toSvgPoint(clientX, clientY)
+    if (!p) return
+    const nextX = Math.max(10, Math.min(SVG_VIEWBOX.width - 10, p.x - drag.dx))
+    const nextY = Math.max(10, Math.min(SVG_VIEWBOX.height - 10, p.y - drag.dy))
+    setPoints((prev) => ({ ...prev, [drag.key]: { x: nextX, y: nextY } }))
+  }
+
+  const endDrag = () => {
+    dragStateRef.current = null
+  }
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const raw = window.localStorage.getItem(MAP_POINTS_STORAGE_KEY)
+    if (!raw) return
+    try {
+      const saved = JSON.parse(raw)
+      const merged = {
+        london: { ...defaultPoints.london, ...(saved.london ?? {}) },
+        warsaw: { ...defaultPoints.warsaw, ...(saved.warsaw ?? {}) },
+        klaipeda: { ...defaultPoints.klaipeda, ...(saved.klaipeda ?? {}) },
+        prague: { ...defaultPoints.prague, ...(saved.prague ?? {}) },
+        constanta: { ...defaultPoints.constanta, ...(saved.constanta ?? {}) },
+      }
+      setPoints(merged)
+    } catch {
+      // noop
+    }
+  }, [])
+
   const addressQuery = 'Jawczyce ul. Poznańska 56 05-850 Polska'
   const addressEncoded = encodeURIComponent(addressQuery)
   const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${addressEncoded}`
@@ -255,7 +311,6 @@ export function ContactsPage() {
         <div className="ct-section__inner">
           <div className="ct-europe">
             <div className="ct-europe__layout">
-              {/* LEFT: heading + cards */}
               <div className="ct-europe__left">
                 <div className="ct-europe__head">
                   <span className="ct-europe__badge">Представники у ЄС</span>
@@ -264,103 +319,150 @@ export function ContactsPage() {
                 </div>
 
                 <div className="ct-reps">
-                  {EUROPE_REPS.map((rep) => (
-                    <article key={rep.id} className={rep.hq ? 'ct-rep ct-rep--hq' : 'ct-rep'}>
-                      <span className="ct-rep__flag" aria-hidden="true">{rep.flag}</span>
-                      <div className="ct-rep__body">
-                        <span className="ct-rep__country">{rep.country}</span>
-                        <span className="ct-rep__city">{rep.city}</span>
-                      </div>
-                      {rep.hq
-                        ? <span className="ct-rep__hq-tag">Головний офіс</span>
-                        : null}
-                      <svg className="ct-rep__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                        <path d="M9 6l6 6-6 6"/>
-                      </svg>
-                    </article>
-                  ))}
+                  <article className="ct-rep ct-rep--hq">
+                    <span className="ct-rep__flag" aria-hidden="true">🇵🇱</span>
+                    <div className="ct-rep__body">
+                      <span className="ct-rep__country">Польща</span>
+                      <span className="ct-rep__city">Jawczyce (Warszawa)</span>
+                    </div>
+                    <span className="ct-rep__hq-tag">Головний офіс</span>
+                    <svg className="ct-rep__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M9 6l6 6-6 6"/>
+                    </svg>
+                  </article>
+                  <article className="ct-rep">
+                    <span className="ct-rep__flag" aria-hidden="true">🇱🇹</span>
+                    <div className="ct-rep__body">
+                      <span className="ct-rep__country">Литва</span>
+                      <span className="ct-rep__city">Клайпеда</span>
+                    </div>
+                    <svg className="ct-rep__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M9 6l6 6-6 6"/>
+                    </svg>
+                  </article>
+                  <article className="ct-rep">
+                    <span className="ct-rep__flag" aria-hidden="true">🇨🇿</span>
+                    <div className="ct-rep__body">
+                      <span className="ct-rep__country">Чехія</span>
+                      <span className="ct-rep__city">Прага</span>
+                    </div>
+                    <svg className="ct-rep__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M9 6l6 6-6 6"/>
+                    </svg>
+                  </article>
+                  <article className="ct-rep">
+                    <span className="ct-rep__flag" aria-hidden="true">🇬🇧</span>
+                    <div className="ct-rep__body">
+                      <span className="ct-rep__country">Великобританія</span>
+                      <span className="ct-rep__city">Лондон</span>
+                    </div>
+                    <svg className="ct-rep__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M9 6l6 6-6 6"/>
+                    </svg>
+                  </article>
+                  <article className="ct-rep">
+                    <span className="ct-rep__flag" aria-hidden="true">🇷🇴</span>
+                    <div className="ct-rep__body">
+                      <span className="ct-rep__country">Румунія</span>
+                      <span className="ct-rep__city">Констанца</span>
+                    </div>
+                    <svg className="ct-rep__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M9 6l6 6-6 6"/>
+                    </svg>
+                  </article>
                 </div>
               </div>
 
-              {/* RIGHT: clean map canvas with animated pins + arcs (no continent silhouette) */}
-              <div className="ct-europe__map" aria-hidden="true">
-                <svg viewBox="0 0 600 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+              <div
+                className="ct-europe__map ct-europe__map--handoff"
+                aria-label="Карта представників у Європі"
+                style={{
+                  backgroundImage: `url(${import.meta.env.BASE_URL}images/contacts/eu-representatives-map-bg.png)`,
+                  backgroundPosition: `calc(62% + ${mapOffset.x}px) calc(50% + ${mapOffset.y}px)`,
+                }}
+              >
+                <div className="ct-map-adjust" aria-label="Керування позицією карти">
+                  <div className="ct-map-adjust__row">
+                    <button type="button" onClick={() => nudgeMap(-10, 0)} title="Вліво">←</button>
+                    <button type="button" onClick={() => nudgeMap(0, -10)} title="Вгору">↑</button>
+                    <button type="button" onClick={() => nudgeMap(0, 10)} title="Вниз">↓</button>
+                    <button type="button" onClick={() => nudgeMap(10, 0)} title="Вправо">→</button>
+                  </div>
+                  <div className="ct-map-adjust__row">
+                    <button type="button" className="ct-map-adjust__save" onClick={saveMapPosition}>Save</button>
+                    <button type="button" className="ct-map-adjust__reset" onClick={resetMapPosition}>Reset</button>
+                  </div>
+                  <div className="ct-map-adjust__row">
+                    <button type="button" className="ct-map-adjust__save" onClick={savePoints}>Save points</button>
+                    <button type="button" className="ct-map-adjust__reset" onClick={resetPoints}>Reset points</button>
+                  </div>
+                </div>
+                <svg
+                  ref={svgRef}
+                  viewBox="0 0 760 520"
+                  xmlns="http://www.w3.org/2000/svg"
+                  preserveAspectRatio="xMidYMid slice"
+                  onMouseMove={(e) => moveDrag(e.clientX, e.clientY)}
+                  onMouseUp={endDrag}
+                  onMouseLeave={endDrag}
+                >
                   <defs>
-                    <radialGradient id="ctEuroGlow" cx="62%" cy="45%" r="60%">
-                      <stop offset="0%" stopColor="rgba(255, 92, 0, 0.22)" />
-                      <stop offset="55%" stopColor="rgba(255, 92, 0, 0.05)" />
-                      <stop offset="100%" stopColor="rgba(255, 92, 0, 0)" />
-                    </radialGradient>
-                    <filter id="ctPinGlow" x="-120%" y="-120%" width="340%" height="340%">
-                      <feGaussianBlur stdDeviation="10" />
+                    <filter id="ctPinGlow" x="-200%" y="-200%" width="500%" height="500%">
+                      <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b" />
+                      <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b2" />
+                      <feMerge>
+                        <feMergeNode in="b" />
+                        <feMergeNode in="b2" />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
                     </filter>
                   </defs>
 
-                  {/* Ambient orange glow */}
-                  <rect x="0" y="0" width="600" height="500" fill="url(#ctEuroGlow)" />
+                  <path className="ct-europe__line" d={`M ${points.warsaw.x},${points.warsaw.y} C ${points.warsaw.x - 84},${points.warsaw.y - 18} ${points.london.x + 90},${points.london.y - 20} ${points.london.x},${points.london.y}`} fill="none" stroke="#f97316" strokeWidth="1.8" strokeDasharray="8 6" opacity="0.75" />
+                  <path className="ct-europe__line" d={`M ${points.warsaw.x},${points.warsaw.y} L ${points.klaipeda.x},${points.klaipeda.y}`} fill="none" stroke="#f97316" strokeWidth="1.8" strokeDasharray="8 6" opacity="0.75" />
+                  <path className="ct-europe__line" d={`M ${points.warsaw.x},${points.warsaw.y} C ${points.warsaw.x - 24},${points.warsaw.y + 8} ${points.prague.x + 30},${points.prague.y - 5} ${points.prague.x},${points.prague.y}`} fill="none" stroke="#f97316" strokeWidth="1.8" strokeDasharray="8 6" opacity="0.75" />
+                  <path className="ct-europe__line" d={`M ${points.warsaw.x},${points.warsaw.y} C ${points.warsaw.x + 30},${points.warsaw.y + 40} ${points.constanta.x - 30},${points.constanta.y - 30} ${points.constanta.x},${points.constanta.y}`} fill="none" stroke="#f97316" strokeWidth="1.8" strokeDasharray="8 6" opacity="0.75" />
 
-                  {/* Animated dashed arcs from HQ (PL) out to each rep */}
-                  {EUROPE_REPS.filter((r) => !r.hq).map((rep, i) => {
-                    const hq = EUROPE_REPS.find((r) => r.hq)!
-                    const mx = (hq.x + rep.x) / 2
-                    const my = (hq.y + rep.y) / 2 - 40
-                    return (
-                      <path
-                        key={rep.id}
-                        d={`M${hq.x},${hq.y} Q${mx},${my} ${rep.x},${rep.y}`}
-                        fill="none"
-                        stroke="rgba(255, 92, 0, 0.85)"
-                        strokeWidth="1.8"
-                        strokeDasharray="5 7"
-                        strokeLinecap="round"
-                        className={`ct-europe__line ct-europe__line--${i}`}
-                      />
-                    )
-                  })}
+                  <g className="ct-europe__pin" transform={`translate(${points.london.x},${points.london.y})`} onMouseDown={(e) => startDrag('london', e.clientX, e.clientY)} style={{ cursor: 'grab' }}>
+                    <circle className="ct-europe__pulse" r="14" fill="#f97316" opacity="0.13" />
+                    <circle r="8" fill="#f97316" opacity="0.22" />
+                    <circle r="5" fill="#f97316" filter="url(#ctPinGlow)" />
+                    <circle r="2.5" fill="#fff" />
+                    <text x="11" y="-10" className="ct-europe__label ct-europe__label--city">Лондон</text>
+                  </g>
 
-                  {/* Pins */}
-                  {EUROPE_REPS.map((rep, i) => (
-                    <g key={rep.id} className={`ct-europe__pin ${rep.hq ? 'ct-europe__pin--hq' : ''}`} style={{ animationDelay: `${i * 0.35}s` } as CSSProperties}>
-                      <circle cx={rep.x} cy={rep.y} r={rep.hq ? 34 : 24} fill="rgba(255, 92, 0, 0.32)" filter="url(#ctPinGlow)" />
-                      <circle className="ct-europe__pulse ct-europe__pulse--a" cx={rep.x} cy={rep.y} r={rep.hq ? 11 : 8} fill="none" stroke="rgba(255, 92, 0, 0.75)" strokeWidth="2" />
-                      <circle className="ct-europe__pulse ct-europe__pulse--b" cx={rep.x} cy={rep.y} r={rep.hq ? 11 : 8} fill="none" stroke="rgba(255, 92, 0, 0.5)" strokeWidth="2" />
-                      <circle
-                        cx={rep.x}
-                        cy={rep.y}
-                        r={rep.hq ? 10 : 7}
-                        fill="#ff5c00"
-                        stroke="#ffffff"
-                        strokeWidth={rep.hq ? 3 : 2}
-                        className="ct-europe__dot"
-                      />
-                      <text
-                        x={rep.x}
-                        y={rep.y - (rep.hq ? 22 : 16)}
-                        fill="#ffffff"
-                        textAnchor="middle"
-                        fontFamily="Manrope, sans-serif"
-                        fontWeight="800"
-                        fontSize={rep.hq ? 14 : 12}
-                        className="ct-europe__label"
-                      >
-                        {rep.hq ? 'Jawczyce' : rep.city.split(' ')[0]}
-                      </text>
-                      {rep.hq ? (
-                        <text
-                          x={rep.x}
-                          y={rep.y - 8}
-                          fill="rgba(255,255,255,0.85)"
-                          textAnchor="middle"
-                          fontFamily="Manrope, sans-serif"
-                          fontWeight="700"
-                          fontSize="11"
-                          className="ct-europe__label"
-                        >
-                          (Warszawa)
-                        </text>
-                      ) : null}
-                    </g>
-                  ))}
+                  <g className="ct-europe__pin ct-europe__pin--hq" transform={`translate(${points.warsaw.x},${points.warsaw.y})`} onMouseDown={(e) => startDrag('warsaw', e.clientX, e.clientY)} style={{ cursor: 'grab' }}>
+                    <circle className="ct-europe__pulse" r="17" fill="#f97316" opacity="0.14" />
+                    <circle r="10" fill="#f97316" opacity="0.24" />
+                    <circle r="6" fill="#f97316" filter="url(#ctPinGlow)" />
+                    <circle r="3" fill="#fff" />
+                    <text x="12" y="-12" className="ct-europe__label ct-europe__label--city">Jawczyce</text>
+                    <text x="12" y="2" className="ct-europe__label ct-europe__label--sub">(Warszawa)</text>
+                  </g>
+
+                  <g className="ct-europe__pin" transform={`translate(${points.klaipeda.x},${points.klaipeda.y})`} onMouseDown={(e) => startDrag('klaipeda', e.clientX, e.clientY)} style={{ cursor: 'grab' }}>
+                    <circle className="ct-europe__pulse" r="14" fill="#f97316" opacity="0.13" />
+                    <circle r="8" fill="#f97316" opacity="0.22" />
+                    <circle r="5" fill="#f97316" filter="url(#ctPinGlow)" />
+                    <circle r="2.5" fill="#fff" />
+                    <text x="11" y="-10" className="ct-europe__label ct-europe__label--city">Клайпеда</text>
+                  </g>
+
+                  <g className="ct-europe__pin" transform={`translate(${points.prague.x},${points.prague.y})`} onMouseDown={(e) => startDrag('prague', e.clientX, e.clientY)} style={{ cursor: 'grab' }}>
+                    <circle className="ct-europe__pulse" r="14" fill="#f97316" opacity="0.13" />
+                    <circle r="8" fill="#f97316" opacity="0.22" />
+                    <circle r="5" fill="#f97316" filter="url(#ctPinGlow)" />
+                    <circle r="2.5" fill="#fff" />
+                    <text x="-68" y="20" className="ct-europe__label ct-europe__label--city">Прага</text>
+                  </g>
+
+                  <g className="ct-europe__pin" transform={`translate(${points.constanta.x},${points.constanta.y})`} onMouseDown={(e) => startDrag('constanta', e.clientX, e.clientY)} style={{ cursor: 'grab' }}>
+                    <circle className="ct-europe__pulse" r="14" fill="#f97316" opacity="0.13" />
+                    <circle r="8" fill="#f97316" opacity="0.22" />
+                    <circle r="5" fill="#f97316" filter="url(#ctPinGlow)" />
+                    <circle r="2.5" fill="#fff" />
+                    <text x="11" y="-10" className="ct-europe__label ct-europe__label--city">Констанца</text>
+                  </g>
                 </svg>
               </div>
             </div>
