@@ -50,6 +50,35 @@ export function HomePage() {
   const [b2cCountdown, setB2cCountdown] = useState<number | null>(null)
   const [b2bCountdown, setB2bCountdown] = useState<number | null>(null)
   const [showSticky, setShowSticky] = useState(false)
+  const CALC_PORTS = useMemo(() => ([
+    { id: 'rotterdam',   label: 'Rotterdam, NL',   ocean: 1095, delivery: 640, agency: 540, vat: 0.21 },
+    { id: 'gdynia',      label: 'Gdynia, PL',      ocean:  920, delivery: 290, agency: 500, vat: 0.23 },
+    { id: 'bremerhaven', label: 'Bremerhaven, DE', ocean: 1030, delivery: 510, agency: 520, vat: 0.19 },
+    { id: 'klaipeda',    label: 'Klaipeda, LT',    ocean:  980, delivery: 430, agency: 510, vat: 0.21 },
+  ]), [])
+  const [calcBid, setCalcBid] = useState<number>(14800)
+  const [calcPortId, setCalcPortId] = useState<string>('gdynia')
+  const calc = useMemo(() => {
+    const bid = Math.max(0, Number.isFinite(calcBid) ? calcBid : 0)
+    const port = CALC_PORTS.find(p => p.id === calcPortId) ?? CALC_PORTS[1]
+    const auctionFee = bid <= 2000 ? 365 : bid <= 5000 ? 580 : bid <= 10000 ? 830 : bid <= 15000 ? 980 : bid <= 20000 ? 1080 : 1200
+    const biddersFee = 600
+    const insurance = 80
+    const transferFee = 80
+    const commission = auctionFee + biddersFee + insurance + transferFee
+    const usInland = 270
+    const exportDocs = 150
+    const logisticsEu = usInland + exportDocs + port.ocean
+    const customsBase = bid + auctionFee + usInland + exportDocs + port.ocean
+    const importDuty = Math.round(customsBase * 0.10)
+    const vat = Math.round((customsBase + importDuty) * port.vat)
+    const taxes = importDuty + vat + port.agency
+    const cityDelivery = port.delivery
+    const total = bid + commission + logisticsEu + taxes + cityDelivery
+    const savings = Math.round(total * 0.118)
+    return { bid, port, commission, logisticsEu, taxes, cityDelivery, total, savings }
+  }, [calcBid, calcPortId, CALC_PORTS])
+  const fmtEur = (n: number) => '€' + Math.round(n).toLocaleString('en-US')
   const b2cModalRef = useRef<HTMLDivElement | null>(null)
   const b2bModalRef = useRef<HTMLDivElement | null>(null)
   const casesScrollRef = useRef<HTMLDivElement | null>(null)
@@ -516,32 +545,134 @@ export function HomePage() {
 
       <section className="px px-section px-section--light bp-animate" id="calculator">
         <div className="px-wrap">
-          <div className="px-calc">
-            <div>
-              <p className="px-tag">Калькулятор · Under-the-hood</p>
-              <h2 className="px-h2">Повна вартість — <em>до ставки</em></h2>
-              <p className="px-sub" style={{ marginTop: 10 }}>Ви контролюєте бюджет ДО торгів, а не після.</p>
-              <ul className="px-calc__check">
-                <li>Лот + аукціонні комісії</li>
-                <li>Транспорт до порту та океан</li>
-                <li>Митниця, податки, сертифікація</li>
-                <li>Оформлення та доставка у ваше місто</li>
-              </ul>
-              <div className="px-calc__actions">
-                <button type="button" className="px-btn px-btn--primary" onClick={() => openB2C('Калькулятор')}>
-                  <span>Розрахунок під ключ</span>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-                </button>
-                <Link to={routes.calculator} className="px-btn px-btn--ghost">Відкрити калькулятор</Link>
+          <div className="px-calcx">
+            <div className="px-calcx__grid">
+              <div className="px-calcx__left">
+                <p className="px-tag">Калькулятор під ключ</p>
+                <h2 className="px-h2">Повна вартість — <em>до ставки</em></h2>
+                <p className="px-sub" style={{ marginTop: 12 }}>
+                  Ви контролюєте бюджет ДО торгів, а не після.
+                  Розраховуйте повну вартість авто з урахуванням усіх витрат — прозоро і без сюрпризів.
+                </p>
+                <ul className="px-calc__check" style={{ marginTop: 24 }}>
+                  <li>Лот + аукціонні комісії</li>
+                  <li>Транспорт до порту та океан</li>
+                  <li>Митниця, податки, сертифікація</li>
+                  <li>Оформлення та доставка у ваше місто</li>
+                </ul>
+                <div className="px-calcx__badge">
+                  <div className="px-calcx__badge-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15 8.5 22 9.3 17 14 18.2 21 12 17.8 5.8 21 7 14 2 9.3 9 8.5 12 2"/></svg>
+                  </div>
+                  <div>
+                    <strong>Реальний кейс розрахунку</strong>
+                    <p>Економія <b>{fmtEur(calc.savings)}</b> завдяки точному розрахунку до участі в аукціоні</p>
+                  </div>
+                </div>
+                <div className="px-calc__actions" style={{ marginTop: 24 }}>
+                  <button type="button" className="px-btn px-btn--primary" onClick={() => openB2C('Калькулятор')}>
+                    <span>Розрахунок під ключ</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                  </button>
+                  <Link to={routes.calculator} className="px-btn px-btn--ghost">Відкрити калькулятор</Link>
+                </div>
+              </div>
+
+              <div className="px-calcx__right">
+                <div
+                  className="px-calcx__car"
+                  aria-hidden="true"
+                  style={{ backgroundImage: `url(${import.meta.env.BASE_URL}images/calc-car.jpg)` }}
+                />
+                <div className="px-calcx__card">
+                  <div className="px-calcx__card-head">
+                    <div>
+                      <p className="px-calcx__card-tag">Приклад розрахунку</p>
+                      <p className="px-calcx__card-title">Ваш лот · Авто з аукціону</p>
+                    </div>
+                    <label className="px-calcx__dest" aria-label="Порт призначення (ЄС)">
+                      <select value={calcPortId} onChange={(e) => setCalcPortId(e.target.value)}>
+                        {CALC_PORTS.map(p => (
+                          <option key={p.id} value={p.id}>США → {p.label}</option>
+                        ))}
+                      </select>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                    </label>
+                  </div>
+
+                  <label className="px-calcx__bid px-calcx__bid--active">
+                    <span className="px-calcx__bid-label">
+                      Ставка на торгах
+                      <em className="px-calcx__bid-hint">введіть суму</em>
+                    </span>
+                    <div className="px-calcx__bid-input">
+                      <span className="px-calcx__bid-cur">€</span>
+                      <input
+                        type="number"
+                        inputMode="numeric"
+                        min={0}
+                        step={100}
+                        value={Number.isFinite(calcBid) ? calcBid : ''}
+                        onChange={(e) => setCalcBid(Number(e.target.value.replace(/[^\d]/g, '')) || 0)}
+                        onFocus={(e) => e.currentTarget.select()}
+                        aria-label="Сума ставки в євро"
+                      />
+                      <svg className="px-calcx__bid-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
+                    </div>
+                  </label>
+
+                  <div className="px-calcx__rows">
+                    <div className="px-calc__line"><span>Комісія (аукціон + сервіс)</span><strong>{fmtEur(calc.commission)}</strong></div>
+                    <div className="px-calc__line"><span>Логістика до ЄС</span><strong>{fmtEur(calc.logisticsEu)}</strong></div>
+                    <div className="px-calc__line"><span>Податки ({Math.round(calc.port.vat * 100)}% ПДВ)</span><strong>{fmtEur(calc.taxes)}</strong></div>
+                    <div className="px-calc__line"><span>Доставка у ваше місто</span><strong>{fmtEur(calc.cityDelivery)}</strong></div>
+                  </div>
+
+                  <div className="px-calc__total">
+                    <span>Під ключ · {calc.port.label}</span>
+                    <strong>{fmtEur(calc.total)}</strong>
+                  </div>
+
+                  <p className="px-calcx__note">
+                    Мінімальна оцінка. Фінальна вартість залежить від моделі, стану авто, курсу логістики та <b>локації покупки</b>. Цей калькулятор — ознайомчий. Для точного розрахунку <Link to={routes.calculator}>перейдіть у повноцінний калькулятор →</Link>
+                  </p>
+                </div>
               </div>
             </div>
-            <div className="px-calc__visual" aria-hidden="true">
-              <p className="px-calc__visual-title">Приклад · BMW X5 2022</p>
-              <div className="px-calc__line"><span>Ставка на торгах</span><strong>€14,800</strong></div>
-              <div className="px-calc__line"><span>Комісії аукціону</span><strong>€620</strong></div>
-              <div className="px-calc__line"><span>Логістика + океан</span><strong>€2,100</strong></div>
-              <div className="px-calc__line"><span>Митниця та оформлення</span><strong>€1,890</strong></div>
-              <div className="px-calc__total"><span>Під ключ</span><strong>€19,410</strong></div>
+
+            <div className="px-calcx__steps" aria-label="Як це працює">
+              {[
+                { n: 1, t: 'Обираєте авто', d: 'Знайдіть лот на аукціоні' },
+                { n: 2, t: 'Рахуєте все', d: 'Використовуйте наш калькулятор' },
+                { n: 3, t: 'Ставите впевнено', d: 'Ви знаєте повну вартість до ставки' },
+                { n: 4, t: 'Отримуєте авто', d: 'Ми беремо на себе усі процеси' },
+              ].map((s, i, arr) => (
+                <div key={s.n} className="px-calcx__step">
+                  <div className="px-calcx__step-num">{s.n}</div>
+                  <div>
+                    <strong>{s.t}</strong>
+                    <p>{s.d}</p>
+                  </div>
+                  {i < arr.length - 1 && (
+                    <svg className="px-calcx__step-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <div className="px-calcx__trust">
+              <div>
+                <strong>Прозорість 100%</strong>
+                <p>Жодних прихованих платежів</p>
+              </div>
+              <div>
+                <strong>Дані з реальних аукціонів</strong>
+                <p>Актуальні тарифи та строки доставки</p>
+              </div>
+              <div>
+                <strong>Підтримка на кожному етапі</strong>
+                <p>Ваш менеджер завжди на зв'язку</p>
+              </div>
             </div>
           </div>
         </div>
@@ -650,34 +781,108 @@ export function HomePage() {
 
       <section className="px px-section bp-animate" id="catalog-block">
         <div className="px-wrap">
-          <div className="px-catalog">
-            <div>
-              <p className="px-tag" style={{ color: 'var(--px-orange)' }}>Каталог · Copart · IAAI · Manheim</p>
-              <h2 className="px-h2" style={{ color: '#fff' }}>
-                <em>200,000+</em> лотів щодня
-              </h2>
-              <p className="px-sub" style={{ color: 'rgba(255,255,255,0.7)', marginTop: 16 }}>
-                Джерела: Copart, IAAI, Manheim та інші майданчики. Фільтри за бюджетом, роком, пробігом, типом пошкоджень і статусом документів.
-              </p>
-              <div style={{ marginTop: 28 }}>
-                <Link className="px-btn px-btn--primary" to={routes.catalog}>
-                  <span>Відкрити каталог</span>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-                </Link>
+          <div className="px-catalog2">
+            <div className="px-catalog2__top">
+              <div className="px-catalog2__left">
+                <p className="px-tag" style={{ color: 'var(--px-orange)' }}>Каталог · Copart · IAAI · Manheim</p>
+                <h2 className="px-h2" style={{ color: '#fff' }}>
+                  <em>200,000+</em><br/>лотів щодня
+                </h2>
+                <p className="px-sub" style={{ color: 'rgba(255,255,255,0.7)', marginTop: 16 }}>
+                  Найбільший вибір авто на аукціонах США та Європи. Фільтри за бюджетом, роком, пробігом, типом пошкоджень і статусом документів.
+                </p>
+                <div className="px-catalog2__actions">
+                  <Link className="px-btn px-btn--primary" to={routes.catalog}>
+                    <span>Відкрити каталог</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                  </Link>
+                  <a className="px-catalog2__video" href="#how">
+                    <span className="px-catalog2__video-play" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                    <span>
+                      <strong>Як це працює?</strong>
+                      <em>1 хв перегляду</em>
+                    </span>
+                  </a>
+                </div>
+              </div>
+
+              <div className="px-catalog2__center" aria-hidden="true">
+                <div className="px-catalog2__map">
+                  <span className="px-catalog2__pin px-catalog2__pin--us">USA</span>
+                  <span className="px-catalog2__pin px-catalog2__pin--eu">EUROPE</span>
+                </div>
+                <img className="px-catalog2__car" src={`${import.meta.env.BASE_URL}images/catalog-car.webp`} alt="" />
+              </div>
+
+              <div className="px-catalog2__stats">
+                <div className="px-catalog2__stat">
+                  <span className="px-catalog2__stat-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 13l2-6a2 2 0 0 1 2-1.5h10a2 2 0 0 1 2 1.5l2 6v5a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1H7v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-5z"/><circle cx="7.5" cy="14.5" r="1.5"/><circle cx="16.5" cy="14.5" r="1.5"/></svg>
+                  </span>
+                  <div>
+                    <strong>200K+</strong>
+                    <p>лотів щодня<br/><em>оновлення в реальному часі</em></p>
+                  </div>
+                </div>
+                <div className="px-catalog2__stat">
+                  <span className="px-catalog2__stat-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 4l6 6-8 8H6v-6z"/><path d="M3 21h18"/></svg>
+                  </span>
+                  <div>
+                    <strong>3+</strong>
+                    <p>аукціонних майданчики<br/><em>Copart · IAAI · Manheim</em></p>
+                  </div>
+                </div>
+                <div className="px-catalog2__stat">
+                  <span className="px-catalog2__stat-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                  </span>
+                  <div>
+                    <strong>24/7</strong>
+                    <p>моніторинг лотів<br/><em>під ваш запит</em></p>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="px-catalog__stats">
-              <div className="px-catalog__stat">
-                <span className="px-catalog__stat-num">200K+</span>
-                <span className="px-catalog__stat-label">Лотів щодня<br/>оновлення в реальному часі</span>
+
+            <div className="px-catalog2__features">
+              <div className="px-catalog2__feat">
+                <span className="px-catalog2__feat-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 4h18l-7 9v6l-4 2v-8z"/></svg>
+                </span>
+                <div>
+                  <strong>Розширені фільтри</strong>
+                  <p>швидкий пошук авто під ваш бюджет</p>
+                </div>
               </div>
-              <div className="px-catalog__stat">
-                <span className="px-catalog__stat-num">3+</span>
-                <span className="px-catalog__stat-label">Аукціонних майданчики<br/>Copart · IAAI · Manheim</span>
+              <div className="px-catalog2__feat">
+                <span className="px-catalog2__feat-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>
+                </span>
+                <div>
+                  <strong>Повна інформація</strong>
+                  <p>фото, пошкодження, статус документів</p>
+                </div>
               </div>
-              <div className="px-catalog__stat">
-                <span className="px-catalog__stat-num">24/7</span>
-                <span className="px-catalog__stat-label">Моніторинг лотів<br/>під ваш запит</span>
+              <div className="px-catalog2__feat">
+                <span className="px-catalog2__feat-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+                </span>
+                <div>
+                  <strong>Миттєві сповіщення</strong>
+                  <p>про нові лоти, що відповідають вашим критеріям</p>
+                </div>
+              </div>
+              <div className="px-catalog2__feat">
+                <span className="px-catalog2__feat-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l9 4v6c0 5-3.5 9-9 10-5.5-1-9-5-9-10V6z"/></svg>
+                </span>
+                <div>
+                  <strong>Прозорі дані</strong>
+                  <p>чиста історія та реальний стан авто</p>
+                </div>
               </div>
             </div>
           </div>
