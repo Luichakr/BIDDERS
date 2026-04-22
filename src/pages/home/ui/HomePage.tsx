@@ -9,6 +9,7 @@ type FormType = 'b2c' | 'b2b' | null
 type B2CState = {
   name: string
   phone: string
+  email: string
   budget: string
   scenario: string
   comment: string
@@ -24,6 +25,7 @@ type B2BState = {
 const INITIAL_B2C: B2CState = {
   name: '',
   phone: '',
+  email: '',
   budget: '',
   scenario: '',
   comment: '',
@@ -42,6 +44,11 @@ export function HomePage() {
   const [casesData, setCasesData] = useState<CaseRecord[]>([])
   const [b2c, setB2c] = useState<B2CState>(INITIAL_B2C)
   const [b2b, setB2b] = useState<B2BState>(INITIAL_B2B)
+  const [b2cBodyType, setB2cBodyType] = useState('sedan')
+  const [b2cYearMin, setB2cYearMin] = useState(2018)
+  const [b2cYearMax, setB2cYearMax] = useState(2024)
+  const [b2cBudgetMin, setB2cBudgetMin] = useState(10000)
+  const [b2cBudgetMax, setB2cBudgetMax] = useState(18000)
   const [b2cError, setB2cError] = useState<string>('')
   const [b2bError, setB2bError] = useState<string>('')
   const [b2cSuccess, setB2cSuccess] = useState<string>('')
@@ -296,6 +303,102 @@ export function HomePage() {
     [],
   )
 
+  const budgetUi = useMemo(() => {
+    if (locale === 'en') {
+      return {
+        title: 'We will pick a car for your budget',
+        subtitle: 'Specify body type, year, and budget. Our manager will send 2–3 real auction options with a full cost estimate.',
+        bodyTypeLabel: 'Which body type fits you?',
+        yearLabel: 'Year',
+        yearRangeLabel: 'Range',
+        budgetLabel: 'Your budget',
+        budgetHint: 'Estimate',
+        contactsLabel: 'Contact details',
+        submit: 'Pick a car',
+        consent: 'By clicking the button, you agree to personal data processing for vehicle подбор.',
+        phonePlaceholder: '+48 000 000 000',
+        emailPlaceholder: 'you@email.com',
+      }
+    }
+    if (locale === 'pl') {
+      return {
+        title: 'Dobierzemy auto do Twojego budżetu',
+        subtitle: 'Wskaż typ nadwozia, rocznik i budżet. Menedżer wyśle 2–3 realne opcje z aukcji wraz z pełną kalkulacją.',
+        bodyTypeLabel: 'Jaki typ nadwozia Ci odpowiada?',
+        yearLabel: 'Rok produkcji',
+        yearRangeLabel: 'Zakres',
+        budgetLabel: 'Twój budżet',
+        budgetHint: 'Orientacyjnie',
+        contactsLabel: 'Dane kontaktowe',
+        submit: 'Dobierz auto',
+        consent: 'Klikając przycisk, zgadzasz się na przetwarzanie danych osobowych do doboru auta.',
+        phonePlaceholder: '+48 000 000 000',
+        emailPlaceholder: 'you@email.com',
+      }
+    }
+    return {
+      title: 'Підберемо авто під ваш бюджет',
+      subtitle: 'Вкажіть тип кузова, рік і бюджет. Менеджер надішле 2–3 реальних варіанти з аукціону та повний розрахунок вартості.',
+      bodyTypeLabel: 'Який тип кузова вам підходить?',
+      yearLabel: 'Рік випуску',
+      yearRangeLabel: 'Діапазон',
+      budgetLabel: 'Ваш бюджет',
+      budgetHint: 'Орієнтир',
+      contactsLabel: 'Контактні дані',
+      submit: 'Підібрати авто',
+      consent: 'Натискаючи кнопку, ви погоджуєтесь на обробку персональних даних для підбору автомобіля.',
+      phonePlaceholder: '+48 000 000 000',
+      emailPlaceholder: 'you@email.com',
+    }
+  }, [locale])
+
+  const bodyTypeItems = useMemo(() => {
+    const labels =
+      locale === 'en'
+        ? {
+            sedan: 'Sedan',
+            crossover: 'Crossover',
+            coupe: 'Coupe',
+            hatchback: 'Hatchback',
+            cabriolet: 'Cabriolet',
+            minivan: 'Minivan',
+            microbus: 'Microbus',
+            pickup: 'Pick up',
+          }
+        : locale === 'pl'
+          ? {
+              sedan: 'Sedan',
+              crossover: 'Crossover',
+              coupe: 'Coupe',
+              hatchback: 'Hatchback',
+              cabriolet: 'Kabriolet',
+              minivan: 'Minivan',
+              microbus: 'Mikrobus',
+              pickup: 'Pick up',
+            }
+          : {
+              sedan: 'Седан',
+              crossover: 'Кросовер',
+              coupe: 'Купе',
+              hatchback: 'Хетчбек',
+              cabriolet: 'Кабріолет',
+              minivan: 'Мінівен',
+              microbus: 'Мікроавтобус',
+              pickup: 'Pick up',
+            }
+
+    return [
+      { id: 'sedan', image: `${import.meta.env.BASE_URL}images/body-types/sedan.webp`, label: labels.sedan },
+      { id: 'crossover', image: `${import.meta.env.BASE_URL}images/body-types/crossover.webp`, label: labels.crossover },
+      { id: 'coupe', image: `${import.meta.env.BASE_URL}images/body-types/coupe.webp`, label: labels.coupe },
+      { id: 'hatchback', image: `${import.meta.env.BASE_URL}images/body-types/hatchback.webp`, label: labels.hatchback },
+      { id: 'cabriolet', image: `${import.meta.env.BASE_URL}images/body-types/cabriolet.webp`, label: labels.cabriolet },
+      { id: 'minivan', image: `${import.meta.env.BASE_URL}images/body-types/minivan.webp`, label: labels.minivan },
+      { id: 'microbus', image: `${import.meta.env.BASE_URL}images/body-types/microbus.webp`, label: labels.microbus },
+      { id: 'pickup', image: `${import.meta.env.BASE_URL}images/body-types/pickup.webp`, label: labels.pickup },
+    ]
+  }, [locale])
+
   const openB2C = (scenario: string) => {
     setB2c((prev) => ({ ...prev, scenario }))
     setB2cError('')
@@ -405,6 +508,11 @@ export function HomePage() {
     setB2cSuccess(t('homeB2cSuccess'))
     setB2cCountdown(3)
     setB2c(INITIAL_B2C)
+    setB2cBodyType('sedan')
+    setB2cYearMin(2018)
+    setB2cYearMax(2024)
+    setB2cBudgetMin(10000)
+    setB2cBudgetMax(18000)
   }
 
   const onSubmitB2B = async (event: FormEvent) => {
@@ -1464,25 +1572,152 @@ export function HomePage() {
       {openForm && <div className="bp-modal-backdrop" onClick={closeForms}></div>}
 
       {openForm === 'b2c' && (
-        <div className="bp-modal" ref={b2cModalRef} role="dialog" aria-modal="true" aria-label={t('homeModalB2cAria')}>
+        <div className="bp-modal bp-modal--budget" ref={b2cModalRef} role="dialog" aria-modal="true" aria-label={t('homeModalB2cAria')}>
           <button type="button" className="bp-modal-close" onClick={closeForms}>×</button>
-          <h3>{t('homeModalB2cTitle')}</h3>
+          <h3 className="bp-budget-modal__title">{budgetUi.title}</h3>
+          <p className="bp-budget-modal__lead">{budgetUi.subtitle}</p>
+
           <form onSubmit={onSubmitB2C}>
-            <label>
-              {t('homeModalNameLabel')}
-              <input value={b2c.name} onChange={(e) => setB2c((prev) => ({ ...prev, name: e.target.value }))} />
-            </label>
-            <label>
-              {t('homeModalPhoneLabel')}
-              <input value={b2c.phone} onChange={(e) => setB2c((prev) => ({ ...prev, phone: e.target.value }))} />
-            </label>
-            <label>
-              {t('homeModalBudgetLabel')}
-              <input value={b2c.budget} onChange={(e) => setB2c((prev) => ({ ...prev, budget: e.target.value }))} placeholder={t('homeModalBudgetPlaceholder')} />
-            </label>
+            <section className="bp-budget-block">
+              <p className="bp-budget-block__label">{budgetUi.bodyTypeLabel}</p>
+              <div className="bp-budget-bodytypes">
+                {bodyTypeItems.map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className={item.id === b2cBodyType ? 'bp-budget-bodytype is-active' : 'bp-budget-bodytype'}
+                    onClick={() => setB2cBodyType(item.id)}
+                  >
+                    <img src={item.image} alt={item.label} loading="lazy" />
+                    <span>{item.label}</span>
+                  </button>
+                ))}
+              </div>
+            </section>
+
+            <div className="bp-budget-sliders">
+              <section className="bp-budget-block">
+                <div className="bp-budget-block__head">
+                  <p className="bp-budget-block__label">{budgetUi.yearLabel}</p>
+                  <span className="bp-budget-chip">{b2cYearMin} - {b2cYearMax}</span>
+                </div>
+                <p className="bp-budget-block__hint">{budgetUi.yearRangeLabel}</p>
+                <div className="bp-budget-range">
+                  <div className="bp-budget-range__track"></div>
+                  <div
+                    className="bp-budget-range__active"
+                    style={{
+                      left: `${((b2cYearMin - 2005) / (2025 - 2005)) * 100}%`,
+                      width: `${((b2cYearMax - b2cYearMin) / (2025 - 2005)) * 100}%`,
+                    }}
+                  ></div>
+                  <input
+                    type="range"
+                    min={2005}
+                    max={2025}
+                    value={b2cYearMin}
+                    onChange={(e) => {
+                      const value = Number(e.target.value)
+                      setB2cYearMin(Math.min(value, b2cYearMax - 1))
+                    }}
+                  />
+                  <input
+                    type="range"
+                    min={2005}
+                    max={2025}
+                    value={b2cYearMax}
+                    onChange={(e) => {
+                      const value = Number(e.target.value)
+                      setB2cYearMax(Math.max(value, b2cYearMin + 1))
+                    }}
+                  />
+                </div>
+                <div className="bp-budget-range__ends">
+                  <span>2005</span>
+                  <span>2025</span>
+                </div>
+              </section>
+
+              <section className="bp-budget-block">
+                <div className="bp-budget-block__head">
+                  <p className="bp-budget-block__label">{budgetUi.budgetLabel}</p>
+                  <span className="bp-budget-chip">
+                    ${b2cBudgetMin.toLocaleString('en-US')} - ${b2cBudgetMax.toLocaleString('en-US')}
+                  </span>
+                </div>
+                <p className="bp-budget-block__hint">{budgetUi.budgetHint}</p>
+                <div className="bp-budget-range">
+                  <div className="bp-budget-range__track"></div>
+                  <div
+                    className="bp-budget-range__active"
+                    style={{
+                      left: `${((b2cBudgetMin - 3000) / (50000 - 3000)) * 100}%`,
+                      width: `${((b2cBudgetMax - b2cBudgetMin) / (50000 - 3000)) * 100}%`,
+                    }}
+                  ></div>
+                  <input
+                    type="range"
+                    min={3000}
+                    max={50000}
+                    step={500}
+                    value={b2cBudgetMin}
+                    onChange={(e) => {
+                      const value = Number(e.target.value)
+                      setB2cBudgetMin(Math.min(value, b2cBudgetMax - 500))
+                    }}
+                  />
+                  <input
+                    type="range"
+                    min={3000}
+                    max={50000}
+                    step={500}
+                    value={b2cBudgetMax}
+                    onChange={(e) => {
+                      const value = Number(e.target.value)
+                      setB2cBudgetMax(Math.max(value, b2cBudgetMin + 500))
+                    }}
+                  />
+                </div>
+                <div className="bp-budget-range__ends">
+                  <span>$3,000</span>
+                  <span>$50,000</span>
+                </div>
+              </section>
+            </div>
+
+            <section className="bp-budget-block">
+              <p className="bp-budget-block__label">{budgetUi.contactsLabel}</p>
+              <div className="bp-budget-fields">
+                <label>
+                  {t('homeModalNameLabel')}
+                  <input value={b2c.name} onChange={(e) => setB2c((prev) => ({ ...prev, name: e.target.value }))} />
+                </label>
+                <label>
+                  {t('homeModalPhoneLabel')}
+                  <input
+                    value={b2c.phone}
+                    onChange={(e) => setB2c((prev) => ({ ...prev, phone: e.target.value }))}
+                    placeholder={budgetUi.phonePlaceholder}
+                  />
+                </label>
+                <label>
+                  Email
+                  <input
+                    type="email"
+                    value={b2c.email}
+                    onChange={(e) => setB2c((prev) => ({ ...prev, email: e.target.value }))}
+                    placeholder={budgetUi.emailPlaceholder}
+                  />
+                </label>
+              </div>
+            </section>
+
             <label>
               {t('homeModalScenarioLabel')}
-              <input value={b2c.scenario} readOnly />
+              <input
+                value={`${b2c.scenario} | ${bodyTypeItems.find((item) => item.id === b2cBodyType)?.label ?? b2cBodyType} | ${b2cYearMin}-${b2cYearMax} | $${b2cBudgetMin.toLocaleString('en-US')}-$${b2cBudgetMax.toLocaleString('en-US')}`}
+                readOnly
+              />
             </label>
             <label>
               {t('homeModalCommentLabel')}
@@ -1492,8 +1727,9 @@ export function HomePage() {
             {b2cSuccess && <p className="bp-form-success">{b2cSuccess}</p>}
             {b2cSuccess && b2cCountdown !== null && <p className="bp-form-meta">{t('homeModalAutoClose')} {b2cCountdown} {locale === 'pl' ? 's.' : locale === 'en' ? 'sec.' : 'с.'}</p>}
             <button type="submit" className="bp-btn bp-btn-primary" disabled={isSubmittingB2c}>
-              {isSubmittingB2c ? t('homeModalSending') : t('homeModalSubmit')}
+              {isSubmittingB2c ? t('homeModalSending') : budgetUi.submit}
             </button>
+            <p className="bp-budget-consent">{budgetUi.consent}</p>
           </form>
         </div>
       )}
