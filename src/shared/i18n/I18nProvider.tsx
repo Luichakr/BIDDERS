@@ -5,7 +5,7 @@ import { autoOverrides, manualOverrides } from './overrides'
 type I18nContextValue = {
   locale: Locale
   setLocale: (next: Locale) => void
-  t: (key: MessageKey) => string
+  t: (key: string) => string
 }
 
 const I18nContext = createContext<I18nContextValue | null>(null)
@@ -35,11 +35,12 @@ export function I18nProvider({ children }: { children: ReactNode }) {
       locale,
       setLocale,
       t: (key) => {
-        const manual = manualOverrides[locale]?.[key]
+        const typedKey = key as MessageKey
+        const manual = manualOverrides[locale]?.[typedKey]
         if (manual) return manual
-        const auto = autoOverrides[locale]?.[key]
+        const auto = autoOverrides[locale]?.[typedKey]
         if (auto) return auto
-        return messages[locale][key] ?? messages.uk[key]
+        return messages[locale][typedKey] ?? messages.uk[typedKey] ?? key
       },
     }),
     [locale],
