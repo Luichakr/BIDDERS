@@ -527,7 +527,7 @@ export function HomePage() {
             <article className="px-route">
               <div className="px-route__media">
                 <img
-                  src={`${import.meta.env.BASE_URL}images/routes/in-stock-cars-bidders-poland.png`}
+                  src={`${import.meta.env.BASE_URL}images/routes/in-stock-2026-04-22.png`}
                   alt={t('routeInStockAlt')}
                   title={t('routeInStockAlt')}
                   loading="lazy"
@@ -552,7 +552,7 @@ export function HomePage() {
 
             <article className="px-route">
               <div className="px-route__media">
-                <img src={`${import.meta.env.BASE_URL}images/routes/transit.webp`} alt={t('routeTransitAlt')} loading="lazy" />
+                <img src={`${import.meta.env.BASE_URL}images/routes/transit-chatgpt-2026-04-22.png`} alt={t('routeTransitAlt')} loading="lazy" />
                 <div className="px-route__top">
                   <span className="px-route__num">02</span>
                   <span className="px-route__pill">{t('homeRoutePillTransit')}</span>
@@ -573,7 +573,7 @@ export function HomePage() {
 
             <article className="px-route px-route--primary">
               <div className="px-route__media">
-                <img src={`${import.meta.env.BASE_URL}images/routes/auction.jpg`} alt={t('routeAuctionAlt')} loading="lazy" />
+                <img src={`${import.meta.env.BASE_URL}images/routes/order-blue-2026-04-22.png`} alt={t('routeAuctionAlt')} loading="lazy" />
                 <div className="px-route__top">
                   <span className="px-route__num">03</span>
                   <span className="px-route__pill">{t('homeRoutePillOrder')}</span>
@@ -594,7 +594,7 @@ export function HomePage() {
 
             <article className="px-route">
               <div className="px-route__media">
-                <img src={`${import.meta.env.BASE_URL}images/routes/catalog.webp`} alt={t('routeCatalogAlt')} loading="lazy" />
+                <img src={`${import.meta.env.BASE_URL}images/routes/catalog-app.webp`} alt={t('routeCatalogAlt')} loading="lazy" />
                 <div className="px-route__top">
                   <span className="px-route__num">04</span>
                   <span className="px-route__pill">{t('homeRoutePillCatalog')}</span>
@@ -983,7 +983,7 @@ export function HomePage() {
                   <span className="px-catalog2__pin px-catalog2__pin--us">USA</span>
                   <span className="px-catalog2__pin px-catalog2__pin--eu">EUROPE</span>
                 </div>
-                <img className="px-catalog2__car" src={`${import.meta.env.BASE_URL}images/catalog-car.webp`} alt="" />
+                <img className="px-catalog2__car" src={`${import.meta.env.BASE_URL}images/catalog/app.webp`} alt="" />
               </div>
 
               <div className="px-catalog2__stats">
@@ -1056,57 +1056,6 @@ export function HomePage() {
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      <section className="px px-section px-section--dark bp-animate" id="why-us">
-        <div className="px-wrap">
-          <div className="px-header">
-            <div>
-              <p className="px-tag">{t('homeWhyKicker')}</p>
-              <h2 className="px-h2 px-why__heading">
-                {t('homeWhyHeading')}
-              </h2>
-              <p className="px-sub">{t('homeWhyLead')}</p>
-            </div>
-          </div>
-          <ol className="px-grid-5">
-            <li className="px-problem">
-              <div className="px-problem__num">01 / 05</div>
-              <svg className="px-problem__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-              <h3 className="px-problem__title">{t('homeProblem1Title')}</h3>
-              <p className="px-problem__pain">{t('homeProblem1Pain')}</p>
-              <div className="px-problem__fix">{t('homeProblem1Fix')}</div>
-            </li>
-            <li className="px-problem">
-              <div className="px-problem__num">02 / 05</div>
-              <svg className="px-problem__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
-              <h3 className="px-problem__title">{t('homeProblem2Title')}</h3>
-              <p className="px-problem__pain">{t('homeProblem2Pain')}</p>
-              <div className="px-problem__fix">{t('homeProblem2Fix')}</div>
-            </li>
-            <li className="px-problem">
-              <div className="px-problem__num">03 / 05</div>
-              <svg className="px-problem__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="7" r="4"/><circle cx="17" cy="9" r="3"/><path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2M16 15h2a3 3 0 013 3v2"/></svg>
-              <h3 className="px-problem__title">{t('homeProblem3Title')}</h3>
-              <p className="px-problem__pain">{t('homeProblem3Pain')}</p>
-              <div className="px-problem__fix">{t('homeProblem3Fix')}</div>
-            </li>
-            <li className="px-problem">
-              <div className="px-problem__num">04 / 05</div>
-              <svg className="px-problem__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-              <h3 className="px-problem__title">{t('homeProblem4Title')}</h3>
-              <p className="px-problem__pain">{t('homeProblem4Pain')}</p>
-              <div className="px-problem__fix">{t('homeProblem4Fix')}</div>
-            </li>
-            <li className="px-problem">
-              <div className="px-problem__num">05 / 05</div>
-              <svg className="px-problem__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg>
-              <h3 className="px-problem__title">{t('homeProblem5Title')}</h3>
-              <p className="px-problem__pain">{t('homeProblem5Pain')}</p>
-              <div className="px-problem__fix">{t('homeProblem5Fix')}</div>
-            </li>
-          </ol>
         </div>
       </section>
 
