@@ -1,67 +1,59 @@
+import { useI18n } from '../../../shared/i18n/I18nProvider'
+
 export function DeepContentSections() {
+  const { t } = useI18n()
+
   const calcLeft = [
-    'Ціна на аукціоні + комісія майданчика',
-    'Транспорт з місця аукціону до складу в США',
-    'Обробка та зберігання авто на складі',
-    'Морський фрахт до порту призначення',
-    'Митне оформлення (єдиний платіж або повна ставка)',
-    'Доставка з порту до вашого міста',
+    t('dcCalcLeft1'),
+    t('dcCalcLeft2'),
+    t('dcCalcLeft3'),
+    t('dcCalcLeft4'),
+    t('dcCalcLeft5'),
+    t('dcCalcLeft6'),
   ]
 
   const calcRight = [
-    'Тип авто: Sedan, SUV, Truck, Minivan',
-    'Рік випуску та обʼєм двигуна',
-    'Порт відправки: NJ, FL, CA, TX, Корея',
-    'Пункт призначення в Польщі',
-    'Тип оформлення та супровід документів',
-    'Ваш бюджет і бажані марки',
+    t('dcCalcRight1'),
+    t('dcCalcRight2'),
+    t('dcCalcRight3'),
+    t('dcCalcRight4'),
+    t('dcCalcRight5'),
+    t('dcCalcRight6'),
   ]
 
   const appFeatures = [
-    'Всі аукціони в одному місці: Copart, IAAI, Manheim, Канада, Корея, Китай',
-    'AI-аналіз ушкоджень, оцінка ремонту та рекомендація по максимальній ставці',
-    'Перевірка історії через Carfax, статусу Title та даних продавця',
-    'Tracking контейнера в реальному часі з прогнозом прибуття',
+    t('dcAppFeature1'),
+    t('dcAppFeature2'),
+    t('dcAppFeature3'),
+    t('dcAppFeature4'),
   ]
 
   const faqs = [
-    {
-      q: 'Скільки часу займає весь процес імпорту?',
-      a: 'В середньому 45-60 днів: залежно від порту, митниці та фінальної доставки у ваше місто.',
-    },
-    {
-      q: 'Чи можна оглянути авто перед купівлею?',
-      a: 'Так, надаємо детальний фотоогляд і попередню оцінку. Для авто в дорозі доступне бронювання.',
-    },
-    {
-      q: 'Чи страхується авто під час перевезення?',
-      a: 'Так, автомобілі страхуються на етапі морської логістики згідно обраного маршруту.',
-    },
-    {
-      q: 'Що таке «Авто в дорозі»?',
-      a: 'Це авто, які вже викуплені та прямують до Європи. Ви отримуєте швидшу доставку з фіксованою ціною.',
-    },
+    { q: t('dcFaq1Q'), a: t('dcFaq1A') },
+    { q: t('dcFaq2Q'), a: t('dcFaq2A') },
+    { q: t('dcFaq3Q'), a: t('dcFaq3A') },
+    { q: t('dcFaq4Q'), a: t('dcFaq4A') },
   ]
 
   return (
     <>
       <section className="homex-section homex-calculator reveal" id="calculator">
         <div className="homex-head">
-          <p className="homex-kicker">Калькулятор</p>
-          <h2>Розрахуйте точну вартість імпорту за лічені секунди</h2>
-          <p>Заздалегідь знайте, до якої суми торгуватися на аукціоні. У розрахунку враховані всі ключові витрати.</p>
+          <p className="homex-kicker">{t('dcCalcKicker')}</p>
+          <h2>{t('dcCalcTitle')}</h2>
+          <p>{t('dcCalcSub')}</p>
         </div>
 
         <div className="homex-calc-grid">
           <article className="homex-calc-card">
-            <h3>Комплексна оцінка включає</h3>
+            <h3>{t('dcCalcLeftTitle')}</h3>
             <ul>
               {calcLeft.map((line) => <li key={line}>{line}</li>)}
             </ul>
           </article>
 
           <article className="homex-calc-card">
-            <h3>Персоналізація розрахунку</h3>
+            <h3>{t('dcCalcRightTitle')}</h3>
             <ul>
               {calcRight.map((line) => <li key={line}>{line}</li>)}
             </ul>
@@ -70,30 +62,30 @@ export function DeepContentSections() {
 
         <div className="homex-calc-steps">
           <div>
-            <h3>Як отримати доступ до калькулятора</h3>
+            <h3>{t('dcCalcStepsTitle')}</h3>
             <ol>
-              <li>Звʼяжіться з менеджером BIDBIDERS</li>
-              <li>Отримайте доступ до кабінету</li>
-              <li>Заповніть параметри авто і маршрут</li>
-              <li>Отримайте повний кошторис імпорту</li>
+              <li>{t('dcCalcStep1')}</li>
+              <li>{t('dcCalcStep2')}</li>
+              <li>{t('dcCalcStep3')}</li>
+              <li>{t('dcCalcStep4')}</li>
             </ol>
           </div>
           <div className="homex-calc-actions">
-            <a href="/catalog">Відкрити каталог</a>
-            <a href="tel:+48784890644">Зателефонувати: +48 784 890 644</a>
+            <a href="/catalog">{t('dcCalcCtaCatalog')}</a>
+            <a href="tel:+48784890644">{t('dcCalcCtaPhoneLabel')}</a>
           </div>
         </div>
       </section>
 
       <section className="homex-section homex-video reveal">
         <div className="homex-head">
-          <p className="homex-kicker">Як це працює</p>
-          <h2>Подивіться, як працює наш застосунок</h2>
-          <p>Коротка демонстрація шляху: від вибору лота до передачі авто клієнту.</p>
+          <p className="homex-kicker">{t('dcVideoKicker')}</p>
+          <h2>{t('dcVideoTitle')}</h2>
+          <p>{t('dcVideoSub')}</p>
         </div>
 
         <div className="homex-video-card">
-          <img src="/images/hero-main-banner.png" alt="Демонстрація BIDBIDERS" />
+          <img src="/images/hero-main-banner.png" alt={t('dcVideoImgAlt')} />
           <button type="button" aria-label="Play demo">▶</button>
         </div>
       </section>
@@ -101,9 +93,9 @@ export function DeepContentSections() {
       <section className="homex-section homex-app reveal" id="app">
         <div className="homex-app-grid">
           <div>
-            <p className="homex-kicker">Мобільний застосунок</p>
-            <h2>Всі імпортні дані під контролем на вашому телефоні</h2>
-            <p className="homex-app-lead">Відстежуйте ставки, логістику та статуси доставки у будь-який момент.</p>
+            <p className="homex-kicker">{t('dcAppKicker')}</p>
+            <h2>{t('dcAppTitle')}</h2>
+            <p className="homex-app-lead">{t('dcAppLead')}</p>
             <ul>
               {appFeatures.map((line) => <li key={line}>{line}</li>)}
             </ul>
@@ -117,8 +109,8 @@ export function DeepContentSections() {
             <div className="homex-phone-screen">
               <strong>BIDBIDERS</strong>
               <p>2024 Hummer EV SUV</p>
-              <span>Статус: в морі</span>
-              <span>Прогноз прибуття: 14 квітня</span>
+              <span>{t('dcAppStatus')}</span>
+              <span>{t('dcAppEta')}</span>
             </div>
           </aside>
         </div>
@@ -126,9 +118,9 @@ export function DeepContentSections() {
 
       <section className="homex-section homex-desktop reveal">
         <div className="homex-head">
-          <p className="homex-kicker">Вебплатформа</p>
-          <h2>Всі дані під контролем на вашому компʼютері</h2>
-          <p>Працює у браузері без встановлення: Chrome, Safari, Firefox, Edge.</p>
+          <p className="homex-kicker">{t('dcDesktopKicker')}</p>
+          <h2>{t('dcDesktopTitle')}</h2>
+          <p>{t('dcDesktopSub')}</p>
         </div>
         <div className="homex-desktop-actions">
           <a href="/catalog">Windows</a>
@@ -138,30 +130,30 @@ export function DeepContentSections() {
 
       <section className="homex-section homex-feedback reveal" id="feedback">
         <div className="homex-head">
-          <p className="homex-kicker">Відгуки</p>
-          <h2>Що кажуть наші клієнти</h2>
+          <p className="homex-kicker">{t('dcFeedbackKicker')}</p>
+          <h2>{t('dcFeedbackTitle')}</h2>
         </div>
 
         <div className="homex-feedback-grid">
           <article>
-            <p>Пригнали Jeep Grand Cherokee за 52 дні. Все прозоро, менеджер постійно на звʼязку.</p>
-            <span>Олексій, Варшава</span>
+            <p>{t('dcReview1')}</p>
+            <span>{t('dcReview1Author')}</span>
           </article>
           <article>
-            <p>Ford Escape Hybrid обійшовся суттєво дешевше аналогів у Польщі. Сервіс на рівні.</p>
-            <span>Марина, Львів</span>
+            <p>{t('dcReview2')}</p>
+            <span>{t('dcReview2Author')}</span>
           </article>
           <article>
-            <p>Третє авто через BIDBIDERS: стабільний результат, зрозумілий процес, хороша підтримка.</p>
-            <span>Дмитро, Краків</span>
+            <p>{t('dcReview3')}</p>
+            <span>{t('dcReview3Author')}</span>
           </article>
         </div>
       </section>
 
       <section className="homex-section homex-faq reveal" id="faq">
         <div className="homex-head">
-          <p className="homex-kicker">FAQ</p>
-          <h2>Найчастіші запитання</h2>
+          <p className="homex-kicker">{t('dcFaqKicker')}</p>
+          <h2>{t('dcFaqTitle')}</h2>
         </div>
 
         <div className="homex-faq-list">
@@ -176,21 +168,21 @@ export function DeepContentSections() {
 
       <section className="homex-section homex-blog reveal" id="blog">
         <div className="homex-head">
-          <p className="homex-kicker">Блог</p>
-          <h2>Корисні матеріали</h2>
+          <p className="homex-kicker">{t('dcBlogKicker')}</p>
+          <h2>{t('dcBlogTitle')}</h2>
         </div>
         <div className="homex-blog-grid">
           <article>
-            <h3>Як купити авто з Copart: покроково</h3>
-            <a href="#">Читати</a>
+            <h3>{t('dcBlogPost1Title')}</h3>
+            <a href="#">{t('dcBlogReadLink')}</a>
           </article>
           <article>
-            <h3>Розмитнення авто: нові ставки та правила</h3>
-            <a href="#">Читати</a>
+            <h3>{t('dcBlogPost2Title')}</h3>
+            <a href="#">{t('dcBlogReadLink')}</a>
           </article>
           <article>
-            <h3>ТОП авто до $20 000 на аукціонах США</h3>
-            <a href="#">Читати</a>
+            <h3>{t('dcBlogPost3Title')}</h3>
+            <a href="#">{t('dcBlogReadLink')}</a>
           </article>
         </div>
       </section>

@@ -304,101 +304,31 @@ export function HomePage() {
     [],
   )
 
-  const budgetUi = useMemo(() => {
-    if (locale === 'en') {
-      return {
-        title: 'We will pick a car for your budget',
-        subtitle: 'Specify body type, year, and budget. Our manager will send 2–3 real auction options with a full cost estimate.',
-        bodyTypeLabel: 'Which body type fits you?',
-        yearLabel: 'Year',
-        yearRangeLabel: 'Range',
-        budgetLabel: 'Your budget',
-        budgetHint: 'Estimate',
-        contactsLabel: 'Contact details',
-        submit: 'Pick a car',
-        consent: 'By clicking the button, you agree to personal data processing for vehicle подбор.',
-        phonePlaceholder: '+48 000 000 000',
-        emailPlaceholder: 'you@email.com',
-      }
-    }
-    if (locale === 'pl') {
-      return {
-        title: 'Dobierzemy auto do Twojego budżetu',
-        subtitle: 'Wskaż typ nadwozia, rocznik i budżet. Menedżer wyśle 2–3 realne opcje z aukcji wraz z pełną kalkulacją.',
-        bodyTypeLabel: 'Jaki typ nadwozia Ci odpowiada?',
-        yearLabel: 'Rok produkcji',
-        yearRangeLabel: 'Zakres',
-        budgetLabel: 'Twój budżet',
-        budgetHint: 'Orientacyjnie',
-        contactsLabel: 'Dane kontaktowe',
-        submit: 'Dobierz auto',
-        consent: 'Klikając przycisk, zgadzasz się na przetwarzanie danych osobowych do doboru auta.',
-        phonePlaceholder: '+48 000 000 000',
-        emailPlaceholder: 'you@email.com',
-      }
-    }
-    return {
-      title: 'Підберемо авто під ваш бюджет',
-      subtitle: 'Вкажіть тип кузова, рік і бюджет. Менеджер надішле 2–3 реальних варіанти з аукціону та повний розрахунок вартості.',
-      bodyTypeLabel: 'Який тип кузова вам підходить?',
-      yearLabel: 'Рік випуску',
-      yearRangeLabel: 'Діапазон',
-      budgetLabel: 'Ваш бюджет',
-      budgetHint: 'Орієнтир',
-      contactsLabel: 'Контактні дані',
-      submit: 'Підібрати авто',
-      consent: 'Натискаючи кнопку, ви погоджуєтесь на обробку персональних даних для підбору автомобіля.',
-      phonePlaceholder: '+48 000 000 000',
-      emailPlaceholder: 'you@email.com',
-    }
-  }, [locale])
+  const budgetUi = useMemo(() => ({
+    title: t('homeBudgetTitle'),
+    subtitle: t('homeBudgetSubtitle'),
+    bodyTypeLabel: t('homeBudgetBodyTypeLabel'),
+    yearLabel: t('homeBudgetYearLabel'),
+    yearRangeLabel: t('homeBudgetYearRangeLabel'),
+    budgetLabel: t('homeBudgetBudgetLabel'),
+    budgetHint: t('homeBudgetHint'),
+    contactsLabel: t('homeBudgetContactsLabel'),
+    submit: t('homeBudgetSubmit'),
+    consent: t('homeBudgetConsent'),
+    phonePlaceholder: '+48 000 000 000',
+    emailPlaceholder: 'you@email.com',
+  }), [t])
 
-  const bodyTypeItems = useMemo(() => {
-    const labels =
-      locale === 'en'
-        ? {
-            sedan: 'Sedan',
-            crossover: 'Crossover',
-            coupe: 'Coupe',
-            hatchback: 'Hatchback',
-            cabriolet: 'Cabriolet',
-            minivan: 'Minivan',
-            microbus: 'Microbus',
-            pickup: 'Pick up',
-          }
-        : locale === 'pl'
-          ? {
-              sedan: 'Sedan',
-              crossover: 'Crossover',
-              coupe: 'Coupe',
-              hatchback: 'Hatchback',
-              cabriolet: 'Kabriolet',
-              minivan: 'Minivan',
-              microbus: 'Mikrobus',
-              pickup: 'Pick up',
-            }
-          : {
-              sedan: 'Седан',
-              crossover: 'Кросовер',
-              coupe: 'Купе',
-              hatchback: 'Хетчбек',
-              cabriolet: 'Кабріолет',
-              minivan: 'Мінівен',
-              microbus: 'Мікроавтобус',
-              pickup: 'Pick up',
-            }
-
-    return [
-      { id: 'sedan', image: `${import.meta.env.BASE_URL}images/body-types/sedan.webp`, label: labels.sedan },
-      { id: 'crossover', image: `${import.meta.env.BASE_URL}images/body-types/crossover.webp`, label: labels.crossover },
-      { id: 'coupe', image: `${import.meta.env.BASE_URL}images/body-types/coupe.webp`, label: labels.coupe },
-      { id: 'hatchback', image: `${import.meta.env.BASE_URL}images/body-types/hatchback.webp`, label: labels.hatchback },
-      { id: 'cabriolet', image: `${import.meta.env.BASE_URL}images/body-types/cabriolet.webp`, label: labels.cabriolet },
-      { id: 'minivan', image: `${import.meta.env.BASE_URL}images/body-types/minivan.webp`, label: labels.minivan },
-      { id: 'microbus', image: `${import.meta.env.BASE_URL}images/body-types/microbus.webp`, label: labels.microbus },
-      { id: 'pickup', image: `${import.meta.env.BASE_URL}images/body-types/pickup.webp`, label: labels.pickup },
-    ]
-  }, [locale])
+  const bodyTypeItems = useMemo(() => [
+    { id: 'sedan', image: `${import.meta.env.BASE_URL}images/body-types/sedan.webp`, label: t('homeBodySedan') },
+    { id: 'crossover', image: `${import.meta.env.BASE_URL}images/body-types/crossover.webp`, label: t('homeBodyCrossover') },
+    { id: 'coupe', image: `${import.meta.env.BASE_URL}images/body-types/coupe.webp`, label: t('homeBodyCoupe') },
+    { id: 'hatchback', image: `${import.meta.env.BASE_URL}images/body-types/hatchback.webp`, label: t('homeBodyHatchback') },
+    { id: 'cabriolet', image: `${import.meta.env.BASE_URL}images/body-types/cabriolet.webp`, label: t('homeBodyCabriolet') },
+    { id: 'minivan', image: `${import.meta.env.BASE_URL}images/body-types/minivan.webp`, label: t('homeBodyMinivan') },
+    { id: 'microbus', image: `${import.meta.env.BASE_URL}images/body-types/microbus.webp`, label: t('homeBodyMicrobus') },
+    { id: 'pickup', image: `${import.meta.env.BASE_URL}images/body-types/pickup.webp`, label: t('homeBodyPickup') },
+  ], [t])
 
   const openB2C = (scenario: string) => {
     setB2c((prev) => ({ ...prev, scenario }))
@@ -952,7 +882,7 @@ export function HomePage() {
                     <span className="px-lot__journey-point">POL</span>
                   </div>
                   <div className="px-lot__eta">
-                    <span>{locale === 'pl' ? 'Przyjazd' : locale === 'en' ? 'Arrival' : 'Прибуття'}</span>
+                    <span>{t('homeTransitArrival')}</span>
                     <strong>{t('homeTransitEta').replace('ETA · ', '~ ')}</strong>
                   </div>
                 </div>
@@ -966,7 +896,7 @@ export function HomePage() {
                   alt={t('transitCtaAlt')}
                   loading="lazy"
                 />
-                <span className="px-lot__badge px-lot__badge--cta">{locale === 'pl' ? '1800+ w drodze' : locale === 'en' ? '1800+ in transit' : '1800+ в дорозі'}</span>
+                <span className="px-lot__badge px-lot__badge--cta">{t('homeTransitInTransitBadge')}</span>
               </div>
               <div className="px-lot__body px-lot__body--cta">
                 <h3 className="px-lot__title px-lot__title--cta">{t('homeTransitCardViewAll')}</h3>
@@ -1422,7 +1352,7 @@ export function HomePage() {
                 </span>
                 <span className="px-loc__address-text">
                   <strong>Jawczyce, Polska</strong>
-                  <p>ul. Poznańska, 56, 05-850</p>
+                  <p>{t('homeLocAddressStreet')}</p>
                 </span>
               </a>
 

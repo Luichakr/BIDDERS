@@ -896,6 +896,91 @@ export type MessageKey =
   | 'ctAddressMapQuery'
   | 'ctAddressLine1'
   | 'ctAddressLine2'
+  | 'dcCalcKicker'
+  | 'dcCalcTitle'
+  | 'dcCalcSub'
+  | 'dcCalcLeftTitle'
+  | 'dcCalcLeft1'
+  | 'dcCalcLeft2'
+  | 'dcCalcLeft3'
+  | 'dcCalcLeft4'
+  | 'dcCalcLeft5'
+  | 'dcCalcLeft6'
+  | 'dcCalcRightTitle'
+  | 'dcCalcRight1'
+  | 'dcCalcRight2'
+  | 'dcCalcRight3'
+  | 'dcCalcRight4'
+  | 'dcCalcRight5'
+  | 'dcCalcRight6'
+  | 'dcCalcStepsTitle'
+  | 'dcCalcStep1'
+  | 'dcCalcStep2'
+  | 'dcCalcStep3'
+  | 'dcCalcStep4'
+  | 'dcCalcCtaCatalog'
+  | 'dcCalcCtaPhoneLabel'
+  | 'dcVideoKicker'
+  | 'dcVideoTitle'
+  | 'dcVideoSub'
+  | 'dcVideoImgAlt'
+  | 'dcAppKicker'
+  | 'dcAppTitle'
+  | 'dcAppLead'
+  | 'dcAppFeature1'
+  | 'dcAppFeature2'
+  | 'dcAppFeature3'
+  | 'dcAppFeature4'
+  | 'dcAppStatus'
+  | 'dcAppEta'
+  | 'dcDesktopKicker'
+  | 'dcDesktopTitle'
+  | 'dcDesktopSub'
+  | 'dcFeedbackKicker'
+  | 'dcFeedbackTitle'
+  | 'dcReview1'
+  | 'dcReview1Author'
+  | 'dcReview2'
+  | 'dcReview2Author'
+  | 'dcReview3'
+  | 'dcReview3Author'
+  | 'dcFaqKicker'
+  | 'dcFaqTitle'
+  | 'dcFaq1Q'
+  | 'dcFaq1A'
+  | 'dcFaq2Q'
+  | 'dcFaq2A'
+  | 'dcFaq3Q'
+  | 'dcFaq3A'
+  | 'dcFaq4Q'
+  | 'dcFaq4A'
+  | 'dcBlogKicker'
+  | 'dcBlogTitle'
+  | 'dcBlogPost1Title'
+  | 'dcBlogPost2Title'
+  | 'dcBlogPost3Title'
+  | 'dcBlogReadLink'
+  | 'homeBudgetTitle'
+  | 'homeBudgetSubtitle'
+  | 'homeBudgetBodyTypeLabel'
+  | 'homeBudgetYearLabel'
+  | 'homeBudgetYearRangeLabel'
+  | 'homeBudgetBudgetLabel'
+  | 'homeBudgetHint'
+  | 'homeBudgetContactsLabel'
+  | 'homeBudgetSubmit'
+  | 'homeBudgetConsent'
+  | 'homeBodySedan'
+  | 'homeBodyCrossover'
+  | 'homeBodyCoupe'
+  | 'homeBodyHatchback'
+  | 'homeBodyCabriolet'
+  | 'homeBodyMinivan'
+  | 'homeBodyMicrobus'
+  | 'homeBodyPickup'
+  | 'homeTransitArrival'
+  | 'homeTransitInTransitBadge'
+  | 'homeLocAddressStreet'
 
 type Messages = Record<string, string>
 
@@ -1796,6 +1881,91 @@ export const messages: Record<Locale, Messages> = {
     ctAddressMapQuery: 'Jawczyce ul. Poznańska 56 05-850 Polska',
     ctAddressLine1: 'ul. Poznańska, 56',
     ctAddressLine2: '05-850 Jawczyce, Polska',
+    dcCalcKicker: 'Калькулятор',
+    dcCalcTitle: 'Розрахуйте точну вартість імпорту за лічені секунди',
+    dcCalcSub: 'Заздалегідь знайте, до якої суми торгуватися на аукціоні. У розрахунку враховані всі ключові витрати.',
+    dcCalcLeftTitle: 'Комплексна оцінка включає',
+    dcCalcLeft1: 'Ціна на аукціоні + комісія майданчика',
+    dcCalcLeft2: 'Транспорт з місця аукціону до складу в США',
+    dcCalcLeft3: 'Обробка та зберігання авто на складі',
+    dcCalcLeft4: 'Морський фрахт до порту призначення',
+    dcCalcLeft5: 'Митне оформлення (єдиний платіж або повна ставка)',
+    dcCalcLeft6: 'Доставка з порту до вашого міста',
+    dcCalcRightTitle: 'Персоналізація розрахунку',
+    dcCalcRight1: 'Тип авто: Sedan, SUV, Truck, Minivan',
+    dcCalcRight2: 'Рік випуску та обʼєм двигуна',
+    dcCalcRight3: 'Порт відправки: NJ, FL, CA, TX, Корея',
+    dcCalcRight4: 'Пункт призначення в Польщі',
+    dcCalcRight5: 'Тип оформлення та супровід документів',
+    dcCalcRight6: 'Ваш бюджет і бажані марки',
+    dcCalcStepsTitle: 'Як отримати доступ до калькулятора',
+    dcCalcStep1: 'Звʼяжіться з менеджером BIDBIDERS',
+    dcCalcStep2: 'Отримайте доступ до кабінету',
+    dcCalcStep3: 'Заповніть параметри авто і маршрут',
+    dcCalcStep4: 'Отримайте повний кошторис імпорту',
+    dcCalcCtaCatalog: 'Відкрити каталог',
+    dcCalcCtaPhoneLabel: 'Зателефонувати: +48 784 890 644',
+    dcVideoKicker: 'Як це працює',
+    dcVideoTitle: 'Подивіться, як працює наш застосунок',
+    dcVideoSub: 'Коротка демонстрація шляху: від вибору лота до передачі авто клієнту.',
+    dcVideoImgAlt: 'Демонстрація BIDBIDERS',
+    dcAppKicker: 'Мобільний застосунок',
+    dcAppTitle: 'Всі імпортні дані під контролем на вашому телефоні',
+    dcAppLead: 'Відстежуйте ставки, логістику та статуси доставки у будь-який момент.',
+    dcAppFeature1: 'Всі аукціони в одному місці: Copart, IAAI, Manheim, Канада, Корея, Китай',
+    dcAppFeature2: 'AI-аналіз ушкоджень, оцінка ремонту та рекомендація по максимальній ставці',
+    dcAppFeature3: 'Перевірка історії через Carfax, статусу Title та даних продавця',
+    dcAppFeature4: 'Tracking контейнера в реальному часі з прогнозом прибуття',
+    dcAppStatus: 'Статус: в морі',
+    dcAppEta: 'Прогноз прибуття: 14 квітня',
+    dcDesktopKicker: 'Вебплатформа',
+    dcDesktopTitle: 'Всі дані під контролем на вашому компʼютері',
+    dcDesktopSub: 'Працює у браузері без встановлення: Chrome, Safari, Firefox, Edge.',
+    dcFeedbackKicker: 'Відгуки',
+    dcFeedbackTitle: 'Що кажуть наші клієнти',
+    dcReview1: 'Пригнали Jeep Grand Cherokee за 52 дні. Все прозоро, менеджер постійно на звʼязку.',
+    dcReview1Author: 'Олексій, Варшава',
+    dcReview2: 'Ford Escape Hybrid обійшовся суттєво дешевше аналогів у Польщі. Сервіс на рівні.',
+    dcReview2Author: 'Марина, Львів',
+    dcReview3: 'Третє авто через BIDBIDERS: стабільний результат, зрозумілий процес, хороша підтримка.',
+    dcReview3Author: 'Дмитро, Краків',
+    dcFaqKicker: 'FAQ',
+    dcFaqTitle: 'Найчастіші запитання',
+    dcFaq1Q: 'Скільки часу займає весь процес імпорту?',
+    dcFaq1A: 'В середньому 45-60 днів: залежно від порту, митниці та фінальної доставки у ваше місто.',
+    dcFaq2Q: 'Чи можна оглянути авто перед купівлею?',
+    dcFaq2A: 'Так, надаємо детальний фотоогляд і попередню оцінку. Для авто в дорозі доступне бронювання.',
+    dcFaq3Q: 'Чи страхується авто під час перевезення?',
+    dcFaq3A: 'Так, автомобілі страхуються на етапі морської логістики згідно обраного маршруту.',
+    dcFaq4Q: 'Що таке «Авто в дорозі»?',
+    dcFaq4A: 'Це авто, які вже викуплені та прямують до Європи. Ви отримуєте швидшу доставку з фіксованою ціною.',
+    dcBlogKicker: 'Блог',
+    dcBlogTitle: 'Корисні матеріали',
+    dcBlogPost1Title: 'Як купити авто з Copart: покроково',
+    dcBlogPost2Title: 'Розмитнення авто: нові ставки та правила',
+    dcBlogPost3Title: 'ТОП авто до $20 000 на аукціонах США',
+    dcBlogReadLink: 'Читати',
+    homeBudgetTitle: 'Підберемо авто під ваш бюджет',
+    homeBudgetSubtitle: 'Вкажіть тип кузова, рік і бюджет. Менеджер надішле 2–3 реальних варіанти з аукціону та повний розрахунок вартості.',
+    homeBudgetBodyTypeLabel: 'Який тип кузова вам підходить?',
+    homeBudgetYearLabel: 'Рік випуску',
+    homeBudgetYearRangeLabel: 'Діапазон',
+    homeBudgetBudgetLabel: 'Ваш бюджет',
+    homeBudgetHint: 'Орієнтир',
+    homeBudgetContactsLabel: 'Контактні дані',
+    homeBudgetSubmit: 'Підібрати авто',
+    homeBudgetConsent: 'Натискаючи кнопку, ви погоджуєтесь на обробку персональних даних для підбору автомобіля.',
+    homeBodySedan: 'Седан',
+    homeBodyCrossover: 'Кросовер',
+    homeBodyCoupe: 'Купе',
+    homeBodyHatchback: 'Хетчбек',
+    homeBodyCabriolet: 'Кабріолет',
+    homeBodyMinivan: 'Мінівен',
+    homeBodyMicrobus: 'Мікроавтобус',
+    homeBodyPickup: 'Pick up',
+    homeTransitArrival: 'Прибуття',
+    homeTransitInTransitBadge: '1800+ в дорозі',
+    homeLocAddressStreet: 'ul. Poznańska, 56, 05-850',
   },
   en: {
     navHome: 'Home',
@@ -2693,6 +2863,91 @@ export const messages: Record<Locale, Messages> = {
     ctAddressMapQuery: 'Jawczyce ul. Poznańska 56 05-850 Polska',
     ctAddressLine1: 'ul. Poznańska, 56',
     ctAddressLine2: '05-850 Jawczyce, Polska',
+    dcCalcKicker: 'Calculator',
+    dcCalcTitle: 'Calculate the exact import cost in seconds',
+    dcCalcSub: 'Know in advance the maximum bid at auction. All key costs are included in the estimate.',
+    dcCalcLeftTitle: 'Comprehensive estimate includes',
+    dcCalcLeft1: 'Auction price + platform commission',
+    dcCalcLeft2: 'Transport from auction to US warehouse',
+    dcCalcLeft3: 'Vehicle handling and storage at warehouse',
+    dcCalcLeft4: 'Ocean freight to destination port',
+    dcCalcLeft5: 'Customs clearance (flat fee or full rate)',
+    dcCalcLeft6: 'Delivery from port to your city',
+    dcCalcRightTitle: 'Personalised calculation',
+    dcCalcRight1: 'Vehicle type: Sedan, SUV, Truck, Minivan',
+    dcCalcRight2: 'Year and engine displacement',
+    dcCalcRight3: 'Departure port: NJ, FL, CA, TX, Korea',
+    dcCalcRight4: 'Destination in Poland',
+    dcCalcRight5: 'Customs format and document support',
+    dcCalcRight6: 'Your budget and preferred makes',
+    dcCalcStepsTitle: 'How to access the calculator',
+    dcCalcStep1: 'Contact a BIDBIDERS manager',
+    dcCalcStep2: 'Get access to the dashboard',
+    dcCalcStep3: 'Enter vehicle parameters and route',
+    dcCalcStep4: 'Receive a full import cost estimate',
+    dcCalcCtaCatalog: 'Open catalog',
+    dcCalcCtaPhoneLabel: 'Call: +48 784 890 644',
+    dcVideoKicker: 'How it works',
+    dcVideoTitle: 'See how our app works',
+    dcVideoSub: 'A brief demo of the journey: from lot selection to vehicle handover.',
+    dcVideoImgAlt: 'BIDBIDERS demo',
+    dcAppKicker: 'Mobile app',
+    dcAppTitle: 'All import data under control on your phone',
+    dcAppLead: 'Track bids, logistics, and delivery statuses at any time.',
+    dcAppFeature1: 'All auctions in one place: Copart, IAAI, Manheim, Canada, Korea, China',
+    dcAppFeature2: 'AI damage analysis, repair estimate, and maximum bid recommendation',
+    dcAppFeature3: 'History check via Carfax, title status, and seller data verification',
+    dcAppFeature4: 'Real-time container tracking with arrival forecast',
+    dcAppStatus: 'Status: at sea',
+    dcAppEta: 'Arrival forecast: April 14',
+    dcDesktopKicker: 'Web platform',
+    dcDesktopTitle: 'All data under control on your computer',
+    dcDesktopSub: 'Works in browser with no installation: Chrome, Safari, Firefox, Edge.',
+    dcFeedbackKicker: 'Reviews',
+    dcFeedbackTitle: 'What our clients say',
+    dcReview1: 'Brought a Jeep Grand Cherokee in 52 days. Everything transparent, manager always in touch.',
+    dcReview1Author: 'Oleksiy, Warsaw',
+    dcReview2: 'Ford Escape Hybrid came out significantly cheaper than similar cars in Poland. Top-level service.',
+    dcReview2Author: 'Maryna, Lviv',
+    dcReview3: 'Third car through BIDBIDERS: consistent result, clear process, great support.',
+    dcReview3Author: 'Dmytro, Kraków',
+    dcFaqKicker: 'FAQ',
+    dcFaqTitle: 'Frequently asked questions',
+    dcFaq1Q: 'How long does the entire import process take?',
+    dcFaq1A: 'On average 45-60 days: depending on the port, customs, and final delivery to your city.',
+    dcFaq2Q: 'Can I inspect the car before purchase?',
+    dcFaq2A: 'Yes, we provide a detailed photo inspection and preliminary estimate. Cars in transit can be reserved.',
+    dcFaq3Q: 'Is the car insured during transport?',
+    dcFaq3A: 'Yes, vehicles are insured during ocean logistics according to the selected route.',
+    dcFaq4Q: 'What is "Car in transit"?',
+    dcFaq4A: 'These are cars already purchased and heading to Europe. You get faster delivery at a fixed price.',
+    dcBlogKicker: 'Blog',
+    dcBlogTitle: 'Useful materials',
+    dcBlogPost1Title: 'How to buy a car from Copart: step by step',
+    dcBlogPost2Title: 'Car customs clearance: new rates and rules',
+    dcBlogPost3Title: 'TOP cars under $20,000 at US auctions',
+    dcBlogReadLink: 'Read',
+    homeBudgetTitle: 'We will pick a car for your budget',
+    homeBudgetSubtitle: 'Specify body type, year, and budget. Our manager will send 2–3 real auction options with a full cost estimate.',
+    homeBudgetBodyTypeLabel: 'Which body type fits you?',
+    homeBudgetYearLabel: 'Year',
+    homeBudgetYearRangeLabel: 'Range',
+    homeBudgetBudgetLabel: 'Your budget',
+    homeBudgetHint: 'Estimate',
+    homeBudgetContactsLabel: 'Contact details',
+    homeBudgetSubmit: 'Pick a car',
+    homeBudgetConsent: 'By clicking the button, you agree to personal data processing for vehicle selection.',
+    homeBodySedan: 'Sedan',
+    homeBodyCrossover: 'Crossover',
+    homeBodyCoupe: 'Coupe',
+    homeBodyHatchback: 'Hatchback',
+    homeBodyCabriolet: 'Cabriolet',
+    homeBodyMinivan: 'Minivan',
+    homeBodyMicrobus: 'Microbus',
+    homeBodyPickup: 'Pick up',
+    homeTransitArrival: 'Arrival',
+    homeTransitInTransitBadge: '1800+ in transit',
+    homeLocAddressStreet: 'ul. Poznańska, 56, 05-850',
   },
   pl: {
     navHome: 'Start',
@@ -3590,5 +3845,90 @@ export const messages: Record<Locale, Messages> = {
     ctAddressMapQuery: 'Jawczyce ul. Poznańska 56 05-850 Polska',
     ctAddressLine1: 'ul. Poznańska, 56',
     ctAddressLine2: '05-850 Jawczyce, Polska',
+    dcCalcKicker: 'Kalkulator',
+    dcCalcTitle: 'Oblicz dokładny koszt importu w kilka sekund',
+    dcCalcSub: 'Zawczasu wiedz, do jakiej kwoty licytować na aukcji. Kalkulacja uwzględnia wszystkie kluczowe koszty.',
+    dcCalcLeftTitle: 'Kompleksowa wycena obejmuje',
+    dcCalcLeft1: 'Cena na aukcji + prowizja platformy',
+    dcCalcLeft2: 'Transport z miejsca aukcji do magazynu w USA',
+    dcCalcLeft3: 'Obsługa i przechowywanie auta w magazynie',
+    dcCalcLeft4: 'Fracht morski do portu docelowego',
+    dcCalcLeft5: 'Odprawa celna (jednorazowa opłata lub pełna stawka)',
+    dcCalcLeft6: 'Dostawa z portu do Twojego miasta',
+    dcCalcRightTitle: 'Personalizacja kalkulacji',
+    dcCalcRight1: 'Typ auta: Sedan, SUV, Truck, Minivan',
+    dcCalcRight2: 'Rok produkcji i pojemność silnika',
+    dcCalcRight3: 'Port wysyłki: NJ, FL, CA, TX, Korea',
+    dcCalcRight4: 'Miejsce docelowe w Polsce',
+    dcCalcRight5: 'Typ odprawy i obsługa dokumentów',
+    dcCalcRight6: 'Twój budżet i preferowane marki',
+    dcCalcStepsTitle: 'Jak uzyskać dostęp do kalkulatora',
+    dcCalcStep1: 'Skontaktuj się z menedżerem BIDBIDERS',
+    dcCalcStep2: 'Uzyskaj dostęp do panelu',
+    dcCalcStep3: 'Wypełnij parametry auta i trasę',
+    dcCalcStep4: 'Otrzymaj pełny kosztorys importu',
+    dcCalcCtaCatalog: 'Otwórz katalog',
+    dcCalcCtaPhoneLabel: 'Zadzwoń: +48 784 890 644',
+    dcVideoKicker: 'Jak to działa',
+    dcVideoTitle: 'Zobacz, jak działa nasza aplikacja',
+    dcVideoSub: 'Krótka demonstracja ścieżki: od wyboru lotu do przekazania auta klientowi.',
+    dcVideoImgAlt: 'Demonstracja BIDBIDERS',
+    dcAppKicker: 'Aplikacja mobilna',
+    dcAppTitle: 'Wszystkie dane importowe pod kontrolą na Twoim telefonie',
+    dcAppLead: 'Śledź stawki, logistykę i statusy dostaw w dowolnym momencie.',
+    dcAppFeature1: 'Wszystkie aukcje w jednym miejscu: Copart, IAAI, Manheim, Kanada, Korea, Chiny',
+    dcAppFeature2: 'Analiza szkód przez AI, wycena naprawy i rekomendacja maksymalnej stawki',
+    dcAppFeature3: 'Sprawdzenie historii przez Carfax, statusu tytułu i danych sprzedawcy',
+    dcAppFeature4: 'Śledzenie kontenera w czasie rzeczywistym z prognozą przyjazdu',
+    dcAppStatus: 'Status: na morzu',
+    dcAppEta: 'Prognoza przyjazdu: 14 kwietnia',
+    dcDesktopKicker: 'Platforma webowa',
+    dcDesktopTitle: 'Wszystkie dane pod kontrolą na Twoim komputerze',
+    dcDesktopSub: 'Działa w przeglądarce bez instalacji: Chrome, Safari, Firefox, Edge.',
+    dcFeedbackKicker: 'Opinie',
+    dcFeedbackTitle: 'Co mówią nasi klienci',
+    dcReview1: 'Przywieźliśmy Jeep Grand Cherokee w 52 dni. Wszystko przejrzyste, menedżer stale w kontakcie.',
+    dcReview1Author: 'Oleksij, Warszawa',
+    dcReview2: 'Ford Escape Hybrid wyszedł znacznie taniej niż podobne auta w Polsce. Serwis na poziomie.',
+    dcReview2Author: 'Maryna, Lwów',
+    dcReview3: 'Trzecie auto przez BIDBIDERS: stabilny wynik, zrozumiały proces, dobra obsługa.',
+    dcReview3Author: 'Dmytro, Kraków',
+    dcFaqKicker: 'FAQ',
+    dcFaqTitle: 'Najczęściej zadawane pytania',
+    dcFaq1Q: 'Ile trwa cały proces importu?',
+    dcFaq1A: 'Średnio 45-60 dni: w zależności od portu, odprawy celnej i dostawy do Twojego miasta.',
+    dcFaq2Q: 'Czy można obejrzeć auto przed zakupem?',
+    dcFaq2A: 'Tak, zapewniamy szczegółowy przegląd fotograficzny i wstępną wycenę. Dla aut w drodze dostępna rezerwacja.',
+    dcFaq3Q: 'Czy auto jest ubezpieczone podczas transportu?',
+    dcFaq3A: 'Tak, samochody są ubezpieczone na etapie logistyki morskiej zgodnie z wybraną trasą.',
+    dcFaq4Q: 'Co to jest „Auto w drodze"?',
+    dcFaq4A: 'To auta już zakupione i zmierzające do Europy. Otrzymujesz szybszą dostawę ze stałą ceną.',
+    dcBlogKicker: 'Blog',
+    dcBlogTitle: 'Przydatne materiały',
+    dcBlogPost1Title: 'Jak kupić auto z Copart: krok po kroku',
+    dcBlogPost2Title: 'Odprawa celna aut: nowe stawki i przepisy',
+    dcBlogPost3Title: 'TOP auta do 20 000 USD na aukcjach w USA',
+    dcBlogReadLink: 'Czytaj',
+    homeBudgetTitle: 'Dobierzemy auto do Twojego budżetu',
+    homeBudgetSubtitle: 'Wskaż typ nadwozia, rocznik i budżet. Menedżer wyśle 2–3 realne opcje z aukcji wraz z pełną kalkulacją.',
+    homeBudgetBodyTypeLabel: 'Jaki typ nadwozia Ci odpowiada?',
+    homeBudgetYearLabel: 'Rok produkcji',
+    homeBudgetYearRangeLabel: 'Zakres',
+    homeBudgetBudgetLabel: 'Twój budżet',
+    homeBudgetHint: 'Orientacyjnie',
+    homeBudgetContactsLabel: 'Dane kontaktowe',
+    homeBudgetSubmit: 'Dobierz auto',
+    homeBudgetConsent: 'Klikając przycisk, zgadzasz się na przetwarzanie danych osobowych do doboru auta.',
+    homeBodySedan: 'Sedan',
+    homeBodyCrossover: 'Crossover',
+    homeBodyCoupe: 'Coupe',
+    homeBodyHatchback: 'Hatchback',
+    homeBodyCabriolet: 'Kabriolet',
+    homeBodyMinivan: 'Minivan',
+    homeBodyMicrobus: 'Mikrobus',
+    homeBodyPickup: 'Pick up',
+    homeTransitArrival: 'Przyjazd',
+    homeTransitInTransitBadge: '1800+ w drodze',
+    homeLocAddressStreet: 'ul. Poznańska, 56, 05-850',
   },
 }
