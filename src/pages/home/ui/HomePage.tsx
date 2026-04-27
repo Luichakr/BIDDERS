@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { routePaths, localizedPath } from '../../../shared/config/routes'
 import { ROUTE_IMAGES } from '../../../shared/config/routeCards'
 import { formatCaseMoney, getCasesData, getCaseSavings, type CaseRecord } from '../../../features/cases/model/cases.service'
+import { fetchCatalogCars } from '../../../features/auction/model/inRoute.service'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
 import { Seo } from '../../../shared/seo/Seo'
 
@@ -53,6 +54,12 @@ export function HomePage() {
   const [b2cBudgetMax, setB2cBudgetMax] = useState(30000)
   const [b2cMake, setB2cMake] = useState('')
   const [b2cModel, setB2cModel] = useState('')
+  const [allMakesModels, setAllMakesModels] = useState<Record<string, string[]>>({})
+  const allMakes = useMemo(() => Object.keys(allMakesModels).sort(), [allMakesModels])
+  const availableModels = useMemo(() => {
+    if (!b2cMake) return []
+    return (allMakesModels[b2cMake] ?? []).sort()
+  }, [allMakesModels, b2cMake])
   const [b2cGeneration, setB2cGeneration] = useState('')
   const [b2cDrive, setB2cDrive] = useState('')
   const [b2cFuel, setB2cFuel] = useState('')
@@ -171,6 +178,24 @@ export function HomePage() {
   const [casesPages, setCasesPages] = useState(1)
   const [casesCanPrev, setCasesCanPrev] = useState(false)
   const [casesCanNext, setCasesCanNext] = useState(true)
+
+  useEffect(() => {
+    fetchCatalogCars().then((cards) => {
+      const map: Record<string, Set<string>> = {}
+      for (const card of cards) {
+        const make = card.make?.trim()
+        const model = card.model?.trim()
+        if (!make || make === 'BID BIDDERS' || make === 'Unknown') continue
+        if (!map[make]) map[make] = new Set()
+        if (model && model !== 'Unknown') map[make].add(model)
+      }
+      const result: Record<string, string[]> = {}
+      for (const [make, models] of Object.entries(map)) {
+        result[make] = Array.from(models)
+      }
+      setAllMakesModels(result)
+    }).catch(() => {/* silent */})
+  }, [])
 
   useEffect(() => {
     const el = casesScrollRef.current
@@ -1759,8 +1784,18 @@ export function HomePage() {
             <section className="bp-budget-block">
               <p className="bp-budget-block__label">{t('homeBudgetExtrasTitle')}</p>
               <div className="bp-budget-extras">
-                <label>{t('homeBudgetMake')}<input value={b2cMake} onChange={(e) => setB2cMake(e.target.value)} /></label>
-                <label>{t('homeBudgetModel')}<input value={b2cModel} onChange={(e) => setB2cModel(e.target.value)} /></label>
+                <label>{t('homeBudgetMake')}
+                  <select value={b2cMake} onChange={(e) => { setB2cMake(e.target.value); setB2cModel('') }}>
+                    <option value="">{t('homeBudgetAny')}</option>
+                    {allMakes.map((m) => <option key={m} value={m}>{m}</option>)}
+                  </select>
+                </label>
+                <label>{t('homeBudgetModel')}
+                  <select value={b2cModel} onChange={(e) => setB2cModel(e.target.value)} disabled={!b2cMake}>
+                    <option value="">{t('homeBudgetAny')}</option>
+                    {availableModels.map((m) => <option key={m} value={m}>{m}</option>)}
+                  </select>
+                </label>
                 <label>{t('homeBudgetGeneration')}<input value={b2cGeneration} onChange={(e) => setB2cGeneration(e.target.value)} /></label>
                 <label>{t('homeBudgetDrive')}
                   <select value={b2cDrive} onChange={(e) => setB2cDrive(e.target.value)}>
