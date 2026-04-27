@@ -1925,6 +1925,30 @@
 }
 .px-calcx__note a:hover { text-decoration-color: #fff; }
 
+@media (max-width: 600px) {
+  .px-calcx__card-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .px-calcx__dest select {
+    font-size: 11px;
+    padding: 7px 28px 7px 10px;
+    max-width: 100%;
+  }
+  .px-calc__total {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .px-calc__total strong {
+    font-size: 20px;
+  }
+  .px-calcx {
+    padding: clamp(16px, 4vw, 28px);
+  }
+}
+
 .px-calcx__steps {
   margin-top: clamp(32px, 4vw, 48px);
   background: var(--px-surface-alt, #f6f7fb);
