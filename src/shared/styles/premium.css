@@ -1496,7 +1496,13 @@
   font-family: var(--px-mono);
   font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase;
   color: var(--px-orange);
-  margin: 0 0 18px;
+  margin: 0 0 4px;
+}
+.px-econ__car-name {
+  font-size: 15px; font-weight: 700;
+  color: #fff;
+  margin: 0 0 16px;
+  letter-spacing: 0.01em;
 }
 .px-econ__row {
   display: flex; justify-content: space-between; align-items: baseline;
@@ -1781,8 +1787,10 @@
   .px-calcx__grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 600px) {
-  .px-calcx { padding: 16px; border-radius: 16px; }
+  .px-calcx { padding: 16px 0; border-radius: 16px; }
   .px-calcx__grid { gap: 24px; }
+  .px-calcx__left { padding: 0 16px; }
+  .px-calcx__right { padding: 0; }
 }
 .px-calcx__badge {
   margin-top: 24px;
@@ -1948,9 +1956,6 @@
   }
   .px-calc__total strong {
     font-size: 20px;
-  }
-  .px-calcx {
-    padding: clamp(16px, 4vw, 28px);
   }
 }
 
@@ -2556,6 +2561,7 @@
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
   gap: clamp(28px, 4vw, 56px);
   align-items: center;
+  overflow: hidden;
 }
 .px-loc__info {
   display: flex; flex-direction: column; gap: 16px;
@@ -2768,9 +2774,13 @@
     aspect-ratio: 16 / 10;
     min-height: 260px;
     margin-top: 8px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
   .px-loc__showroom img {
     width: 100%;
+    max-width: 100%;
   }
   .px-loc__showroom::before { background: linear-gradient(90deg, rgba(245,246,250,0.76) 0%, rgba(245,246,250,0.24) 26%, rgba(245,246,250,0) 44%); }
   .px-loc__kicker { top: 36px; left: 24px; }
@@ -3276,11 +3286,16 @@ header.px-header {
   backdrop-filter: saturate(180%) blur(18px);
   -webkit-backdrop-filter: saturate(180%) blur(18px);
   border-bottom: 1px solid rgba(27,42,74,0.08);
-  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, top 0.3s ease;
   font-family: var(--px-body);
   display: block;
   margin: 0;
   gap: 0;
+}
+@media (max-width: 768px) {
+  header.px-header.hidden-up {
+    top: -80px;
+  }
 }
 .px-header.scrolled {
   background: rgba(255,255,255,0.92);
@@ -4075,6 +4090,8 @@ header.px-header {
 @media (max-width: 900px) {
   .px-footer__top { grid-template-columns: 1fr; }
   .px-footer__cols { grid-template-columns: repeat(2, 1fr); }
+  .px-footer__brand { max-width: none; text-align: center; }
+  .px-footer__logo img { margin-left: auto; margin-right: auto; }
 }
 @media (max-width: 520px) {
   .px-footer__cols { grid-template-columns: 1fr; }

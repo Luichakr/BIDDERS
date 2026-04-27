@@ -770,6 +770,7 @@ export function HomePage() {
               <article className="px-econ__card">
                 <div className="px-econ__card-top">
                   <p className="px-econ__case">{t('homeEconCase')} 01</p>
+                  <p className="px-econ__car-name">BMW M8 2025</p>
                   <div className="px-econ__row"><span>{t('homeEconMarket')}</span><strong>€18,000</strong></div>
                   <div className="px-econ__row"><span>{t('homeEconTurnkey')}</span><strong>€13,500</strong></div>
                   <div className="px-econ__save">
@@ -784,6 +785,7 @@ export function HomePage() {
               <article className="px-econ__card">
                 <div className="px-econ__card-top">
                   <p className="px-econ__case">{t('homeEconCase')} 02</p>
+                  <p className="px-econ__car-name">Mercedes E63 AMG 2025</p>
                   <div className="px-econ__row"><span>{t('homeEconMarket')}</span><strong>€26,000</strong></div>
                   <div className="px-econ__row"><span>{t('homeEconTurnkey')}</span><strong>€20,200</strong></div>
                   <div className="px-econ__save">

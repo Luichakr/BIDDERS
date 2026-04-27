@@ -10,7 +10,10 @@ const LOCALE_ORDER = ['uk', 'pl', 'en'] as const
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [hidden, setHidden] = useState(false)
   const [progress, setProgress] = useState(0)
+  const lastScrollY = useRef(0)
+  const scrollDir = useRef<'up' | 'down'>('up')
   const [localeOpen, setLocaleOpen] = useState(false)
   const [catalogOpen, setCatalogOpen] = useState(false)
   const [mobileCatalogOpen, setMobileCatalogOpen] = useState(false)
@@ -21,6 +24,7 @@ export function Header() {
   const lp = (path: string) => localizedPath(locale, path)
 
   const closeMobile = () => setMobileOpen(false)
+  const openMobile = () => { setHidden(false); setMobileOpen(true) }
 
   // Lock body scroll when mobile menu is open
   useEffect(() => {
@@ -34,6 +38,24 @@ export function Header() {
       setScrolled(y > 24)
       const h = document.documentElement.scrollHeight - window.innerHeight
       setProgress(h > 0 ? Math.min(100, (y / h) * 100) : 0)
+
+      // Hide on scroll down, show on scroll up (mobile only)
+      if (window.innerWidth <= 768) {
+        const diff = y - lastScrollY.current
+        if (diff > 0) {
+          scrollDir.current = 'down'
+        } else if (diff < 0) {
+          scrollDir.current = 'up'
+        }
+        if (scrollDir.current === 'down' && y > 100) {
+          setHidden(true)
+        } else if (scrollDir.current === 'up') {
+          setHidden(false)
+        }
+      } else {
+        setHidden(false)
+      }
+      lastScrollY.current = y
     }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -78,7 +100,7 @@ export function Header() {
 
   return (
     <>
-      <header className={scrolled ? 'px-header scrolled' : 'px-header'}>
+      <header className={['px-header', scrolled ? 'scrolled' : '', hidden ? 'hidden-up' : ''].filter(Boolean).join(' ')}>
         <div className="px-header__bar">
           <NavLink className="px-header__logo" to={lp(routePaths.home)} aria-label="BIDDERS" onClick={closeMobile}>
             <img src={`${import.meta.env.BASE_URL}images/logo-carwaw-black.png`} alt="BIDDERS" />
@@ -231,7 +253,7 @@ export function Header() {
               type="button"
               aria-label={t('headerToggleMenu')}
               aria-expanded={mobileOpen}
-              onClick={() => setMobileOpen((value) => !value)}
+              onClick={() => mobileOpen ? closeMobile() : openMobile()}
             >
               <span></span>
               <span></span>
