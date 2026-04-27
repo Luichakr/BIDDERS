@@ -11,7 +11,10 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [progress, setProgress] = useState(0)
   const [localeOpen, setLocaleOpen] = useState(false)
+  const [catalogOpen, setCatalogOpen] = useState(false)
+  const [mobileCatalogOpen, setMobileCatalogOpen] = useState(false)
   const localeRef = useRef<HTMLDivElement | null>(null)
+  const catalogRef = useRef<HTMLDivElement | null>(null)
   const { locale, setLocale, t } = useI18n()
   const lp = (path: string) => localizedPath(locale, path)
 
@@ -50,6 +53,22 @@ export function Header() {
     }
   }, [localeOpen])
 
+  // Close catalog dropdown on outside click
+  useEffect(() => {
+    if (!catalogOpen) return
+    const onDown = (e: MouseEvent) => {
+      if (!catalogRef.current) return
+      if (!catalogRef.current.contains(e.target as Node)) setCatalogOpen(false)
+    }
+    const onEsc = (e: KeyboardEvent) => { if (e.key === 'Escape') setCatalogOpen(false) }
+    document.addEventListener('mousedown', onDown)
+    document.addEventListener('keydown', onEsc)
+    return () => {
+      document.removeEventListener('mousedown', onDown)
+      document.removeEventListener('keydown', onEsc)
+    }
+  }, [catalogOpen])
+
   const pickLocale = (value: 'uk' | 'pl' | 'en') => {
     setLocale(value)
     setLocaleOpen(false)
@@ -65,11 +84,43 @@ export function Header() {
 
           <nav className="px-header__nav" aria-label={t('headerPrimaryNavAria')}>
             <NavLink to={lp(routePaths.home)}>{t('navHome')}</NavLink>
-            <NavLink to={lp(routePaths.catalog)}>{t('navCatalog')}</NavLink>
-            <NavLink to={lp(routePaths.chinaCars)}>{t('navChinaCars')}</NavLink>
-            <NavLink to={lp(routePaths.transit)}>{t('navTransit')}</NavLink>
+
+            {/* Catalog dropdown */}
+            <div
+              ref={catalogRef}
+              className={catalogOpen ? 'px-nav-dropdown open' : 'px-nav-dropdown'}
+              onMouseEnter={() => setCatalogOpen(true)}
+              onMouseLeave={() => setCatalogOpen(false)}
+            >
+              <button
+                type="button"
+                className="px-nav-dropdown__trigger"
+                aria-haspopup="true"
+                aria-expanded={catalogOpen}
+                onClick={() => setCatalogOpen((v) => !v)}
+              >
+                {t('navCatalog')}
+                <svg className="px-nav-dropdown__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M6 9l6 6 6-6"/>
+                </svg>
+              </button>
+              <div className="px-nav-dropdown__menu" role="menu">
+                <NavLink to={lp(routePaths.catalog)} role="menuitem" onClick={() => setCatalogOpen(false)}>
+                  {t('navCatalogUsa')}
+                </NavLink>
+                <NavLink to={lp(routePaths.inStock)} role="menuitem" onClick={() => setCatalogOpen(false)}>
+                  {t('navInStock')}
+                </NavLink>
+                <NavLink to={lp(routePaths.transit)} role="menuitem" onClick={() => setCatalogOpen(false)}>
+                  {t('navTransit')}
+                </NavLink>
+                <NavLink to={lp(routePaths.chinaCars)} role="menuitem" onClick={() => setCatalogOpen(false)}>
+                  {t('navChinaCars')}
+                </NavLink>
+              </div>
+            </div>
+
             <NavLink to={lp(routePaths.calculator)}>{t('navCalculator')}</NavLink>
-            <NavLink to={lp(routePaths.inStock)}>{t('navInStock')}</NavLink>
             <NavLink to={lp(routePaths.blog)}>{t('navBlog')}</NavLink>
             <NavLink to={lp(routePaths.faq)}>FAQ</NavLink>
             <NavLink to={lp(routePaths.contacts)}>{t('navContacts')}</NavLink>
@@ -176,16 +227,33 @@ export function Header() {
           <button type="button" className="px-mobile__close" aria-label={t('headerMenuClose')} onClick={closeMobile}>×</button>
         </div>
         <div className="px-mobile__links">
-           <NavLink to={lp(routePaths.home)} onClick={closeMobile}>{t('navHome')}</NavLink>
-           <NavLink to={lp(routePaths.catalog)} onClick={closeMobile}>{t('navCatalog')}</NavLink>
-           <NavLink to={lp(routePaths.chinaCars)} onClick={closeMobile}>{t('navChinaCars')}</NavLink>
-           <NavLink to={lp(routePaths.inStock)} onClick={closeMobile}>{t('navInStock')}</NavLink>
-           <NavLink to={lp(routePaths.transit)} onClick={closeMobile}>{t('navTransit')}</NavLink>
-           <NavLink to={lp(routePaths.calculator)} onClick={closeMobile}>{t('navCalculator')}</NavLink>
-           <NavLink to={lp(routePaths.blog)} onClick={closeMobile}>{t('navBlog')}</NavLink>
-           <NavLink to={lp(routePaths.cases)} onClick={closeMobile}>{t('navCases')}</NavLink>
-           <NavLink to={lp(routePaths.faq)} onClick={closeMobile}>FAQ</NavLink>
-           <NavLink to={lp(routePaths.contacts)} onClick={closeMobile}>{t('navContacts')}</NavLink>
+          <NavLink to={lp(routePaths.home)} onClick={closeMobile}>{t('navHome')}</NavLink>
+
+          {/* Catalog accordion in mobile */}
+          <div className={mobileCatalogOpen ? 'px-mobile-group open' : 'px-mobile-group'}>
+            <button
+              type="button"
+              className="px-mobile-group__trigger"
+              onClick={() => setMobileCatalogOpen((v) => !v)}
+            >
+              {t('navCatalog')}
+              <svg className="px-mobile-group__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+            <div className="px-mobile-group__list">
+              <NavLink to={lp(routePaths.catalog)} onClick={closeMobile}>{t('navCatalogUsa')}</NavLink>
+              <NavLink to={lp(routePaths.inStock)} onClick={closeMobile}>{t('navInStock')}</NavLink>
+              <NavLink to={lp(routePaths.transit)} onClick={closeMobile}>{t('navTransit')}</NavLink>
+              <NavLink to={lp(routePaths.chinaCars)} onClick={closeMobile}>{t('navChinaCars')}</NavLink>
+            </div>
+          </div>
+
+          <NavLink to={lp(routePaths.calculator)} onClick={closeMobile}>{t('navCalculator')}</NavLink>
+          <NavLink to={lp(routePaths.blog)} onClick={closeMobile}>{t('navBlog')}</NavLink>
+          <NavLink to={lp(routePaths.cases)} onClick={closeMobile}>{t('navCases')}</NavLink>
+          <NavLink to={lp(routePaths.faq)} onClick={closeMobile}>FAQ</NavLink>
+          <NavLink to={lp(routePaths.contacts)} onClick={closeMobile}>{t('navContacts')}</NavLink>
         </div>
 
         <div className="px-mobile__contact">
