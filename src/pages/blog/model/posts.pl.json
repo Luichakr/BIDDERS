@@ -1,0 +1,93 @@
+[
+  {
+    "id": "copart-guide",
+    "title": "Jak kupić auto z Copart: przewodnik krok po kroku",
+    "excerpt": "Szczegółowy przewodnik od filtrowania lotów do końcowego kosztorysu pod klucz w EUR. Co sprawdzać, jak licytować i gdzie są ryzyka.",
+    "category": "guides",
+    "emoji": "🚗",
+    "date": "14 kwietnia 2026",
+    "readTime": "12 min",
+    "author": "Roman K.",
+    "featured": true
+  },
+  {
+    "id": "customs-2026",
+    "title": "Scenariusze celne 2026: co wpływa na cenę końcową",
+    "excerpt": "Omawiamy płatność uproszczoną, pełną stawkę, ryzyka czasowe i typowe błędy przy imporcie auta na Ukrainę.",
+    "category": "customs",
+    "emoji": "🛃",
+    "date": "8 kwietnia 2026",
+    "readTime": "9 min",
+    "author": "Olena D."
+  },
+  {
+    "id": "damage-photos",
+    "title": "Jak czytać zdjęcia i raporty uszkodzeń przed licytacją",
+    "excerpt": "Lista kontrolna przed aukcją, żeby uniknąć kosztownych błędów po zakupie. Na co naprawdę zwracać uwagę.",
+    "category": "tips",
+    "emoji": "🔍",
+    "date": "2 kwietnia 2026",
+    "readTime": "7 min",
+    "author": "Andriy M."
+  },
+  {
+    "id": "iaai-vs-copart",
+    "title": "IAAI vs Copart: gdzie taniej i bezpieczniej",
+    "excerpt": "Porównujemy prowizje, dostępność lotów, jakość skanów i specyfikę dwóch największych aukcji w USA.",
+    "category": "auctions",
+    "emoji": "⚖️",
+    "date": "28 marca 2026",
+    "readTime": "10 min",
+    "author": "Roman K."
+  },
+  {
+    "id": "logistics-sea",
+    "title": "Dostawa morska: które porty wybieramy i dlaczego",
+    "excerpt": "Trasy z USA do Kłajpedy, Gdańska i Bremy. Czasy, ryzyka i ile realnie czekać.",
+    "category": "logistics",
+    "emoji": "🚢",
+    "date": "22 marca 2026",
+    "readTime": "8 min",
+    "author": "Viktor P."
+  },
+  {
+    "id": "case-mustang",
+    "title": "Case study: Mustang GT pod klucz w 6 tygodni",
+    "excerpt": "Prawdziwa historia klienta: od zlecenia do odbioru auta w Kijowie. Wszystkie liczby, terminy i niuanse.",
+    "category": "cases",
+    "emoji": "🏁",
+    "date": "15 marca 2026",
+    "readTime": "6 min",
+    "author": "Zespół BIDDERS"
+  },
+  {
+    "id": "title-types",
+    "title": "Typy dokumentów (Title): co oznacza Clean, Salvage i Rebuilt",
+    "excerpt": "Wyjaśniamy, jak dokument wpływa na możliwość rejestracji w UE i na Ukrainie oraz na cenę.",
+    "category": "guides",
+    "emoji": "📋",
+    "date": "10 marca 2026",
+    "readTime": "11 min",
+    "author": "Olena D."
+  },
+  {
+    "id": "leasing-tesla",
+    "title": "Leasing samochodów elektrycznych w 2026 roku",
+    "excerpt": "Warunki, stawki, raty. Kiedy warto wziąć Teslę lub Riviana w leasing zamiast kupować za gotówkę.",
+    "category": "tips",
+    "emoji": "⚡",
+    "date": "3 marca 2026",
+    "readTime": "9 min",
+    "author": "Oleg T."
+  },
+  {
+    "id": "vin-check",
+    "title": "Jak sprawdzić VIN: lista kontrolna bezpłatnych i płatnych serwisów",
+    "excerpt": "Bezpłatne i płatne serwisy warte sprawdzenia przed licytacją oraz czerwone flagi w raportach.",
+    "category": "tips",
+    "emoji": "🔐",
+    "date": "25 lutego 2026",
+    "readTime": "7 min",
+    "author": "Andriy M."
+  }
+]

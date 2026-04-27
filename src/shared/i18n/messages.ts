@@ -761,6 +761,55 @@ export type MessageKey =
   | 'calcTaxMoto'
   | 'calcTaxClassic0'
   | 'calcVatClassic9'
+  | 'blogHeroKicker'
+  | 'blogHeroTitle'
+  | 'blogHeroSub'
+  | 'blogHeroMetaMaterials'
+  | 'blogHeroMetaReaders'
+  | 'blogHeroMetaCategories'
+  | 'blogHeroMetaPerWeek'
+  | 'blogCatAll'
+  | 'blogCatGuides'
+  | 'blogCatCustoms'
+  | 'blogCatLogistics'
+  | 'blogCatCases'
+  | 'blogCatAuctions'
+  | 'blogCatTips'
+  | 'blogFeaturedTitle'
+  | 'blogFeaturedSub'
+  | 'blogFeaturedCta'
+  | 'blogReadingTime'
+  | 'blogAuthorPrefix'
+  | 'blogLatestTitle'
+  | 'blogLatestCountLabel'
+  | 'blogReadMore'
+  | 'blogNewsletterTitle'
+  | 'blogNewsletterSub'
+  | 'blogNewsletterBtn'
+  | 'blogTagsTitle'
+  | 'blogTagsSub'
+  | 'blogFaqLink'
+  | 'casesKicker'
+  | 'casesPageTitle'
+  | 'casesPageSub'
+  | 'casesLabelTurnkey'
+  | 'casesLabelMarket'
+  | 'casesLabelSavings'
+  | 'casesCtaBlog'
+  | 'casesCtaHome'
+  | 'faqKicker'
+  | 'faqPageTitle'
+  | 'faqPageSub'
+  | 'faqDeliveryTimeQuestion'
+  | 'faqDeliveryTimeAnswer'
+  | 'faqTurnkeyQuestion'
+  | 'faqTurnkeyAnswer'
+  | 'faqTransparencyQuestion'
+  | 'faqTransparencyAnswer'
+  | 'faqInspectionQuestion'
+  | 'faqInspectionAnswer'
+  | 'faqCtaHome'
+  | 'faqCtaContacts'
 
 type Messages = Record<string, string>
 
@@ -1463,6 +1512,55 @@ export const messages: Record<Locale, Messages> = {
     calcTaxMoto: '6% (Мотоцикл)',
     calcTaxClassic0: '0% (Класика)',
     calcVatClassic9: '9% (Класика)',
+    blogHeroKicker: 'Блог BIDDERS',
+    blogHeroTitle: 'Матеріали про імпорт авто з США та Європи',
+    blogHeroSub: 'Покрокові гіди, розбір логістики, митниці та вибору лотів на Copart, IAAI, Manheim. Без води — тільки робочі інсайти від команди BIDDERS.',
+    blogHeroMetaMaterials: 'Матеріалів у базі',
+    blogHeroMetaReaders: 'Читачів на місяць',
+    blogHeroMetaCategories: 'Рубрик експертизи',
+    blogHeroMetaPerWeek: 'Нових статтей на тиждень',
+    blogCatAll: 'Усі',
+    blogCatGuides: 'Гіди',
+    blogCatCustoms: 'Митниця',
+    blogCatLogistics: 'Логістика',
+    blogCatCases: 'Кейси',
+    blogCatAuctions: 'Аукціони',
+    blogCatTips: 'Поради',
+    blogFeaturedTitle: 'Рекомендовані матеріали',
+    blogFeaturedSub: 'Найцікавіше, що почитати у першу чергу.',
+    blogFeaturedCta: 'Всі кейси →',
+    blogReadingTime: 'читання',
+    blogAuthorPrefix: 'Автор:',
+    blogLatestTitle: 'Останні матеріали',
+    blogLatestCountLabel: 'Усього статей у рубриці',
+    blogReadMore: 'Читати →',
+    blogNewsletterTitle: 'Розсилка без спаму',
+    blogNewsletterSub: 'Раз на тиждень — головне про авторинок, найкращі лоти та свіжі гіди. Без води, без реклами інших майданчиків.',
+    blogNewsletterBtn: 'Підписатись',
+    blogTagsTitle: 'Популярні теги',
+    blogTagsSub: 'Швидкий пошук матеріалів за ключовим словом.',
+    blogFaqLink: 'Відповіді в FAQ →',
+    casesKicker: 'Кейси',
+    casesPageTitle: 'Реальні кейси клієнтів BIDDERS',
+    casesPageSub: 'Єдина методика порівняння: ціна під ключ, ціна ринку Польщі, фінальна економія.',
+    casesLabelTurnkey: 'Під ключ',
+    casesLabelMarket: 'Ринок Польщі',
+    casesLabelSavings: 'Економія',
+    casesCtaBlog: 'Читати блог',
+    casesCtaHome: 'На головну',
+    faqKicker: 'FAQ',
+    faqPageTitle: 'Часті запитання про імпорт авто',
+    faqPageSub: 'Відповіді про терміни, під ключ, гарантії, застосунок і живий огляд на майданчику.',
+    faqDeliveryTimeQuestion: 'Скільки триває доставка?',
+    faqDeliveryTimeAnswer: 'У середньому 45-60 днів залежно від маршруту, порту та митного завантаження.',
+    faqTurnkeyQuestion: 'Що входить у формат під ключ?',
+    faqTurnkeyAnswer: 'Підбір лота, торги, викуп, логістика, митниця, документи та видача авто.',
+    faqTransparencyQuestion: 'Які гарантії прозорості?',
+    faqTransparencyAnswer: 'Один контракт, фіксація смети до торгів, VIN-перевірка і прозорі етапи угоди.',
+    faqInspectionQuestion: 'Чи можна приїхати на огляд?',
+    faqInspectionAnswer: 'Так, доступний огляд на майданчику за попереднім записом.',
+    faqCtaHome: 'Блок FAQ на головній',
+    faqCtaContacts: 'Перейти до контактів',
     catalogSortPriceDesc: 'Спочатку дорожчі',
     catalogSortPriceAsc: 'Спочатку дешевші',
     catalogSortYearDesc: 'Новіші за роком',
@@ -2288,6 +2386,55 @@ export const messages: Record<Locale, Messages> = {
     calcTaxMoto: '6% (Motorcycle)',
     calcTaxClassic0: '0% (Classic)',
     calcVatClassic9: '9% (Classic)',
+    blogHeroKicker: 'BIDDERS Blog',
+    blogHeroTitle: 'Guides on importing cars from the USA and Europe',
+    blogHeroSub: 'Step-by-step guides, logistics breakdowns, customs and lot selection on Copart, IAAI, Manheim. No fluff — only actionable insights from the BIDDERS team.',
+    blogHeroMetaMaterials: 'Articles in the base',
+    blogHeroMetaReaders: 'Readers per month',
+    blogHeroMetaCategories: 'Expert categories',
+    blogHeroMetaPerWeek: 'New articles per week',
+    blogCatAll: 'All',
+    blogCatGuides: 'Guides',
+    blogCatCustoms: 'Customs',
+    blogCatLogistics: 'Logistics',
+    blogCatCases: 'Cases',
+    blogCatAuctions: 'Auctions',
+    blogCatTips: 'Tips',
+    blogFeaturedTitle: 'Recommended articles',
+    blogFeaturedSub: 'The best content to read first.',
+    blogFeaturedCta: 'All cases →',
+    blogReadingTime: 'read',
+    blogAuthorPrefix: 'Author:',
+    blogLatestTitle: 'Latest articles',
+    blogLatestCountLabel: 'Total in category',
+    blogReadMore: 'Read more →',
+    blogNewsletterTitle: 'Spam-free newsletter',
+    blogNewsletterSub: 'Once a week — top car market news, best lots, and fresh guides. No filler, no ads for other platforms.',
+    blogNewsletterBtn: 'Subscribe',
+    blogTagsTitle: 'Popular tags',
+    blogTagsSub: 'Quick search by keyword.',
+    blogFaqLink: 'FAQ answers →',
+    casesKicker: 'Cases',
+    casesPageTitle: 'Real client cases from BIDDERS',
+    casesPageSub: 'One consistent methodology: turnkey price, Polish market price, final savings.',
+    casesLabelTurnkey: 'Turnkey',
+    casesLabelMarket: 'Polish market',
+    casesLabelSavings: 'Savings',
+    casesCtaBlog: 'Read the blog',
+    casesCtaHome: 'Back to home',
+    faqKicker: 'FAQ',
+    faqPageTitle: 'Frequently asked questions about car import',
+    faqPageSub: 'Answers about timelines, turnkey service, guarantees, the app, and in-person vehicle inspection.',
+    faqDeliveryTimeQuestion: 'How long does delivery take?',
+    faqDeliveryTimeAnswer: 'On average 45-60 days depending on the route, port, and customs load.',
+    faqTurnkeyQuestion: 'What is included in the turnkey format?',
+    faqTurnkeyAnswer: 'Lot selection, bidding, purchase, logistics, customs, documents, and vehicle handover.',
+    faqTransparencyQuestion: 'What transparency guarantees are there?',
+    faqTransparencyAnswer: 'One contract, cost fixed before bidding, VIN verification, and transparent deal stages.',
+    faqInspectionQuestion: 'Can I visit for an in-person inspection?',
+    faqInspectionAnswer: 'Yes, inspection at our lot is available by prior appointment.',
+    faqCtaHome: 'FAQ block on homepage',
+    faqCtaContacts: 'Go to contacts',
   },
   pl: {
     navHome: 'Start',
@@ -3050,5 +3197,54 @@ export const messages: Record<Locale, Messages> = {
     calcTaxMoto: '6% (Motocykl)',
     calcTaxClassic0: '0% (Klasyk)',
     calcVatClassic9: '9% (Klasyk)',
+    blogHeroKicker: 'Blog BIDDERS',
+    blogHeroTitle: 'Materiały o imporcie aut z USA i Europy',
+    blogHeroSub: 'Przewodniki krok po kroku, logistyka, cło i dobór lotów na Copart, IAAI, Manheim. Bez wody — tylko konkretna wiedza od zespołu BIDDERS.',
+    blogHeroMetaMaterials: 'Artykułów w bazie',
+    blogHeroMetaReaders: 'Czytelników miesięcznie',
+    blogHeroMetaCategories: 'Kategorii eksperckich',
+    blogHeroMetaPerWeek: 'Nowych artykułów tygodniowo',
+    blogCatAll: 'Wszystkie',
+    blogCatGuides: 'Poradniki',
+    blogCatCustoms: 'Cło',
+    blogCatLogistics: 'Logistyka',
+    blogCatCases: 'Case studies',
+    blogCatAuctions: 'Aukcje',
+    blogCatTips: 'Porady',
+    blogFeaturedTitle: 'Polecane materiały',
+    blogFeaturedSub: 'Najlepsze artykuły do przeczytania w pierwszej kolejności.',
+    blogFeaturedCta: 'Wszystkie case studies →',
+    blogReadingTime: 'czytania',
+    blogAuthorPrefix: 'Autor:',
+    blogLatestTitle: 'Najnowsze artykuły',
+    blogLatestCountLabel: 'Razem w kategorii',
+    blogReadMore: 'Czytaj →',
+    blogNewsletterTitle: 'Newsletter bez spamu',
+    blogNewsletterSub: 'Raz w tygodniu — najważniejsze informacje o rynku aut, najlepsze loty i świeże poradniki. Bez wody, bez reklam innych platform.',
+    blogNewsletterBtn: 'Zapisz się',
+    blogTagsTitle: 'Popularne tagi',
+    blogTagsSub: 'Szybkie wyszukiwanie po słowie kluczowym.',
+    blogFaqLink: 'Odpowiedzi w FAQ →',
+    casesKicker: 'Case studies',
+    casesPageTitle: 'Realne przypadki klientów BIDDERS',
+    casesPageSub: 'Jedna metodologia porównania: cena pod klucz, cena rynku polskiego, końcowa oszczędność.',
+    casesLabelTurnkey: 'Pod klucz',
+    casesLabelMarket: 'Rynek polski',
+    casesLabelSavings: 'Oszczędność',
+    casesCtaBlog: 'Czytaj blog',
+    casesCtaHome: 'Na stronę główną',
+    faqKicker: 'FAQ',
+    faqPageTitle: 'Często zadawane pytania o import aut',
+    faqPageSub: 'Odpowiedzi na pytania o terminy, usługę pod klucz, gwarancje, aplikację i oględziny na placu.',
+    faqDeliveryTimeQuestion: 'Ile trwa dostawa?',
+    faqDeliveryTimeAnswer: 'Średnio 45-60 dni w zależności od trasy, portu i obciążenia celnego.',
+    faqTurnkeyQuestion: 'Co obejmuje format pod klucz?',
+    faqTurnkeyAnswer: 'Dobór lotu, licytacja, zakup, logistyka, cło, dokumenty i przekazanie auta.',
+    faqTransparencyQuestion: 'Jakie gwarancje przejrzystości?',
+    faqTransparencyAnswer: 'Jedna umowa, kosztorys ustalony przed licytacją, weryfikacja VIN i przejrzyste etapy transakcji.',
+    faqInspectionQuestion: 'Czy można przyjechać na oględziny?',
+    faqInspectionAnswer: 'Tak, oględziny na placu są dostępne po wcześniejszym umówieniu.',
+    faqCtaHome: 'Blok FAQ na stronie głównej',
+    faqCtaContacts: 'Przejdź do kontaktów',
   },
 }

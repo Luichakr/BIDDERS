@@ -1,0 +1,93 @@
+[
+  {
+    "id": "copart-guide",
+    "title": "How to buy a car from Copart: step-by-step guide",
+    "excerpt": "A detailed guide from filtering lots to the final turnkey estimate in EUR. What to check, how to bid, and where the risks are.",
+    "category": "guides",
+    "emoji": "🚗",
+    "date": "April 14, 2026",
+    "readTime": "12 min",
+    "author": "Roman K.",
+    "featured": true
+  },
+  {
+    "id": "customs-2026",
+    "title": "Customs scenarios 2026: what affects the final price",
+    "excerpt": "We break down the unified payment, full rate, timing risks, and common mistakes when importing a car to Ukraine.",
+    "category": "customs",
+    "emoji": "🛃",
+    "date": "April 8, 2026",
+    "readTime": "9 min",
+    "author": "Olena D."
+  },
+  {
+    "id": "damage-photos",
+    "title": "How to read damage photos and reports before bidding",
+    "excerpt": "A pre-auction checklist to avoid costly mistakes after purchase. What to actually look for.",
+    "category": "tips",
+    "emoji": "🔍",
+    "date": "April 2, 2026",
+    "readTime": "7 min",
+    "author": "Andriy M."
+  },
+  {
+    "id": "iaai-vs-copart",
+    "title": "IAAI vs Copart: which is cheaper and safer",
+    "excerpt": "Comparing fees, lot availability, scan quality, and the specifics of the two largest US auctions.",
+    "category": "auctions",
+    "emoji": "⚖️",
+    "date": "March 28, 2026",
+    "readTime": "10 min",
+    "author": "Roman K."
+  },
+  {
+    "id": "logistics-sea",
+    "title": "Ocean shipping: which ports we choose and why",
+    "excerpt": "Routes from the USA to Klaipeda, Gdansk, and Bremen. Timelines, risks, and realistic wait times.",
+    "category": "logistics",
+    "emoji": "🚢",
+    "date": "March 22, 2026",
+    "readTime": "8 min",
+    "author": "Viktor P."
+  },
+  {
+    "id": "case-mustang",
+    "title": "Case: Mustang GT turnkey in 6 weeks",
+    "excerpt": "A real client story: from inquiry to car handover in Kyiv. All the numbers, timelines, and details.",
+    "category": "cases",
+    "emoji": "🏁",
+    "date": "March 15, 2026",
+    "readTime": "6 min",
+    "author": "BIDDERS Team"
+  },
+  {
+    "id": "title-types",
+    "title": "Document types (Title): what Clean, Salvage, and Rebuilt mean",
+    "excerpt": "We explain how the document affects registration eligibility in the EU and Ukraine, and the price.",
+    "category": "guides",
+    "emoji": "📋",
+    "date": "March 10, 2026",
+    "readTime": "11 min",
+    "author": "Olena D."
+  },
+  {
+    "id": "leasing-tesla",
+    "title": "EV leasing in 2026",
+    "excerpt": "Terms, rates, payments. When it makes sense to lease a Tesla or Rivian instead of buying outright.",
+    "category": "tips",
+    "emoji": "⚡",
+    "date": "March 3, 2026",
+    "readTime": "9 min",
+    "author": "Oleg T."
+  },
+  {
+    "id": "vin-check",
+    "title": "How to check a VIN: checklist of free and paid services",
+    "excerpt": "Free and paid services worth reviewing before bidding, and red flags to watch for in reports.",
+    "category": "tips",
+    "emoji": "🔐",
+    "date": "February 25, 2026",
+    "readTime": "7 min",
+    "author": "Andriy M."
+  }
+]
