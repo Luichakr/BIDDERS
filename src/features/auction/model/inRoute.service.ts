@@ -263,7 +263,8 @@ function mapInRouteCarToAuctionCard(car: ApiInRouteCar, status: AuctionCardData[
   const stockStatus = isSold ? 'statusSold' : isAvailable ? 'statusReady' : 'statusInTransit'
   const titleStatus = complectation.hasCustomStatus === true ? `statusDocsCustom|${stockStatus}` : `statusDocsUnclear|${stockStatus}`
   const keys = complectation.hasKey === true ? 'statusKeysYes' : complectation.hasKey === false ? 'statusKeysNo' : 'statusKeysUnknown'
-  const seller = String(car.userFullName ?? '').trim() || 'BIDDERS'
+  const rawSeller = String(car.userFullName ?? '').trim()
+  const seller = (rawSeller === 'Любе Авто' || rawSeller === '') ? 'BID BIDDERS' : rawSeller
   const color = toName(car.color) || '—'
   const bodyStyle = String(complectation.bodyType ?? '').trim() || '—'
 

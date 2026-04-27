@@ -15,6 +15,7 @@ export function Header() {
   const [mobileCatalogOpen, setMobileCatalogOpen] = useState(false)
   const localeRef = useRef<HTMLDivElement | null>(null)
   const catalogRef = useRef<HTMLDivElement | null>(null)
+  const catalogLeaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const { locale, setLocale, t } = useI18n()
   const lp = (path: string) => localizedPath(locale, path)
 
@@ -89,8 +90,13 @@ export function Header() {
             <div
               ref={catalogRef}
               className={catalogOpen ? 'px-nav-dropdown open' : 'px-nav-dropdown'}
-              onMouseEnter={() => setCatalogOpen(true)}
-              onMouseLeave={() => setCatalogOpen(false)}
+              onMouseEnter={() => {
+                if (catalogLeaveTimer.current) { clearTimeout(catalogLeaveTimer.current); catalogLeaveTimer.current = null }
+                setCatalogOpen(true)
+              }}
+              onMouseLeave={() => {
+                catalogLeaveTimer.current = setTimeout(() => setCatalogOpen(false), 120)
+              }}
             >
               <button
                 type="button"
