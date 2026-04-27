@@ -47,10 +47,10 @@ export function HomePage() {
   const [b2c, setB2c] = useState<B2CState>(INITIAL_B2C)
   const [b2b, setB2b] = useState<B2BState>(INITIAL_B2B)
   const [b2cBodyType, setB2cBodyType] = useState('sedan')
-  const [b2cYearMin, setB2cYearMin] = useState(2018)
-  const [b2cYearMax, setB2cYearMax] = useState(2024)
-  const [b2cBudgetMin, setB2cBudgetMin] = useState(10000)
-  const [b2cBudgetMax, setB2cBudgetMax] = useState(18000)
+  const [b2cYearMin, setB2cYearMin] = useState(2008)
+  const [b2cYearMax, setB2cYearMax] = useState(2025)
+  const [b2cBudgetMin, setB2cBudgetMin] = useState(0)
+  const [b2cBudgetMax, setB2cBudgetMax] = useState(30000)
   const [b2cMake, setB2cMake] = useState('')
   const [b2cModel, setB2cModel] = useState('')
   const [b2cGeneration, setB2cGeneration] = useState('')
@@ -62,6 +62,69 @@ export function HomePage() {
   const [b2cSteering, setB2cSteering] = useState('')
   const [b2cPower, setB2cPower] = useState('')
   const [b2cEngineVol, setB2cEngineVol] = useState('')
+
+  // Piecewise year scale: slider 0-1000 → year 1950-2027
+  // 0..250   → 1950..2000  (25% of slider = vintage zone)
+  // 250..1000 → 2000..2027  (75% of slider = modern zone)
+  const YEAR_BREAK_SLIDER = 250
+  const YEAR_BREAK_VALUE  = 2000
+  const YEAR_MIN          = 1950
+  const YEAR_MAX          = 2027
+  const YEAR_SLIDER_MAX   = 1000
+
+  const yearToSlider = (year: number): number => {
+    if (year <= YEAR_BREAK_VALUE) {
+      return Math.round(((year - YEAR_MIN) / (YEAR_BREAK_VALUE - YEAR_MIN)) * YEAR_BREAK_SLIDER)
+    }
+    return Math.round(
+      YEAR_BREAK_SLIDER +
+      ((year - YEAR_BREAK_VALUE) / (YEAR_MAX - YEAR_BREAK_VALUE)) *
+      (YEAR_SLIDER_MAX - YEAR_BREAK_SLIDER)
+    )
+  }
+
+  const sliderToYear = (slider: number): number => {
+    if (slider <= YEAR_BREAK_SLIDER) {
+      return Math.round(YEAR_MIN + (slider / YEAR_BREAK_SLIDER) * (YEAR_BREAK_VALUE - YEAR_MIN))
+    }
+    return Math.round(
+      YEAR_BREAK_VALUE +
+      ((slider - YEAR_BREAK_SLIDER) / (YEAR_SLIDER_MAX - YEAR_BREAK_SLIDER)) *
+      (YEAR_MAX - YEAR_BREAK_VALUE)
+    )
+  }
+
+  // Piecewise budget scale: slider 0-1000 → price $0-$2M
+  // 0..750  → $0..$75 000   (75% of slider = fine-grained zone)
+  // 750..1000 → $75 000..$2 000 000 (25% of slider = premium zone)
+  const BUDGET_BREAK_SLIDER = 750
+  const BUDGET_BREAK_PRICE  = 75000
+  const BUDGET_MAX_PRICE    = 2000000
+  const BUDGET_SLIDER_MAX   = 1000
+
+  const priceToSlider = (price: number): number => {
+    if (price <= BUDGET_BREAK_PRICE) {
+      return Math.round((price / BUDGET_BREAK_PRICE) * BUDGET_BREAK_SLIDER)
+    }
+    return Math.round(
+      BUDGET_BREAK_SLIDER +
+      ((price - BUDGET_BREAK_PRICE) / (BUDGET_MAX_PRICE - BUDGET_BREAK_PRICE)) *
+      (BUDGET_SLIDER_MAX - BUDGET_BREAK_SLIDER)
+    )
+  }
+
+  const sliderToPrice = (slider: number): number => {
+    if (slider <= BUDGET_BREAK_SLIDER) {
+      const raw = (slider / BUDGET_BREAK_SLIDER) * BUDGET_BREAK_PRICE
+      return Math.round(raw / 500) * 500
+    }
+    const raw =
+      BUDGET_BREAK_PRICE +
+      ((slider - BUDGET_BREAK_SLIDER) / (BUDGET_SLIDER_MAX - BUDGET_BREAK_SLIDER)) *
+      (BUDGET_MAX_PRICE - BUDGET_BREAK_PRICE)
+    return Math.round(raw / 1000) * 1000
+  }
+
   const [b2cError, setB2cError] = useState<string>('')
   const [b2bError, setB2bError] = useState<string>('')
   const [b2cSuccess, setB2cSuccess] = useState<string>('')
@@ -1577,37 +1640,42 @@ export function HomePage() {
                 </div>
                 <p className="bp-budget-block__hint">{budgetUi.yearRangeLabel}</p>
                 <div className="bp-budget-range">
-                  <div className="bp-budget-range__track"></div>
-                  <div
-                    className="bp-budget-range__active"
-                    style={{
-                      left: `${((b2cYearMin - 1950) / (2027 - 1950)) * 100}%`,
-                      width: `${((b2cYearMax - b2cYearMin) / (2027 - 1950)) * 100}%`,
-                    }}
-                  ></div>
+                  <div className="bp-budget-range__rail">
+                    <div className="bp-budget-range__track"></div>
+                    <div
+                      className="bp-budget-range__active"
+                      style={{
+                        left: `${(yearToSlider(b2cYearMin) / YEAR_SLIDER_MAX) * 100}%`,
+                        width: `${((yearToSlider(b2cYearMax) - yearToSlider(b2cYearMin)) / YEAR_SLIDER_MAX) * 100}%`,
+                      }}
+                    ></div>
+                  </div>
                   <input
                     type="range"
-                    min={1950}
-                    max={2027}
-                    value={b2cYearMin}
+                    min={0}
+                    max={YEAR_SLIDER_MAX}
+                    step={1}
+                    value={yearToSlider(b2cYearMin)}
                     onChange={(e) => {
-                      const value = Number(e.target.value)
-                      setB2cYearMin(Math.min(value, b2cYearMax - 1))
+                      const year = sliderToYear(Number(e.target.value))
+                      setB2cYearMin(Math.min(year, b2cYearMax - 1))
                     }}
                   />
                   <input
                     type="range"
-                    min={1950}
-                    max={2027}
-                    value={b2cYearMax}
+                    min={0}
+                    max={YEAR_SLIDER_MAX}
+                    step={1}
+                    value={yearToSlider(b2cYearMax)}
                     onChange={(e) => {
-                      const value = Number(e.target.value)
-                      setB2cYearMax(Math.max(value, b2cYearMin + 1))
+                      const year = sliderToYear(Number(e.target.value))
+                      setB2cYearMax(Math.max(year, b2cYearMin + 1))
                     }}
                   />
                 </div>
                 <div className="bp-budget-range__ends">
                   <span>1950</span>
+                  <span className="bp-budget-range__ends-break" style={{ left: '25%' }}>2000</span>
                   <span>2027</span>
                 </div>
               </section>
@@ -1620,7 +1688,7 @@ export function HomePage() {
                     <input
                       type="number"
                       min={0}
-                      max={2000000}
+                      max={BUDGET_MAX_PRICE}
                       step={500}
                       value={b2cBudgetMin}
                       onChange={(e) => {
@@ -1634,53 +1702,56 @@ export function HomePage() {
                     <input
                       type="number"
                       min={0}
-                      max={2000000}
+                      max={BUDGET_MAX_PRICE}
                       step={500}
                       value={b2cBudgetMax}
                       onChange={(e) => {
                         const v = Number(e.target.value)
                         if (!Number.isFinite(v)) return
-                        setB2cBudgetMax(Math.max(Math.min(v, 2000000), b2cBudgetMin + 500))
+                        setB2cBudgetMax(Math.max(Math.min(v, BUDGET_MAX_PRICE), b2cBudgetMin + 500))
                       }}
                     />
                   </div>
                 </div>
                 <p className="bp-budget-block__hint">{budgetUi.budgetHint}</p>
                 <div className="bp-budget-range">
-                  <div className="bp-budget-range__track"></div>
-                  <div
-                    className="bp-budget-range__active"
-                    style={{
-                      left: `${(b2cBudgetMin / 2000000) * 100}%`,
-                      width: `${((b2cBudgetMax - b2cBudgetMin) / 2000000) * 100}%`,
-                    }}
-                  ></div>
+                  <div className="bp-budget-range__rail">
+                    <div className="bp-budget-range__track"></div>
+                    <div
+                      className="bp-budget-range__active"
+                      style={{
+                        left: `${(priceToSlider(b2cBudgetMin) / BUDGET_SLIDER_MAX) * 100}%`,
+                        width: `${((priceToSlider(b2cBudgetMax) - priceToSlider(b2cBudgetMin)) / BUDGET_SLIDER_MAX) * 100}%`,
+                      }}
+                    ></div>
+                  </div>
                   <input
                     type="range"
                     min={0}
-                    max={2000000}
-                    step={500}
-                    value={b2cBudgetMin}
+                    max={BUDGET_SLIDER_MAX}
+                    step={1}
+                    value={priceToSlider(b2cBudgetMin)}
                     onChange={(e) => {
-                      const value = Number(e.target.value)
-                      setB2cBudgetMin(Math.min(value, b2cBudgetMax - 500))
+                      const price = sliderToPrice(Number(e.target.value))
+                      setB2cBudgetMin(Math.min(price, b2cBudgetMax - 500))
                     }}
                   />
                   <input
                     type="range"
                     min={0}
-                    max={2000000}
-                    step={500}
-                    value={b2cBudgetMax}
+                    max={BUDGET_SLIDER_MAX}
+                    step={1}
+                    value={priceToSlider(b2cBudgetMax)}
                     onChange={(e) => {
-                      const value = Number(e.target.value)
-                      setB2cBudgetMax(Math.max(value, b2cBudgetMin + 500))
+                      const price = sliderToPrice(Number(e.target.value))
+                      setB2cBudgetMax(Math.max(price, b2cBudgetMin + 500))
                     }}
                   />
                 </div>
                 <div className="bp-budget-range__ends">
                   <span>$0</span>
-                  <span>$2,000,000</span>
+                  <span className="bp-budget-range__ends-break">$75K</span>
+                  <span>$2M</span>
                 </div>
               </section>
             </div>

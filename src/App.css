@@ -1284,16 +1284,16 @@
 }
 
 .bp-budget-bodytype {
+  position: relative;
   border: 1.5px solid rgba(255, 255, 255, 0.18);
   border-radius: 16px;
+  overflow: hidden;
   background: rgba(255, 255, 255, 0.95);
-  color: #101623;
-  padding: 18px 14px 14px;
-  display: grid;
-  gap: 10px;
-  justify-items: center;
+  color: #fff;
+  padding: 0;
+  aspect-ratio: 10 / 7;
   cursor: pointer;
-  transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease, background .2s ease;
+  transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
 }
 
 .bp-budget-bodytype:hover {
@@ -1305,19 +1305,28 @@
 .bp-budget-bodytype.is-active {
   border-color: var(--px-orange, #ff6600);
   box-shadow: 0 0 0 2px var(--px-orange, #ff6600), 0 12px 28px rgba(255, 102, 0, 0.28);
-  background: #fff;
 }
 
 .bp-budget-bodytype img {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: 92px;
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .bp-budget-bodytype span {
-  font-weight: 800;
-  font-size: 16px;
-  letter-spacing: -0.005em;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 8px 8px 10px;
+  font-weight: 700;
+  font-size: 14px;
+  text-align: center;
+  letter-spacing: 0.01em;
+  color: #101623;
 }
 
 .bp-budget-sliders {
@@ -1332,22 +1341,29 @@
   margin-top: 8px;
 }
 
-.bp-budget-range__track,
-.bp-budget-range__active {
+/* Rail clips the active bar so it never overflows beyond the track ends */
+.bp-budget-range__rail {
   position: absolute;
-  height: 5px;
+  left: 13px;
+  right: 13px;
   top: 50%;
   transform: translateY(-50%);
+  height: 5px;
   border-radius: 999px;
+  overflow: hidden;
 }
 
 .bp-budget-range__track {
-  left: 0;
-  right: 0;
+  position: absolute;
+  inset: 0;
   background: rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
 }
 
 .bp-budget-range__active {
+  position: absolute;
+  top: 0;
+  bottom: 0;
   background: var(--px-orange, #ff6600);
 }
 
@@ -1392,11 +1408,21 @@
 
 .bp-budget-range__ends {
   margin-top: 26px;
+  position: relative;
   display: flex;
   justify-content: space-between;
   font-size: 13px;
   line-height: 1;
   color: rgba(230, 236, 251, 0.75);
+}
+
+/* Breakpoint label positioned at 75% of the track */
+.bp-budget-range__ends-break {
+  position: absolute;
+  left: 75%;
+  transform: translateX(-50%);
+  color: rgba(255, 102, 0, 0.7);
+  font-size: 11px;
 }
 
 .bp-budget-fields {
@@ -1497,14 +1523,9 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
   }
-  .bp-budget-bodytype {
-    padding: 14px 10px 12px;
-  }
-  .bp-budget-bodytype img {
-    height: 72px;
-  }
   .bp-budget-bodytype span {
-    font-size: 14px;
+    font-size: 13px;
+    padding: 20px 6px 8px;
   }
   .bp-budget-block__label {
     font-size: 18px;
