@@ -2986,7 +2986,7 @@ export const messages: Record<Locale, Messages> = {
     statusDocsUnclear: 'Documents pending',
   },
   pl: {
-    navHome: 'Start',
+    navHome: 'Główna',
     navCatalog: 'Katalog aut',
     navCatalogUsa: 'Katalog aut z USA',
     navTransit: 'Auta w drodze',
