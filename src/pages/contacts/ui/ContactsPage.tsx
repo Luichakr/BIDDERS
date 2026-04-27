@@ -5,15 +5,16 @@ import { useI18n } from '../../../shared/i18n/I18nProvider'
 import { Seo } from '../../../shared/seo/Seo'
 import './contacts.css'
 
-const CONTACT_CHANNELS = [
-  { label: 'Телефон (PL)', value: '+48 784 890 644', href: 'tel:+48784890644', ico: '📞', hint: 'Головний номер, Polska' },
-  { label: 'Телефон (PL)', value: '+48 571 660 242', href: 'tel:+48571660242', ico: '📱', hint: 'Менеджер з продажу' },
-  { label: 'Email', value: 'info@bidbiders.com', href: 'mailto:info@bidbiders.com', ico: '✉️', hint: 'Загальні питання' },
-  { label: 'Telegram', value: '@bidbiders', href: 'https://t.me/bidbiders', ico: '💬', hint: 'Швидкі відповіді у чаті' },
-]
-
 export function ContactsPage() {
   const { locale, t } = useI18n()
+
+  const CONTACT_CHANNELS = [
+    { label: t('ctChannelPhoneLabel'), value: '+48 784 890 644', href: 'tel:+48784890644', ico: '📞', hint: t('ctChannelPhoneHintMain') },
+    { label: t('ctChannelPhoneLabel'), value: '+48 571 660 242', href: 'tel:+48571660242', ico: '📱', hint: t('ctChannelPhoneHintSales') },
+    { label: 'Email', value: 'info@bidbiders.com', href: 'mailto:info@bidbiders.com', ico: '✉️', hint: t('ctChannelEmailHint') },
+    { label: 'Telegram', value: '@bidbiders', href: 'https://t.me/bidbiders', ico: '💬', hint: t('ctChannelTelegramHint') },
+  ]
+
   const MAP_POS_STORAGE_KEY = 'BIDDERS_CONTACTS_EU_MAP_POS_V1'
   const MAP_POINTS_STORAGE_KEY = 'BIDDERS_CONTACTS_EU_MAP_POINTS_V1'
   const SVG_VIEWBOX = { width: 760, height: 520 }
@@ -122,7 +123,7 @@ export function ContactsPage() {
     }
   }, [])
 
-  const addressQuery = 'Jawczyce ul. Poznańska 56 05-850 Polska'
+  const addressQuery = t('ctAddressMapQuery')
   const addressEncoded = encodeURIComponent(addressQuery)
   const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${addressEncoded}`
   const wazeUrl = `https://waze.com/ul?q=${addressEncoded}&navigate=yes`
@@ -140,13 +141,13 @@ export function ContactsPage() {
             '@context': 'https://schema.org',
             '@type': 'AutomotiveBusiness',
             name: 'BIDDERS',
-            description: 'Імпорт авто з аукціонів США та Європи під ключ.',
+            description: t('ctJsonLdDesc'),
             url: 'https://bidbiders.com',
             telephone: '+48784890644',
             email: 'info@bidbiders.com',
             address: {
               '@type': 'PostalAddress',
-              streetAddress: 'ul. Poznańska 56',
+              streetAddress: t('ctAddressLine1'),
               addressLocality: 'Jawczyce',
               postalCode: '05-850',
               addressCountry: 'PL',
@@ -161,35 +162,32 @@ export function ContactsPage() {
       <section className="ct-hero">
         <div className="ct-hero__inner">
           <div>
-            <div className="ct-hero__kicker">Контакти BIDDERS</div>
-            <h1 className="ct-hero__title">Контакти та майданчик BIDDERS у Польщі</h1>
-            <p className="ct-hero__sub">
-              Приїжджайте на огляд, отримайте консультацію по документах та фінальній вартості володіння.
-              Команда представників по всій Європі — від Лондона до Клайпеди.
-            </p>
+            <div className="ct-hero__kicker">{t('ctHeroKicker')}</div>
+            <h1 className="ct-hero__title">{t('ctHeroTitle')}</h1>
+            <p className="ct-hero__sub">{t('ctHeroSub')}</p>
             <div className="ct-hero__facts">
               <div className="ct-hero__fact">
                 <strong>4</strong>
-                <span>Представництва у ЄС</span>
+                <span>{t('ctHeroFactOffices')}</span>
               </div>
               <div className="ct-hero__fact">
                 <strong>48+</strong>
-                <span>Доставлених авто щомісяця</span>
+                <span>{t('ctHeroFactDelivery')}</span>
               </div>
               <div className="ct-hero__fact">
                 <strong>24/7</strong>
-                <span>Чат у Telegram</span>
+                <span>{t('ctHeroFactChat')}</span>
               </div>
               <div className="ct-hero__fact">
                 <strong>09–19</strong>
-                <span>Робочі години, пн–пт</span>
+                <span>{t('ctHeroFactHours')}</span>
               </div>
             </div>
           </div>
 
           <aside className="ct-quick">
-            <h2 className="ct-quick__title">Зв'язатися швидко</h2>
-            <p className="ct-quick__sub">Менеджер відповідає у робочі години. Чат — цілодобово.</p>
+            <h2 className="ct-quick__title">{t('ctQuickTitle')}</h2>
+            <p className="ct-quick__sub">{t('ctQuickSub')}</p>
             <ul className="ct-quick__list">
               {CONTACT_CHANNELS.slice(0, 3).map((channel) => (
                 <li key={channel.value}>
@@ -204,7 +202,7 @@ export function ContactsPage() {
               ))}
             </ul>
             <Link to={localizedPath(locale, routePaths.calculator)} className="ct-quick__cta">
-              Замовити прорахунок →
+              {t('ctQuickCta')}
             </Link>
           </aside>
         </div>
@@ -214,15 +212,12 @@ export function ContactsPage() {
       <section className="ct-section">
         <div className="ct-section__inner">
           <header className="ct-section__head">
-            <h2>Головний офіс та шоурум</h2>
-            <p>
-              Сюди приїжджайте на особисту консультацію, огляд авто та оформлення угоди.
-              Паркування є, вхід вільний за попереднім записом.
-            </p>
+            <h2>{t('ctOfficeSectionTitle')}</h2>
+            <p>{t('ctOfficeSectionSub')}</p>
           </header>
 
           <div className="ct-map-wrap">
-            <div className="ct-map" role="img" aria-label="Карта BIDDERS, Польща">
+            <div className="ct-map" role="img" aria-label={t('ctMapAriaLabel')}>
               <div className="ct-map__placeholder"></div>
               <div className="ct-map__grid"></div>
               <div className="ct-map__road r1"></div>
@@ -232,25 +227,25 @@ export function ContactsPage() {
                 <span className="ct-map__pin-mark" aria-hidden="true"></span>
                 <span className="ct-map__pin-label">BIDDERS, Jawczyce</span>
               </div>
-              <span className="ct-map__badge">Головний офіс</span>
+              <span className="ct-map__badge">{t('ctMapBadge')}</span>
             </div>
 
             <div className="ct-address">
               <div className="ct-address__card">
-                <div className="ct-address__label">Адреса</div>
+                <div className="ct-address__label">{t('ctAddressLabel')}</div>
                 <div className="ct-address__value">
-                  ul. Poznańska, 56<br />
-                  05-850 Jawczyce, Polska
+                  {t('ctAddressLine1')}<br />
+                  {t('ctAddressLine2')}
                 </div>
                 <div className="ct-address__meta">
-                  <span><strong>Координати:</strong> 52.1862° N, 20.7786° E</span>
-                  <span><strong>Ближче за все:</strong> Ożarów Mazowiecki</span>
-                  <span><strong>Доїхати з Варшави:</strong> ~25 хв на авто</span>
+                  <span><strong>{t('ctAddressCoords')}</strong> 52.1862° N, 20.7786° E</span>
+                  <span><strong>{t('ctAddressNearest')}</strong> Ożarów Mazowiecki</span>
+                  <span><strong>{t('ctAddressFromWarsaw')}</strong> {t('ctAddressFromWarsawValue')}</span>
                 </div>
               </div>
 
               <div className="ct-address__card">
-                <div className="ct-address__label">Прокласти маршрут</div>
+                <div className="ct-address__label">{t('ctDirectionsLabel')}</div>
                 <div className="ct-directions">
                   <a className="ct-dir-btn" href={googleMapsUrl} target="_blank" rel="noreferrer">
                     <span className="ct-dir-btn__ico" aria-hidden="true">G</span>
@@ -263,7 +258,7 @@ export function ContactsPage() {
                     <span className="ct-dir-btn__ico" aria-hidden="true">W</span>
                     <div className="ct-dir-btn__body">
                       <span>Waze</span>
-                      Навігатор
+                      {t('ctWazeLabel')}
                     </div>
                   </a>
                   <a className="ct-dir-btn" href={appleMapsUrl} target="_blank" rel="noreferrer">
@@ -291,11 +286,8 @@ export function ContactsPage() {
       <section className="ct-section">
         <div className="ct-section__inner">
           <header className="ct-section__head">
-            <h2>Усі канали зв'язку</h2>
-            <p>
-              Телефон — для швидких дзвінків. Email — для офіційних документів та комерційних пропозицій.
-              Telegram — для швидких питань у будь-який час.
-            </p>
+            <h2>{t('ctChannelsSectionTitle')}</h2>
+            <p>{t('ctChannelsSectionSub')}</p>
           </header>
           <div className="ct-channels">
             {CONTACT_CHANNELS.map((channel) => (
@@ -317,19 +309,19 @@ export function ContactsPage() {
             <div className="ct-europe__layout">
               <div className="ct-europe__left">
                 <div className="ct-europe__head">
-                  <span className="ct-europe__badge">Представники у ЄС</span>
-                  <h2 className="ct-europe__title">Карта представників<br/>у <em>Європі</em></h2>
-                  <p className="ct-europe__lead">Наші офіси та партнери в ключових країнах<br/>імпорту та логістики.</p>
+                  <span className="ct-europe__badge">{t('ctEuropeBadge')}</span>
+                  <h2 className="ct-europe__title">{t('ctEuropeTitle').split('\n').map((line, i) => i === 0 ? line : <><br key={i} /><em>{line}</em></>)}</h2>
+                  <p className="ct-europe__lead">{t('ctEuropeLead')}</p>
                 </div>
 
                 <div className="ct-reps">
                   <article className="ct-rep ct-rep--hq">
                     <span className="ct-rep__flag" aria-hidden="true">🇵🇱</span>
                     <div className="ct-rep__body">
-                      <span className="ct-rep__country">Польща</span>
+                      <span className="ct-rep__country">{t('ctRepCountryPoland')}</span>
                       <span className="ct-rep__city">Jawczyce (Warszawa)</span>
                     </div>
-                    <span className="ct-rep__hq-tag">Головний офіс</span>
+                    <span className="ct-rep__hq-tag">{t('ctRepHqTag')}</span>
                     <svg className="ct-rep__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <path d="M9 6l6 6-6 6"/>
                     </svg>
@@ -337,8 +329,8 @@ export function ContactsPage() {
                   <article className="ct-rep">
                     <span className="ct-rep__flag" aria-hidden="true">🇱🇹</span>
                     <div className="ct-rep__body">
-                      <span className="ct-rep__country">Литва</span>
-                      <span className="ct-rep__city">Клайпеда</span>
+                      <span className="ct-rep__country">{t('ctRepCountryLithuania')}</span>
+                      <span className="ct-rep__city">{t('ctCityKlaipeda')}</span>
                     </div>
                     <svg className="ct-rep__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <path d="M9 6l6 6-6 6"/>
@@ -347,8 +339,8 @@ export function ContactsPage() {
                   <article className="ct-rep">
                     <span className="ct-rep__flag" aria-hidden="true">🇨🇿</span>
                     <div className="ct-rep__body">
-                      <span className="ct-rep__country">Чехія</span>
-                      <span className="ct-rep__city">Прага</span>
+                      <span className="ct-rep__country">{t('ctRepCountryCzechia')}</span>
+                      <span className="ct-rep__city">{t('ctCityPrague')}</span>
                     </div>
                     <svg className="ct-rep__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <path d="M9 6l6 6-6 6"/>
@@ -357,8 +349,8 @@ export function ContactsPage() {
                   <article className="ct-rep">
                     <span className="ct-rep__flag" aria-hidden="true">🇬🇧</span>
                     <div className="ct-rep__body">
-                      <span className="ct-rep__country">Великобританія</span>
-                      <span className="ct-rep__city">Лондон</span>
+                      <span className="ct-rep__country">{t('ctRepCountryUK')}</span>
+                      <span className="ct-rep__city">{t('ctCityLondon')}</span>
                     </div>
                     <svg className="ct-rep__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <path d="M9 6l6 6-6 6"/>
@@ -367,8 +359,8 @@ export function ContactsPage() {
                   <article className="ct-rep">
                     <span className="ct-rep__flag" aria-hidden="true">🇷🇴</span>
                     <div className="ct-rep__body">
-                      <span className="ct-rep__country">Румунія</span>
-                      <span className="ct-rep__city">Констанца</span>
+                      <span className="ct-rep__country">{t('ctRepCountryRomania')}</span>
+                      <span className="ct-rep__city">{t('ctCityConstanta')}</span>
                     </div>
                     <svg className="ct-rep__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <path d="M9 6l6 6-6 6"/>
@@ -379,18 +371,18 @@ export function ContactsPage() {
 
               <div
                 className="ct-europe__map ct-europe__map--handoff"
-                aria-label="Карта представників у Європі"
+                aria-label={t('ctEuropeMapAriaLabel')}
                 style={{
                   backgroundImage: `url(${import.meta.env.BASE_URL}images/contacts/eu-representatives-map-bg.png)`,
                   backgroundPosition: `calc(62% + ${mapOffset.x}px) calc(50% + ${mapOffset.y}px)`,
                 }}
               >
-                <div className="ct-map-adjust" aria-label="Керування позицією карти">
+                <div className="ct-map-adjust" aria-label={t('ctMapControlsAriaLabel')}>
                   <div className="ct-map-adjust__row">
-                    <button type="button" onClick={() => nudgeMap(-10, 0)} title="Вліво">←</button>
-                    <button type="button" onClick={() => nudgeMap(0, -10)} title="Вгору">↑</button>
-                    <button type="button" onClick={() => nudgeMap(0, 10)} title="Вниз">↓</button>
-                    <button type="button" onClick={() => nudgeMap(10, 0)} title="Вправо">→</button>
+                    <button type="button" onClick={() => nudgeMap(-10, 0)} title="←">←</button>
+                    <button type="button" onClick={() => nudgeMap(0, -10)} title="↑">↑</button>
+                    <button type="button" onClick={() => nudgeMap(0, 10)} title="↓">↓</button>
+                    <button type="button" onClick={() => nudgeMap(10, 0)} title="→">→</button>
                   </div>
                   <div className="ct-map-adjust__row">
                     <button type="button" className="ct-map-adjust__save" onClick={saveMapPosition}>Save</button>
@@ -432,7 +424,7 @@ export function ContactsPage() {
                     <circle r="8" fill="#f97316" opacity="0.22" />
                     <circle r="5" fill="#f97316" filter="url(#ctPinGlow)" />
                     <circle r="2.5" fill="#fff" />
-                    <text x="11" y="-10" className="ct-europe__label ct-europe__label--city">Лондон</text>
+                    <text x="11" y="-10" className="ct-europe__label ct-europe__label--city">{t('ctCityLondon')}</text>
                   </g>
 
                   <g className="ct-europe__pin ct-europe__pin--hq" transform={`translate(${points.warsaw.x},${points.warsaw.y})`} onMouseDown={(e) => startDrag('warsaw', e.clientX, e.clientY)} style={{ cursor: 'grab' }}>
@@ -449,7 +441,7 @@ export function ContactsPage() {
                     <circle r="8" fill="#f97316" opacity="0.22" />
                     <circle r="5" fill="#f97316" filter="url(#ctPinGlow)" />
                     <circle r="2.5" fill="#fff" />
-                    <text x="11" y="-10" className="ct-europe__label ct-europe__label--city">Клайпеда</text>
+                    <text x="11" y="-10" className="ct-europe__label ct-europe__label--city">{t('ctCityKlaipeda')}</text>
                   </g>
 
                   <g className="ct-europe__pin" transform={`translate(${points.prague.x},${points.prague.y})`} onMouseDown={(e) => startDrag('prague', e.clientX, e.clientY)} style={{ cursor: 'grab' }}>
@@ -457,7 +449,7 @@ export function ContactsPage() {
                     <circle r="8" fill="#f97316" opacity="0.22" />
                     <circle r="5" fill="#f97316" filter="url(#ctPinGlow)" />
                     <circle r="2.5" fill="#fff" />
-                    <text x="-68" y="20" className="ct-europe__label ct-europe__label--city">Прага</text>
+                    <text x="-68" y="20" className="ct-europe__label ct-europe__label--city">{t('ctCityPrague')}</text>
                   </g>
 
                   <g className="ct-europe__pin" transform={`translate(${points.constanta.x},${points.constanta.y})`} onMouseDown={(e) => startDrag('constanta', e.clientX, e.clientY)} style={{ cursor: 'grab' }}>
@@ -465,7 +457,7 @@ export function ContactsPage() {
                     <circle r="8" fill="#f97316" opacity="0.22" />
                     <circle r="5" fill="#f97316" filter="url(#ctPinGlow)" />
                     <circle r="2.5" fill="#fff" />
-                    <text x="11" y="-10" className="ct-europe__label ct-europe__label--city">Констанца</text>
+                    <text x="11" y="-10" className="ct-europe__label ct-europe__label--city">{t('ctCityConstanta')}</text>
                   </g>
                 </svg>
               </div>
@@ -478,47 +470,44 @@ export function ContactsPage() {
       <section className="ct-section">
         <div className="ct-section__inner">
           <header className="ct-section__head">
-            <h2>Робочі години та візити</h2>
-            <p>
-              Офіс працює у будні. На суботу приймаємо за попереднім записом.
-              Візити бажано узгоджувати хоча б за день.
-            </p>
+            <h2>{t('ctHoursSectionTitle')}</h2>
+            <p>{t('ctHoursSectionSub')}</p>
           </header>
 
           <div className="ct-hours">
             <div className="ct-hour-card">
               <div className="ct-hour-card__head">
                 <span className="ct-hour-ico" aria-hidden="true">🏢</span>
-                <h3>Офіс / шоурум</h3>
+                <h3>{t('ctHoursOfficeTitle')}</h3>
               </div>
               <ul className="ct-hour-list">
-                <li><span>Пн – Пт</span><strong>09:00 – 19:00</strong></li>
-                <li><span>Субота</span><strong>за записом</strong></li>
-                <li><span>Неділя</span><strong>вихідний</strong></li>
+                <li><span>{t('ctHoursMonFri')}</span><strong>09:00 – 19:00</strong></li>
+                <li><span>{t('ctHoursSaturday')}</span><strong>{t('ctHoursOnAppointment')}</strong></li>
+                <li><span>{t('ctHoursSunday')}</span><strong>{t('ctHoursDayOff')}</strong></li>
               </ul>
             </div>
 
             <div className="ct-hour-card">
               <div className="ct-hour-card__head">
                 <span className="ct-hour-ico" aria-hidden="true">💬</span>
-                <h3>Онлайн-консультації</h3>
+                <h3>{t('ctHoursOnlineTitle')}</h3>
               </div>
               <ul className="ct-hour-list">
-                <li><span>Пн – Пт</span><strong>08:00 – 22:00</strong></li>
-                <li><span>Сб – Нд</span><strong>10:00 – 18:00</strong></li>
-                <li><span>Telegram-чат</span><strong>24/7</strong></li>
+                <li><span>{t('ctHoursMonFri')}</span><strong>08:00 – 22:00</strong></li>
+                <li><span>{t('ctHoursSatSun')}</span><strong>10:00 – 18:00</strong></li>
+                <li><span>{t('ctHoursTelegramChat')}</span><strong>24/7</strong></li>
               </ul>
             </div>
 
             <div className="ct-hour-card">
               <div className="ct-hour-card__head">
                 <span className="ct-hour-ico" aria-hidden="true">🚚</span>
-                <h3>Видача авто</h3>
+                <h3>{t('ctHoursDeliveryTitle')}</h3>
               </div>
               <ul className="ct-hour-list">
-                <li><span>Пн – Пт</span><strong>10:00 – 18:00</strong></li>
-                <li><span>Субота</span><strong>за записом</strong></li>
-                <li><span>Тривалість</span><strong>~45 хв</strong></li>
+                <li><span>{t('ctHoursMonFri')}</span><strong>10:00 – 18:00</strong></li>
+                <li><span>{t('ctHoursSaturday')}</span><strong>{t('ctHoursOnAppointment')}</strong></li>
+                <li><span>{t('ctHoursDuration')}</span><strong>{t('ctHoursDurationValue')}</strong></li>
               </ul>
             </div>
           </div>
@@ -531,21 +520,21 @@ export function ContactsPage() {
           <div className="ct-channels" style={{ maxWidth: 720, margin: '0 auto' }}>
             <Link to={localizedPath(locale, routePaths.faq)} className="ct-channel">
               <span className="ct-channel__ico" aria-hidden="true">❓</span>
-              <span className="ct-channel__label">Питання</span>
+              <span className="ct-channel__label">{t('ctNavFaqLabel')}</span>
               <span className="ct-channel__value">FAQ</span>
-              <span className="ct-channel__hint">Поширені запитання та короткі відповіді.</span>
+              <span className="ct-channel__hint">{t('ctNavFaqHint')}</span>
             </Link>
             <Link to={localizedPath(locale, routePaths.calculator)} className="ct-channel">
               <span className="ct-channel__ico" aria-hidden="true">🧮</span>
-              <span className="ct-channel__label">Прорахунок</span>
-              <span className="ct-channel__value">Калькулятор</span>
-              <span className="ct-channel__hint">Орієнтовна вартість авто під ключ.</span>
+              <span className="ct-channel__label">{t('ctNavCalcLabel')}</span>
+              <span className="ct-channel__value">{t('navCalculator')}</span>
+              <span className="ct-channel__hint">{t('ctNavCalcHint')}</span>
             </Link>
             <Link to={localizedPath(locale, routePaths.home)} className="ct-channel">
               <span className="ct-channel__ico" aria-hidden="true">🏠</span>
-              <span className="ct-channel__label">Повернутись</span>
-              <span className="ct-channel__value">На головну</span>
-              <span className="ct-channel__hint">Наші послуги та переваги.</span>
+              <span className="ct-channel__label">{t('ctNavHomeLabel')}</span>
+              <span className="ct-channel__value">{t('navHome')}</span>
+              <span className="ct-channel__hint">{t('ctNavHomeHint')}</span>
             </Link>
           </div>
         </div>

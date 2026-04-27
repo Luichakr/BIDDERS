@@ -810,6 +810,92 @@ export type MessageKey =
   | 'faqInspectionAnswer'
   | 'faqCtaHome'
   | 'faqCtaContacts'
+  | 'legalKicker'
+  | 'termsTitle'
+  | 'termsSub'
+  | 'termsS1Title'
+  | 'termsS1Text'
+  | 'termsS2Title'
+  | 'termsS2Text'
+  | 'termsS3Title'
+  | 'termsS3Text'
+  | 'termsS4Title'
+  | 'termsS4Text'
+  | 'termsS5Title'
+  | 'termsS5Text'
+  | 'termsCtaPrivacy'
+  | 'termsCtaHome'
+  | 'privacyTitle'
+  | 'privacySub'
+  | 'privacyCtaTerms'
+  | 'privacyCtaHome'
+  | 'ctHeroKicker'
+  | 'ctHeroTitle'
+  | 'ctHeroSub'
+  | 'ctHeroFactOffices'
+  | 'ctHeroFactDelivery'
+  | 'ctHeroFactChat'
+  | 'ctHeroFactHours'
+  | 'ctQuickTitle'
+  | 'ctQuickSub'
+  | 'ctQuickCta'
+  | 'ctChannelPhoneLabel'
+  | 'ctChannelPhoneHintMain'
+  | 'ctChannelPhoneHintSales'
+  | 'ctChannelEmailHint'
+  | 'ctChannelTelegramHint'
+  | 'ctOfficeSectionTitle'
+  | 'ctOfficeSectionSub'
+  | 'ctMapAriaLabel'
+  | 'ctMapBadge'
+  | 'ctAddressLabel'
+  | 'ctAddressCoords'
+  | 'ctAddressNearest'
+  | 'ctAddressFromWarsaw'
+  | 'ctAddressFromWarsawValue'
+  | 'ctDirectionsLabel'
+  | 'ctWazeLabel'
+  | 'ctChannelsSectionTitle'
+  | 'ctChannelsSectionSub'
+  | 'ctEuropeBadge'
+  | 'ctEuropeTitle'
+  | 'ctEuropeLead'
+  | 'ctEuropeMapAriaLabel'
+  | 'ctMapControlsAriaLabel'
+  | 'ctRepHqTag'
+  | 'ctRepCountryPoland'
+  | 'ctRepCountryLithuania'
+  | 'ctRepCountryCzechia'
+  | 'ctRepCountryUK'
+  | 'ctRepCountryRomania'
+  | 'ctCityLondon'
+  | 'ctCityKlaipeda'
+  | 'ctCityPrague'
+  | 'ctCityConstanta'
+  | 'ctHoursSectionTitle'
+  | 'ctHoursSectionSub'
+  | 'ctHoursOfficeTitle'
+  | 'ctHoursOnlineTitle'
+  | 'ctHoursDeliveryTitle'
+  | 'ctHoursMonFri'
+  | 'ctHoursSaturday'
+  | 'ctHoursSunday'
+  | 'ctHoursSatSun'
+  | 'ctHoursTelegramChat'
+  | 'ctHoursOnAppointment'
+  | 'ctHoursDayOff'
+  | 'ctHoursDuration'
+  | 'ctHoursDurationValue'
+  | 'ctNavFaqLabel'
+  | 'ctNavFaqHint'
+  | 'ctNavCalcLabel'
+  | 'ctNavCalcHint'
+  | 'ctNavHomeLabel'
+  | 'ctNavHomeHint'
+  | 'ctJsonLdDesc'
+  | 'ctAddressMapQuery'
+  | 'ctAddressLine1'
+  | 'ctAddressLine2'
 
 type Messages = Record<string, string>
 
@@ -1624,6 +1710,92 @@ export const messages: Record<Locale, Messages> = {
     catalogLayoutList: 'Список',
     catalogLayoutGrid: 'Сітка',
     catalogLoadMore: 'Завантажити ще',
+    legalKicker: 'Юридична інформація',
+    termsTitle: 'Умови використання',
+    termsSub: 'Користуючись сайтом BIDDERS, ви погоджуєтесь із цими умовами.',
+    termsS1Title: '1. Загальні положення',
+    termsS1Text: 'Сайт має інформаційний характер і не є публічною офертою. Фінальні умови співпраці визначаються індивідуальним договором.',
+    termsS2Title: '2. Контент і авторські права',
+    termsS2Text: 'Тексти, дизайн, графіка та інші матеріали сайту належать BIDDERS або використовуються на законних підставах.',
+    termsS3Title: '3. Обмеження відповідальності',
+    termsS3Text: 'Ми докладаємо максимум зусиль для точності інформації, однак не гарантуємо повну відсутність технічних помилок чи затримок оновлення даних.',
+    termsS4Title: '4. Заявки та комунікація',
+    termsS4Text: 'Надсилаючи заявку, ви підтверджуєте достовірність наданих даних і погоджуєтесь на зворотний зв\'язок для обробки запиту.',
+    termsS5Title: '5. Застосовне право',
+    termsS5Text: 'До правовідносин застосовується законодавство Польщі, якщо інше не передбачено договором.',
+    termsCtaPrivacy: 'Політика конфіденційності',
+    termsCtaHome: 'На головну',
+    privacyTitle: 'Політика конфіденційності та файлів cookie',
+    privacySub: 'Умови збору та обробки персональних даних. Юридичний текст підлягає фінальній перевірці юридичним відділом.',
+    privacyCtaTerms: 'Умови використання',
+    privacyCtaHome: 'На головну',
+    ctHeroKicker: 'Контакти BIDDERS',
+    ctHeroTitle: 'Контакти та майданчик BIDDERS у Польщі',
+    ctHeroSub: 'Приїжджайте на огляд, отримайте консультацію по документах та фінальній вартості володіння. Команда представників по всій Європі — від Лондона до Клайпеди.',
+    ctHeroFactOffices: 'Представництва у ЄС',
+    ctHeroFactDelivery: 'Доставлених авто щомісяця',
+    ctHeroFactChat: 'Чат у Telegram',
+    ctHeroFactHours: 'Робочі години, пн–пт',
+    ctQuickTitle: 'Зв\'язатися швидко',
+    ctQuickSub: 'Менеджер відповідає у робочі години. Чат — цілодобово.',
+    ctQuickCta: 'Замовити прорахунок →',
+    ctChannelPhoneLabel: 'Телефон (PL)',
+    ctChannelPhoneHintMain: 'Головний номер, Polska',
+    ctChannelPhoneHintSales: 'Менеджер з продажу',
+    ctChannelEmailHint: 'Загальні питання',
+    ctChannelTelegramHint: 'Швидкі відповіді у чаті',
+    ctOfficeSectionTitle: 'Головний офіс та шоурум',
+    ctOfficeSectionSub: 'Сюди приїжджайте на особисту консультацію, огляд авто та оформлення угоди. Паркування є, вхід вільний за попереднім записом.',
+    ctMapAriaLabel: 'Карта BIDDERS, Польща',
+    ctMapBadge: 'Головний офіс',
+    ctAddressLabel: 'Адреса',
+    ctAddressCoords: 'Координати:',
+    ctAddressNearest: 'Ближче за все:',
+    ctAddressFromWarsaw: 'Доїхати з Варшави:',
+    ctAddressFromWarsawValue: '~25 хв на авто',
+    ctDirectionsLabel: 'Прокласти маршрут',
+    ctWazeLabel: 'Навігатор',
+    ctChannelsSectionTitle: 'Усі канали зв\'язку',
+    ctChannelsSectionSub: 'Телефон — для швидких дзвінків. Email — для офіційних документів та комерційних пропозицій. Telegram — для швидких питань у будь-який час.',
+    ctEuropeBadge: 'Представники у ЄС',
+    ctEuropeTitle: 'Карта представників у Європі',
+    ctEuropeLead: 'Наші офіси та партнери в ключових країнах імпорту та логістики.',
+    ctEuropeMapAriaLabel: 'Карта представників у Європі',
+    ctMapControlsAriaLabel: 'Керування позицією карти',
+    ctRepHqTag: 'Головний офіс',
+    ctRepCountryPoland: 'Польща',
+    ctRepCountryLithuania: 'Литва',
+    ctRepCountryCzechia: 'Чехія',
+    ctRepCountryUK: 'Великобританія',
+    ctRepCountryRomania: 'Румунія',
+    ctCityLondon: 'Лондон',
+    ctCityKlaipeda: 'Клайпеда',
+    ctCityPrague: 'Прага',
+    ctCityConstanta: 'Констанца',
+    ctHoursSectionTitle: 'Робочі години та візити',
+    ctHoursSectionSub: 'Офіс працює у будні. На суботу приймаємо за попереднім записом. Візити бажано узгоджувати хоча б за день.',
+    ctHoursOfficeTitle: 'Офіс / шоурум',
+    ctHoursOnlineTitle: 'Онлайн-консультації',
+    ctHoursDeliveryTitle: 'Видача авто',
+    ctHoursMonFri: 'Пн – Пт',
+    ctHoursSaturday: 'Субота',
+    ctHoursSunday: 'Неділя',
+    ctHoursSatSun: 'Сб – Нд',
+    ctHoursTelegramChat: 'Telegram-чат',
+    ctHoursOnAppointment: 'за записом',
+    ctHoursDayOff: 'вихідний',
+    ctHoursDuration: 'Тривалість',
+    ctHoursDurationValue: '~45 хв',
+    ctNavFaqLabel: 'Питання',
+    ctNavFaqHint: 'Поширені запитання та короткі відповіді.',
+    ctNavCalcLabel: 'Прорахунок',
+    ctNavCalcHint: 'Орієнтовна вартість авто під ключ.',
+    ctNavHomeLabel: 'Повернутись',
+    ctNavHomeHint: 'Наші послуги та переваги.',
+    ctJsonLdDesc: 'Імпорт авто з аукціонів США та Європи під ключ.',
+    ctAddressMapQuery: 'Jawczyce ul. Poznańska 56 05-850 Polska',
+    ctAddressLine1: 'ul. Poznańska, 56',
+    ctAddressLine2: '05-850 Jawczyce, Polska',
   },
   en: {
     navHome: 'Home',
@@ -2435,6 +2607,92 @@ export const messages: Record<Locale, Messages> = {
     faqInspectionAnswer: 'Yes, inspection at our lot is available by prior appointment.',
     faqCtaHome: 'FAQ block on homepage',
     faqCtaContacts: 'Go to contacts',
+    legalKicker: 'Legal information',
+    termsTitle: 'Terms of use',
+    termsSub: 'By using the BIDDERS website, you agree to these terms.',
+    termsS1Title: '1. General provisions',
+    termsS1Text: 'The website is for informational purposes only and does not constitute a public offer. Final terms of cooperation are determined by an individual contract.',
+    termsS2Title: '2. Content and copyright',
+    termsS2Text: 'Texts, design, graphics, and other site materials belong to BIDDERS or are used on lawful grounds.',
+    termsS3Title: '3. Limitation of liability',
+    termsS3Text: 'We make every effort to ensure the accuracy of information, but do not guarantee the complete absence of technical errors or data update delays.',
+    termsS4Title: '4. Applications and communication',
+    termsS4Text: 'By submitting an application, you confirm the accuracy of the provided data and agree to be contacted for request processing.',
+    termsS5Title: '5. Applicable law',
+    termsS5Text: 'Polish law applies to legal relations, unless otherwise provided by the contract.',
+    termsCtaPrivacy: 'Privacy policy',
+    termsCtaHome: 'Back to home',
+    privacyTitle: 'Privacy policy and cookies',
+    privacySub: 'Terms for collecting and processing personal data. The legal text is subject to final review by the legal department.',
+    privacyCtaTerms: 'Terms of use',
+    privacyCtaHome: 'Back to home',
+    ctHeroKicker: 'BIDDERS Contacts',
+    ctHeroTitle: 'BIDDERS contacts and showroom in Poland',
+    ctHeroSub: 'Visit us for an inspection, get consultation on documents and total ownership cost. Representatives across Europe — from London to Klaipeda.',
+    ctHeroFactOffices: 'EU offices',
+    ctHeroFactDelivery: 'Cars delivered monthly',
+    ctHeroFactChat: 'Telegram chat',
+    ctHeroFactHours: 'Business hours, Mon–Fri',
+    ctQuickTitle: 'Get in touch quickly',
+    ctQuickSub: 'Manager replies during business hours. Chat — around the clock.',
+    ctQuickCta: 'Request a quote →',
+    ctChannelPhoneLabel: 'Phone (PL)',
+    ctChannelPhoneHintMain: 'Main number, Poland',
+    ctChannelPhoneHintSales: 'Sales manager',
+    ctChannelEmailHint: 'General inquiries',
+    ctChannelTelegramHint: 'Quick replies in chat',
+    ctOfficeSectionTitle: 'Head office & showroom',
+    ctOfficeSectionSub: 'Come here for a personal consultation, vehicle inspection, and deal signing. Parking available, entry free by prior appointment.',
+    ctMapAriaLabel: 'BIDDERS map, Poland',
+    ctMapBadge: 'Head office',
+    ctAddressLabel: 'Address',
+    ctAddressCoords: 'Coordinates:',
+    ctAddressNearest: 'Closest town:',
+    ctAddressFromWarsaw: 'From Warsaw:',
+    ctAddressFromWarsawValue: '~25 min by car',
+    ctDirectionsLabel: 'Get directions',
+    ctWazeLabel: 'Navigate',
+    ctChannelsSectionTitle: 'All contact channels',
+    ctChannelsSectionSub: 'Phone — for quick calls. Email — for official documents and business inquiries. Telegram — for fast questions at any time.',
+    ctEuropeBadge: 'EU representatives',
+    ctEuropeTitle: 'European representatives map',
+    ctEuropeLead: 'Our offices and partners in key import and logistics countries.',
+    ctEuropeMapAriaLabel: 'Map of EU representatives',
+    ctMapControlsAriaLabel: 'Map position controls',
+    ctRepHqTag: 'Head office',
+    ctRepCountryPoland: 'Poland',
+    ctRepCountryLithuania: 'Lithuania',
+    ctRepCountryCzechia: 'Czech Republic',
+    ctRepCountryUK: 'United Kingdom',
+    ctRepCountryRomania: 'Romania',
+    ctCityLondon: 'London',
+    ctCityKlaipeda: 'Klaipeda',
+    ctCityPrague: 'Prague',
+    ctCityConstanta: 'Constanta',
+    ctHoursSectionTitle: 'Business hours & visits',
+    ctHoursSectionSub: 'Office open on weekdays. Saturdays by appointment. Please arrange visits at least a day in advance.',
+    ctHoursOfficeTitle: 'Office / showroom',
+    ctHoursOnlineTitle: 'Online consultations',
+    ctHoursDeliveryTitle: 'Vehicle handover',
+    ctHoursMonFri: 'Mon – Fri',
+    ctHoursSaturday: 'Saturday',
+    ctHoursSunday: 'Sunday',
+    ctHoursSatSun: 'Sat – Sun',
+    ctHoursTelegramChat: 'Telegram chat',
+    ctHoursOnAppointment: 'by appointment',
+    ctHoursDayOff: 'closed',
+    ctHoursDuration: 'Duration',
+    ctHoursDurationValue: '~45 min',
+    ctNavFaqLabel: 'Questions',
+    ctNavFaqHint: 'Common questions and quick answers.',
+    ctNavCalcLabel: 'Calculate',
+    ctNavCalcHint: 'Estimated turnkey cost.',
+    ctNavHomeLabel: 'Go back',
+    ctNavHomeHint: 'Our services and advantages.',
+    ctJsonLdDesc: 'Turnkey import of cars from US and European auctions.',
+    ctAddressMapQuery: 'Jawczyce ul. Poznańska 56 05-850 Polska',
+    ctAddressLine1: 'ul. Poznańska, 56',
+    ctAddressLine2: '05-850 Jawczyce, Polska',
   },
   pl: {
     navHome: 'Start',
@@ -3246,5 +3504,91 @@ export const messages: Record<Locale, Messages> = {
     faqInspectionAnswer: 'Tak, oględziny na placu są dostępne po wcześniejszym umówieniu.',
     faqCtaHome: 'Blok FAQ na stronie głównej',
     faqCtaContacts: 'Przejdź do kontaktów',
+    legalKicker: 'Informacje prawne',
+    termsTitle: 'Warunki użytkowania',
+    termsSub: 'Korzystając ze strony BIDDERS, zgadzasz się z tymi warunkami.',
+    termsS1Title: '1. Postanowienia ogólne',
+    termsS1Text: 'Serwis ma charakter informacyjny i nie stanowi oferty publicznej. Ostateczne warunki współpracy określa indywidualna umowa.',
+    termsS2Title: '2. Treści i prawa autorskie',
+    termsS2Text: 'Teksty, projekt, grafika i inne materiały serwisu należą do BIDDERS lub są używane na podstawie prawnej.',
+    termsS3Title: '3. Ograniczenie odpowiedzialności',
+    termsS3Text: 'Dokładamy wszelkich starań, aby informacje były dokładne, jednak nie gwarantujemy braku błędów technicznych ani opóźnień w aktualizacji danych.',
+    termsS4Title: '4. Zgłoszenia i komunikacja',
+    termsS4Text: 'Wysyłając zgłoszenie, potwierdzasz prawdziwość podanych danych i wyrażasz zgodę na kontakt zwrotny w celu realizacji zapytania.',
+    termsS5Title: '5. Prawo właściwe',
+    termsS5Text: 'Do stosunków prawnych stosuje się prawo polskie, o ile umowa nie stanowi inaczej.',
+    termsCtaPrivacy: 'Polityka prywatności',
+    termsCtaHome: 'Na stronę główną',
+    privacyTitle: 'Polityka prywatności i plików cookie',
+    privacySub: 'Warunki gromadzenia i przetwarzania danych osobowych. Tekst prawny wymaga finalnej weryfikacji przez dział prawny.',
+    privacyCtaTerms: 'Warunki użytkowania',
+    privacyCtaHome: 'Na stronę główną',
+    ctHeroKicker: 'Kontakty BIDDERS',
+    ctHeroTitle: 'Kontakty i plac BIDDERS w Polsce',
+    ctHeroSub: 'Przyjedź na oględziny, uzyskaj konsultację dotyczącą dokumentów i całkowitego kosztu posiadania. Przedstawiciele w całej Europie — od Londynu do Kłajpedy.',
+    ctHeroFactOffices: 'Biura w UE',
+    ctHeroFactDelivery: 'Dostarczonych aut miesięcznie',
+    ctHeroFactChat: 'Chat na Telegram',
+    ctHeroFactHours: 'Godziny pracy, pn–pt',
+    ctQuickTitle: 'Skontaktuj się szybko',
+    ctQuickSub: 'Menedżer odpowiada w godzinach pracy. Chat — całą dobę.',
+    ctQuickCta: 'Zamów wycenę →',
+    ctChannelPhoneLabel: 'Telefon (PL)',
+    ctChannelPhoneHintMain: 'Główny numer, Polska',
+    ctChannelPhoneHintSales: 'Menedżer sprzedaży',
+    ctChannelEmailHint: 'Pytania ogólne',
+    ctChannelTelegramHint: 'Szybkie odpowiedzi na czacie',
+    ctOfficeSectionTitle: 'Główne biuro i showroom',
+    ctOfficeSectionSub: 'Przyjedź tu na konsultację osobistą, oględziny auta i podpisanie umowy. Parking dostępny, wejście wolne po wcześniejszym umówieniu.',
+    ctMapAriaLabel: 'Mapa BIDDERS, Polska',
+    ctMapBadge: 'Główne biuro',
+    ctAddressLabel: 'Adres',
+    ctAddressCoords: 'Współrzędne:',
+    ctAddressNearest: 'Najbliższe miasto:',
+    ctAddressFromWarsaw: 'Z Warszawy:',
+    ctAddressFromWarsawValue: '~25 min samochodem',
+    ctDirectionsLabel: 'Wyznacz trasę',
+    ctWazeLabel: 'Nawiguj',
+    ctChannelsSectionTitle: 'Wszystkie kanały kontaktu',
+    ctChannelsSectionSub: 'Telefon — do szybkich rozmów. Email — do oficjalnych dokumentów i zapytań biznesowych. Telegram — do szybkich pytań o każdej porze.',
+    ctEuropeBadge: 'Przedstawiciele w UE',
+    ctEuropeTitle: 'Mapa przedstawicieli w Europie',
+    ctEuropeLead: 'Nasze biura i partnerzy w kluczowych krajach importu i logistyki.',
+    ctEuropeMapAriaLabel: 'Mapa przedstawicieli w Europie',
+    ctMapControlsAriaLabel: 'Kontrolki pozycji mapy',
+    ctRepHqTag: 'Główne biuro',
+    ctRepCountryPoland: 'Polska',
+    ctRepCountryLithuania: 'Litwa',
+    ctRepCountryCzechia: 'Czechy',
+    ctRepCountryUK: 'Wielka Brytania',
+    ctRepCountryRomania: 'Rumunia',
+    ctCityLondon: 'Londyn',
+    ctCityKlaipeda: 'Kłajpeda',
+    ctCityPrague: 'Praga',
+    ctCityConstanta: 'Konstanca',
+    ctHoursSectionTitle: 'Godziny pracy i wizyty',
+    ctHoursSectionSub: 'Biuro czynne w dni robocze. W soboty przyjmujemy po wcześniejszym umówieniu. Wizyty najlepiej uzgadniać co najmniej dzień wcześniej.',
+    ctHoursOfficeTitle: 'Biuro / showroom',
+    ctHoursOnlineTitle: 'Konsultacje online',
+    ctHoursDeliveryTitle: 'Wydanie auta',
+    ctHoursMonFri: 'Pn – Pt',
+    ctHoursSaturday: 'Sobota',
+    ctHoursSunday: 'Niedziela',
+    ctHoursSatSun: 'Sob – Ndz',
+    ctHoursTelegramChat: 'Chat Telegram',
+    ctHoursOnAppointment: 'po umówieniu',
+    ctHoursDayOff: 'nieczynne',
+    ctHoursDuration: 'Czas trwania',
+    ctHoursDurationValue: '~45 min',
+    ctNavFaqLabel: 'Pytania',
+    ctNavFaqHint: 'Najczęstsze pytania i krótkie odpowiedzi.',
+    ctNavCalcLabel: 'Wycena',
+    ctNavCalcHint: 'Orientacyjny koszt pod klucz.',
+    ctNavHomeLabel: 'Wróć',
+    ctNavHomeHint: 'Nasze usługi i zalety.',
+    ctJsonLdDesc: 'Import aut z aukcji USA i Europy pod klucz.',
+    ctAddressMapQuery: 'Jawczyce ul. Poznańska 56 05-850 Polska',
+    ctAddressLine1: 'ul. Poznańska, 56',
+    ctAddressLine2: '05-850 Jawczyce, Polska',
   },
 }
