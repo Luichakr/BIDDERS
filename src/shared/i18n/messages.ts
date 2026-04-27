@@ -982,6 +982,19 @@ export type MessageKey =
   | 'homeTransitArrival'
   | 'homeTransitInTransitBadge'
   | 'homeLocAddressStreet'
+  | 'homeBudgetExtrasTitle'
+  | 'homeBudgetMake'
+  | 'homeBudgetModel'
+  | 'homeBudgetGeneration'
+  | 'homeBudgetDrive'
+  | 'homeBudgetFuel'
+  | 'homeBudgetGearbox'
+  | 'homeBudgetColor'
+  | 'homeBudgetDamageType'
+  | 'homeBudgetSteering'
+  | 'homeBudgetPower'
+  | 'homeBudgetEngineVol'
+  | 'homeBudgetAny'
   | 'statusDamageUnknown'
   | 'statusDamageCheck'
   | 'statusDamageOk'
@@ -1979,6 +1992,19 @@ export const messages: Record<Locale, Messages> = {
     homeTransitArrival: 'Прибуття',
     homeTransitInTransitBadge: '1800+ в дорозі',
     homeLocAddressStreet: 'ul. Poznańska, 56, 05-850',
+    homeBudgetExtrasTitle: 'Деталі авто',
+    homeBudgetMake: 'Марка',
+    homeBudgetModel: 'Модель',
+    homeBudgetGeneration: 'Покоління',
+    homeBudgetDrive: 'Привід',
+    homeBudgetFuel: 'Пальне',
+    homeBudgetGearbox: 'Коробка передач',
+    homeBudgetColor: 'Колір',
+    homeBudgetDamageType: 'Тип пошкоджень',
+    homeBudgetSteering: 'Кермо',
+    homeBudgetPower: 'Потужність (к.с.)',
+    homeBudgetEngineVol: "Об'єм двигуна (Л)",
+    homeBudgetAny: 'Будь-який',
     statusDamageUnknown: 'Стан уточнюється',
     statusDamageCheck: 'Потребує перевірки',
     statusDamageOk: 'Без явних пошкоджень',
@@ -2973,6 +2999,19 @@ export const messages: Record<Locale, Messages> = {
     homeTransitArrival: 'Arrival',
     homeTransitInTransitBadge: '1800+ in transit',
     homeLocAddressStreet: 'ul. Poznańska, 56, 05-850',
+    homeBudgetExtrasTitle: 'Car details',
+    homeBudgetMake: 'Make',
+    homeBudgetModel: 'Model',
+    homeBudgetGeneration: 'Generation',
+    homeBudgetDrive: 'Drive',
+    homeBudgetFuel: 'Fuel',
+    homeBudgetGearbox: 'Transmission',
+    homeBudgetColor: 'Color',
+    homeBudgetDamageType: 'Damage type',
+    homeBudgetSteering: 'Steering wheel',
+    homeBudgetPower: 'Power (HP)',
+    homeBudgetEngineVol: 'Engine capacity (L)',
+    homeBudgetAny: 'Any',
     statusDamageUnknown: 'Condition unclear',
     statusDamageCheck: 'Requires inspection',
     statusDamageOk: 'No visible damage',
@@ -3967,6 +4006,19 @@ export const messages: Record<Locale, Messages> = {
     homeTransitArrival: 'Przyjazd',
     homeTransitInTransitBadge: '1800+ w drodze',
     homeLocAddressStreet: 'ul. Poznańska, 56, 05-850',
+    homeBudgetExtrasTitle: 'Szczegóły auta',
+    homeBudgetMake: 'Marka',
+    homeBudgetModel: 'Model',
+    homeBudgetGeneration: 'Generacja',
+    homeBudgetDrive: 'Napęd',
+    homeBudgetFuel: 'Paliwo',
+    homeBudgetGearbox: 'Skrzynia biegów',
+    homeBudgetColor: 'Kolor',
+    homeBudgetDamageType: 'Typ uszkodzeń',
+    homeBudgetSteering: 'Kierownica',
+    homeBudgetPower: 'Moc (KM)',
+    homeBudgetEngineVol: 'Pojemność silnika (L)',
+    homeBudgetAny: 'Dowolny',
     statusDamageUnknown: 'Stan nieokreślony',
     statusDamageCheck: 'Wymaga sprawdzenia',
     statusDamageOk: 'Bez widocznych uszkodzeń',

@@ -51,6 +51,17 @@ export function HomePage() {
   const [b2cYearMax, setB2cYearMax] = useState(2024)
   const [b2cBudgetMin, setB2cBudgetMin] = useState(10000)
   const [b2cBudgetMax, setB2cBudgetMax] = useState(18000)
+  const [b2cMake, setB2cMake] = useState('')
+  const [b2cModel, setB2cModel] = useState('')
+  const [b2cGeneration, setB2cGeneration] = useState('')
+  const [b2cDrive, setB2cDrive] = useState('')
+  const [b2cFuel, setB2cFuel] = useState('')
+  const [b2cGearbox, setB2cGearbox] = useState('')
+  const [b2cColor, setB2cColor] = useState('')
+  const [b2cDamageType, setB2cDamageType] = useState('')
+  const [b2cSteering, setB2cSteering] = useState('')
+  const [b2cPower, setB2cPower] = useState('')
+  const [b2cEngineVol, setB2cEngineVol] = useState('')
   const [b2cError, setB2cError] = useState<string>('')
   const [b2bError, setB2bError] = useState<string>('')
   const [b2cSuccess, setB2cSuccess] = useState<string>('')
@@ -1675,6 +1686,74 @@ export function HomePage() {
             </div>
 
             <section className="bp-budget-block">
+              <p className="bp-budget-block__label">{t('homeBudgetExtrasTitle')}</p>
+              <div className="bp-budget-extras">
+                <label>{t('homeBudgetMake')}<input value={b2cMake} onChange={(e) => setB2cMake(e.target.value)} /></label>
+                <label>{t('homeBudgetModel')}<input value={b2cModel} onChange={(e) => setB2cModel(e.target.value)} /></label>
+                <label>{t('homeBudgetGeneration')}<input value={b2cGeneration} onChange={(e) => setB2cGeneration(e.target.value)} /></label>
+                <label>{t('homeBudgetDrive')}
+                  <select value={b2cDrive} onChange={(e) => setB2cDrive(e.target.value)}>
+                    <option value="">— {t('homeBudgetAny')} —</option>
+                    <option value="AWD / 4×4">AWD / 4×4</option>
+                    <option value="FWD">FWD (przód)</option>
+                    <option value="RWD">RWD (tył)</option>
+                  </select>
+                </label>
+                <label>{t('homeBudgetFuel')}
+                  <select value={b2cFuel} onChange={(e) => setB2cFuel(e.target.value)}>
+                    <option value="">— {t('homeBudgetAny')} —</option>
+                    <option value="Benzyna">Benzyna</option>
+                    <option value="Diesel">Diesel</option>
+                    <option value="Hybryda">Hybryda</option>
+                    <option value="Elektryczny">Elektryczny</option>
+                    <option value="LPG">LPG</option>
+                  </select>
+                </label>
+                <label>{t('homeBudgetGearbox')}
+                  <select value={b2cGearbox} onChange={(e) => setB2cGearbox(e.target.value)}>
+                    <option value="">— {t('homeBudgetAny')} —</option>
+                    <option value="Automatyczna">Automatyczna</option>
+                    <option value="Manualna">Manualna</option>
+                    <option value="CVT">CVT</option>
+                  </select>
+                </label>
+                <label>{t('homeBudgetColor')}
+                  <select value={b2cColor} onChange={(e) => setB2cColor(e.target.value)}>
+                    <option value="">— {t('homeBudgetAny')} —</option>
+                    <option value="Biały">Biały</option>
+                    <option value="Czarny">Czarny</option>
+                    <option value="Szary">Szary</option>
+                    <option value="Srebrny">Srebrny</option>
+                    <option value="Czerwony">Czerwony</option>
+                    <option value="Niebieski">Niebieski</option>
+                    <option value="Zielony">Zielony</option>
+                    <option value="Inny">Inny</option>
+                  </select>
+                </label>
+                <label>{t('homeBudgetDamageType')}
+                  <select value={b2cDamageType} onChange={(e) => setB2cDamageType(e.target.value)}>
+                    <option value="">— {t('homeBudgetAny')} —</option>
+                    <option value="Bez uszkodzeń">Bez uszkodzeń</option>
+                    <option value="Frontalne">Frontalne</option>
+                    <option value="Tylne">Tylne</option>
+                    <option value="Boczne">Boczne</option>
+                    <option value="Zalane">Zalane</option>
+                    <option value="Inne">Inne</option>
+                  </select>
+                </label>
+                <label>{t('homeBudgetSteering')}
+                  <select value={b2cSteering} onChange={(e) => setB2cSteering(e.target.value)}>
+                    <option value="">— {t('homeBudgetAny')} —</option>
+                    <option value="Lewa">Lewa</option>
+                    <option value="Prawa">Prawa</option>
+                  </select>
+                </label>
+                <label>{t('homeBudgetPower')}<input type="number" min="0" value={b2cPower} onChange={(e) => setB2cPower(e.target.value)} placeholder="np. 150" /></label>
+                <label>{t('homeBudgetEngineVol')}<input type="number" min="0" step="0.1" value={b2cEngineVol} onChange={(e) => setB2cEngineVol(e.target.value)} placeholder="np. 2.0" /></label>
+              </div>
+            </section>
+
+            <section className="bp-budget-block">
               <p className="bp-budget-block__label">{budgetUi.contactsLabel}</p>
               <div className="bp-budget-fields">
                 <label>
@@ -1704,7 +1783,16 @@ export function HomePage() {
             <label>
               {t('homeModalScenarioLabel')}
               <input
-                value={`${b2c.scenario} | ${bodyTypeItems.find((item) => item.id === b2cBodyType)?.label ?? b2cBodyType} | ${b2cYearMin}-${b2cYearMax} | $${b2cBudgetMin.toLocaleString('en-US')}-$${b2cBudgetMax.toLocaleString('en-US')}`}
+                value={[
+                  b2c.scenario,
+                  bodyTypeItems.find((item) => item.id === b2cBodyType)?.label ?? b2cBodyType,
+                  `${b2cYearMin}-${b2cYearMax}`,
+                  `$${b2cBudgetMin.toLocaleString('en-US')}-$${b2cBudgetMax.toLocaleString('en-US')}`,
+                  b2cMake, b2cModel, b2cGeneration,
+                  b2cDrive, b2cFuel, b2cGearbox, b2cColor, b2cDamageType, b2cSteering,
+                  b2cPower ? `${b2cPower} KM` : '',
+                  b2cEngineVol ? `${b2cEngineVol}L` : '',
+                ].filter(Boolean).join(' | ')}
                 readOnly
               />
             </label>
