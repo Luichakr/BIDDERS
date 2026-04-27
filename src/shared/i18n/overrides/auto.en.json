@@ -137,7 +137,7 @@
   "homeCatalogFeat3Title": "Instant notifications",
   "homeCatalogFeat4Desc": "clean history and real condition reports",
   "homeCatalogFeat4Title": "Transparent data",
-  "homeCatalogHeading": "200,000+ lots daily",
+  "homeCatalogHeading": "200 000+ auctions daily",
   "homeCatalogKicker": "Catalog · Copart · IAAI · Manheim",
   "homeCatalogLead": "Largest selection from US and European auctions. Filter by budget, year, mileage, damage type, and document status.",
   "homeCatalogStat1Label": "lots daily real-time updates",
@@ -357,5 +357,16 @@
   "whyStatThreeValue": "6",
   "whyStatTwoLabel": "saving vs EU",
   "whyStatTwoValue": "40%",
-  "whyTitle": "Safe and guaranteed vehicle delivery from the US"
+  "whyTitle": "Safe and guaranteed vehicle delivery from the US",
+  "statusDamageUnknown": "Condition unclear",
+  "statusDamageCheck": "Requires inspection",
+  "statusDamageOk": "No visible damage",
+  "statusKeysYes": "Yes",
+  "statusKeysNo": "No",
+  "statusKeysUnknown": "To be confirmed",
+  "statusSold": "Sold",
+  "statusReady": "Ready for pickup",
+  "statusInTransit": "In transit",
+  "statusDocsCustom": "Customs included",
+  "statusDocsUnclear": "Documents pending"
 }

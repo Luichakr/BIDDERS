@@ -536,7 +536,7 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
           <div className="card-details">
             <div className="detail-item"><span className="detail-label">{t('catalogDetailMileage')}</span><span className="detail-value">{card.mileageLabel}</span></div>
             <div className="detail-item"><span className="detail-label">{t('catalogDetailLocation')}</span><span className="detail-value">{card.location}</span></div>
-            <div className="detail-item"><span className="detail-label">{t('catalogDetailDamage')}</span><span className="detail-value">{card.damage}</span></div>
+            <div className="detail-item"><span className="detail-label">{t('catalogDetailDamage')}</span><span className="detail-value">{card.damage.split('|').map(k => t(k.trim())).join(' · ')}</span></div>
             <div className="detail-item"><span className="detail-label">{t('catalogDetailStatus')}</span><span className={isFixedPrice ? 'detail-value status-onward' : 'detail-value'}>{statusLabel}</span></div>
           </div>
         </div>

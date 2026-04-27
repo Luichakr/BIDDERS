@@ -4,7 +4,7 @@ const API_BASE_URL = String(import.meta.env.VITE_CALCULATOR_API_BASE_URL ?? 'htt
 const DEFAULT_PAGE_SIZE = 500
 const MAX_PAGES = 20
 const TRANSIT_GALLERY_HYDRATE_LIMIT = 24
-const TRANSIT_DESTINATION_LABEL = 'Poland, Jawczyce, ul. Poznanska, 56, 05-850, Polska'
+const TRANSIT_DESTINATION_LABEL = 'Jawczyce, ul. Poznanska, 56, 05-850, Polska'
 
 type ApiNameObject = {
   name?: string | null
@@ -230,9 +230,9 @@ function toEngineLabel(engineVolume: number, fuelType: string): string {
 }
 
 function toTransitDamageLabel(isDamaged: boolean | null | undefined): string {
-  if (isDamaged === true) return 'Потребує перевірки'
-  if (isDamaged === false) return 'Без явних пошкоджень'
-  return 'Стан уточнюється'
+  if (isDamaged === true) return 'statusDamageCheck'
+  if (isDamaged === false) return 'statusDamageOk'
+  return 'statusDamageUnknown'
 }
 
 function mapInRouteCarToAuctionCard(car: ApiInRouteCar, status: AuctionCardData['status'] = 'transit'): AuctionCardData | null {
@@ -242,7 +242,8 @@ function mapInRouteCarToAuctionCard(car: ApiInRouteCar, status: AuctionCardData[
   }
 
   const id = String(idRaw)
-  const make = toName(car.mark) || 'Unknown'
+  const rawMake = toName(car.mark)
+  const make = rawMake === 'Любе Авто' ? 'BID BIDDERS' : rawMake || 'Unknown'
   const model = toName(car.model) || 'Model'
   const complectation = car.carComplectation ?? {}
   const year = Number(car.year ?? complectation.year ?? 0) || 2024
@@ -259,9 +260,9 @@ function mapInRouteCarToAuctionCard(car: ApiInRouteCar, status: AuctionCardData[
   const isAvailable = car.isAvailable === true
   const isSold = car.isSold === true
   const damage = toTransitDamageLabel(complectation.isDamaged)
-  const stockStatus = isSold ? 'Продано' : isAvailable ? 'Готове до видачі' : 'В дорозі'
-  const titleStatus = complectation.hasCustomStatus === true ? `Розмитнення включено · ${stockStatus}` : `Документи уточнюються · ${stockStatus}`
-  const keys = complectation.hasKey === true ? 'Є' : complectation.hasKey === false ? 'Немає' : 'Уточнюється'
+  const stockStatus = isSold ? 'statusSold' : isAvailable ? 'statusReady' : 'statusInTransit'
+  const titleStatus = complectation.hasCustomStatus === true ? `statusDocsCustom|${stockStatus}` : `statusDocsUnclear|${stockStatus}`
+  const keys = complectation.hasKey === true ? 'statusKeysYes' : complectation.hasKey === false ? 'statusKeysNo' : 'statusKeysUnknown'
   const seller = String(car.userFullName ?? '').trim() || 'BIDDERS'
   const color = toName(car.color) || '—'
   const bodyStyle = String(complectation.bodyType ?? '').trim() || '—'

@@ -3166,6 +3166,8 @@
 .px-social--telegram .px-social__icon { background: linear-gradient(135deg, #38bdf8, #0284c7); }
 .px-social--whatsapp { --sx-color: #22c55e; --sx-color-2: #4ade80; --sx-rgb: 34,197,94; }
 .px-social--whatsapp .px-social__icon { background: linear-gradient(135deg, #22c55e, #16a34a); }
+.px-social--messenger { --sx-color: #0084ff; --sx-color-2: #a334fa; --sx-rgb: 0,132,255; }
+.px-social--messenger .px-social__icon { background: linear-gradient(135deg, #a334fa, #0084ff); }
 
 /* phone mock */
 .px-insta__phone {
@@ -3267,7 +3269,7 @@ header.px-header {
 }
 .px-header__logo { flex-shrink: 0; display: flex; align-items: center; }
 .px-header__logo img {
-  height: 40px;
+  height: 56px;
   width: auto;
   object-fit: contain;
   display: block;

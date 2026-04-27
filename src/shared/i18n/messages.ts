@@ -982,6 +982,17 @@ export type MessageKey =
   | 'homeTransitArrival'
   | 'homeTransitInTransitBadge'
   | 'homeLocAddressStreet'
+  | 'statusDamageUnknown'
+  | 'statusDamageCheck'
+  | 'statusDamageOk'
+  | 'statusKeysYes'
+  | 'statusKeysNo'
+  | 'statusKeysUnknown'
+  | 'statusSold'
+  | 'statusReady'
+  | 'statusInTransit'
+  | 'statusDocsCustom'
+  | 'statusDocsUnclear'
 
 type Messages = Record<string, string>
 
@@ -1301,7 +1312,7 @@ export const messages: Record<Locale, Messages> = {
     homeStockLiveQuestion: 'Хочете подивитися наживо?',
     homeStockLiveSchedule: 'Записатися на огляд',
     homeCatalogKicker: 'Каталог · Copart · IAAI · Manheim',
-    homeCatalogHeading: '200,000+ лотів щодня',
+    homeCatalogHeading: '200 000+ аукціонів щодня',
     homeCatalogLead: 'Найбільший вибір авто на аукціонах США та Європи. Фільтри за бюджетом, роком, пробігом, типом пошкоджень і статусом документів.',
     homeCatalogCta: 'Відкрити каталог',
     homeCatalogVideo: 'Як це працює?',
@@ -1968,6 +1979,17 @@ export const messages: Record<Locale, Messages> = {
     homeTransitArrival: 'Прибуття',
     homeTransitInTransitBadge: '1800+ в дорозі',
     homeLocAddressStreet: 'ul. Poznańska, 56, 05-850',
+    statusDamageUnknown: 'Стан уточнюється',
+    statusDamageCheck: 'Потребує перевірки',
+    statusDamageOk: 'Без явних пошкоджень',
+    statusKeysYes: 'Є',
+    statusKeysNo: 'Немає',
+    statusKeysUnknown: 'Уточнюється',
+    statusSold: 'Продано',
+    statusReady: 'Готове до видачі',
+    statusInTransit: 'В дорозі',
+    statusDocsCustom: 'Розмитнення включено',
+    statusDocsUnclear: 'Документи уточнюються',
   },
   en: {
     navHome: 'Home',
@@ -2284,7 +2306,7 @@ export const messages: Record<Locale, Messages> = {
     homeStockLiveQuestion: 'Want to see them live?',
     homeStockLiveSchedule: 'Schedule an inspection',
     homeCatalogKicker: 'Catalog · Copart · IAAI · Manheim',
-    homeCatalogHeading: '200,000+ lots daily',
+    homeCatalogHeading: '200 000+ auctions daily',
     homeCatalogLead: 'Largest selection from US and European auctions. Filter by budget, year, mileage, damage type, and document status.',
     homeCatalogCta: 'Open catalog',
     homeCatalogVideo: 'How it works?',
@@ -2951,6 +2973,17 @@ export const messages: Record<Locale, Messages> = {
     homeTransitArrival: 'Arrival',
     homeTransitInTransitBadge: '1800+ in transit',
     homeLocAddressStreet: 'ul. Poznańska, 56, 05-850',
+    statusDamageUnknown: 'Condition unclear',
+    statusDamageCheck: 'Requires inspection',
+    statusDamageOk: 'No visible damage',
+    statusKeysYes: 'Yes',
+    statusKeysNo: 'No',
+    statusKeysUnknown: 'To be confirmed',
+    statusSold: 'Sold',
+    statusReady: 'Ready for pickup',
+    statusInTransit: 'In transit',
+    statusDocsCustom: 'Customs included',
+    statusDocsUnclear: 'Documents pending',
   },
   pl: {
     navHome: 'Start',
@@ -3267,7 +3300,7 @@ export const messages: Record<Locale, Messages> = {
     homeStockLiveQuestion: 'Chcesz zobaczyć je osobiście?',
     homeStockLiveSchedule: 'Umów wizytę',
     homeCatalogKicker: 'Katalog · Copart · IAAI · Manheim',
-    homeCatalogHeading: '200 000+ lotów dziennie',
+    homeCatalogHeading: '200 000+ aukcji dziennie',
     homeCatalogLead: 'Największy wybór z aukcji USA i Europy. Filtry: budżet, rok, przebieg, typ uszkodzenia, status dokumentów.',
     homeCatalogCta: 'Otwórz katalog',
     homeCatalogVideo: 'Jak to działa?',
@@ -3934,5 +3967,16 @@ export const messages: Record<Locale, Messages> = {
     homeTransitArrival: 'Przyjazd',
     homeTransitInTransitBadge: '1800+ w drodze',
     homeLocAddressStreet: 'ul. Poznańska, 56, 05-850',
+    statusDamageUnknown: 'Stan nieokreślony',
+    statusDamageCheck: 'Wymaga sprawdzenia',
+    statusDamageOk: 'Bez widocznych uszkodzeń',
+    statusKeysYes: 'Tak',
+    statusKeysNo: 'Nie',
+    statusKeysUnknown: 'Do potwierdzenia',
+    statusSold: 'Sprzedano',
+    statusReady: 'Gotowe do odbioru',
+    statusInTransit: 'W drodze',
+    statusDocsCustom: 'Odprawa celna wliczona',
+    statusDocsUnclear: 'Dokumenty w trakcie',
   },
 }

@@ -996,7 +996,11 @@ export function HomePage() {
               <div className="px-catalog2__left">
                 <p className="px-tag" style={{ color: 'var(--px-orange)' }}>{t('homeCatalogKicker')}</p>
                 <h2 className="px-h2" style={{ color: '#fff' }}>
-                  {t('homeCatalogHeading').split(' ').slice(0, 1).join(' ')}<br/>{t('homeCatalogHeading').split(' ').slice(1).join(' ')}
+                  {(() => {
+                    const heading = t('homeCatalogHeading')
+                    const idx = heading.indexOf(' ')
+                    return idx === -1 ? heading : <>{heading.slice(0, idx)}<br/>{heading.slice(idx + 1)}</>
+                  })()}
                 </h2>
                 <p className="px-sub" style={{ color: 'rgba(255,255,255,0.7)', marginTop: 16 }}>
                   {t('homeCatalogLead')}
@@ -1287,23 +1291,12 @@ export function HomePage() {
                 {t('homeSocialLead')}
               </p>
               <div className="px-socials">
+                {/* Left column */}
                 <a className="px-social px-social--instagram" href="https://www.instagram.com/bidders_com" target="_blank" rel="noreferrer" aria-label="Instagram">
                   <span className="px-social__icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
                   </span>
                   <span className="px-social__label">@bidders_com</span>
-                </a>
-                <a className="px-social px-social--tiktok" href="https://www.tiktok.com/@bidders_com" target="_blank" rel="noreferrer" aria-label="TikTok">
-                  <span className="px-social__icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.6 6.3c-1.3-.4-2.4-1.3-3-2.5-.3-.6-.5-1.2-.5-1.8h-3.3v13.6c0 .9-.4 1.7-1 2.2-.7.6-1.6.9-2.5.8-1.4-.1-2.5-1.3-2.5-2.8 0-1.7 1.4-3.1 3.1-3.1.3 0 .6 0 .9.1V9.4c-.3 0-.6-.1-.9-.1C6 9.3 3 12.3 3 16s3 6.7 6.7 6.7 6.7-3 6.7-6.7V9.4c1.3.9 2.9 1.4 4.6 1.4V7.5c-.5 0-1-.4-1.4-1.2z"/></svg>
-                  </span>
-                  <span className="px-social__label">@bidders_com</span>
-                </a>
-                <a className="px-social px-social--youtube" href="https://www.youtube.com/@bidders" target="_blank" rel="noreferrer" aria-label="YouTube">
-                  <span className="px-social__icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.2c-.3-1-1-1.8-2-2.1C19.2 4.6 12 4.6 12 4.6s-7.2 0-9 .5c-1 .3-1.7 1.1-2 2.1C.5 9 .5 12 .5 12s0 3 .5 4.8c.3 1 1 1.8 2 2.1 1.8.5 9 .5 9 .5s7.2 0 9-.5c1-.3 1.7-1.1 2-2.1.5-1.8.5-4.8.5-4.8s0-3-.5-4.8zM9.7 15.5V8.5l6 3.5-6 3.5z"/></svg>
-                  </span>
-                  <span className="px-social__label">BIDDERS</span>
                 </a>
                 <a className="px-social px-social--facebook" href="https://www.facebook.com/bidders.com.ua" target="_blank" rel="noreferrer" aria-label="Facebook">
                   <span className="px-social__icon" aria-hidden="true">
@@ -1311,17 +1304,30 @@ export function HomePage() {
                   </span>
                   <span className="px-social__label">bidders.com.ua</span>
                 </a>
-                <a className="px-social px-social--telegram" href="https://t.me/bidders" target="_blank" rel="noreferrer" aria-label="Telegram">
+                <a className="px-social px-social--tiktok" href="https://www.tiktok.com/@bidders_com" target="_blank" rel="noreferrer" aria-label="TikTok">
                   <span className="px-social__icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3L2.8 11.7c-1.3.5-1.3 1.3-.2 1.6l4.9 1.5 1.9 5.8c.2.6.1.9.8.9.5 0 .7-.2 1-.5l2.4-2.3 5 3.7c.9.5 1.6.2 1.8-.9l3.3-15.5c.3-1.3-.5-1.9-1.4-1.5zm-3.6 3.4L9 15.2l-.4 3.8L7.7 15l10.6-7.3z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.6 6.3c-1.3-.4-2.4-1.3-3-2.5-.3-.6-.5-1.2-.5-1.8h-3.3v13.6c0 .9-.4 1.7-1 2.2-.7.6-1.6.9-2.5.8-1.4-.1-2.5-1.3-2.5-2.8 0-1.7 1.4-3.1 3.1-3.1.3 0 .6 0 .9.1V9.4c-.3 0-.6-.1-.9-.1C6 9.3 3 12.3 3 16s3 6.7 6.7 6.7 6.7-3 6.7-6.7V9.4c1.3.9 2.9 1.4 4.6 1.4V7.5c-.5 0-1-.4-1.4-1.2z"/></svg>
                   </span>
-                  <span className="px-social__label">t.me/bidders</span>
+                  <span className="px-social__label">@bidders_com</span>
                 </a>
+                {/* Right column */}
                 <a className="px-social px-social--whatsapp" href="https://wa.me/48784890644" target="_blank" rel="noreferrer" aria-label="WhatsApp">
                   <span className="px-social__icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.2-1.7-.8-2-.9-.3-.1-.5-.2-.7.2-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.5-1.5-.9-.8-1.5-1.8-1.7-2.2-.2-.3 0-.5.1-.6.1-.1.3-.4.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.2-.1-.3-.2-.6-.3zM12 2.1C6.5 2.1 2.1 6.5 2.1 12c0 1.8.5 3.5 1.3 5L2 22l5.1-1.3c1.4.8 3.1 1.2 4.9 1.2 5.5 0 9.9-4.4 9.9-9.9S17.5 2.1 12 2.1zm0 18c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.2.8.8-3.1-.2-.3c-.9-1.4-1.3-3-1.3-4.6C3.4 7.2 7.2 3.4 12 3.4s8.6 3.8 8.6 8.6-3.8 8.6-8.6 8.6z"/></svg>
                   </span>
                   <span className="px-social__label">+48 784 890 644</span>
+                </a>
+                <a className="px-social px-social--messenger" href="https://m.me/bidders.com.ua" target="_blank" rel="noreferrer" aria-label="Messenger">
+                  <span className="px-social__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.26 2 11.5c0 2.85 1.31 5.4 3.38 7.14V22l3.1-1.7c.83.23 1.7.35 2.62.35 5.52 0 10-4.26 10-9.5S17.52 2 12 2zm1.02 12.78l-2.54-2.72-4.96 2.72 5.46-5.78 2.6 2.72 4.9-2.72-5.46 5.78z"/></svg>
+                  </span>
+                  <span className="px-social__label">Messenger</span>
+                </a>
+                <a className="px-social px-social--youtube" href="https://www.youtube.com/@bidders" target="_blank" rel="noreferrer" aria-label="YouTube">
+                  <span className="px-social__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.2c-.3-1-1-1.8-2-2.1C19.2 4.6 12 4.6 12 4.6s-7.2 0-9 .5c-1 .3-1.7 1.1-2 2.1C.5 9 .5 12 .5 12s0 3 .5 4.8c.3 1 1 1.8 2 2.1 1.8.5 9 .5 9 .5s7.2 0 9-.5c1-.3 1.7-1.1 2-2.1.5-1.8.5-4.8.5-4.8s0-3-.5-4.8zM9.7 15.5V8.5l6 3.5-6 3.5z"/></svg>
+                  </span>
+                  <span className="px-social__label">BIDDERS</span>
                 </a>
               </div>
             </div>

@@ -79,6 +79,9 @@ export function LotPage() {
   const car = liveCar ?? fallbackCar
   const mode: LotMode = (car?.status as LotMode) ?? 'catalog'
 
+  // Translate status key strings returned by inRoute.service (e.g. 'statusDamageUnknown', 'statusDocsCustom|statusSold')
+  const ts = (key: string) => key.split('|').map(k => t(k.trim())).join(' · ')
+
   const [galleryIndex, setGalleryIndex] = useState(0)
   const [watching, setWatching] = useState(false)
   const [moreSpecsOpen, setMoreSpecsOpen] = useState(false)
@@ -318,11 +321,11 @@ export function LotPage() {
                   </dd>
                 </div>
                 <div className="lot-spec-row"><dt>{t('lotLabelSeller')}</dt><dd><span className="lot-dot"></span>{car.seller}</dd></div>
-                <div className="lot-spec-row"><dt>{t('lotLabelDocuments')}</dt><dd className="lot-spec-ok">{car.titleStatus}</dd></div>
-                <div className="lot-spec-row"><dt>{t('lotLabelPrimaryDamage')}</dt><dd className="lot-spec-warn">{car.damage}</dd></div>
+                <div className="lot-spec-row"><dt>{t('lotLabelDocuments')}</dt><dd className="lot-spec-ok">{ts(car.titleStatus ?? '')}</dd></div>
+                <div className="lot-spec-row"><dt>{t('lotLabelPrimaryDamage')}</dt><dd className="lot-spec-warn">{ts(car.damage)}</dd></div>
                 <div className="lot-spec-row"><dt>{t('lotLabelSecondaryDamage')}</dt><dd>—</dd></div>
                 <div className="lot-spec-row"><dt>{t('lotLabelMileage')}</dt><dd>{car.mileageLabel}</dd></div>
-                <div className="lot-spec-row"><dt>{t('lotLabelKeys')}</dt><dd>{car.keys}</dd></div>
+                <div className="lot-spec-row"><dt>{t('lotLabelKeys')}</dt><dd>{ts(car.keys ?? '')}</dd></div>
               </dl>
             </div>
 
@@ -494,7 +497,7 @@ export function LotPage() {
 
                   <ul className="lot-sb-facts">
                     <li><span>{t('lotLabelSeller')}</span><strong>CULT CARS</strong></li>
-                    <li><span>{t('lotLabelDocuments')}</span><strong>{car.titleStatus}</strong></li>
+                    <li><span>{t('lotLabelDocuments')}</span><strong>{ts(car.titleStatus ?? '')}</strong></li>
                     <li><span>{t('lotSbFactCert')}</span><strong>{t('lotSbFactCertValue')}</strong></li>
                   </ul>
 
@@ -566,7 +569,7 @@ export function LotPage() {
             <div className="lot-desc-item"><dt>{t('lotLabelTransmission')}</dt><dd>{car.transmission}</dd></div>
             <div className="lot-desc-item"><dt>{t('lotLabelFuel')}</dt><dd>{car.fuel}</dd></div>
             <div className="lot-desc-item"><dt>{t('lotLabelDrive')}</dt><dd>{car.drive}</dd></div>
-            <div className="lot-desc-item"><dt>{t('lotLabelDocuments')}</dt><dd>{car.titleStatus}</dd></div>
+            <div className="lot-desc-item"><dt>{t('lotLabelDocuments')}</dt><dd>{ts(car.titleStatus ?? '')}</dd></div>
           </div>
         </div>
       </section>
@@ -594,8 +597,8 @@ export function LotPage() {
               <div className="lot-know-card__icon">🚀</div>
               <h3>{t('lotKnowCheckTitle')}</h3>
               <ul>
-                <li>{t('lotKnowCheckDamage')} <strong>{car.damage}</strong></li>
-                <li>{t('lotKnowCheckDocs')} <strong>{car.titleStatus}</strong></li>
+                <li>{t('lotKnowCheckDamage')} <strong>{ts(car.damage)}</strong></li>
+                <li>{t('lotKnowCheckDocs')} <strong>{ts(car.titleStatus ?? '')}</strong></li>
                 <li>{t('lotKnowCheckBudget')} {car.currentBidLabel || fmt(car.currentBid)} {t('lotKnowCheckBudgetSuffix')}</li>
                 <li>{t('lotKnowCheckAgreement')}</li>
               </ul>
@@ -713,7 +716,7 @@ export function LotPage() {
                 {car.title} {t('lotSummaryStatusP1')} <strong>«{statusPill}»</strong>. {t('lotSummaryStatusP2')}
               </p>
               <p className="lot-summary-card__facts">
-                {t('lotSummaryStatusFacts')} <strong>{car.titleStatus}</strong>, {t('lotSummaryStatusFactsDmg')} <strong>{car.damage}</strong>, {t('lotSummaryStatusFactsLoc')} <strong>{car.location}</strong>.
+                {t('lotSummaryStatusFacts')} <strong>{ts(car.titleStatus ?? '')}</strong>, {t('lotSummaryStatusFactsDmg')} <strong>{ts(car.damage)}</strong>, {t('lotSummaryStatusFactsLoc')} <strong>{car.location}</strong>.
               </p>
               <p>
                 {t('lotSummaryStatusP3')}
