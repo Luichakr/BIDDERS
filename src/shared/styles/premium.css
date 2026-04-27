@@ -1778,6 +1778,11 @@
 @media (max-width: 960px) {
   .px-calcx__car { display: none; }
   .px-calcx__right .px-calcx__card { width: 100%; }
+  .px-calcx__grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .px-calcx { padding: 16px; border-radius: 16px; }
+  .px-calcx__grid { gap: 24px; }
 }
 .px-calcx__badge {
   margin-top: 24px;
