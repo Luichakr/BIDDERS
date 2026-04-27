@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { routePaths, localizedPath } from '../../../shared/config/routes'
+import { ROUTE_IMAGES } from '../../../shared/config/routeCards'
 import { formatCaseMoney, getCasesData, getCaseSavings, type CaseRecord } from '../../../features/cases/model/cases.service'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
 import { Seo } from '../../../shared/seo/Seo'
@@ -567,7 +568,7 @@ export function HomePage() {
             <article className="px-route">
               <div className="px-route__media">
                 <img
-                  src={`${import.meta.env.BASE_URL}images/routes/in-stock-2026-04-22.png`}
+                  src={`${import.meta.env.BASE_URL}${ROUTE_IMAGES.inStock}`}
                   alt={t('routeInStockAlt')}
                   title={t('routeInStockAlt')}
                   loading="lazy"
@@ -592,7 +593,7 @@ export function HomePage() {
 
             <article className="px-route">
               <div className="px-route__media">
-                <img src={`${import.meta.env.BASE_URL}images/routes/transit-chatgpt-2026-04-22.png`} alt={t('routeTransitAlt')} loading="lazy" />
+                <img src={`${import.meta.env.BASE_URL}${ROUTE_IMAGES.transit}`} alt={t('routeTransitAlt')} loading="lazy" />
                 <div className="px-route__top">
                   <span className="px-route__num">02</span>
                   <span className="px-route__pill">{t('homeRoutePillTransit')}</span>
@@ -613,7 +614,7 @@ export function HomePage() {
 
             <article className="px-route px-route--primary">
               <div className="px-route__media">
-                <img src={`${import.meta.env.BASE_URL}images/routes/order-blue-2026-04-22.png`} alt={t('routeAuctionAlt')} loading="lazy" />
+                <img src={`${import.meta.env.BASE_URL}${ROUTE_IMAGES.order}`} alt={t('routeAuctionAlt')} loading="lazy" />
                 <div className="px-route__top">
                   <span className="px-route__num">03</span>
                   <span className="px-route__pill">{t('homeRoutePillOrder')}</span>
@@ -634,7 +635,7 @@ export function HomePage() {
 
             <article className="px-route">
               <div className="px-route__media">
-                <img src={`${import.meta.env.BASE_URL}images/routes/catalog-app.webp`} alt={t('routeCatalogAlt')} loading="lazy" />
+                <img src={`${import.meta.env.BASE_URL}${ROUTE_IMAGES.catalog}`} alt={t('routeCatalogAlt')} loading="lazy" />
                 <div className="px-route__top">
                   <span className="px-route__num">04</span>
                   <span className="px-route__pill">{t('homeRoutePillCatalog')}</span>

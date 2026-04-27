@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
 import { routePaths, localizedPath } from '../../../shared/config/routes'
+import { ROUTE_IMAGES } from '../../../shared/config/routeCards'
 
 const LOCALE_LABELS: Record<string, string> = { uk: 'UA', pl: 'PL', en: 'EN' }
 const LOCALE_ORDER = ['uk', 'pl', 'en'] as const
@@ -110,19 +111,34 @@ export function Header() {
                   <path d="M6 9l6 6 6-6"/>
                 </svg>
               </button>
-              <div className="px-nav-dropdown__menu" role="menu">
-                <NavLink to={lp(routePaths.catalog)} role="menuitem" onClick={() => setCatalogOpen(false)}>
-                  {t('navCatalogUsa')}
-                </NavLink>
-                <NavLink to={lp(routePaths.inStock)} role="menuitem" onClick={() => setCatalogOpen(false)}>
-                  {t('navInStock')}
-                </NavLink>
-                <NavLink to={lp(routePaths.transit)} role="menuitem" onClick={() => setCatalogOpen(false)}>
-                  {t('navTransit')}
-                </NavLink>
-                <NavLink to={lp(routePaths.chinaCars)} role="menuitem" onClick={() => setCatalogOpen(false)}>
-                  {t('navChinaCars')}
-                </NavLink>
+              {/* Desktop mega-menu */}
+              <div className="px-mega-menu" role="menu" aria-hidden={!catalogOpen}>
+                <div className="px-mega-menu__inner">
+                  <NavLink className="px-mega-card" to={lp(routePaths.inStock)} role="menuitem" onClick={() => setCatalogOpen(false)}>
+                    <div className="px-mega-card__img-wrap">
+                      <img src={`${import.meta.env.BASE_URL}${ROUTE_IMAGES.inStock}`} alt={t('homeRouteStockTitle')} />
+                    </div>
+                    <span className="px-mega-card__label">{t('homeRouteStockTitle')}</span>
+                  </NavLink>
+                  <NavLink className="px-mega-card" to={lp(routePaths.transit)} role="menuitem" onClick={() => setCatalogOpen(false)}>
+                    <div className="px-mega-card__img-wrap">
+                      <img src={`${import.meta.env.BASE_URL}${ROUTE_IMAGES.transit}`} alt={t('homeRouteTransitTitle')} />
+                    </div>
+                    <span className="px-mega-card__label">{t('homeRouteTransitTitle')}</span>
+                  </NavLink>
+                  <NavLink className="px-mega-card" to={lp(routePaths.calculator)} role="menuitem" onClick={() => setCatalogOpen(false)}>
+                    <div className="px-mega-card__img-wrap">
+                      <img src={`${import.meta.env.BASE_URL}${ROUTE_IMAGES.order}`} alt={t('homeRouteOrderTitle')} />
+                    </div>
+                    <span className="px-mega-card__label">{t('homeRouteOrderTitle')}</span>
+                  </NavLink>
+                  <NavLink className="px-mega-card" to={lp(routePaths.catalog)} role="menuitem" onClick={() => setCatalogOpen(false)}>
+                    <div className="px-mega-card__img-wrap">
+                      <img src={`${import.meta.env.BASE_URL}${ROUTE_IMAGES.catalog}`} alt={t('homeRouteCatalogTitle')} />
+                    </div>
+                    <span className="px-mega-card__label">{t('homeRouteCatalogTitle')}</span>
+                  </NavLink>
+                </div>
               </div>
             </div>
 
@@ -248,10 +264,32 @@ export function Header() {
               </svg>
             </button>
             <div className="px-mobile-group__list">
-              <NavLink to={lp(routePaths.catalog)} onClick={closeMobile}>{t('navCatalogUsa')}</NavLink>
-              <NavLink to={lp(routePaths.inStock)} onClick={closeMobile}>{t('navInStock')}</NavLink>
-              <NavLink to={lp(routePaths.transit)} onClick={closeMobile}>{t('navTransit')}</NavLink>
-              <NavLink to={lp(routePaths.chinaCars)} onClick={closeMobile}>{t('navChinaCars')}</NavLink>
+              <div className="px-mobile-mega">
+                <NavLink className="px-mobile-mega__card" to={lp(routePaths.inStock)} onClick={closeMobile}>
+                  <div className="px-mobile-mega__img-wrap">
+                    <img src={`${import.meta.env.BASE_URL}${ROUTE_IMAGES.inStock}`} alt={t('homeRouteStockTitle')} />
+                  </div>
+                  <span className="px-mobile-mega__label">{t('homeRouteStockTitle')}</span>
+                </NavLink>
+                <NavLink className="px-mobile-mega__card" to={lp(routePaths.transit)} onClick={closeMobile}>
+                  <div className="px-mobile-mega__img-wrap">
+                    <img src={`${import.meta.env.BASE_URL}${ROUTE_IMAGES.transit}`} alt={t('homeRouteTransitTitle')} />
+                  </div>
+                  <span className="px-mobile-mega__label">{t('homeRouteTransitTitle')}</span>
+                </NavLink>
+                <NavLink className="px-mobile-mega__card" to={lp(routePaths.calculator)} onClick={closeMobile}>
+                  <div className="px-mobile-mega__img-wrap">
+                    <img src={`${import.meta.env.BASE_URL}${ROUTE_IMAGES.order}`} alt={t('homeRouteOrderTitle')} />
+                  </div>
+                  <span className="px-mobile-mega__label">{t('homeRouteOrderTitle')}</span>
+                </NavLink>
+                <NavLink className="px-mobile-mega__card" to={lp(routePaths.catalog)} onClick={closeMobile}>
+                  <div className="px-mobile-mega__img-wrap">
+                    <img src={`${import.meta.env.BASE_URL}${ROUTE_IMAGES.catalog}`} alt={t('homeRouteCatalogTitle')} />
+                  </div>
+                  <span className="px-mobile-mega__label">{t('homeRouteCatalogTitle')}</span>
+                </NavLink>
+              </div>
             </div>
           </div>
 
