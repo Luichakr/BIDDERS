@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react'
 import { AuctionCatalogPage } from '../../../features/auction/ui/AuctionCatalogPage'
 import type { AuctionCardData } from '../../../features/auction/model/auctionData'
 import { fetchInRouteCards } from '../../../features/auction/model/inRoute.service'
+import { useI18n } from '../../../shared/i18n/I18nProvider'
+import { Seo } from '../../../shared/seo/Seo'
+import { routePaths } from '../../../shared/config/routes'
 
 const TRANSIT_BOOTSTRAP_CACHE_KEY = 'BIDDERS_TRANSIT_BOOTSTRAP_V1'
 const TRANSIT_BOOTSTRAP_LIMIT = 40
@@ -55,6 +58,7 @@ function writeTransitBootstrapCache(cards: AuctionCardData[]): void {
 }
 
 export function TransitPage() {
+  const { t } = useI18n()
   const [cards, setCards] = useState<AuctionCardData[]>(() => readTransitBootstrapCache())
 
   useEffect(() => {
@@ -79,5 +83,10 @@ export function TransitPage() {
     }
   }, [])
 
-  return <AuctionCatalogPage title="Авто в дорозі" cards={cards} mode="transit" />
+  return (
+    <>
+      <Seo title={t('seoTransitTitle')} description={t('seoTransitDescription')} path={routePaths.transit} />
+      <AuctionCatalogPage title={t('transitTitle')} cards={cards} mode="transit" />
+    </>
+  )
 }

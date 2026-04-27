@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { routes } from '../../../shared/config/routes'
+import { routePaths, localizedPath } from '../../../shared/config/routes'
+import { useI18n } from '../../../shared/i18n/I18nProvider'
+import { Seo } from '../../../shared/seo/Seo'
 import './contacts.css'
 
 const CONTACT_CHANNELS = [
@@ -11,6 +13,7 @@ const CONTACT_CHANNELS = [
 ]
 
 export function ContactsPage() {
+  const { locale, t } = useI18n()
   const MAP_POS_STORAGE_KEY = 'BIDDERS_CONTACTS_EU_MAP_POS_V1'
   const MAP_POINTS_STORAGE_KEY = 'BIDDERS_CONTACTS_EU_MAP_POINTS_V1'
   const SVG_VIEWBOX = { width: 760, height: 520 }
@@ -128,6 +131,7 @@ export function ContactsPage() {
 
   return (
     <main className="ct-page">
+      <Seo title={t('seoContactsTitle')} description={t('seoContactsDescription')} path={routePaths.contacts} />
       {/* JSON-LD structured data for SEO */}
       <script
         type="application/ld+json"
@@ -199,7 +203,7 @@ export function ContactsPage() {
                 </li>
               ))}
             </ul>
-            <Link to={routes.calculator} className="ct-quick__cta">
+            <Link to={localizedPath(locale, routePaths.calculator)} className="ct-quick__cta">
               Замовити прорахунок →
             </Link>
           </aside>
@@ -525,19 +529,19 @@ export function ContactsPage() {
       <section className="ct-section">
         <div className="ct-section__inner">
           <div className="ct-channels" style={{ maxWidth: 720, margin: '0 auto' }}>
-            <Link to={routes.faq} className="ct-channel">
+            <Link to={localizedPath(locale, routePaths.faq)} className="ct-channel">
               <span className="ct-channel__ico" aria-hidden="true">❓</span>
               <span className="ct-channel__label">Питання</span>
               <span className="ct-channel__value">FAQ</span>
               <span className="ct-channel__hint">Поширені запитання та короткі відповіді.</span>
             </Link>
-            <Link to={routes.calculator} className="ct-channel">
+            <Link to={localizedPath(locale, routePaths.calculator)} className="ct-channel">
               <span className="ct-channel__ico" aria-hidden="true">🧮</span>
               <span className="ct-channel__label">Прорахунок</span>
               <span className="ct-channel__value">Калькулятор</span>
               <span className="ct-channel__hint">Орієнтовна вартість авто під ключ.</span>
             </Link>
-            <Link to={routes.home} className="ct-channel">
+            <Link to={localizedPath(locale, routePaths.home)} className="ct-channel">
               <span className="ct-channel__ico" aria-hidden="true">🏠</span>
               <span className="ct-channel__label">Повернутись</span>
               <span className="ct-channel__value">На головну</span>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { routes } from '../../../shared/config/routes'
+import { routePaths, localizedPath } from '../../../shared/config/routes'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
 
 type CookieChoice = 'accepted' | 'necessary'
@@ -9,7 +9,7 @@ const CONSENT_KEY = 'bidders_cookie_consent_v1'
 
 export function CookieConsent() {
   const [visible, setVisible] = useState(false)
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
 
   useEffect(() => {
     const saved = window.localStorage.getItem(CONSENT_KEY)
@@ -37,7 +37,7 @@ export function CookieConsent() {
         <div className="cookie-banner__actions">
           <button type="button" className="bp-btn bp-btn-secondary" onClick={() => setChoice('necessary')}>{t('cookieNecessary')}</button>
           <button type="button" className="bp-btn bp-btn-primary" onClick={() => setChoice('accepted')}>{t('cookieAccept')}</button>
-          <Link className="cookie-banner__link" to={routes.privacy}>{t('cookieDetails')}</Link>
+          <Link className="cookie-banner__link" to={localizedPath(locale, routePaths.privacy)}>{t('cookieDetails')}</Link>
         </div>
       </div>
     </section>

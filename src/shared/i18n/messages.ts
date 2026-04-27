@@ -360,6 +360,407 @@ export type MessageKey =
   | 'homeFaq5Q'
   | 'homeFaq5A'
   | 'homeFaqCtaButton'
+  | 'seoCatalogTitle'
+  | 'seoCatalogDescription'
+  | 'seoInStockTitle'
+  | 'seoInStockDescription'
+  | 'seoTransitTitle'
+  | 'seoTransitDescription'
+  | 'seoCalculatorTitle'
+  | 'seoCalculatorDescription'
+  | 'seoBlogTitle'
+  | 'seoBlogDescription'
+  | 'seoCasesTitle'
+  | 'seoCasesDescription'
+  | 'seoFaqTitle'
+  | 'seoFaqDescription'
+  | 'seoContactsTitle'
+  | 'seoContactsDescription'
+  | 'seoPrivacyTitle'
+  | 'seoPrivacyDescription'
+  | 'seoTermsTitle'
+  | 'seoTermsDescription'
+  | 'seoLotTitle'
+  | 'seoLotDescription'
+  | 'navChinaCars'
+  | 'footerLotSources'
+  | 'catalogSortPriceDesc'
+  | 'catalogSortPriceAsc'
+  | 'catalogSortYearDesc'
+  | 'catalogSortYearAsc'
+  | 'catalogSortMileageAsc'
+  | 'catalogSortMileageDesc'
+  | 'catalogBadgeInTransit'
+  | 'catalogBadgeInStock'
+  | 'catalogBadgeNew'
+  | 'catalogAuctionBadgeAvailable'
+  | 'catalogAuctionBadgeReady'
+  | 'catalogSellerLocal'
+  | 'catalogStatusInTransit'
+  | 'catalogStatusInStock'
+  | 'catalogStatusAtAuction'
+  | 'catalogPriceLabel'
+  | 'catalogCurrentBidLabel'
+  | 'catalogPriceNoteSeller'
+  | 'catalogPriceNoteLease'
+  | 'catalogPriceNoteEstimate'
+  | 'catalogDetailMileage'
+  | 'catalogDetailLocation'
+  | 'catalogDetailDamage'
+  | 'catalogDetailStatus'
+  | 'catalogCardDetails'
+  | 'catalogFilterBtn'
+  | 'catalogFilterTitle'
+  | 'catalogFilterResetAll'
+  | 'catalogToggleWholesale'
+  | 'catalogToggleRecent'
+  | 'catalogToggleExcludeActive'
+  | 'catalogFilterDocType'
+  | 'catalogFilterYear'
+  | 'catalogFilterBrand'
+  | 'catalogFilterModel'
+  | 'catalogFilterMileage'
+  | 'catalogFilterFuel'
+  | 'catalogFilterTrans'
+  | 'catalogFilterDrive'
+  | 'catalogFilterPostal'
+  | 'catalogFilterReset'
+  | 'catalogRangeFrom'
+  | 'catalogRangeTo'
+  | 'catalogCountSuffix'
+  | 'catalogSearchPlaceholder'
+  | 'catalogYearFrom'
+  | 'catalogYearTo'
+  | 'catalogPostalPlaceholder'
+  | 'catalogPostalSearch'
+  | 'catalogTabAll'
+  | 'catalogTabOpenAuctions'
+  | 'catalogTabInProgress'
+  | 'catalogTabClosedToday'
+  | 'catalogTabBuyNow'
+  | 'catalogTabArchive'
+  | 'catalogTabInStock'
+  | 'catalogTabReadyToTransfer'
+  | 'catalogTabOnOrder'
+  | 'catalogTabInTransit'
+  | 'catalogResultsCount'
+  | 'catalogLayoutList'
+  | 'catalogLayoutGrid'
+  | 'catalogLoadMore'
+  | 'homeEconKicker'
+  | 'homeEconTitle'
+  | 'homeEconLead'
+  | 'homeEconCase'
+  | 'homeEconMarket'
+  | 'homeEconTurnkey'
+  | 'homeEconSave'
+  | 'homeEconAvgSave'
+  | 'homeEconDesc'
+  | 'homeEconBtn'
+  | 'homeCalcKicker'
+  | 'homeCalcTitle'
+  | 'homeCalcLead'
+  | 'homeCalcCheck1'
+  | 'homeCalcCheck2'
+  | 'homeCalcCheck3'
+  | 'homeCalcCheck4'
+  | 'homeCalcBadge'
+  | 'homeCalcBadgeSave'
+  | 'homeCalcBtn'
+  | 'homeCalcBtnOpen'
+  | 'homeCalcCardTag'
+  | 'homeCalcCardTitle'
+  | 'homeCalcDestLabel'
+  | 'homeCalcBidLabel'
+  | 'homeCalcBidHint'
+  | 'homeCalcBidAria'
+  | 'homeCalcLine1'
+  | 'homeCalcLine2'
+  | 'homeCalcLine3'
+  | 'homeCalcLine4'
+  | 'homeCalcTotal'
+  | 'homeCalcNote'
+  | 'homeCalcStep1'
+  | 'homeCalcStep1Desc'
+  | 'homeCalcStep2'
+  | 'homeCalcStep2Desc'
+  | 'homeCalcStep3'
+  | 'homeCalcStep3Desc'
+  | 'homeCalcStep4'
+  | 'homeCalcStep4Desc'
+  | 'homeCalcTrust1'
+  | 'homeCalcTrust1Desc'
+  | 'homeCalcTrust2'
+  | 'homeCalcTrust2Desc'
+  | 'homeCalcTrust3'
+  | 'homeCalcTrust3Desc'
+  | 'homeStockLoc'
+  | 'homeStockLocCity'
+  | 'homeHowAct'
+  | 'homeHowCtaLead'
+  | 'homeHowCtaBtn'
+  | 'lotLoading'
+  | 'lotLoadingDesc'
+  | 'lotNotFound'
+  | 'lotNotFoundDesc'
+  | 'lotNotFoundBtn'
+  | 'lotModeTransit'
+  | 'lotModeInStock'
+  | 'lotModeCatalog'
+  | 'lotStatusTransit'
+  | 'lotStatusInStock'
+  | 'lotStatusAtAuction'
+  | 'lotLabelLocation'
+  | 'lotLabelDispatchPort'
+  | 'lotLabelPickupPoint'
+  | 'lotLabelStatus'
+  | 'lotLabelAuctionDate'
+  | 'lotLabelEstDelivery'
+  | 'lotDeliveryTbd'
+  | 'lotWatching'
+  | 'lotWatch'
+  | 'lotGalleryPrev'
+  | 'lotGalleryNext'
+  | 'lotLiveBadgeAuction'
+  | 'lotLiveBadgeTransit'
+  | 'lotLiveBadgeReady'
+  | 'lotSpecsMainTitle'
+  | 'lotLabelSeller'
+  | 'lotLabelDocuments'
+  | 'lotLabelPrimaryDamage'
+  | 'lotLabelSecondaryDamage'
+  | 'lotLabelMileage'
+  | 'lotLabelKeys'
+  | 'lotCopyVin'
+  | 'lotSpecsTechTitle'
+  | 'lotLabelBodyType'
+  | 'lotLabelColor'
+  | 'lotLabelEngine'
+  | 'lotLabelTransmission'
+  | 'lotLabelFuel'
+  | 'lotLabelDrive'
+  | 'lotLabelStartCode'
+  | 'lotLabelStartCodeValue'
+  | 'lotLabelAcvRetail'
+  | 'lotLabelBodyExtended'
+  | 'lotLabelSaleStatus'
+  | 'lotShowMore'
+  | 'lotShowLess'
+  | 'lotSourceLink'
+  | 'lotServicesTitle'
+  | 'lotService11'
+  | 'lotService12'
+  | 'lotService13'
+  | 'lotService14'
+  | 'lotServicesNote'
+  | 'lotSbCurrentBid'
+  | 'lotSbEstimate'
+  | 'lotSbMaxBid'
+  | 'lotSbDecrease'
+  | 'lotSbIncrease'
+  | 'lotSbBidNow'
+  | 'lotSbHowToBid'
+  | 'lotSbTimeLeft'
+  | 'lotSbAuctionEnded'
+  | 'lotSbTimerUntil'
+  | 'lotSbCalcTitle'
+  | 'lotCalcBid'
+  | 'lotCalcAuctionFee'
+  | 'lotCalcTransport'
+  | 'lotCalcShipping'
+  | 'lotCalcDocs'
+  | 'lotCalcSubtotal'
+  | 'lotCalcNote'
+  | 'lotCustomsCalcTitle'
+  | 'lotCustomsDuty'
+  | 'lotCustomsVat'
+  | 'lotCustomsBroker'
+  | 'lotCustomsTotal'
+  | 'lotCustomsFinal'
+  | 'lotCustomsNote'
+  | 'lotSbFinalPrice'
+  | 'lotSbTurnkeyFixed'
+  | 'lotSbFactDelivery'
+  | 'lotSbFactDeliveryValue'
+  | 'lotSbContact'
+  | 'lotSbWhatsIncluded'
+  | 'lotSbIncluded1'
+  | 'lotSbIncluded2'
+  | 'lotSbIncluded3'
+  | 'lotSbIncluded4'
+  | 'lotSbIncluded5'
+  | 'lotSbPriceKicker'
+  | 'lotSbReadyLviv'
+  | 'lotSbFactCert'
+  | 'lotSbFactCertValue'
+  | 'lotSbBuyNow'
+  | 'lotSbScheduleView'
+  | 'lotSbLeaseCalc'
+  | 'lotSbMonthlyPayment'
+  | 'lotSbPerMonth'
+  | 'lotSbDownPayment'
+  | 'lotSbLeaseTerm'
+  | 'lotSbLeaseMonths'
+  | 'lotSbLeaseNote'
+  | 'lotDescTitle'
+  | 'lotDescSubtitle'
+  | 'lotLabelMake'
+  | 'lotLabelModel'
+  | 'lotLabelYear'
+  | 'lotLabelPrice'
+  | 'lotKnowTitle'
+  | 'lotKnowSubtitle'
+  | 'lotKnowOverviewTitle'
+  | 'lotKnowOverviewStatus'
+  | 'lotKnowOverviewLoc'
+  | 'lotKnowOverviewSpecs'
+  | 'lotKnowOverviewMileage'
+  | 'lotKnowPriceFrom'
+  | 'lotKnowPriceEnd'
+  | 'lotKnowCheckTitle'
+  | 'lotKnowCheckDamage'
+  | 'lotKnowCheckDocs'
+  | 'lotKnowCheckBudget'
+  | 'lotKnowCheckBudgetSuffix'
+  | 'lotKnowCheckAgreement'
+  | 'lotKnowChip1'
+  | 'lotKnowChip2'
+  | 'lotKnowChip3'
+  | 'lotSimilarTitle'
+  | 'lotSimilarTitleTransit'
+  | 'lotSimilarTitleInStock'
+  | 'lotSimilarTitleCatalog'
+  | 'lotSimilarSubtitle'
+  | 'lotSimilarPriceLabel'
+  | 'lotSimilarMileageLabel'
+  | 'lotSimilarStatusLabel'
+  | 'lotSimilarAllTransit'
+  | 'lotSimilarAllInStock'
+  | 'lotSimilarAllCatalog'
+  | 'lotSimilarLinkCatalog'
+  | 'lotSimilarLinkCar'
+  | 'lotSimilarLinkLogistics'
+  | 'lotSimilarLinkBlog'
+  | 'lotFaqTitle'
+  | 'lotFaqSubtitle'
+  | 'lotFaq1Q'
+  | 'lotFaq1A'
+  | 'lotFaq2Q'
+  | 'lotFaq2A'
+  | 'lotFaq3Q'
+  | 'lotFaq3A'
+  | 'lotFaq4Q'
+  | 'lotFaq4A'
+  | 'lotStepsTitle'
+  | 'lotStepsSubtitle'
+  | 'lotStep1Title'
+  | 'lotStep1Text'
+  | 'lotStep2Title'
+  | 'lotStep2Text'
+  | 'lotStep3Title'
+  | 'lotStep3Text'
+  | 'lotStep4Title'
+  | 'lotStep4Text'
+  | 'lotSummaryTitle'
+  | 'lotSummarySubtitle'
+  | 'lotSummaryStatusTitle'
+  | 'lotSummaryStatusP1'
+  | 'lotSummaryStatusP2'
+  | 'lotSummaryStatusFacts'
+  | 'lotSummaryStatusFactsDmg'
+  | 'lotSummaryStatusFactsLoc'
+  | 'lotSummaryStatusP3'
+  | 'lotSummaryBudgetTitle'
+  | 'lotSummaryBudgetLead'
+  | 'lotBudgetCurrentPrice'
+  | 'lotBudgetPrep'
+  | 'lotBudgetPrepValue'
+  | 'lotBudgetCert'
+  | 'lotBudgetCertValue'
+  | 'lotBudgetService'
+  | 'lotSummaryCtaCar'
+  | 'lotSummaryCtaLogistics'
+  | 'lotTimerDays'
+  | 'lotTimerHours'
+  | 'lotTimerMinutes'
+  | 'lotTimerSeconds'
+  | 'lotPickupCity'
+  | 'lotDispatchCountry'
+  | 'calcPill'
+  | 'calcHeroTitle'
+  | 'calcHeroDesc'
+  | 'calcHeroNoteTitle'
+  | 'calcHeroNoteDesc'
+  | 'calcFormKicker'
+  | 'calcFormTitle'
+  | 'calcFormDesc'
+  | 'calcLabelRoute'
+  | 'calcRouteKlaipeda'
+  | 'calcRouteOdesa'
+  | 'calcLabelCarType'
+  | 'calcCarTypeAuto'
+  | 'calcCarTypeCrossover'
+  | 'calcCarTypeSuv'
+  | 'calcCarTypeMoto'
+  | 'calcCarTypePickup'
+  | 'calcLabelFuel'
+  | 'calcLabelAuction'
+  | 'calcLabelDocType'
+  | 'calcLabelCity'
+  | 'calcLabelYear'
+  | 'calcLabelBattery'
+  | 'calcLabelEngine'
+  | 'calcLabelPrice'
+  | 'calcLabelInsurance'
+  | 'calcLabelTransfer'
+  | 'calcBtnRecalc'
+  | 'calcBtnReset'
+  | 'calcResultKicker'
+  | 'calcGroupLogistics'
+  | 'calcRowBid'
+  | 'calcRowAuctionFee'
+  | 'calcRowUsDelivery'
+  | 'calcRowDocs'
+  | 'calcRowOcean'
+  | 'calcRowPortUnload'
+  | 'calcRowEuDelivery'
+  | 'calcRowCustomsDelivery'
+  | 'calcRowBorderHandling'
+  | 'calcGroupCustoms'
+  | 'calcCustomsPending'
+  | 'calcCaptionIdle'
+  | 'calcCaptionLoading'
+  | 'calcCaptionLive'
+  | 'calcCaptionLiveEu'
+  | 'calcCaptionFallback'
+  | 'calcCaptionErr401'
+  | 'calcCaptionErr403'
+  | 'calcCaptionErr400Prefix'
+  | 'calcCaptionErrJson'
+  | 'calcRowCarPrice'
+  | 'calcRowOceanFromPrefix'
+  | 'calcRowPortUnloadOdesa'
+  | 'calcRowPortUnloadKlaipeda'
+  | 'calcRowEuDeliveryPortPrefix'
+  | 'calcCityWarsaw'
+  | 'calcRowExportDocs'
+  | 'calcRowExcise'
+  | 'calcRowImportDuty'
+  | 'calcRowVat'
+  | 'calcRowNonVatFee'
+  | 'calcRowBroker'
+  | 'calcRowBiddersFee'
+  | 'calcRowInsuranceFee'
+  | 'calcRowMoneyTransfer'
+  | 'calcLabelEuPort'
+  | 'calcLabelImportTax'
+  | 'calcLabelVatProfile'
+  | 'calcRowCustomsAgency'
+  | 'calcTaxAuto'
+  | 'calcTaxTruck'
+  | 'calcTaxMoto'
+  | 'calcTaxClassic0'
+  | 'calcVatClassic9'
 
 type Messages = Record<string, string>
 
@@ -511,6 +912,28 @@ export const messages: Record<Locale, Messages> = {
     cookieDetails: 'Детальніше',
     seoHomeTitle: 'Ваш надійний партнер по імпорту авто з США, Канади та Кореї | BIDDERS',
     seoHomeDescription: 'Авто під ключ від €8,000. Економія до €7,000. Доставка 45-60 днів. Каталог, авто в дорозі, авто в наявності, огляд на майданчику, застосунок для купівлі на аукціоні.',
+    seoCatalogTitle: 'Каталог авто з аукціонів США | BIDDERS',
+    seoCatalogDescription: 'Перегляньте каталог автомобілів з аукціонів Copart, IAAI та Manheim. Фільтрація за маркою, роком, бюджетом і станом. Повний розрахунок під ключ.',
+    seoInStockTitle: 'Авто в наявності — готові до відправки | BIDDERS',
+    seoInStockDescription: 'Автомобілі, що вже знаходяться в Польщі або готові до відправки. Огляд на майданчику, документи готові. Швидка передача.',
+    seoTransitTitle: 'Авто в дорозі — відстежуйте онлайн | BIDDERS',
+    seoTransitDescription: 'Понад 1800 автомобілів на шляху до Польщі. Відстежуйте статус доставки в реальному часі та отримуйте актуальні оновлення.',
+    seoCalculatorTitle: 'Калькулятор вартості імпорту авто | BIDDERS',
+    seoCalculatorDescription: 'Розрахуйте повну вартість авто під ключ: аукціон, доставка, мито, ПДВ. Точний розрахунок без прихованих платежів.',
+    seoBlogTitle: 'Блог про імпорт авто зі США | BIDDERS',
+    seoBlogDescription: 'Статті, кейси та поради щодо купівлі авто на американських аукціонах, логістики та митного оформлення в Польщі.',
+    seoCasesTitle: 'Кейси клієнтів — реальні угоди та економія | BIDDERS',
+    seoCasesDescription: 'Реальні приклади купівлі авто через BIDDERS: ціна, економія, терміни та відгуки клієнтів.',
+    seoFaqTitle: 'Часті запитання про імпорт авто | BIDDERS',
+    seoFaqDescription: 'Відповіді на питання про терміни доставки, вартість під ключ, гарантії, VIN-перевірку та огляд авто на майданчику.',
+    seoContactsTitle: 'Контакти — звʼяжіться з BIDDERS',
+    seoContactsDescription: 'Телефон, email, адреса офісу та посилання на соціальні мережі команди BIDDERS. Консультація безкоштовна.',
+    seoPrivacyTitle: 'Політика конфіденційності | BIDDERS',
+    seoPrivacyDescription: 'Умови обробки персональних даних, використання файлів cookie та захист інформації користувачів BIDDERS.',
+    seoTermsTitle: 'Умови використання | BIDDERS',
+    seoTermsDescription: 'Правила користування сайтом та послугами BIDDERS, обмеження відповідальності та умови надання сервісу.',
+    seoLotTitle: 'Деталі лота | BIDDERS',
+    seoLotDescription: 'Детальна інформація про лот: фото, характеристики, VIN, стан та поточна ставка на аукціоні.',
     routeInStockAlt: 'Авто в наявності в Польщі — BIDDERS',
     routeTransitAlt: 'Авто в дорозі',
     routeAuctionAlt: 'Під замовлення з аукціону',
@@ -776,6 +1199,333 @@ export const messages: Record<Locale, Messages> = {
     homeFaq5Q: 'Чи можна подивитися авто наживо',
     homeFaq5A: 'Так, доступний огляд на майданчику в Jawczyce за попереднім записом.',
     homeFaqCtaButton: 'Не знайшли відповідь? Запитайте',
+    navChinaCars: 'Авто з Китаю',
+    footerLotSources: 'Офіційні джерела лотів',
+    lotLoading: 'Завантажуємо авто',
+    lotLoadingDesc: 'Отримуємо актуальні дані з API.',
+    lotNotFound: 'Авто не знайдено',
+    lotNotFoundDesc: 'Перевірте правильність посилання або поверніться у каталог.',
+    lotNotFoundBtn: 'Перейти до каталогу',
+    lotModeTransit: 'Авто в дорозі',
+    lotModeInStock: 'Авто в наявності',
+    lotModeCatalog: 'Каталог',
+    lotStatusTransit: 'В дорозі',
+    lotStatusInStock: 'В наявності',
+    lotStatusAtAuction: 'На аукціоні',
+    lotLabelLocation: 'Локація',
+    lotLabelDispatchPort: 'Порт відправлення',
+    lotLabelPickupPoint: 'Місце видачі',
+    lotLabelStatus: 'Статус',
+    lotLabelAuctionDate: 'Дата аукціону',
+    lotLabelEstDelivery: 'Орієнт. доставка',
+    lotDeliveryTbd: 'Уточнюється',
+    lotWatching: 'У спостереженні',
+    lotWatch: 'Слідкувати',
+    lotGalleryPrev: 'Попереднє фото',
+    lotGalleryNext: 'Наступне фото',
+    lotLiveBadgeAuction: 'Прямий аукціон',
+    lotLiveBadgeTransit: 'Авто в дорозі',
+    lotLiveBadgeReady: 'Готове до видачі',
+    lotSpecsMainTitle: 'Основні характеристики',
+    lotLabelSeller: 'Продавець',
+    lotLabelDocuments: 'Документи',
+    lotLabelPrimaryDamage: 'Первинне пошкодження',
+    lotLabelSecondaryDamage: 'Вторинне пошкодження',
+    lotLabelMileage: 'Пробіг',
+    lotLabelKeys: 'Ключ',
+    lotCopyVin: 'Копіювати',
+    lotSpecsTechTitle: 'Технічні характеристики',
+    lotLabelBodyType: 'Тип кузова',
+    lotLabelColor: 'Колір',
+    lotLabelEngine: 'Двигун',
+    lotLabelTransmission: 'Трансмісія',
+    lotLabelFuel: 'Паливо',
+    lotLabelDrive: 'Привід',
+    lotLabelStartCode: 'Початковий код',
+    lotLabelStartCodeValue: 'На ходу',
+    lotLabelAcvRetail: 'ACV / Ретейл',
+    lotLabelBodyExtended: 'Розширений тип кузова',
+    lotLabelSaleStatus: 'Статус продажу',
+    lotShowMore: 'Показати більше (4)',
+    lotShowLess: 'Показати менше',
+    lotSourceLink: 'Відкрити оригінальний лот на',
+    lotServicesTitle: 'Додаткові послуги',
+    lotService11: 'Автомобіль з обмеженням на покупку',
+    lotService12: 'Небезпечний вантаж',
+    lotService13: 'Великогабаритний',
+    lotService14: 'Великогабаритний+',
+    lotServicesNote: 'Встановлення галочки додасть суму до орієнтовної підсумкової ціни.',
+    lotSbCurrentBid: 'Поточна ставка',
+    lotSbEstimate: 'Оцінка:',
+    lotSbMaxBid: 'Ваша максимальна ставка',
+    lotSbDecrease: 'Зменшити',
+    lotSbIncrease: 'Збільшити',
+    lotSbBidNow: 'Зробити ставку зараз',
+    lotSbHowToBid: 'Як зробити ставку? →',
+    lotSbTimeLeft: 'Час, що залишився',
+    lotSbAuctionEnded: 'Аукціон завершено',
+    lotSbTimerUntil: 'до',
+    lotSbCalcTitle: 'Калькулятор підсумкової ціни',
+    lotCalcBid: 'Ставка (поточна)',
+    lotCalcAuctionFee: 'Аукціонний збір',
+    lotCalcTransport: 'Транспорт до порту',
+    lotCalcShipping: 'Морська доставка',
+    lotCalcDocs: 'Документи + сервіс BIDDERS',
+    lotCalcSubtotal: 'Разом (до митниці)',
+    lotCalcNote: 'Орієнтовна ціна без митних платежів. Курс USD/EUR = 0.91',
+    lotCustomsCalcTitle: 'Калькулятор митних платежів',
+    lotCustomsDuty: 'Мито 10%',
+    lotCustomsVat: 'ПДВ 21%',
+    lotCustomsBroker: 'Брокер та супровід',
+    lotCustomsTotal: 'Митні платежі',
+    lotCustomsFinal: 'Фінальна вартість',
+    lotCustomsNote: 'Розрахунок орієнтовний. Остаточна вартість може відрізнятись залежно від типу документа та країни.',
+    lotSbFinalPrice: 'Фінальна ціна',
+    lotSbTurnkeyFixed: 'Фіксована вартість під ключ',
+    lotSbFactDelivery: 'Орієнт. доставка',
+    lotSbFactDeliveryValue: 'В дорозі',
+    lotSbContact: "Зв'язатися щодо авто",
+    lotSbWhatsIncluded: 'Що входить у ціну',
+    lotSbIncluded1: 'Викуп на аукціоні',
+    lotSbIncluded2: 'Транспорт США → порт',
+    lotSbIncluded3: 'Океанська доставка',
+    lotSbIncluded4: 'Розмитнення в Європі',
+    lotSbIncluded5: 'Сервіс та супровід BIDDERS',
+    lotSbPriceKicker: 'Ціна',
+    lotSbReadyLviv: 'Готове до видачі у Львові',
+    lotSbFactCert: 'Сертифікація',
+    lotSbFactCertValue: 'Пройдено',
+    lotSbBuyNow: 'Купити зараз',
+    lotSbScheduleView: 'Записатися на огляд',
+    lotSbLeaseCalc: 'Калькулятор лізингу',
+    lotSbMonthlyPayment: 'Щомісячний платіж',
+    lotSbPerMonth: '/міс',
+    lotSbDownPayment: 'Перший внесок',
+    lotSbLeaseTerm: 'Термін',
+    lotSbLeaseMonths: 'міс',
+    lotSbLeaseNote: 'Розрахунок попередній. Точні умови формуємо після погодження з лізинговою компанією.',
+    lotDescTitle: 'Опис автомобіля',
+    lotDescSubtitle: 'Повна технічна інформація по цій карті.',
+    lotLabelMake: 'Марка',
+    lotLabelModel: 'Модель',
+    lotLabelYear: 'Рік',
+    lotLabelPrice: 'Ціна',
+    lotKnowTitle: 'Що важливо знати про',
+    lotKnowSubtitle: 'Статус, доставка, комплектація та кроки для покупки готового авто.',
+    lotKnowOverviewTitle: 'Короткий огляд',
+    lotKnowOverviewStatus: 'авто зі статусом',
+    lotKnowOverviewLoc: 'Локація:',
+    lotKnowOverviewSpecs: 'За характеристиками:',
+    lotKnowOverviewMileage: 'Пробіг:',
+    lotKnowPriceFrom: 'Поточна вартість — від',
+    lotKnowPriceEnd: 'Далі зніметься реєстрація, підготовка, сертифікація та передача в Україні.',
+    lotKnowCheckTitle: 'Що перевірити перед рішенням',
+    lotKnowCheckDamage: 'Список пошкоджень:',
+    lotKnowCheckDocs: 'Перевірка документів:',
+    lotKnowCheckBudget: 'Орієнтовний бюджет: від',
+    lotKnowCheckBudgetSuffix: 'з урахуванням логістики',
+    lotKnowCheckAgreement: 'Узгодьте бюджет видачі авто / доставки в Україну',
+    lotKnowChip1: 'Імпорт під ключ',
+    lotKnowChip2: 'Доставка і розмитнення',
+    lotKnowChip3: 'Консультація',
+    lotSimilarTitle: 'Схожі',
+    lotSimilarTitleTransit: 'авто в дорозі',
+    lotSimilarTitleInStock: 'авто в наявності',
+    lotSimilarTitleCatalog: 'авто на аукціоні',
+    lotSimilarSubtitle: 'Ще кілька релевантних варіантів для швидкого переходу між картками.',
+    lotSimilarPriceLabel: 'Ціна:',
+    lotSimilarMileageLabel: 'Пробіг:',
+    lotSimilarStatusLabel: 'Статус:',
+    lotSimilarAllTransit: 'Усі авто в дорозі',
+    lotSimilarAllInStock: 'Усі авто в наявності',
+    lotSimilarAllCatalog: 'Усі лоти',
+    lotSimilarLinkCatalog: 'Каталог аукціонів',
+    lotSimilarLinkCar: 'Підбір авто',
+    lotSimilarLinkLogistics: 'Логістика і митниця',
+    lotSimilarLinkBlog: 'Поради у блозі',
+    lotFaqTitle: 'Поширені запитання про',
+    lotFaqSubtitle: 'Відповіді про стан, ціну, переваги та логістику цього авто.',
+    lotFaq1Q: 'Що це за авто і в якому воно статусі?',
+    lotFaq1A: 'Це реальний лот з нашого inventory. Статус відображається у блоці «Статус та готовність авто» та оновлюється по мірі проходження логістики.',
+    lotFaq2Q: 'Які характеристики тут найважливіші?',
+    lotFaq2A: 'Дивіться спочатку на VIN, рік, пробіг, тип пошкоджень та наявність ключа. Решта полів (кузов, двигун, колір) впливають радше на експлуатацію, а не на юридичну чистоту.',
+    lotFaq3Q: 'Який орієнтовний бюджет під ключ?',
+    lotFaq3A: 'Блок «Бюджет по готовому авто» показує поточну ціну + сервіс BIDDERS. Для точного розрахунку з логістикою і митницею запустіть калькулятор у сайдбарі або на сторінці /calculator.',
+    lotFaq4Q: 'На що звернути увагу перед рішенням?',
+    lotFaq4A: 'Перевірте первинне і вторинне пошкодження, тип документа (Title), наявність ключа, а також реальні фотографії в галереї. Ми радимо також запросити додаткові знімки у нашого менеджера.',
+    lotStepsTitle: 'Як проходить покупка готового авто',
+    lotStepsSubtitle: 'Чотири кроки від перевірки машини до передачі ключів.',
+    lotStep1Title: 'Перевіряємо авто',
+    lotStep1Text: 'Уточнюємо стан, пробіг, документи та готовність авто до видачі або подальшої доставки.',
+    lotStep2Title: 'Рахуємо бюджет',
+    lotStep2Text: 'Формуємо прозорий прорахунок з урахуванням ціни авто, підготовки, сертифікації та супроводу.',
+    lotStep3Title: 'Оформлюємо документи',
+    lotStep3Text: 'Готуємо оферту, договір і всі супровідні папери для безпечного передавання клієнту.',
+    lotStep4Title: 'Передаємо в Україні',
+    lotStep4Text: 'Авто проходить фінальні етапи і передається разом із підтримкою команди BIDDERS.',
+    lotSummaryTitle: 'Що важливо знати перед рішенням по',
+    lotSummarySubtitle: 'Стан, поточний статус і орієнтир по фінальному бюджету.',
+    lotSummaryStatusTitle: 'Статус та готовність авто',
+    lotSummaryStatusP1: 'зараз знаходиться у статусі',
+    lotSummaryStatusP2: 'Перед покупкою ми уточнюємо місцезнаходження, наявність документів і сценарій передачі в Україні.',
+    lotSummaryStatusFacts: 'За наявними даними: документи —',
+    lotSummaryStatusFactsDmg: 'пошкодження —',
+    lotSummaryStatusFactsLoc: 'локація —',
+    lotSummaryStatusP3: 'Якщо потрібен детальний прорахунок, команда BIDDERS допоможе з логістикою і розмитненням у реальний бюджет без прихованих сюрпризів.',
+    lotSummaryBudgetTitle: 'Бюджет по готовому авто',
+    lotSummaryBudgetLead: 'Для готового авто ми орієнтуємося на поточну ціну, підготовку, сертифікацію та супровід передачі.',
+    lotBudgetCurrentPrice: 'Поточна ціна авто',
+    lotBudgetPrep: 'Підготовка та сервіс',
+    lotBudgetPrepValue: 'за запитом',
+    lotBudgetCert: 'Сертифікація / реєстрація',
+    lotBudgetCertValue: 'індивідуально',
+    lotBudgetService: 'Послуга BIDDERS',
+    lotSummaryCtaCar: 'Підібрати авто',
+    lotSummaryCtaLogistics: 'Дізнатися про логістику',
+    lotTimerDays: 'д',
+    lotTimerHours: 'г',
+    lotTimerMinutes: 'хв',
+    lotTimerSeconds: 'с',
+    lotPickupCity: 'Львів',
+    lotDispatchCountry: 'США',
+    calcPill: 'Калькулятор імпорту',
+    calcHeroTitle: 'Розрахуйте реальну вартість авто під ключ ще до ставки на аукціоні',
+    calcHeroDesc: 'Від ставки до фінальної вартості з митницею та сервісом BIDDERS.',
+    calcHeroNoteTitle: 'Що враховується',
+    calcHeroNoteDesc: 'Ставка, аукціонний збір, доставка, документи, брокер, комісія, страхування та податки.',
+    calcFormKicker: 'Параметри авто',
+    calcFormTitle: 'Введіть вихідні дані',
+    calcFormDesc: 'Швидкий локальний підрахунок + точний API з fallback-поведінкою.',
+    calcLabelRoute: 'Маршрут / порт',
+    calcRouteKlaipeda: 'Клайпеда',
+    calcRouteOdesa: 'Одеса',
+    calcLabelCarType: 'Тип авто',
+    calcCarTypeAuto: 'Легковий',
+    calcCarTypeCrossover: 'Кросовер',
+    calcCarTypeSuv: 'Позашляховик',
+    calcCarTypeMoto: 'Мотоцикл',
+    calcCarTypePickup: 'Бус / Пікап',
+    calcLabelFuel: 'Тип двигуна',
+    calcLabelAuction: 'Аукціон',
+    calcLabelDocType: 'Тип документів',
+    calcLabelCity: 'Місто відправки',
+    calcLabelYear: 'Рік випуску',
+    calcLabelBattery: 'Ємність батареї',
+    calcLabelEngine: "Об'єм двигуна",
+    calcLabelPrice: 'Ціна авто / ставка',
+    calcLabelInsurance: 'Страхування',
+    calcLabelTransfer: 'Переказ коштів',
+    calcBtnRecalc: 'Перерахувати',
+    calcBtnReset: 'Скинути',
+    calcResultKicker: 'Підсумок',
+    calcGroupLogistics: 'Аукціон та логістика',
+    calcRowBid: 'Ставка',
+    calcRowAuctionFee: 'Аукціонний збір',
+    calcRowUsDelivery: 'Доставка по США',
+    calcRowDocs: 'Документи',
+    calcRowOcean: 'Морська доставка',
+    calcRowPortUnload: 'Вигрузка з порту',
+    calcRowEuDelivery: 'Доставка порт - ЄС',
+    calcRowCustomsDelivery: 'Доставка на митницю',
+    calcRowBorderHandling: 'Проходження кордону та залучення спец. транспорту',
+    calcGroupCustoms: 'Митниця та сервіс',
+    calcCustomsPending: "Деталі митниці та сервісу з'являться після LIVE-розрахунку",
+    calcCaptionIdle: 'Введіть дані для розрахунку. Жодних сум до введення параметрів.',
+    calcCaptionLoading: 'Підсумок оновлюється після відповіді API.',
+    calcCaptionLive: 'Підсумкова сума вже враховує логістику, митницю та сервісні витрати.',
+    calcCaptionLiveEu: 'Підсумкова сума враховує логістику в ЄС, вибраний податок, профіль ПДВ та сервісні витрати.',
+    calcCaptionFallback: 'Точний підсумок зараз не отримано. Для ручного прорахунку перейдіть у контакти.',
+    calcCaptionErr401: 'API калькулятора потребує авторизації. Додайте токен у localStorage (ключ lubeavtoPartnerToken).',
+    calcCaptionErr403: 'API калькулятора відхилив запит (403). Перевірте дозволений IP або домен.',
+    calcCaptionErr400Prefix: 'API калькулятора повернув 400 (валідація). Деталі:',
+    calcCaptionErrJson: 'API калькулятора повернув не JSON. Перевірте gateway/WAF у Network.',
+    calcRowCarPrice: 'Вартість авто / ставка',
+    calcRowOceanFromPrefix: 'Доставка з США -',
+    calcRowPortUnloadOdesa: 'Вигрузка з порту Одеса + брокер',
+    calcRowPortUnloadKlaipeda: 'Вигрузка з порту Клайпеда',
+    calcRowEuDeliveryPortPrefix: 'Доставка',
+    calcCityWarsaw: 'Варшава',
+    calcRowExportDocs: 'Документи на експорт авто',
+    calcRowExcise: 'Акциз',
+    calcRowImportDuty: 'Ввізне мито',
+    calcRowVat: 'ПДВ',
+    calcRowNonVatFee: 'Фінансовий збір за несплату ПДВ',
+    calcRowBroker: 'Брокерські послуги',
+    calcRowBiddersFee: 'Комісія BIDDERS',
+    calcRowInsuranceFee: 'Страхування',
+    calcRowMoneyTransfer: 'Комісія за переказ коштів в США',
+    calcLabelEuPort: 'Порт призначення (ЄС)',
+    calcLabelImportTax: 'Податок на імпорт',
+    calcLabelVatProfile: 'ПДВ (профіль)',
+    calcRowCustomsAgency: 'Митне агентство',
+    calcTaxAuto: '10% (Автомобіль)',
+    calcTaxTruck: '22% (Вантажний)',
+    calcTaxMoto: '6% (Мотоцикл)',
+    calcTaxClassic0: '0% (Класика)',
+    calcVatClassic9: '9% (Класика)',
+    catalogSortPriceDesc: 'Спочатку дорожчі',
+    catalogSortPriceAsc: 'Спочатку дешевші',
+    catalogSortYearDesc: 'Новіші за роком',
+    catalogSortYearAsc: 'Старіші за роком',
+    catalogSortMileageAsc: 'Менший пробіг',
+    catalogSortMileageDesc: 'Більший пробіг',
+    catalogBadgeInTransit: 'В ДОРОЗІ',
+    catalogBadgeInStock: 'В НАЯВНОСТІ',
+    catalogBadgeNew: 'NEW',
+    catalogAuctionBadgeAvailable: 'В НАЯВН.',
+    catalogAuctionBadgeReady: 'ГОТОВЕ',
+    catalogSellerLocal: 'Локальний',
+    catalogStatusInTransit: 'В дорозі',
+    catalogStatusInStock: 'В наявності',
+    catalogStatusAtAuction: 'На аукціоні',
+    catalogPriceLabel: 'Ціна',
+    catalogCurrentBidLabel: 'Поточна ставка',
+    catalogPriceNoteSeller: 'Продавець: BIDDERS',
+    catalogPriceNoteLease: 'Доступне до лізингу',
+    catalogPriceNoteEstimate: 'Оцінка:',
+    catalogDetailMileage: 'Кілометраж',
+    catalogDetailLocation: 'Місце',
+    catalogDetailDamage: 'Пошкодження',
+    catalogDetailStatus: 'Статус',
+    catalogCardDetails: 'Детальніше',
+    catalogFilterBtn: 'Фільтри',
+    catalogFilterTitle: 'Фільтри пошуку',
+    catalogFilterResetAll: 'Скинути все',
+    catalogToggleWholesale: 'Wholesale — Тільки автомобілі',
+    catalogToggleRecent: 'Нещодавно додані — 24 год',
+    catalogToggleExcludeActive: 'Виключити авто на аукціоні',
+    catalogFilterDocType: 'Тип документа',
+    catalogFilterYear: 'Рік',
+    catalogFilterBrand: 'Марка',
+    catalogFilterModel: 'Модель',
+    catalogFilterMileage: 'Одометр',
+    catalogFilterFuel: 'Тип двигуна',
+    catalogFilterTrans: 'Трансмісія',
+    catalogFilterDrive: 'Привід',
+    catalogFilterPostal: 'Пошук за індексом',
+    catalogFilterReset: 'Скинути',
+    catalogRangeFrom: 'від',
+    catalogRangeTo: 'до',
+    catalogCountSuffix: 'шт',
+    catalogSearchPlaceholder: 'Шукати...',
+    catalogYearFrom: 'Від',
+    catalogYearTo: 'До',
+    catalogPostalPlaceholder: 'Поштовий індекс',
+    catalogPostalSearch: 'Шукати',
+    catalogTabAll: 'Всі',
+    catalogTabOpenAuctions: 'Відкриті аукціони',
+    catalogTabInProgress: 'В процесі',
+    catalogTabClosedToday: 'Завершені сьогодні',
+    catalogTabBuyNow: 'Швидка покупка',
+    catalogTabArchive: 'Архів аукціонів',
+    catalogTabInStock: 'В наявності',
+    catalogTabReadyToTransfer: 'Готові до передачі',
+    catalogTabOnOrder: 'Під замовлення',
+    catalogTabInTransit: 'Авто в дорозі',
+    catalogResultsCount: 'автомобілів знайдено',
+    catalogLayoutList: 'Список',
+    catalogLayoutGrid: 'Сітка',
+    catalogLoadMore: 'Завантажити ще',
   },
   en: {
     navHome: 'Home',
@@ -924,6 +1674,28 @@ export const messages: Record<Locale, Messages> = {
     cookieDetails: 'Learn more',
     seoHomeTitle: 'Your trusted partner for importing cars from the USA, Canada, and Korea | BIDDERS',
     seoHomeDescription: 'Turnkey car import from €8,000. Save up to €7,000. Delivery in 45-60 days. Catalog, cars in transit, in-stock offers, yard inspection, and an auction purchase app.',
+    seoCatalogTitle: 'Car Catalog from US Auctions | BIDDERS',
+    seoCatalogDescription: 'Browse vehicles from Copart, IAAI, and Manheim auctions. Filter by make, year, budget, and condition. Full turnkey cost estimate included.',
+    seoInStockTitle: 'Cars in Stock — Ready to Ship | BIDDERS',
+    seoInStockDescription: 'Vehicles available in Poland or ready for dispatch. On-site inspection available, documents ready. Fast handover.',
+    seoTransitTitle: 'Cars in Transit — Track Online | BIDDERS',
+    seoTransitDescription: 'Over 1800 vehicles on their way to Poland. Track delivery status in real time and get up-to-date updates.',
+    seoCalculatorTitle: 'Car Import Cost Calculator | BIDDERS',
+    seoCalculatorDescription: 'Calculate the full turnkey cost: auction price, shipping, customs, and VAT. Accurate estimate with no hidden fees.',
+    seoBlogTitle: 'Blog on Car Import from the USA | BIDDERS',
+    seoBlogDescription: 'Articles, cases, and tips on buying cars at US auctions, logistics, and customs clearance in Poland.',
+    seoCasesTitle: 'Client Cases — Real Deals & Savings | BIDDERS',
+    seoCasesDescription: 'Real examples of car purchases through BIDDERS: price, savings, timelines, and client reviews.',
+    seoFaqTitle: 'FAQ About Car Import | BIDDERS',
+    seoFaqDescription: 'Answers to questions about delivery times, turnkey cost, warranties, VIN checks, and on-site vehicle inspection.',
+    seoContactsTitle: 'Contacts — Get in Touch with BIDDERS',
+    seoContactsDescription: 'Phone, email, office address, and social media links for the BIDDERS team. Consultation is free of charge.',
+    seoPrivacyTitle: 'Privacy Policy | BIDDERS',
+    seoPrivacyDescription: 'Terms for processing personal data, cookie usage, and protection of user information at BIDDERS.',
+    seoTermsTitle: 'Terms of Use | BIDDERS',
+    seoTermsDescription: 'Rules for using the BIDDERS website and services, liability limitations, and service provision terms.',
+    seoLotTitle: 'Lot Details | BIDDERS',
+    seoLotDescription: 'Detailed lot information: photos, specifications, VIN, condition, and current auction bid.',
     routeInStockAlt: 'Cars in stock in Poland — BIDDERS',
     routeTransitAlt: 'Cars in transit',
     routeAuctionAlt: 'Custom order from auction',
@@ -1189,6 +1961,333 @@ export const messages: Record<Locale, Messages> = {
     homeFaq5Q: 'Can I inspect a car live',
     homeFaq5A: 'Yes, inspections are available at the lot in Jawczyce by prior appointment.',
     homeFaqCtaButton: 'Didn\'t find your answer? Ask',
+    navChinaCars: 'Cars from China',
+    footerLotSources: 'Official lot sources',
+    catalogSortPriceDesc: 'Price: high to low',
+    catalogSortPriceAsc: 'Price: low to high',
+    catalogSortYearDesc: 'Year: newest first',
+    catalogSortYearAsc: 'Year: oldest first',
+    catalogSortMileageAsc: 'Mileage: low to high',
+    catalogSortMileageDesc: 'Mileage: high to low',
+    catalogBadgeInTransit: 'IN TRANSIT',
+    catalogBadgeInStock: 'IN STOCK',
+    catalogBadgeNew: 'NEW',
+    catalogAuctionBadgeAvailable: 'AVAILABLE',
+    catalogAuctionBadgeReady: 'READY',
+    catalogSellerLocal: 'Local',
+    catalogStatusInTransit: 'In transit',
+    catalogStatusInStock: 'In stock',
+    catalogStatusAtAuction: 'At auction',
+    catalogPriceLabel: 'Price',
+    catalogCurrentBidLabel: 'Current bid',
+    catalogPriceNoteSeller: 'Seller: BIDDERS',
+    catalogPriceNoteLease: 'Available for lease',
+    catalogPriceNoteEstimate: 'Estimate:',
+    catalogDetailMileage: 'Mileage',
+    catalogDetailLocation: 'Location',
+    catalogDetailDamage: 'Damage',
+    catalogDetailStatus: 'Status',
+    catalogCardDetails: 'Details',
+    catalogFilterBtn: 'Filters',
+    catalogFilterTitle: 'Search filters',
+    catalogFilterResetAll: 'Reset all',
+    catalogToggleWholesale: 'Wholesale — Cars only',
+    catalogToggleRecent: 'Recently added — 24 hrs',
+    catalogToggleExcludeActive: 'Exclude active auctions',
+    catalogFilterDocType: 'Document type',
+    catalogFilterYear: 'Year',
+    catalogFilterBrand: 'Brand',
+    catalogFilterModel: 'Model',
+    catalogFilterMileage: 'Mileage',
+    catalogFilterFuel: 'Fuel type',
+    catalogFilterTrans: 'Transmission',
+    catalogFilterDrive: 'Drive type',
+    catalogFilterPostal: 'Search by ZIP',
+    catalogFilterReset: 'Reset',
+    catalogRangeFrom: 'from',
+    catalogRangeTo: 'to',
+    catalogCountSuffix: 'units',
+    catalogSearchPlaceholder: 'Search...',
+    catalogYearFrom: 'From',
+    catalogYearTo: 'To',
+    catalogPostalPlaceholder: 'ZIP code',
+    catalogPostalSearch: 'Search',
+    catalogTabAll: 'All',
+    catalogTabOpenAuctions: 'Open auctions',
+    catalogTabInProgress: 'In progress',
+    catalogTabClosedToday: 'Closed today',
+    catalogTabBuyNow: 'Buy now',
+    catalogTabArchive: 'Auction archive',
+    catalogTabInStock: 'In stock',
+    catalogTabReadyToTransfer: 'Ready to transfer',
+    catalogTabOnOrder: 'On order',
+    catalogTabInTransit: 'Cars in transit',
+    catalogResultsCount: 'cars found',
+    catalogLayoutList: 'List',
+    catalogLayoutGrid: 'Grid',
+    catalogLoadMore: 'Load more',
+    lotLoading: 'Loading car',
+    lotLoadingDesc: 'Fetching live data from API.',
+    lotNotFound: 'Car not found',
+    lotNotFoundDesc: 'Check the link or go back to the catalog.',
+    lotNotFoundBtn: 'Go to catalog',
+    lotModeTransit: 'Cars in transit',
+    lotModeInStock: 'In stock',
+    lotModeCatalog: 'Catalog',
+    lotStatusTransit: 'In transit',
+    lotStatusInStock: 'In stock',
+    lotStatusAtAuction: 'At auction',
+    lotLabelLocation: 'Location',
+    lotLabelDispatchPort: 'Dispatch port',
+    lotLabelPickupPoint: 'Pickup point',
+    lotLabelStatus: 'Status',
+    lotLabelAuctionDate: 'Auction date',
+    lotLabelEstDelivery: 'Est. delivery',
+    lotDeliveryTbd: 'TBD',
+    lotWatching: 'Watching',
+    lotWatch: 'Watch',
+    lotGalleryPrev: 'Previous photo',
+    lotGalleryNext: 'Next photo',
+    lotLiveBadgeAuction: 'Live auction',
+    lotLiveBadgeTransit: 'In transit',
+    lotLiveBadgeReady: 'Ready for pickup',
+    lotSpecsMainTitle: 'Main specifications',
+    lotLabelSeller: 'Seller',
+    lotLabelDocuments: 'Documents',
+    lotLabelPrimaryDamage: 'Primary damage',
+    lotLabelSecondaryDamage: 'Secondary damage',
+    lotLabelMileage: 'Mileage',
+    lotLabelKeys: 'Keys',
+    lotCopyVin: 'Copy',
+    lotSpecsTechTitle: 'Technical specifications',
+    lotLabelBodyType: 'Body type',
+    lotLabelColor: 'Color',
+    lotLabelEngine: 'Engine',
+    lotLabelTransmission: 'Transmission',
+    lotLabelFuel: 'Fuel type',
+    lotLabelDrive: 'Drive type',
+    lotLabelStartCode: 'Start code',
+    lotLabelStartCodeValue: 'Runs',
+    lotLabelAcvRetail: 'ACV / Retail',
+    lotLabelBodyExtended: 'Extended body type',
+    lotLabelSaleStatus: 'Sale status',
+    lotShowMore: 'Show more (4)',
+    lotShowLess: 'Show less',
+    lotSourceLink: 'Open original lot on',
+    lotServicesTitle: 'Additional services',
+    lotService11: 'Vehicle with purchase restriction',
+    lotService12: 'Hazardous cargo',
+    lotService13: 'Oversized',
+    lotService14: 'Oversized+',
+    lotServicesNote: 'Checking an option will add the amount to the estimated total price.',
+    lotSbCurrentBid: 'Current bid',
+    lotSbEstimate: 'Estimate:',
+    lotSbMaxBid: 'Your maximum bid',
+    lotSbDecrease: 'Decrease',
+    lotSbIncrease: 'Increase',
+    lotSbBidNow: 'Place bid now',
+    lotSbHowToBid: 'How to bid? →',
+    lotSbTimeLeft: 'Time remaining',
+    lotSbAuctionEnded: 'Auction ended',
+    lotSbTimerUntil: 'until',
+    lotSbCalcTitle: 'Total price calculator',
+    lotCalcBid: 'Bid (current)',
+    lotCalcAuctionFee: 'Auction fee',
+    lotCalcTransport: 'Transport to port',
+    lotCalcShipping: 'Ocean shipping',
+    lotCalcDocs: 'Documents + BIDDERS service',
+    lotCalcSubtotal: 'Subtotal (before customs)',
+    lotCalcNote: 'Estimated price excluding customs. Rate USD/EUR = 0.91',
+    lotCustomsCalcTitle: 'Customs duties calculator',
+    lotCustomsDuty: 'Duty 10%',
+    lotCustomsVat: 'VAT 21%',
+    lotCustomsBroker: 'Broker & handling',
+    lotCustomsTotal: 'Customs duties',
+    lotCustomsFinal: 'Final cost',
+    lotCustomsNote: 'Estimate only. Final cost may vary depending on document type and country.',
+    lotSbFinalPrice: 'Final price',
+    lotSbTurnkeyFixed: 'Fixed turnkey price',
+    lotSbFactDelivery: 'Est. delivery',
+    lotSbFactDeliveryValue: 'In transit',
+    lotSbContact: 'Contact about this car',
+    lotSbWhatsIncluded: "What's included",
+    lotSbIncluded1: 'Auction purchase',
+    lotSbIncluded2: 'Transport USA → port',
+    lotSbIncluded3: 'Ocean shipping',
+    lotSbIncluded4: 'Customs clearance in Europe',
+    lotSbIncluded5: 'BIDDERS service & support',
+    lotSbPriceKicker: 'Price',
+    lotSbReadyLviv: 'Ready for pickup in Lviv',
+    lotSbFactCert: 'Certification',
+    lotSbFactCertValue: 'Completed',
+    lotSbBuyNow: 'Buy now',
+    lotSbScheduleView: 'Schedule a viewing',
+    lotSbLeaseCalc: 'Lease calculator',
+    lotSbMonthlyPayment: 'Monthly payment',
+    lotSbPerMonth: '/mo',
+    lotSbDownPayment: 'Down payment',
+    lotSbLeaseTerm: 'Term',
+    lotSbLeaseMonths: 'mo',
+    lotSbLeaseNote: 'Preliminary estimate. Exact terms are set after agreement with the leasing company.',
+    lotDescTitle: 'Car description',
+    lotDescSubtitle: 'Full technical information for this listing.',
+    lotLabelMake: 'Make',
+    lotLabelModel: 'Model',
+    lotLabelYear: 'Year',
+    lotLabelPrice: 'Price',
+    lotKnowTitle: 'What to know about',
+    lotKnowSubtitle: 'Status, delivery, specs, and steps to buy a ready car.',
+    lotKnowOverviewTitle: 'Quick overview',
+    lotKnowOverviewStatus: 'car with status',
+    lotKnowOverviewLoc: 'Location:',
+    lotKnowOverviewSpecs: 'Specs:',
+    lotKnowOverviewMileage: 'Mileage:',
+    lotKnowPriceFrom: 'Current price — from',
+    lotKnowPriceEnd: 'Next steps include de-registration, preparation, certification and handover in Ukraine.',
+    lotKnowCheckTitle: 'What to check before deciding',
+    lotKnowCheckDamage: 'Damage list:',
+    lotKnowCheckDocs: 'Document check:',
+    lotKnowCheckBudget: 'Estimated budget: from',
+    lotKnowCheckBudgetSuffix: 'including logistics',
+    lotKnowCheckAgreement: 'Agree on the handover / delivery budget to Ukraine',
+    lotKnowChip1: 'Turnkey import',
+    lotKnowChip2: 'Delivery & customs',
+    lotKnowChip3: 'Consultation',
+    lotSimilarTitle: 'Similar',
+    lotSimilarTitleTransit: 'cars in transit',
+    lotSimilarTitleInStock: 'cars in stock',
+    lotSimilarTitleCatalog: 'cars at auction',
+    lotSimilarSubtitle: 'A few more relevant options for quick browsing.',
+    lotSimilarPriceLabel: 'Price:',
+    lotSimilarMileageLabel: 'Mileage:',
+    lotSimilarStatusLabel: 'Status:',
+    lotSimilarAllTransit: 'All cars in transit',
+    lotSimilarAllInStock: 'All cars in stock',
+    lotSimilarAllCatalog: 'All lots',
+    lotSimilarLinkCatalog: 'Auction catalog',
+    lotSimilarLinkCar: 'Find a car',
+    lotSimilarLinkLogistics: 'Logistics & customs',
+    lotSimilarLinkBlog: 'Blog tips',
+    lotFaqTitle: 'FAQ about',
+    lotFaqSubtitle: 'Answers about condition, price, benefits, and logistics of this car.',
+    lotFaq1Q: 'What is this car and what is its status?',
+    lotFaq1A: 'This is a real lot from our inventory. The status is shown in the "Status & readiness" block and is updated as logistics progresses.',
+    lotFaq2Q: 'Which specs matter most here?',
+    lotFaq2A: 'Focus first on VIN, year, mileage, damage type, and key availability. Other fields (body, engine, color) affect operation rather than legal clarity.',
+    lotFaq3Q: 'What is the approximate turnkey budget?',
+    lotFaq3A: 'The "Ready car budget" block shows the current price + BIDDERS service. For a precise calculation including logistics and customs, run the calculator in the sidebar or on the /calculator page.',
+    lotFaq4Q: 'What should I pay attention to before deciding?',
+    lotFaq4A: 'Check primary and secondary damage, document type (Title), key availability, and actual photos in the gallery. We also recommend requesting additional photos from our manager.',
+    lotStepsTitle: 'How the purchase process works',
+    lotStepsSubtitle: 'Four steps from vehicle inspection to key handover.',
+    lotStep1Title: 'We inspect the car',
+    lotStep1Text: 'We clarify condition, mileage, documents, and readiness for pickup or further delivery.',
+    lotStep2Title: 'We calculate the budget',
+    lotStep2Text: 'We prepare a transparent breakdown including the car price, preparation, certification, and support.',
+    lotStep3Title: 'We prepare the documents',
+    lotStep3Text: 'We prepare the offer, contract, and all supporting papers for safe handover to the client.',
+    lotStep4Title: 'We hand over in Ukraine',
+    lotStep4Text: 'The car goes through final stages and is handed over with BIDDERS team support.',
+    lotSummaryTitle: 'What to know before deciding on',
+    lotSummarySubtitle: 'Condition, current status, and estimated final budget.',
+    lotSummaryStatusTitle: 'Car status & readiness',
+    lotSummaryStatusP1: 'is currently in status',
+    lotSummaryStatusP2: 'Before purchase we clarify location, document availability, and handover scenario in Ukraine.',
+    lotSummaryStatusFacts: 'Available data: documents —',
+    lotSummaryStatusFactsDmg: 'damage —',
+    lotSummaryStatusFactsLoc: 'location —',
+    lotSummaryStatusP3: 'If you need a detailed quote, the BIDDERS team will help with logistics and customs clearance within a real budget — no hidden surprises.',
+    lotSummaryBudgetTitle: 'Ready car budget',
+    lotSummaryBudgetLead: 'For a ready car we factor in the current price, preparation, certification, and handover support.',
+    lotBudgetCurrentPrice: 'Current car price',
+    lotBudgetPrep: 'Preparation & service',
+    lotBudgetPrepValue: 'on request',
+    lotBudgetCert: 'Certification / registration',
+    lotBudgetCertValue: 'individual',
+    lotBudgetService: 'BIDDERS service',
+    lotSummaryCtaCar: 'Find a car',
+    lotSummaryCtaLogistics: 'Learn about logistics',
+    lotTimerDays: 'd',
+    lotTimerHours: 'h',
+    lotTimerMinutes: 'min',
+    lotTimerSeconds: 's',
+    lotPickupCity: 'Lviv',
+    lotDispatchCountry: 'USA',
+    calcPill: 'Import calculator',
+    calcHeroTitle: 'Calculate the real turnkey cost before bidding at auction',
+    calcHeroDesc: 'From bid to final cost including customs and BIDDERS service.',
+    calcHeroNoteTitle: 'What is included',
+    calcHeroNoteDesc: 'Bid, auction fee, delivery, documents, broker, commission, insurance, and taxes.',
+    calcFormKicker: 'Car parameters',
+    calcFormTitle: 'Enter input data',
+    calcFormDesc: 'Fast local estimate + precise API with fallback behavior.',
+    calcLabelRoute: 'Route / port',
+    calcRouteKlaipeda: 'Klaipeda',
+    calcRouteOdesa: 'Odesa',
+    calcLabelCarType: 'Car type',
+    calcCarTypeAuto: 'Sedan / Hatchback',
+    calcCarTypeCrossover: 'Crossover',
+    calcCarTypeSuv: 'SUV',
+    calcCarTypeMoto: 'Motorcycle',
+    calcCarTypePickup: 'Van / Pickup',
+    calcLabelFuel: 'Engine type',
+    calcLabelAuction: 'Auction',
+    calcLabelDocType: 'Document type',
+    calcLabelCity: 'Dispatch city',
+    calcLabelYear: 'Model year',
+    calcLabelBattery: 'Battery capacity',
+    calcLabelEngine: 'Engine volume',
+    calcLabelPrice: 'Car price / bid',
+    calcLabelInsurance: 'Insurance',
+    calcLabelTransfer: 'Wire transfer',
+    calcBtnRecalc: 'Recalculate',
+    calcBtnReset: 'Reset',
+    calcResultKicker: 'Total',
+    calcGroupLogistics: 'Auction & logistics',
+    calcRowBid: 'Bid',
+    calcRowAuctionFee: 'Auction fee',
+    calcRowUsDelivery: 'US delivery',
+    calcRowDocs: 'Documents',
+    calcRowOcean: 'Ocean shipping',
+    calcRowPortUnload: 'Port unloading',
+    calcRowEuDelivery: 'Port – EU delivery',
+    calcRowCustomsDelivery: 'Delivery to customs',
+    calcRowBorderHandling: 'Border crossing & special transport',
+    calcGroupCustoms: 'Customs & service',
+    calcCustomsPending: 'Customs and service details appear after LIVE calculation',
+    calcCaptionIdle: 'Enter data to calculate. No amounts until parameters are filled.',
+    calcCaptionLoading: 'Total is updating after API response.',
+    calcCaptionLive: 'Total already includes logistics, customs, and service costs.',
+    calcCaptionLiveEu: 'Total includes EU logistics, selected tax, VAT profile, and service costs.',
+    calcCaptionFallback: 'Exact total not available now. Go to contacts for a manual estimate.',
+    calcCaptionErr401: 'Calculator API requires authorization. Add token to localStorage (key lubeavtoPartnerToken).',
+    calcCaptionErr403: 'Calculator API rejected the request (403). Check allowed IP or API domain.',
+    calcCaptionErr400Prefix: 'Calculator API returned 400 (validation). Details:',
+    calcCaptionErrJson: 'Calculator API returned non-JSON. Check gateway/WAF response in Network.',
+    calcRowCarPrice: 'Car price / bid',
+    calcRowOceanFromPrefix: 'Shipping from USA –',
+    calcRowPortUnloadOdesa: 'Odesa port unloading + broker',
+    calcRowPortUnloadKlaipeda: 'Klaipeda port unloading',
+    calcRowEuDeliveryPortPrefix: 'Delivery',
+    calcCityWarsaw: 'Warsaw',
+    calcRowExportDocs: 'Export documents',
+    calcRowExcise: 'Excise tax',
+    calcRowImportDuty: 'Import duty',
+    calcRowVat: 'VAT',
+    calcRowNonVatFee: 'Non-VAT financial fee',
+    calcRowBroker: 'Broker services',
+    calcRowBiddersFee: 'BIDDERS commission',
+    calcRowInsuranceFee: 'Insurance',
+    calcRowMoneyTransfer: 'Wire transfer fee (USA)',
+    calcLabelEuPort: 'EU destination port',
+    calcLabelImportTax: 'Import tax',
+    calcLabelVatProfile: 'VAT (profile)',
+    calcRowCustomsAgency: 'Customs agency',
+    calcTaxAuto: '10% (Car)',
+    calcTaxTruck: '22% (Truck)',
+    calcTaxMoto: '6% (Motorcycle)',
+    calcTaxClassic0: '0% (Classic)',
+    calcVatClassic9: '9% (Classic)',
   },
   pl: {
     navHome: 'Start',
@@ -1337,6 +2436,28 @@ export const messages: Record<Locale, Messages> = {
     cookieDetails: 'Dowiedz się więcej',
     seoHomeTitle: 'Zaufany partner importu aut z USA, Kanady i Korei | BIDDERS',
     seoHomeDescription: 'Import auta pod klucz od 8 000 EUR. Oszczędność do 7 000 EUR. Dostawa w 45-60 dni. Katalog, auta w drodze, auta dostępne od ręki, oględziny i aplikacja do zakupu na aukcji.',
+    seoCatalogTitle: 'Katalog samochodów z aukcji USA | BIDDERS',
+    seoCatalogDescription: 'Przeglądaj auta z aukcji Copart, IAAI i Manheim. Filtruj po marce, roku, budżecie i stanie. Pełna wycena pod klucz w zestawie.',
+    seoInStockTitle: 'Auta dostępne — gotowe do wysyłki | BIDDERS',
+    seoInStockDescription: 'Pojazdy dostępne w Polsce lub gotowe do wysyłki. Możliwość oględzin na miejscu, dokumenty gotowe. Szybkie przekazanie.',
+    seoTransitTitle: 'Auta w drodze — śledź online | BIDDERS',
+    seoTransitDescription: 'Ponad 1800 pojazdów w drodze do Polski. Śledź status dostawy w czasie rzeczywistym i otrzymuj aktualne informacje.',
+    seoCalculatorTitle: 'Kalkulator kosztów importu auta | BIDDERS',
+    seoCalculatorDescription: 'Oblicz pełny koszt pod klucz: aukcja, transport, cło, VAT. Dokładna wycena bez ukrytych opłat.',
+    seoBlogTitle: 'Blog o imporcie aut z USA | BIDDERS',
+    seoBlogDescription: 'Artykuły, przypadki i porady dotyczące zakupu aut na aukcjach w USA, logistyki i odprawy celnej w Polsce.',
+    seoCasesTitle: 'Przypadki klientów — realne transakcje i oszczędności | BIDDERS',
+    seoCasesDescription: 'Prawdziwe przykłady zakupu aut przez BIDDERS: cena, oszczędności, terminy i opinie klientów.',
+    seoFaqTitle: 'FAQ dotyczące importu aut | BIDDERS',
+    seoFaqDescription: 'Odpowiedzi na pytania o czas dostawy, koszt pod klucz, gwarancje, sprawdzenie VIN i oględziny auta na placu.',
+    seoContactsTitle: 'Kontakty — skontaktuj się z BIDDERS',
+    seoContactsDescription: 'Telefon, e-mail, adres biura i linki do mediów społecznościowych zespołu BIDDERS. Konsultacja bezpłatna.',
+    seoPrivacyTitle: 'Polityka prywatności | BIDDERS',
+    seoPrivacyDescription: 'Warunki przetwarzania danych osobowych, korzystania z plików cookie i ochrony informacji użytkowników BIDDERS.',
+    seoTermsTitle: 'Warunki użytkowania | BIDDERS',
+    seoTermsDescription: 'Zasady korzystania ze strony i usług BIDDERS, ograniczenia odpowiedzialności i warunki świadczenia usług.',
+    seoLotTitle: 'Szczegóły lotu | BIDDERS',
+    seoLotDescription: 'Szczegółowe informacje o locie: zdjęcia, dane techniczne, VIN, stan i aktualna oferta aukcyjna.',
     routeInStockAlt: 'Auta dostępne w Polsce — BIDDERS',
     routeTransitAlt: 'Auta w drodze',
     routeAuctionAlt: 'Na zamówienie z aukcji',
@@ -1348,7 +2469,7 @@ export const messages: Record<Locale, Messages> = {
     homeB2cSuccess: 'Dziękujemy! Otrzymaliśmy zgłoszenie i skontaktujemy się w ciągu 15 minut w godzinach pracy.',
     homeB2bFormatError: 'Podaj format współpracy.',
     homeB2bSuccess: 'Dziękujemy! Zgłoszenie zostało przyjęte, specjalista B2B skontaktuje się z Tobą bezpośrednio, aby ustalić warunki.',
-    homeHeroEyebrow: 'BIDDERS · 13 lat zaufania',
+    homeHeroEyebrow: 'BIDDERS · 13 LAT Doświadczenia',
     homeHeroTitleLineOne: 'Twój zaufany partner',
     homeHeroTitleLineTwo: 'w imporcie aut z',
     homeHeroTitleAccent: 'USA, Kanady i Korei',
@@ -1362,7 +2483,7 @@ export const messages: Record<Locale, Messages> = {
     homeHeroStatYears: 'Lat na rynku',
     homeTrustAria: 'Dlaczego klienci nam ufają',
     homeTrustOneTitle: '13 lat na rynku',
-    homeTrustOneDesc: 'USA i Europa',
+    homeTrustOneDesc: 'USA, Kanada i Korea',
     homeTrustTwoTitle: 'Realny koszt końcowy',
     homeTrustTwoDesc: 'Ustalamy cenę przed zakupem',
     homeTrustThreeTitle: 'Śledzenie w czasie rzeczywistym',
@@ -1450,7 +2571,7 @@ export const messages: Record<Locale, Messages> = {
     homeModalPhoneLabel: 'Telefon',
     homeModalBudgetLabel: 'Budżet',
     homeModalBudgetPlaceholder: 'Opcjonalnie',
-    homeModalScenarioLabel: 'Scenariusz zakupu',
+    homeModalScenarioLabel: 'Wybierz scenariusz',
     homeModalCommentLabel: 'Komentarz',
     homeModalAutoClose: 'To okno zamknie się za',
     homeModalSending: 'Wysyłanie...',
@@ -1602,5 +2723,332 @@ export const messages: Record<Locale, Messages> = {
     homeFaq5Q: 'Czy mogę zobaczyć auto osobiście',
     homeFaq5A: 'Tak, inspekcje są dostępne na placu w Jawczyce po wcześniejszym umówieniu.',
     homeFaqCtaButton: 'Nie znalazłeś odpowiedzi? Zapytaj',
+    navChinaCars: 'Auta z Chin',
+    footerLotSources: 'Oficjalne źródła lotów',
+    catalogSortPriceDesc: 'Cena: od najwyższej',
+    catalogSortPriceAsc: 'Cena: od najniższej',
+    catalogSortYearDesc: 'Rok: najnowsze',
+    catalogSortYearAsc: 'Rok: najstarsze',
+    catalogSortMileageAsc: 'Przebieg: rosnąco',
+    catalogSortMileageDesc: 'Przebieg: malejąco',
+    catalogBadgeInTransit: 'W DRODZE',
+    catalogBadgeInStock: 'W MAGAZYNIE',
+    catalogBadgeNew: 'NEW',
+    catalogAuctionBadgeAvailable: 'DOSTĘPNE',
+    catalogAuctionBadgeReady: 'GOTOWE',
+    catalogSellerLocal: 'Lokalny',
+    catalogStatusInTransit: 'W drodze',
+    catalogStatusInStock: 'W magazynie',
+    catalogStatusAtAuction: 'Na aukcji',
+    catalogPriceLabel: 'Cena',
+    catalogCurrentBidLabel: 'Aktualna oferta',
+    catalogPriceNoteSeller: 'Sprzedawca: BIDDERS',
+    catalogPriceNoteLease: 'Dostępne w leasingu',
+    catalogPriceNoteEstimate: 'Szacunek:',
+    catalogDetailMileage: 'Przebieg',
+    catalogDetailLocation: 'Lokalizacja',
+    catalogDetailDamage: 'Uszkodzenia',
+    catalogDetailStatus: 'Status',
+    catalogCardDetails: 'Szczegóły',
+    catalogFilterBtn: 'Filtry',
+    catalogFilterTitle: 'Filtry wyszukiwania',
+    catalogFilterResetAll: 'Resetuj wszystkie',
+    catalogToggleWholesale: 'Wholesale — Tylko samochody',
+    catalogToggleRecent: 'Niedawno dodane — 24 godz',
+    catalogToggleExcludeActive: 'Wyklucz auta na aukcji',
+    catalogFilterDocType: 'Typ dokumentu',
+    catalogFilterYear: 'Rok',
+    catalogFilterBrand: 'Marka',
+    catalogFilterModel: 'Model',
+    catalogFilterMileage: 'Przebieg',
+    catalogFilterFuel: 'Typ silnika',
+    catalogFilterTrans: 'Skrzynia biegów',
+    catalogFilterDrive: 'Napęd',
+    catalogFilterPostal: 'Szukaj po kodzie',
+    catalogFilterReset: 'Resetuj',
+    catalogRangeFrom: 'od',
+    catalogRangeTo: 'do',
+    catalogCountSuffix: 'szt',
+    catalogSearchPlaceholder: 'Szukaj...',
+    catalogYearFrom: 'Od',
+    catalogYearTo: 'Do',
+    catalogPostalPlaceholder: 'Kod pocztowy',
+    catalogPostalSearch: 'Szukaj',
+    catalogTabAll: 'Wszystkie',
+    catalogTabOpenAuctions: 'Otwarte aukcje',
+    catalogTabInProgress: 'W toku',
+    catalogTabClosedToday: 'Zamknięte dziś',
+    catalogTabBuyNow: 'Kup teraz',
+    catalogTabArchive: 'Archiwum aukcji',
+    catalogTabInStock: 'W magazynie',
+    catalogTabReadyToTransfer: 'Gotowe do odbioru',
+    catalogTabOnOrder: 'Na zamówienie',
+    catalogTabInTransit: 'Auta w drodze',
+    catalogResultsCount: 'samochodów znaleziono',
+    catalogLayoutList: 'Lista',
+    catalogLayoutGrid: 'Siatka',
+    catalogLoadMore: 'Załaduj więcej',
+    lotLoading: 'Ładowanie auta',
+    lotLoadingDesc: 'Pobieramy aktualne dane z API.',
+    lotNotFound: 'Nie znaleziono auta',
+    lotNotFoundDesc: 'Sprawdź poprawność linku lub wróć do katalogu.',
+    lotNotFoundBtn: 'Przejdź do katalogu',
+    lotModeTransit: 'Auta w drodze',
+    lotModeInStock: 'W magazynie',
+    lotModeCatalog: 'Katalog',
+    lotStatusTransit: 'W drodze',
+    lotStatusInStock: 'W magazynie',
+    lotStatusAtAuction: 'Na aukcji',
+    lotLabelLocation: 'Lokalizacja',
+    lotLabelDispatchPort: 'Port wysyłki',
+    lotLabelPickupPoint: 'Miejsce odbioru',
+    lotLabelStatus: 'Status',
+    lotLabelAuctionDate: 'Data aukcji',
+    lotLabelEstDelivery: 'Szac. dostawa',
+    lotDeliveryTbd: 'Do ustalenia',
+    lotWatching: 'Obserwowane',
+    lotWatch: 'Obserwuj',
+    lotGalleryPrev: 'Poprzednie zdjęcie',
+    lotGalleryNext: 'Następne zdjęcie',
+    lotLiveBadgeAuction: 'Aukcja na żywo',
+    lotLiveBadgeTransit: 'W drodze',
+    lotLiveBadgeReady: 'Gotowe do odbioru',
+    lotSpecsMainTitle: 'Główne parametry',
+    lotLabelSeller: 'Sprzedawca',
+    lotLabelDocuments: 'Dokumenty',
+    lotLabelPrimaryDamage: 'Uszkodzenie główne',
+    lotLabelSecondaryDamage: 'Uszkodzenie wtórne',
+    lotLabelMileage: 'Przebieg',
+    lotLabelKeys: 'Klucz',
+    lotCopyVin: 'Kopiuj',
+    lotSpecsTechTitle: 'Parametry techniczne',
+    lotLabelBodyType: 'Typ nadwozia',
+    lotLabelColor: 'Kolor',
+    lotLabelEngine: 'Silnik',
+    lotLabelTransmission: 'Skrzynia biegów',
+    lotLabelFuel: 'Rodzaj paliwa',
+    lotLabelDrive: 'Napęd',
+    lotLabelStartCode: 'Kod startowy',
+    lotLabelStartCodeValue: 'Sprawny',
+    lotLabelAcvRetail: 'ACV / Retail',
+    lotLabelBodyExtended: 'Rozszerzony typ nadwozia',
+    lotLabelSaleStatus: 'Status sprzedaży',
+    lotShowMore: 'Pokaż więcej (4)',
+    lotShowLess: 'Pokaż mniej',
+    lotSourceLink: 'Otwórz oryginalny lot na',
+    lotServicesTitle: 'Usługi dodatkowe',
+    lotService11: 'Pojazd z ograniczeniem zakupu',
+    lotService12: 'Ładunek niebezpieczny',
+    lotService13: 'Ponadgabarytowy',
+    lotService14: 'Ponadgabarytowy+',
+    lotServicesNote: 'Zaznaczenie opcji doda kwotę do szacowanej ceny końcowej.',
+    lotSbCurrentBid: 'Aktualna oferta',
+    lotSbEstimate: 'Wycena:',
+    lotSbMaxBid: 'Twoja maksymalna oferta',
+    lotSbDecrease: 'Zmniejsz',
+    lotSbIncrease: 'Zwiększ',
+    lotSbBidNow: 'Złóż ofertę teraz',
+    lotSbHowToBid: 'Jak złożyć ofertę? →',
+    lotSbTimeLeft: 'Pozostały czas',
+    lotSbAuctionEnded: 'Aukcja zakończona',
+    lotSbTimerUntil: 'do',
+    lotSbCalcTitle: 'Kalkulator ceny końcowej',
+    lotCalcBid: 'Oferta (aktualna)',
+    lotCalcAuctionFee: 'Opłata aukcyjna',
+    lotCalcTransport: 'Transport do portu',
+    lotCalcShipping: 'Dostawa morska',
+    lotCalcDocs: 'Dokumenty + serwis BIDDERS',
+    lotCalcSubtotal: 'Razem (przed cłem)',
+    lotCalcNote: 'Szacunkowa cena bez opłat celnych. Kurs USD/EUR = 0.91',
+    lotCustomsCalcTitle: 'Kalkulator opłat celnych',
+    lotCustomsDuty: 'Cło 10%',
+    lotCustomsVat: 'VAT 21%',
+    lotCustomsBroker: 'Broker i obsługa',
+    lotCustomsTotal: 'Opłaty celne',
+    lotCustomsFinal: 'Koszt końcowy',
+    lotCustomsNote: 'Szacunek orientacyjny. Ostateczna kwota może się różnić w zależności od typu dokumentu i kraju.',
+    lotSbFinalPrice: 'Cena końcowa',
+    lotSbTurnkeyFixed: 'Stała cena pod klucz',
+    lotSbFactDelivery: 'Szac. dostawa',
+    lotSbFactDeliveryValue: 'W drodze',
+    lotSbContact: 'Skontaktuj się w sprawie auta',
+    lotSbWhatsIncluded: 'Co jest w cenie',
+    lotSbIncluded1: 'Zakup na aukcji',
+    lotSbIncluded2: 'Transport USA → port',
+    lotSbIncluded3: 'Dostawa morska',
+    lotSbIncluded4: 'Odprawa celna w Europie',
+    lotSbIncluded5: 'Serwis i wsparcie BIDDERS',
+    lotSbPriceKicker: 'Cena',
+    lotSbReadyLviv: 'Gotowe do odbioru we Lwowie',
+    lotSbFactCert: 'Certyfikacja',
+    lotSbFactCertValue: 'Ukończona',
+    lotSbBuyNow: 'Kup teraz',
+    lotSbScheduleView: 'Umów oględziny',
+    lotSbLeaseCalc: 'Kalkulator leasingu',
+    lotSbMonthlyPayment: 'Miesięczna rata',
+    lotSbPerMonth: '/mies',
+    lotSbDownPayment: 'Wpłata własna',
+    lotSbLeaseTerm: 'Okres',
+    lotSbLeaseMonths: 'mies',
+    lotSbLeaseNote: 'Obliczenia wstępne. Dokładne warunki ustalamy po uzgodnieniu z firmą leasingową.',
+    lotDescTitle: 'Opis auta',
+    lotDescSubtitle: 'Pełne informacje techniczne dla tej karty.',
+    lotLabelMake: 'Marka',
+    lotLabelModel: 'Model',
+    lotLabelYear: 'Rok',
+    lotLabelPrice: 'Cena',
+    lotKnowTitle: 'Co warto wiedzieć o',
+    lotKnowSubtitle: 'Status, dostawa, wyposażenie i kroki zakupu gotowego auta.',
+    lotKnowOverviewTitle: 'Krótki przegląd',
+    lotKnowOverviewStatus: 'auto ze statusem',
+    lotKnowOverviewLoc: 'Lokalizacja:',
+    lotKnowOverviewSpecs: 'Dane techniczne:',
+    lotKnowOverviewMileage: 'Przebieg:',
+    lotKnowPriceFrom: 'Aktualna cena — od',
+    lotKnowPriceEnd: 'Następnie wyrejestrowanie, przygotowanie, certyfikacja i przekazanie na Ukrainie.',
+    lotKnowCheckTitle: 'Co sprawdzić przed decyzją',
+    lotKnowCheckDamage: 'Lista uszkodzeń:',
+    lotKnowCheckDocs: 'Weryfikacja dokumentów:',
+    lotKnowCheckBudget: 'Szacowany budżet: od',
+    lotKnowCheckBudgetSuffix: 'z uwzględnieniem logistyki',
+    lotKnowCheckAgreement: 'Uzgodnij budżet wydania auta / dostawy na Ukrainę',
+    lotKnowChip1: 'Import pod klucz',
+    lotKnowChip2: 'Dostawa i odprawa celna',
+    lotKnowChip3: 'Konsultacja',
+    lotSimilarTitle: 'Podobne',
+    lotSimilarTitleTransit: 'auta w drodze',
+    lotSimilarTitleInStock: 'auta w magazynie',
+    lotSimilarTitleCatalog: 'auta na aukcji',
+    lotSimilarSubtitle: 'Kilka dodatkowych trafnych opcji do szybkiego przeglądania.',
+    lotSimilarPriceLabel: 'Cena:',
+    lotSimilarMileageLabel: 'Przebieg:',
+    lotSimilarStatusLabel: 'Status:',
+    lotSimilarAllTransit: 'Wszystkie auta w drodze',
+    lotSimilarAllInStock: 'Wszystkie auta w magazynie',
+    lotSimilarAllCatalog: 'Wszystkie loty',
+    lotSimilarLinkCatalog: 'Katalog aukcji',
+    lotSimilarLinkCar: 'Znajdź auto',
+    lotSimilarLinkLogistics: 'Logistyka i cło',
+    lotSimilarLinkBlog: 'Porady na blogu',
+    lotFaqTitle: 'Najczęstsze pytania o',
+    lotFaqSubtitle: 'Odpowiedzi na pytania o stan, cenę, zalety i logistykę tego auta.',
+    lotFaq1Q: 'Czym jest to auto i jaki ma status?',
+    lotFaq1A: 'To realny lot z naszego inventory. Status wyświetlany jest w bloku „Status i gotowość auta" i aktualizuje się w miarę postępów logistyki.',
+    lotFaq2Q: 'Które parametry są tu najważniejsze?',
+    lotFaq2A: 'Zwróć uwagę przede wszystkim na VIN, rok, przebieg, rodzaj uszkodzeń i dostępność kluczy. Pozostałe pola (nadwozie, silnik, kolor) wpływają raczej na eksploatację niż czystość prawną.',
+    lotFaq3Q: 'Jaki jest orientacyjny budżet pod klucz?',
+    lotFaq3A: 'Blok „Budżet gotowego auta" pokazuje aktualną cenę + serwis BIDDERS. Dla dokładnego wyliczenia z logistyką i cłem użyj kalkulatora w sidebarze lub na stronie /calculator.',
+    lotFaq4Q: 'Na co zwrócić uwagę przed decyzją?',
+    lotFaq4A: 'Sprawdź uszkodzenia główne i wtórne, typ dokumentu (Title), dostępność kluczy oraz rzeczywiste zdjęcia w galerii. Zalecamy również poproszenie o dodatkowe zdjęcia od naszego menedżera.',
+    lotStepsTitle: 'Jak przebiega zakup gotowego auta',
+    lotStepsSubtitle: 'Cztery kroki od inspekcji do przekazania kluczy.',
+    lotStep1Title: 'Sprawdzamy auto',
+    lotStep1Text: 'Ustalamy stan, przebieg, dokumenty i gotowość auta do odbioru lub dalszej dostawy.',
+    lotStep2Title: 'Liczymy budżet',
+    lotStep2Text: 'Przygotowujemy przejrzysty kosztorys uwzględniający cenę auta, przygotowanie, certyfikację i wsparcie.',
+    lotStep3Title: 'Kompletujemy dokumenty',
+    lotStep3Text: 'Przygotowujemy ofertę, umowę i wszystkie dokumenty do bezpiecznego przekazania klientowi.',
+    lotStep4Title: 'Przekazujemy na Ukrainie',
+    lotStep4Text: 'Auto przechodzi przez ostatnie etapy i jest przekazywane z pełnym wsparciem zespołu BIDDERS.',
+    lotSummaryTitle: 'Co warto wiedzieć przed decyzją o',
+    lotSummarySubtitle: 'Stan, aktualny status i orientacyjny budżet końcowy.',
+    lotSummaryStatusTitle: 'Status i gotowość auta',
+    lotSummaryStatusP1: 'jest aktualnie w statusie',
+    lotSummaryStatusP2: 'Przed zakupem ustalamy lokalizację, dostępność dokumentów i scenariusz przekazania na Ukrainie.',
+    lotSummaryStatusFacts: 'Dostępne dane: dokumenty —',
+    lotSummaryStatusFactsDmg: 'uszkodzenia —',
+    lotSummaryStatusFactsLoc: 'lokalizacja —',
+    lotSummaryStatusP3: 'Jeśli potrzebujesz szczegółowej wyceny, zespół BIDDERS pomoże z logistyką i odprawą celną w realnym budżecie — bez ukrytych niespodzianek.',
+    lotSummaryBudgetTitle: 'Budżet gotowego auta',
+    lotSummaryBudgetLead: 'Dla gotowego auta opieramy się na aktualnej cenie, przygotowaniu, certyfikacji i wsparciu przy przekazaniu.',
+    lotBudgetCurrentPrice: 'Aktualna cena auta',
+    lotBudgetPrep: 'Przygotowanie i serwis',
+    lotBudgetPrepValue: 'na życzenie',
+    lotBudgetCert: 'Certyfikacja / rejestracja',
+    lotBudgetCertValue: 'indywidualnie',
+    lotBudgetService: 'Serwis BIDDERS',
+    lotSummaryCtaCar: 'Znajdź auto',
+    lotSummaryCtaLogistics: 'Dowiedz się o logistyce',
+    lotTimerDays: 'd',
+    lotTimerHours: 'g',
+    lotTimerMinutes: 'min',
+    lotTimerSeconds: 's',
+    lotPickupCity: 'Lwów',
+    lotDispatchCountry: 'USA',
+    calcPill: 'Kalkulator importu',
+    calcHeroTitle: 'Oblicz realny koszt auta pod klucz jeszcze przed licytacją',
+    calcHeroDesc: 'Od oferty do kosztu końcowego z cłem i serwisem BIDDERS.',
+    calcHeroNoteTitle: 'Co jest uwzględniane',
+    calcHeroNoteDesc: 'Oferta, opłata aukcyjna, dostawa, dokumenty, broker, prowizja, ubezpieczenie i podatki.',
+    calcFormKicker: 'Parametry auta',
+    calcFormTitle: 'Wprowadź dane',
+    calcFormDesc: 'Szybki lokalny podliczenie + dokładne API z zachowaniem fallback.',
+    calcLabelRoute: 'Trasa / port',
+    calcRouteKlaipeda: 'Kłajpeda',
+    calcRouteOdesa: 'Odessa',
+    calcLabelCarType: 'Typ auta',
+    calcCarTypeAuto: 'Sedan / Hatchback',
+    calcCarTypeCrossover: 'Crossover',
+    calcCarTypeSuv: 'SUV',
+    calcCarTypeMoto: 'Motocykl',
+    calcCarTypePickup: 'Bus / Pickup',
+    calcLabelFuel: 'Typ silnika',
+    calcLabelAuction: 'Aukcja',
+    calcLabelDocType: 'Typ dokumentów',
+    calcLabelCity: 'Miasto wysyłki',
+    calcLabelYear: 'Rok produkcji',
+    calcLabelBattery: 'Pojemność baterii',
+    calcLabelEngine: 'Pojemność silnika',
+    calcLabelPrice: 'Cena auta / oferta',
+    calcLabelInsurance: 'Ubezpieczenie',
+    calcLabelTransfer: 'Przelew środków',
+    calcBtnRecalc: 'Przelicz',
+    calcBtnReset: 'Resetuj',
+    calcResultKicker: 'Podsumowanie',
+    calcGroupLogistics: 'Aukcja i logistyka',
+    calcRowBid: 'Oferta',
+    calcRowAuctionFee: 'Opłata aukcyjna',
+    calcRowUsDelivery: 'Dostawa w USA',
+    calcRowDocs: 'Dokumenty',
+    calcRowOcean: 'Dostawa morska',
+    calcRowPortUnload: 'Rozładunek w porcie',
+    calcRowEuDelivery: 'Dostawa port – UE',
+    calcRowCustomsDelivery: 'Dostawa do granicy',
+    calcRowBorderHandling: 'Przekroczenie granicy i transport specjalny',
+    calcGroupCustoms: 'Cło i serwis',
+    calcCustomsPending: 'Szczegóły cła i serwisu pojawią się po kalkulacji LIVE',
+    calcCaptionIdle: 'Wprowadź dane do kalkulacji. Żadnych kwot przed podaniem parametrów.',
+    calcCaptionLoading: 'Podsumowanie aktualizuje się po odpowiedzi API.',
+    calcCaptionLive: 'Kwota końcowa uwzględnia już logistykę, cło i koszty serwisu.',
+    calcCaptionLiveEu: 'Kwota końcowa uwzględnia logistykę do UE, wybrany podatek, profil VAT i koszty serwisu.',
+    calcCaptionFallback: 'Dokładna kwota niedostępna. Przejdź do kontaktów po ręczną wycenę.',
+    calcCaptionErr401: 'API kalkulatora wymaga autoryzacji. Dodaj token do localStorage (klucz lubeavtoPartnerToken).',
+    calcCaptionErr403: 'API kalkulatora odrzuciło żądanie (403). Sprawdź dozwolone IP lub domenę API.',
+    calcCaptionErr400Prefix: 'API kalkulatora zwróciło 400 (walidacja). Szczegóły:',
+    calcCaptionErrJson: 'API kalkulatora zwróciło nie-JSON. Sprawdź odpowiedź gateway/WAF w Network.',
+    calcRowCarPrice: 'Cena auta / oferta',
+    calcRowOceanFromPrefix: 'Wysyłka z USA –',
+    calcRowPortUnloadOdesa: 'Rozładunek port Odessa + broker',
+    calcRowPortUnloadKlaipeda: 'Rozładunek port Kłajpeda',
+    calcRowEuDeliveryPortPrefix: 'Dostawa',
+    calcCityWarsaw: 'Warszawa',
+    calcRowExportDocs: 'Dokumenty eksportowe',
+    calcRowExcise: 'Akcyza',
+    calcRowImportDuty: 'Cło importowe',
+    calcRowVat: 'VAT',
+    calcRowNonVatFee: 'Opłata finansowa za brak VAT',
+    calcRowBroker: 'Usługi brokerskie',
+    calcRowBiddersFee: 'Prowizja BIDDERS',
+    calcRowInsuranceFee: 'Ubezpieczenie',
+    calcRowMoneyTransfer: 'Opłata za przelew w USA',
+    calcLabelEuPort: 'Port docelowy (UE)',
+    calcLabelImportTax: 'Podatek importowy',
+    calcLabelVatProfile: 'VAT (profil)',
+    calcRowCustomsAgency: 'Agencja celna',
+    calcTaxAuto: '10% (Samochód)',
+    calcTaxTruck: '22% (Ciężarówka)',
+    calcTaxMoto: '6% (Motocykl)',
+    calcTaxClassic0: '0% (Klasyk)',
+    calcVatClassic9: '9% (Klasyk)',
   },
 }

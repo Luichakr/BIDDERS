@@ -2,7 +2,9 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { allAuctionCards, getAuctionCardById } from '../../../features/auction/model/auctionData'
 import { fetchInRouteCardById } from '../../../features/auction/model/inRoute.service'
-import { routes } from '../../../shared/config/routes'
+import { routePaths, localizedPath } from '../../../shared/config/routes'
+import { useI18n } from '../../../shared/i18n/I18nProvider'
+import { Seo } from '../../../shared/seo/Seo'
 import './lot.css'
 
 type LotMode = 'catalog' | 'transit' | 'in-stock'
@@ -15,62 +17,25 @@ function fmtEur(value: number): string {
   return `€${Math.round(value).toLocaleString('en-US')}`
 }
 
-function buildCountdownLabel(seconds: number): string {
+function buildCountdownLabel(
+  seconds: number,
+  units: { d: string; h: string; m: string; s: string },
+): string {
   const d = Math.floor(seconds / 86400)
   const h = Math.floor((seconds % 86400) / 3600)
   const m = Math.floor((seconds % 3600) / 60)
   const s = seconds % 60
   const parts: string[] = []
-  if (d > 0) parts.push(`${d}д`)
-  parts.push(`${String(h).padStart(2, '0')}г`)
-  parts.push(`${String(m).padStart(2, '0')}хв`)
-  parts.push(`${String(s).padStart(2, '0')}с`)
+  if (d > 0) parts.push(`${d}${units.d}`)
+  parts.push(`${String(h).padStart(2, '0')}${units.h}`)
+  parts.push(`${String(m).padStart(2, '0')}${units.m}`)
+  parts.push(`${String(s).padStart(2, '0')}${units.s}`)
   return parts.join(' ')
 }
 
-const FAQ_ITEMS = [
-  {
-    q: 'Що це за авто і в якому воно статусі?',
-    a: 'Це реальний лот з нашого inventory. Статус відображається у блоці «Статус та готовність авто» та оновлюється по мірі проходження логістики.',
-  },
-  {
-    q: 'Які характеристики тут найважливіші?',
-    a: 'Дивіться спочатку на VIN, рік, пробіг, тип пошкоджень та наявність ключа. Решта полів (кузов, двигун, колір) впливають радше на експлуатацію, а не на юридичну чистоту.',
-  },
-  {
-    q: 'Який орієнтовний бюджет під ключ?',
-    a: 'Блок «Бюджет по готовому авто» показує поточну ціну + сервіс BIDDERS. Для точного розрахунку з логістикою і митницею запустіть калькулятор у сайдбарі або на сторінці /calculator.',
-  },
-  {
-    q: 'На що звернути увагу перед рішенням?',
-    a: 'Перевірте первинне і вторинне пошкодження, тип документа (Title), наявність ключа, а також реальні фотографії в галереї. Ми радимо також запросити додаткові знімки у нашого менеджера.',
-  },
-]
-
-const PURCHASE_STEPS = [
-  {
-    n: 1,
-    title: 'Перевіряємо авто',
-    text: 'Уточнюємо стан, пробіг, документи та готовність авто до видачі або подальшої доставки.',
-  },
-  {
-    n: 2,
-    title: 'Рахуємо бюджет',
-    text: 'Формуємо прозорий прорахунок з урахуванням ціни авто, підготовки, сертифікації та супроводу.',
-  },
-  {
-    n: 3,
-    title: 'Оформлюємо документи',
-    text: 'Готуємо оферту, договір і всі супровідні папери для безпечного передавання клієнту.',
-  },
-  {
-    n: 4,
-    title: 'Передаємо в Україні',
-    text: 'Авто проходить фінальні етапи і передається разом із підтримкою команди BIDDERS.',
-  },
-]
-
 export function LotPage() {
+  const { locale, t } = useI18n()
+  const lp = (path: string) => localizedPath(locale, path)
   const { lotId } = useParams<{ lotId: string }>()
   const fallbackCar = getAuctionCardById(lotId)
   const [liveCar, setLiveCar] = useState<typeof fallbackCar>(undefined)
@@ -175,8 +140,8 @@ export function LotPage() {
     return (
       <main className="lot-page">
         <section className="lot-empty">
-          <h2>Завантажуємо авто</h2>
-          <p>Отримуємо актуальні дані з API авто в дорозі.</p>
+          <h2>{t('lotLoading')}</h2>
+          <p>{t('lotLoadingDesc')}</p>
         </section>
       </main>
     )
@@ -186,9 +151,9 @@ export function LotPage() {
     return (
       <main className="lot-page">
         <section className="lot-empty">
-          <h2>Авто не знайдено</h2>
-          <p>Перевірте правильність посилання або поверніться у каталог.</p>
-          <Link to={routes.catalog} className="lot-empty__btn">Перейти до каталогу</Link>
+          <h2>{t('lotNotFound')}</h2>
+          <p>{t('lotNotFoundDesc')}</p>
+          <Link to={lp(routePaths.catalog)} className="lot-empty__btn">{t('lotNotFoundBtn')}</Link>
         </section>
       </main>
     )
@@ -202,8 +167,8 @@ export function LotPage() {
     setBidValue((prev) => Math.max(car.currentBid, prev + delta))
   }
 
-  const modeLabel = mode === 'transit' ? 'Авто в дорозі' : mode === 'in-stock' ? 'Авто в наявності' : 'Каталог'
-  const statusPill = mode === 'transit' ? 'В дорозі' : mode === 'in-stock' ? 'В наявності' : 'На аукціоні'
+  const modeLabel = mode === 'transit' ? t('lotModeTransit') : mode === 'in-stock' ? t('lotModeInStock') : t('lotModeCatalog')
+  const statusPill = mode === 'transit' ? t('lotStatusTransit') : mode === 'in-stock' ? t('lotStatusInStock') : t('lotStatusAtAuction')
   const statusPillClass = mode === 'transit' ? 'lot-status-pill transit' : mode === 'in-stock' ? 'lot-status-pill instock' : 'lot-status-pill auction'
 
   // Leasing placeholder (flat, no real formula)
@@ -212,8 +177,34 @@ export function LotPage() {
   const leaseFinanced = leasePrice - leaseDown
   const leaseMonthly = Math.round((leaseFinanced / leaseMonths) * 1.08)
 
+  const FAQ_ITEMS = [
+    { q: t('lotFaq1Q'), a: t('lotFaq1A') },
+    { q: t('lotFaq2Q'), a: t('lotFaq2A') },
+    { q: t('lotFaq3Q'), a: t('lotFaq3A') },
+    { q: t('lotFaq4Q'), a: t('lotFaq4A') },
+  ]
+
+  const PURCHASE_STEPS = [
+    { n: 1, title: t('lotStep1Title'), text: t('lotStep1Text') },
+    { n: 2, title: t('lotStep2Title'), text: t('lotStep2Text') },
+    { n: 3, title: t('lotStep3Title'), text: t('lotStep3Text') },
+    { n: 4, title: t('lotStep4Title'), text: t('lotStep4Text') },
+  ]
+
+  const timerUnits = {
+    d: t('lotTimerDays'),
+    h: t('lotTimerHours'),
+    m: t('lotTimerMinutes'),
+    s: t('lotTimerSeconds'),
+  }
+
   return (
     <main className="lot-page">
+      <Seo
+        title={car.title ? `${car.title} | BIDDERS` : t('seoLotTitle')}
+        description={t('seoLotDescription')}
+        path={`${routePaths.lotDetail.replace(':lotId', lotId ?? '')}`}
+      />
       {/* JSON-LD structured data for SEO */}
       <script
         type="application/ld+json"
@@ -224,7 +215,7 @@ export function LotPage() {
             name: car.title,
             image: images,
             sku: car.id,
-            description: `${car.title}, VIN ${car.vin}, ${car.mileageLabel}, ${car.engine}. ${statusPill}. Локація: ${car.location}.`,
+            description: `${car.title}, VIN ${car.vin}, ${car.mileageLabel}, ${car.engine}. ${statusPill}. Location: ${car.location}.`,
             brand: { '@type': 'Brand', name: car.make },
             offers: {
               '@type': 'Offer',
@@ -240,9 +231,9 @@ export function LotPage() {
       {/* Breadcrumb */}
       <div className="lot-breadcrumb">
         <div className="lot-breadcrumb__inner">
-          <Link to={routes.home}>Головна</Link>
+          <Link to={lp(routePaths.home)}>{t('navHome')}</Link>
           <span className="lot-breadcrumb__sep">›</span>
-          <Link to={mode === 'transit' ? routes.transit : mode === 'in-stock' ? routes.inStock : routes.catalog}>{modeLabel}</Link>
+          <Link to={lp(mode === 'transit' ? routePaths.transit : mode === 'in-stock' ? routePaths.inStock : routePaths.catalog)}>{modeLabel}</Link>
           <span className="lot-breadcrumb__sep">›</span>
           <span className="lot-breadcrumb__current">{car.title}</span>
         </div>
@@ -261,25 +252,25 @@ export function LotPage() {
           </div>
           <div className="lot-title-bar__summary">
             <div className="lot-summary-item">
-              <span className="lot-summary-item__label">Локація</span>
+              <span className="lot-summary-item__label">{t('lotLabelLocation')}</span>
               <span className="lot-summary-item__value">{car.location}</span>
             </div>
             <div className="lot-summary-item">
-              <span className="lot-summary-item__label">{mode === 'in-stock' ? 'Місце видачі' : 'Порт відправлення'}</span>
-              <span className="lot-summary-item__value">{mode === 'in-stock' ? 'Львів' : 'США'}</span>
+              <span className="lot-summary-item__label">{mode === 'in-stock' ? t('lotLabelPickupPoint') : t('lotLabelDispatchPort')}</span>
+              <span className="lot-summary-item__value">{mode === 'in-stock' ? t('lotPickupCity') : t('lotDispatchCountry')}</span>
             </div>
             <div className="lot-summary-item">
-              <span className="lot-summary-item__label">Статус</span>
+              <span className="lot-summary-item__label">{t('lotLabelStatus')}</span>
               <span className="lot-summary-item__value">{statusPill}</span>
             </div>
             <div className="lot-summary-item">
-              <span className="lot-summary-item__label">{mode === 'catalog' ? 'Дата аукціону' : 'Орієнт. доставка'}</span>
-              <span className="lot-summary-item__value">{mode === 'catalog' ? car.auctionDateLabel : 'Уточнюється'}</span>
+              <span className="lot-summary-item__label">{mode === 'catalog' ? t('lotLabelAuctionDate') : t('lotLabelEstDelivery')}</span>
+              <span className="lot-summary-item__value">{mode === 'catalog' ? car.auctionDateLabel : t('lotDeliveryTbd')}</span>
             </div>
           </div>
           <button className={watching ? 'lot-watch-btn active' : 'lot-watch-btn'} type="button" onClick={() => setWatching((prev) => !prev)}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-            {watching ? 'У спостереженні' : 'Слідкувати'}
+            {watching ? t('lotWatching') : t('lotWatch')}
           </button>
         </div>
       </section>
@@ -293,14 +284,14 @@ export function LotPage() {
               <img src={images[galleryIndex]} alt={car.title} className="lot-gallery__img" />
               {images.length > 1 ? (
                 <>
-                  <button className="lot-gallery__arrow prev" type="button" onClick={() => setGalleryIndex((prev) => (prev - 1 + images.length) % images.length)} aria-label="Попереднє фото">‹</button>
-                  <button className="lot-gallery__arrow next" type="button" onClick={() => setGalleryIndex((prev) => (prev + 1) % images.length)} aria-label="Наступне фото">›</button>
+                  <button className="lot-gallery__arrow prev" type="button" onClick={() => setGalleryIndex((prev) => (prev - 1 + images.length) % images.length)} aria-label={t('lotGalleryPrev')}>‹</button>
+                  <button className="lot-gallery__arrow next" type="button" onClick={() => setGalleryIndex((prev) => (prev + 1) % images.length)} aria-label={t('lotGalleryNext')}>›</button>
                 </>
               ) : null}
               <div className="lot-gallery__counter">{galleryIndex + 1} / {images.length}</div>
               <div className="lot-gallery__live-badge">
                 <span className="lot-gallery__live-dot"></span>
-                {mode === 'catalog' ? 'Прямий аукціон' : mode === 'transit' ? 'Авто в дорозі' : 'Готове до видачі'}
+                {mode === 'catalog' ? t('lotLiveBadgeAuction') : mode === 'transit' ? t('lotLiveBadgeTransit') : t('lotLiveBadgeReady')}
               </div>
             </div>
 
@@ -316,52 +307,52 @@ export function LotPage() {
           {/* Specs column */}
           <div className="lot-specs">
             <div className="lot-spec-card">
-              <h2 className="lot-spec-card__title">Основні характеристики</h2>
+              <h2 className="lot-spec-card__title">{t('lotSpecsMainTitle')}</h2>
               <dl className="lot-spec-list">
                 <div className="lot-spec-row"><dt>Lot</dt><dd>{car.id}</dd></div>
                 <div className="lot-spec-row">
                   <dt>VIN</dt>
                   <dd>
                     <span className="lot-spec-mono">{car.vin}</span>
-                    <button className="lot-copy-btn" type="button" onClick={() => navigator.clipboard.writeText(car.vin)}>Копіювати</button>
+                    <button className="lot-copy-btn" type="button" onClick={() => navigator.clipboard.writeText(car.vin)}>{t('lotCopyVin')}</button>
                   </dd>
                 </div>
-                <div className="lot-spec-row"><dt>Продавець</dt><dd><span className="lot-dot"></span>{car.seller}</dd></div>
-                <div className="lot-spec-row"><dt>Документи</dt><dd className="lot-spec-ok">{car.titleStatus}</dd></div>
-                <div className="lot-spec-row"><dt>Первинне пошкодження</dt><dd className="lot-spec-warn">{car.damage}</dd></div>
-                <div className="lot-spec-row"><dt>Вторинне пошкодження</dt><dd>—</dd></div>
-                <div className="lot-spec-row"><dt>Пробіг</dt><dd>{car.mileageLabel}</dd></div>
-                <div className="lot-spec-row"><dt>Ключ</dt><dd>{car.keys}</dd></div>
+                <div className="lot-spec-row"><dt>{t('lotLabelSeller')}</dt><dd><span className="lot-dot"></span>{car.seller}</dd></div>
+                <div className="lot-spec-row"><dt>{t('lotLabelDocuments')}</dt><dd className="lot-spec-ok">{car.titleStatus}</dd></div>
+                <div className="lot-spec-row"><dt>{t('lotLabelPrimaryDamage')}</dt><dd className="lot-spec-warn">{car.damage}</dd></div>
+                <div className="lot-spec-row"><dt>{t('lotLabelSecondaryDamage')}</dt><dd>—</dd></div>
+                <div className="lot-spec-row"><dt>{t('lotLabelMileage')}</dt><dd>{car.mileageLabel}</dd></div>
+                <div className="lot-spec-row"><dt>{t('lotLabelKeys')}</dt><dd>{car.keys}</dd></div>
               </dl>
             </div>
 
             <div className="lot-spec-card">
-              <h2 className="lot-spec-card__title">Технічні характеристики</h2>
+              <h2 className="lot-spec-card__title">{t('lotSpecsTechTitle')}</h2>
               <dl className="lot-spec-list">
-                <div className="lot-spec-row"><dt>Тип кузова</dt><dd>{car.bodyStyle}</dd></div>
-                <div className="lot-spec-row"><dt>Колір</dt><dd>{car.color}</dd></div>
-                <div className="lot-spec-row"><dt>Двигун</dt><dd>{car.engine}</dd></div>
-                <div className="lot-spec-row"><dt>Коробка передач</dt><dd>{car.transmission}</dd></div>
-                <div className="lot-spec-row"><dt>Тип палива</dt><dd>{car.fuel}</dd></div>
-                <div className="lot-spec-row"><dt>Тип приводу</dt><dd>{car.drive}</dd></div>
+                <div className="lot-spec-row"><dt>{t('lotLabelBodyType')}</dt><dd>{car.bodyStyle}</dd></div>
+                <div className="lot-spec-row"><dt>{t('lotLabelColor')}</dt><dd>{car.color}</dd></div>
+                <div className="lot-spec-row"><dt>{t('lotLabelEngine')}</dt><dd>{car.engine}</dd></div>
+                <div className="lot-spec-row"><dt>{t('lotLabelTransmission')}</dt><dd>{car.transmission}</dd></div>
+                <div className="lot-spec-row"><dt>{t('lotLabelFuel')}</dt><dd>{car.fuel}</dd></div>
+                <div className="lot-spec-row"><dt>{t('lotLabelDrive')}</dt><dd>{car.drive}</dd></div>
 
                 {moreSpecsOpen ? (
                   <>
-                    <div className="lot-spec-row"><dt>Початковий код</dt><dd className="lot-spec-ok">На ходу</dd></div>
-                    <div className="lot-spec-row"><dt>ACV / Ретейл</dt><dd>{car.estimateLabel}</dd></div>
-                    <div className="lot-spec-row"><dt>Розширений тип кузова</dt><dd>{car.bodyStyle} / 4-door</dd></div>
-                    <div className="lot-spec-row"><dt>Статус продажу</dt><dd className="lot-spec-process">{statusPill}</dd></div>
+                    <div className="lot-spec-row"><dt>{t('lotLabelStartCode')}</dt><dd className="lot-spec-ok">{t('lotLabelStartCodeValue')}</dd></div>
+                    <div className="lot-spec-row"><dt>{t('lotLabelAcvRetail')}</dt><dd>{car.estimateLabel}</dd></div>
+                    <div className="lot-spec-row"><dt>{t('lotLabelBodyExtended')}</dt><dd>{car.bodyStyle} / 4-door</dd></div>
+                    <div className="lot-spec-row"><dt>{t('lotLabelSaleStatus')}</dt><dd className="lot-spec-process">{statusPill}</dd></div>
                   </>
                 ) : null}
               </dl>
 
               <button className="lot-show-more" type="button" onClick={() => setMoreSpecsOpen((prev) => !prev)}>
-                {moreSpecsOpen ? 'Показати менше' : 'Показати більше (4)'}
+                {moreSpecsOpen ? t('lotShowLess') : t('lotShowMore')}
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ transform: moreSpecsOpen ? 'rotate(180deg)' : 'none' }}><path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </button>
               {car.sourceUrl ? (
                 <a href={car.sourceUrl} target="_blank" rel="noreferrer" className="lot-source-link">
-                  Відкрити оригінальний лот на {car.auction}
+                  {t('lotSourceLink')} {car.auction}
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 3h6v6M9 3L3 9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
                 </a>
               ) : null}
@@ -369,13 +360,13 @@ export function LotPage() {
 
             {mode === 'catalog' ? (
               <div className="lot-spec-card">
-                <h2 className="lot-spec-card__title">Додаткові послуги</h2>
+                <h2 className="lot-spec-card__title">{t('lotServicesTitle')}</h2>
                 <div className="lot-services">
                   {[
-                    { id: 's11', num: '(11)', name: 'Автомобіль з обмеженням на покупку', price: 0 },
-                    { id: 's12', num: '(12)', name: 'Небезпечний вантаж', price: 0 },
-                    { id: 's13', num: '(13)', name: 'Великогабаритний', price: 120 },
-                    { id: 's14', num: '(14)', name: 'Великогабаритний+', price: 240 },
+                    { id: 's11', num: '(11)', name: t('lotService11'), price: 0 },
+                    { id: 's12', num: '(12)', name: t('lotService12'), price: 0 },
+                    { id: 's13', num: '(13)', name: t('lotService13'), price: 120 },
+                    { id: 's14', num: '(14)', name: t('lotService14'), price: 240 },
                   ].map((service) => {
                     const checked = selectedServices.includes(service.id)
                     return (
@@ -389,7 +380,7 @@ export function LotPage() {
                     )
                   })}
                 </div>
-                <p className="lot-services-note">Встановлення галочки додасть суму до орієнтовної підсумкової ціни.</p>
+                <p className="lot-services-note">{t('lotServicesNote')}</p>
               </div>
             ) : null}
           </div>
@@ -400,62 +391,62 @@ export function LotPage() {
             {mode === 'catalog' ? (
               <>
                 <div className="lot-sb-card lot-sb-card--hero">
-                  <div className="lot-sb-kicker">Поточна ставка</div>
+                  <div className="lot-sb-kicker">{t('lotSbCurrentBid')}</div>
                   <div className="lot-sb-price">{fmt(car.currentBid)}</div>
-                  <div className="lot-sb-estimate">Оцінка: <strong>{car.estimateLabel}</strong></div>
+                  <div className="lot-sb-estimate">{t('lotSbEstimate')} <strong>{car.estimateLabel}</strong></div>
 
                   <div className="lot-bid-block">
-                    <div className="lot-bid-label">Ваша максимальна ставка</div>
+                    <div className="lot-bid-label">{t('lotSbMaxBid')}</div>
                     <div className="lot-bid-input-row">
-                      <button className="lot-bid-adj" type="button" onClick={() => adjustBid(-500)} aria-label="Зменшити">−</button>
+                      <button className="lot-bid-adj" type="button" onClick={() => adjustBid(-500)} aria-label={t('lotSbDecrease')}>−</button>
                       <input className="lot-bid-input" value={fmt(bidValue)} readOnly />
-                      <button className="lot-bid-adj" type="button" onClick={() => adjustBid(500)} aria-label="Збільшити">+</button>
+                      <button className="lot-bid-adj" type="button" onClick={() => adjustBid(500)} aria-label={t('lotSbIncrease')}>+</button>
                     </div>
                   </div>
 
-                  <button className="lot-cta-primary" type="button">Зробити ставку зараз</button>
-                  <a href="#faq" className="lot-cta-link">Як зробити ставку? →</a>
+                  <button className="lot-cta-primary" type="button">{t('lotSbBidNow')}</button>
+                  <a href="#faq" className="lot-cta-link">{t('lotSbHowToBid')}</a>
 
                   <div className="lot-timer">
-                    <span className="lot-timer__label">Час, що залишився</span>
+                    <span className="lot-timer__label">{t('lotSbTimeLeft')}</span>
                     <div className={countdownSeconds <= 0 ? 'lot-timer__value expired' : 'lot-timer__value'}>
-                      {countdownSeconds <= 0 ? 'Аукціон завершено' : buildCountdownLabel(countdownSeconds)}
+                      {countdownSeconds <= 0 ? t('lotSbAuctionEnded') : buildCountdownLabel(countdownSeconds, timerUnits)}
                     </div>
-                    <span className="lot-timer__end">до <strong>2 травня, 15:30</strong></span>
+                    <span className="lot-timer__end">{t('lotSbTimerUntil')} <strong>2 травня, 15:30</strong></span>
                   </div>
                 </div>
 
                 <div className={priceCalcOpen ? 'lot-sb-card lot-sb-accordion open' : 'lot-sb-card lot-sb-accordion'}>
                   <button className="lot-accordion-head" type="button" onClick={() => setPriceCalcOpen((prev) => !prev)}>
-                    <span>Калькулятор підсумкової ціни</span>
+                    <span>{t('lotSbCalcTitle')}</span>
                     <span className="lot-accordion-arrow">⌄</span>
                   </button>
                   {priceCalcOpen ? (
                     <div className="lot-accordion-body">
-                      <div className="lot-calc-row"><span>Ставка (поточна)</span><strong>{fmt(bidValue)}</strong></div>
-                      <div className="lot-calc-row"><span>Аукціонний збір</span><strong>$520</strong></div>
-                      <div className="lot-calc-row"><span>Транспорт до порту</span><strong>$430</strong></div>
-                      <div className="lot-calc-row"><span>Морська доставка</span><strong>$995</strong></div>
-                      <div className="lot-calc-row"><span>Документи + сервіс BIDDERS</span><strong>$450</strong></div>
-                      <div className="lot-calc-sub"><span>Разом (до митниці)</span><span>{fmt(subtotal)}</span></div>
-                      <p className="lot-calc-note">Орієнтовна ціна без митних платежів. Курс USD/EUR = 0.91</p>
+                      <div className="lot-calc-row"><span>{t('lotCalcBid')}</span><strong>{fmt(bidValue)}</strong></div>
+                      <div className="lot-calc-row"><span>{t('lotCalcAuctionFee')}</span><strong>$520</strong></div>
+                      <div className="lot-calc-row"><span>{t('lotCalcTransport')}</span><strong>$430</strong></div>
+                      <div className="lot-calc-row"><span>{t('lotCalcShipping')}</span><strong>$995</strong></div>
+                      <div className="lot-calc-row"><span>{t('lotCalcDocs')}</span><strong>$450</strong></div>
+                      <div className="lot-calc-sub"><span>{t('lotCalcSubtotal')}</span><span>{fmt(subtotal)}</span></div>
+                      <p className="lot-calc-note">{t('lotCalcNote')}</p>
                     </div>
                   ) : null}
                 </div>
 
                 <div className={customsCalcOpen ? 'lot-sb-card lot-sb-accordion open' : 'lot-sb-card lot-sb-accordion'}>
                   <button className="lot-accordion-head" type="button" onClick={() => setCustomsCalcOpen((prev) => !prev)}>
-                    <span>Калькулятор митних платежів</span>
+                    <span>{t('lotCustomsCalcTitle')}</span>
                     <span className="lot-accordion-arrow">⌄</span>
                   </button>
                   {customsCalcOpen ? (
                     <div className="lot-accordion-body">
-                      <div className="lot-calc-row"><span>Мито 10%</span><strong>{fmtEur(customsTax)}</strong></div>
-                      <div className="lot-calc-row"><span>ПДВ 21%</span><strong>{fmtEur(vat)}</strong></div>
-                      <div className="lot-calc-row"><span>Брокер та супровід</span><strong>{fmtEur(broker)}</strong></div>
-                      <div className="lot-calc-sub"><span>Митні платежі</span><span>{fmtEur(customsTotal)}</span></div>
-                      <div className="lot-calc-sub final"><span>Фінальна вартість</span><span>{fmtEur(finalTotal)}</span></div>
-                      <p className="lot-calc-note">Розрахунок орієнтовний. Остаточна вартість може відрізнятись залежно від типу документа та країни.</p>
+                      <div className="lot-calc-row"><span>{t('lotCustomsDuty')}</span><strong>{fmtEur(customsTax)}</strong></div>
+                      <div className="lot-calc-row"><span>{t('lotCustomsVat')}</span><strong>{fmtEur(vat)}</strong></div>
+                      <div className="lot-calc-row"><span>{t('lotCustomsBroker')}</span><strong>{fmtEur(broker)}</strong></div>
+                      <div className="lot-calc-sub"><span>{t('lotCustomsTotal')}</span><span>{fmtEur(customsTotal)}</span></div>
+                      <div className="lot-calc-sub final"><span>{t('lotCustomsFinal')}</span><span>{fmtEur(finalTotal)}</span></div>
+                      <p className="lot-calc-note">{t('lotCustomsNote')}</p>
                     </div>
                   ) : null}
                 </div>
@@ -466,28 +457,28 @@ export function LotPage() {
             {mode === 'transit' ? (
               <>
                 <div className="lot-sb-card lot-sb-card--hero">
-                  <div className="lot-sb-kicker">Фінальна ціна</div>
+                  <div className="lot-sb-kicker">{t('lotSbFinalPrice')}</div>
                   <div className="lot-sb-price">{car.currentBidLabel || fmt(car.currentBid)}</div>
-                  <div className="lot-sb-estimate">Фіксована вартість під ключ</div>
+                  <div className="lot-sb-estimate">{t('lotSbTurnkeyFixed')}</div>
 
                   <ul className="lot-sb-facts">
-                    <li><span>Продавець</span><strong>BIDDERS</strong></li>
-                    <li><span>Орієнт. доставка</span><strong>В дорозі</strong></li>
-                    <li><span>Локація</span><strong>{car.location}</strong></li>
+                    <li><span>{t('lotLabelSeller')}</span><strong>BIDDERS</strong></li>
+                    <li><span>{t('lotSbFactDelivery')}</span><strong>{t('lotSbFactDeliveryValue')}</strong></li>
+                    <li><span>{t('lotLabelLocation')}</span><strong>{car.location}</strong></li>
                   </ul>
 
-                  <button className="lot-cta-primary" type="button">Зв'язатися щодо авто</button>
+                  <button className="lot-cta-primary" type="button">{t('lotSbContact')}</button>
                   <a href="tel:+48784890644" className="lot-cta-secondary">+48 784 890 644</a>
                 </div>
 
                 <div className="lot-sb-card">
-                  <h3 className="lot-sb-card__title">Що входить у ціну</h3>
+                  <h3 className="lot-sb-card__title">{t('lotSbWhatsIncluded')}</h3>
                   <ul className="lot-sb-list">
-                    <li>Викуп на аукціоні</li>
-                    <li>Транспорт США → порт</li>
-                    <li>Океанська доставка</li>
-                    <li>Розмитнення в Європі</li>
-                    <li>Сервіс та супровід BIDDERS</li>
+                    <li>{t('lotSbIncluded1')}</li>
+                    <li>{t('lotSbIncluded2')}</li>
+                    <li>{t('lotSbIncluded3')}</li>
+                    <li>{t('lotSbIncluded4')}</li>
+                    <li>{t('lotSbIncluded5')}</li>
                   </ul>
                 </div>
               </>
@@ -497,27 +488,27 @@ export function LotPage() {
             {mode === 'in-stock' ? (
               <>
                 <div className="lot-sb-card lot-sb-card--hero">
-                  <div className="lot-sb-kicker">Ціна</div>
+                  <div className="lot-sb-kicker">{t('lotSbPriceKicker')}</div>
                   <div className="lot-sb-price">{car.currentBidLabel || fmt(car.currentBid)}</div>
-                  <div className="lot-sb-estimate">Готове до видачі у Львові</div>
+                  <div className="lot-sb-estimate">{t('lotSbReadyLviv')}</div>
 
                   <ul className="lot-sb-facts">
-                    <li><span>Продавець</span><strong>CULT CARS</strong></li>
-                    <li><span>Документи</span><strong>{car.titleStatus}</strong></li>
-                    <li><span>Сертифікація</span><strong>Пройдено</strong></li>
+                    <li><span>{t('lotLabelSeller')}</span><strong>CULT CARS</strong></li>
+                    <li><span>{t('lotLabelDocuments')}</span><strong>{car.titleStatus}</strong></li>
+                    <li><span>{t('lotSbFactCert')}</span><strong>{t('lotSbFactCertValue')}</strong></li>
                   </ul>
 
-                  <button className="lot-cta-primary" type="button">Купити зараз</button>
-                  <button className="lot-cta-secondary" type="button">Записатися на огляд</button>
+                  <button className="lot-cta-primary" type="button">{t('lotSbBuyNow')}</button>
+                  <button className="lot-cta-secondary" type="button">{t('lotSbScheduleView')}</button>
                 </div>
 
                 <div className="lot-sb-card lot-sb-lease">
-                  <div className="lot-sb-kicker">Калькулятор лізингу</div>
-                  <h3 className="lot-sb-card__title">Щомісячний платіж</h3>
-                  <div className="lot-lease-monthly">{fmt(leaseMonthly)}<span>/міс</span></div>
+                  <div className="lot-sb-kicker">{t('lotSbLeaseCalc')}</div>
+                  <h3 className="lot-sb-card__title">{t('lotSbMonthlyPayment')}</h3>
+                  <div className="lot-lease-monthly">{fmt(leaseMonthly)}<span>{t('lotSbPerMonth')}</span></div>
 
                   <div className="lot-lease-row">
-                    <label>Перший внесок <strong>{leaseDownPct}%</strong> <span>({fmt(leaseDown)})</span></label>
+                    <label>{t('lotSbDownPayment')} <strong>{leaseDownPct}%</strong> <span>({fmt(leaseDown)})</span></label>
                     <input
                       type="range"
                       min={10}
@@ -529,7 +520,7 @@ export function LotPage() {
                   </div>
 
                   <div className="lot-lease-row">
-                    <label>Термін <strong>{leaseMonths} міс</strong></label>
+                    <label>{t('lotSbLeaseTerm')} <strong>{leaseMonths} {t('lotSbLeaseMonths')}</strong></label>
                     <div className="lot-lease-chips">
                       {[24, 36, 48, 60].map((m) => (
                         <button
@@ -544,7 +535,7 @@ export function LotPage() {
                     </div>
                   </div>
 
-                  <p className="lot-lease-note">Розрахунок попередній. Точні умови формуємо після погодження з лізинговою компанією.</p>
+                  <p className="lot-lease-note">{t('lotSbLeaseNote')}</p>
                 </div>
               </>
             ) : null}
@@ -556,26 +547,26 @@ export function LotPage() {
       <section className="lot-section">
         <div className="lot-section__inner">
           <header className="lot-section__head">
-            <h2>Опис автомобіля</h2>
-            <p>Повна технічна інформація по цій карті.</p>
+            <h2>{t('lotDescTitle')}</h2>
+            <p>{t('lotDescSubtitle')}</p>
           </header>
           <div className="lot-desc-grid">
-            <div className="lot-desc-item"><dt>Марка</dt><dd>{car.make}</dd></div>
-            <div className="lot-desc-item"><dt>Модель</dt><dd>{car.model}</dd></div>
-            <div className="lot-desc-item"><dt>Рік</dt><dd>{car.year}</dd></div>
+            <div className="lot-desc-item"><dt>{t('lotLabelMake')}</dt><dd>{car.make}</dd></div>
+            <div className="lot-desc-item"><dt>{t('lotLabelModel')}</dt><dd>{car.model}</dd></div>
+            <div className="lot-desc-item"><dt>{t('lotLabelYear')}</dt><dd>{car.year}</dd></div>
             <div className="lot-desc-item"><dt>VIN</dt><dd className="lot-desc-mono">{car.vin}</dd></div>
-            <div className="lot-desc-item"><dt>Ціна</dt><dd>{car.currentBidLabel || fmt(car.currentBid)}</dd></div>
-            <div className="lot-desc-item"><dt>Пробіг</dt><dd>{car.mileageLabel}</dd></div>
-            <div className="lot-desc-item"><dt>Статус</dt><dd>{statusPill}</dd></div>
-            <div className="lot-desc-item"><dt>Локація</dt><dd>{car.location}</dd></div>
-            <div className="lot-desc-item"><dt>Продавець</dt><dd>{car.seller}</dd></div>
-            <div className="lot-desc-item"><dt>Тип кузова</dt><dd>{car.bodyStyle}</dd></div>
-            <div className="lot-desc-item"><dt>Колір</dt><dd>{car.color}</dd></div>
-            <div className="lot-desc-item"><dt>Двигун</dt><dd>{car.engine}</dd></div>
-            <div className="lot-desc-item"><dt>Коробка</dt><dd>{car.transmission}</dd></div>
-            <div className="lot-desc-item"><dt>Паливо</dt><dd>{car.fuel}</dd></div>
-            <div className="lot-desc-item"><dt>Привід</dt><dd>{car.drive}</dd></div>
-            <div className="lot-desc-item"><dt>Документи</dt><dd>{car.titleStatus}</dd></div>
+            <div className="lot-desc-item"><dt>{t('lotLabelPrice')}</dt><dd>{car.currentBidLabel || fmt(car.currentBid)}</dd></div>
+            <div className="lot-desc-item"><dt>{t('lotLabelMileage')}</dt><dd>{car.mileageLabel}</dd></div>
+            <div className="lot-desc-item"><dt>{t('lotLabelStatus')}</dt><dd>{statusPill}</dd></div>
+            <div className="lot-desc-item"><dt>{t('lotLabelLocation')}</dt><dd>{car.location}</dd></div>
+            <div className="lot-desc-item"><dt>{t('lotLabelSeller')}</dt><dd>{car.seller}</dd></div>
+            <div className="lot-desc-item"><dt>{t('lotLabelBodyType')}</dt><dd>{car.bodyStyle}</dd></div>
+            <div className="lot-desc-item"><dt>{t('lotLabelColor')}</dt><dd>{car.color}</dd></div>
+            <div className="lot-desc-item"><dt>{t('lotLabelEngine')}</dt><dd>{car.engine}</dd></div>
+            <div className="lot-desc-item"><dt>{t('lotLabelTransmission')}</dt><dd>{car.transmission}</dd></div>
+            <div className="lot-desc-item"><dt>{t('lotLabelFuel')}</dt><dd>{car.fuel}</dd></div>
+            <div className="lot-desc-item"><dt>{t('lotLabelDrive')}</dt><dd>{car.drive}</dd></div>
+            <div className="lot-desc-item"><dt>{t('lotLabelDocuments')}</dt><dd>{car.titleStatus}</dd></div>
           </div>
         </div>
       </section>
@@ -584,35 +575,34 @@ export function LotPage() {
       <section className="lot-section">
         <div className="lot-section__inner">
           <header className="lot-section__head">
-            <h2>Що важливо знати про {car.title}</h2>
-            <p>Статус, доставка, комплектація та кроки для покупки готового авто.</p>
+            <h2>{t('lotKnowTitle')} {car.title}</h2>
+            <p>{t('lotKnowSubtitle')}</p>
           </header>
           <div className="lot-know-grid">
             <article className="lot-know-card">
               <div className="lot-know-card__icon">📝</div>
-              <h3>Короткий огляд</h3>
+              <h3>{t('lotKnowOverviewTitle')}</h3>
               <p>
-                {car.title} — авто зі статусом <strong>«{statusPill}»</strong>. Локація: {car.location}.
-                За характеристиками: {car.engine.toLowerCase()}, {car.transmission.toLowerCase()}, {car.drive}. Пробіг: {car.mileageLabel}.
+                {car.title} — {t('lotKnowOverviewStatus')} <strong>«{statusPill}»</strong>. {t('lotKnowOverviewLoc')} {car.location}.{' '}
+                {t('lotKnowOverviewSpecs')} {car.engine.toLowerCase()}, {car.transmission.toLowerCase()}, {car.drive}. {t('lotKnowOverviewMileage')} {car.mileageLabel}.
               </p>
               <p>
-                Поточна вартість — від {car.currentBidLabel || fmt(car.currentBid)}. Далі зніметься
-                реєстрація, підготовка, сертифікація та передача в Україні.
+                {t('lotKnowPriceFrom')} {car.currentBidLabel || fmt(car.currentBid)}. {t('lotKnowPriceEnd')}
               </p>
             </article>
             <article className="lot-know-card">
               <div className="lot-know-card__icon">🚀</div>
-              <h3>Що перевірити перед рішенням</h3>
+              <h3>{t('lotKnowCheckTitle')}</h3>
               <ul>
-                <li>Список пошкоджень: <strong>{car.damage}</strong></li>
-                <li>Перевірка документів: <strong>{car.titleStatus}</strong></li>
-                <li>Орієнтовний бюджет: від {car.currentBidLabel || fmt(car.currentBid)} з урахуванням логістики</li>
-                <li>Узгодьте бюджет видачі авто / доставки в Україну</li>
+                <li>{t('lotKnowCheckDamage')} <strong>{car.damage}</strong></li>
+                <li>{t('lotKnowCheckDocs')} <strong>{car.titleStatus}</strong></li>
+                <li>{t('lotKnowCheckBudget')} {car.currentBidLabel || fmt(car.currentBid)} {t('lotKnowCheckBudgetSuffix')}</li>
+                <li>{t('lotKnowCheckAgreement')}</li>
               </ul>
               <div className="lot-know-chips">
-                <span className="lot-know-chip">Імпорт під ключ</span>
-                <span className="lot-know-chip">Доставка і розмитнення</span>
-                <span className="lot-know-chip">Консультація</span>
+                <span className="lot-know-chip">{t('lotKnowChip1')}</span>
+                <span className="lot-know-chip">{t('lotKnowChip2')}</span>
+                <span className="lot-know-chip">{t('lotKnowChip3')}</span>
               </div>
             </article>
           </div>
@@ -624,12 +614,15 @@ export function LotPage() {
         <section className="lot-section">
           <div className="lot-section__inner">
             <header className="lot-section__head">
-              <h2>Схожі {mode === 'transit' ? 'авто в дорозі' : mode === 'in-stock' ? 'авто в наявності' : 'авто на аукціоні'}</h2>
-              <p>Ще кілька релевантних варіантів для швидкого переходу між картками.</p>
+              <h2>
+                {t('lotSimilarTitle')}{' '}
+                {mode === 'transit' ? t('lotSimilarTitleTransit') : mode === 'in-stock' ? t('lotSimilarTitleInStock') : t('lotSimilarTitleCatalog')}
+              </h2>
+              <p>{t('lotSimilarSubtitle')}</p>
             </header>
             <div className="lot-similar">
               {similarCars.map((item) => (
-                <Link to={routes.lotDetail.replace(':lotId', item.id)} key={item.id} className="lot-similar-card">
+                <Link to={lp(`lots/${item.id}`)} key={item.id} className="lot-similar-card">
                   <div className="lot-similar-card__photo">
                     <img src={item.image} alt={item.title} loading="lazy" />
                   </div>
@@ -637,22 +630,22 @@ export function LotPage() {
                     <h3>{item.title}</h3>
                     <div className="lot-similar-card__vin">VIN {item.vin.slice(0, 10)}…</div>
                     <div className="lot-similar-card__meta">
-                      <span>Ціна: <strong>{item.currentBidLabel || fmt(item.currentBid)}</strong></span>
-                      <span>Пробіг: <strong>{item.mileageLabel}</strong></span>
-                      <span>Статус: <strong>{mode === 'transit' ? 'В дорозі' : mode === 'in-stock' ? 'В наявності' : 'На аукціоні'}</strong></span>
+                      <span>{t('lotSimilarPriceLabel')} <strong>{item.currentBidLabel || fmt(item.currentBid)}</strong></span>
+                      <span>{t('lotSimilarMileageLabel')} <strong>{item.mileageLabel}</strong></span>
+                      <span>{t('lotSimilarStatusLabel')} <strong>{mode === 'transit' ? t('lotStatusTransit') : mode === 'in-stock' ? t('lotStatusInStock') : t('lotStatusAtAuction')}</strong></span>
                     </div>
                   </div>
                 </Link>
               ))}
             </div>
             <div className="lot-similar-links">
-              <Link to={mode === 'transit' ? routes.transit : mode === 'in-stock' ? routes.inStock : routes.catalog} className="lot-similar-link">
-                Усі {mode === 'transit' ? 'авто в дорозі' : mode === 'in-stock' ? 'авто в наявності' : 'лоти'}
+              <Link to={lp(mode === 'transit' ? routePaths.transit : mode === 'in-stock' ? routePaths.inStock : routePaths.catalog)} className="lot-similar-link">
+                {mode === 'transit' ? t('lotSimilarAllTransit') : mode === 'in-stock' ? t('lotSimilarAllInStock') : t('lotSimilarAllCatalog')}
               </Link>
-              <Link to={routes.catalog} className="lot-similar-link">Каталог аукціонів</Link>
-              <Link to={routes.calculator} className="lot-similar-link">Підбір авто</Link>
-              <Link to={routes.calculator} className="lot-similar-link">Логістика і митниця</Link>
-              <Link to={routes.blog} className="lot-similar-link">Поради у блозі</Link>
+              <Link to={lp(routePaths.catalog)} className="lot-similar-link">{t('lotSimilarLinkCatalog')}</Link>
+              <Link to={lp(routePaths.calculator)} className="lot-similar-link">{t('lotSimilarLinkCar')}</Link>
+              <Link to={lp(routePaths.calculator)} className="lot-similar-link">{t('lotSimilarLinkLogistics')}</Link>
+              <Link to={lp(routePaths.blog)} className="lot-similar-link">{t('lotSimilarLinkBlog')}</Link>
             </div>
           </div>
         </section>
@@ -662,8 +655,8 @@ export function LotPage() {
       <section className="lot-section" id="faq">
         <div className="lot-section__inner">
           <header className="lot-section__head">
-            <h2>Поширені запитання про {car.title}</h2>
-            <p>Відповіді про стан, ціну, переваги та логістику цього авто.</p>
+            <h2>{t('lotFaqTitle')} {car.title}</h2>
+            <p>{t('lotFaqSubtitle')}</p>
           </header>
           <div className="lot-faq">
             {FAQ_ITEMS.map((item, index) => (
@@ -690,8 +683,8 @@ export function LotPage() {
       <section className="lot-section">
         <div className="lot-section__inner">
           <header className="lot-section__head">
-            <h2>Як проходить покупка готового авто</h2>
-            <p>Чотири кроки від перевірки машини до передачі ключів.</p>
+            <h2>{t('lotStepsTitle')}</h2>
+            <p>{t('lotStepsSubtitle')}</p>
           </header>
           <div className="lot-steps">
             {PURCHASE_STEPS.map((step) => (
@@ -709,37 +702,37 @@ export function LotPage() {
       <section className="lot-section">
         <div className="lot-section__inner">
           <header className="lot-section__head">
-            <h2>Що важливо знати перед рішенням по {car.title}</h2>
-            <p>Стан, поточний статус і орієнтир по фінальному бюджету.</p>
+            <h2>{t('lotSummaryTitle')} {car.title}</h2>
+            <p>{t('lotSummarySubtitle')}</p>
           </header>
           <div className="lot-summary-grid">
             <article className="lot-summary-card">
               <div className="lot-summary-card__icon">🛈</div>
-              <h3>Статус та готовність авто</h3>
+              <h3>{t('lotSummaryStatusTitle')}</h3>
               <p>
-                {car.title} зараз знаходиться у статусі <strong>«{statusPill}»</strong>. Перед покупкою ми уточнюємо місцезнаходження, наявність документів і сценарій передачі в Україні.
+                {car.title} {t('lotSummaryStatusP1')} <strong>«{statusPill}»</strong>. {t('lotSummaryStatusP2')}
               </p>
               <p className="lot-summary-card__facts">
-                За наявними даними: документи — <strong>{car.titleStatus}</strong>, пошкодження — <strong>{car.damage}</strong>, локація — <strong>{car.location}</strong>.
+                {t('lotSummaryStatusFacts')} <strong>{car.titleStatus}</strong>, {t('lotSummaryStatusFactsDmg')} <strong>{car.damage}</strong>, {t('lotSummaryStatusFactsLoc')} <strong>{car.location}</strong>.
               </p>
               <p>
-                Якщо потрібен детальний прорахунок, команда BIDDERS допоможе з логістикою і розмитненням у реальний бюджет без прихованих сюрпризів.
+                {t('lotSummaryStatusP3')}
               </p>
             </article>
 
             <article className="lot-summary-card lot-summary-card--accent">
               <div className="lot-summary-card__icon">💼</div>
-              <h3>Бюджет по готовому авто</h3>
-              <p>Для готового авто ми орієнтуємося на поточну ціну, підготовку, сертифікацію та супровід передачі.</p>
+              <h3>{t('lotSummaryBudgetTitle')}</h3>
+              <p>{t('lotSummaryBudgetLead')}</p>
               <dl className="lot-budget">
-                <div className="lot-budget-row"><dt>Поточна ціна авто</dt><dd>{car.currentBidLabel || fmt(car.currentBid)}</dd></div>
-                <div className="lot-budget-row"><dt>Підготовка та сервіс</dt><dd>за запитом</dd></div>
-                <div className="lot-budget-row"><dt>Сертифікація / реєстрація</dt><dd>індивідуально</dd></div>
-                <div className="lot-budget-row lot-budget-row--total"><dt>Послуга BIDDERS</dt><dd>$450</dd></div>
+                <div className="lot-budget-row"><dt>{t('lotBudgetCurrentPrice')}</dt><dd>{car.currentBidLabel || fmt(car.currentBid)}</dd></div>
+                <div className="lot-budget-row"><dt>{t('lotBudgetPrep')}</dt><dd>{t('lotBudgetPrepValue')}</dd></div>
+                <div className="lot-budget-row"><dt>{t('lotBudgetCert')}</dt><dd>{t('lotBudgetCertValue')}</dd></div>
+                <div className="lot-budget-row lot-budget-row--total"><dt>{t('lotBudgetService')}</dt><dd>$450</dd></div>
               </dl>
               <div className="lot-summary-card__actions">
-                <Link to={routes.calculator} className="lot-summary-cta">Підібрати авто</Link>
-                <Link to={routes.contacts} className="lot-summary-cta secondary">Дізнатися про логістику</Link>
+                <Link to={lp(routePaths.calculator)} className="lot-summary-cta">{t('lotSummaryCtaCar')}</Link>
+                <Link to={lp(routePaths.contacts)} className="lot-summary-cta secondary">{t('lotSummaryCtaLogistics')}</Link>
               </div>
             </article>
           </div>

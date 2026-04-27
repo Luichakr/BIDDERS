@@ -1,6 +1,8 @@
 import type { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
-import { routes } from '../../../shared/config/routes'
+import { routePaths, localizedPath } from '../../../shared/config/routes'
+import { useI18n } from '../../../shared/i18n/I18nProvider'
+import { Seo } from '../../../shared/seo/Seo'
 import plRaw from '../../../content/legal/privacy-pl.txt?raw'
 
 type PolicyBlock =
@@ -38,6 +40,7 @@ function buildPolicyBlocks(raw: string): PolicyBlock[] {
 }
 
 export function PrivacyPolicyPage() {
+  const { locale, t } = useI18n()
   const blocks = buildPolicyBlocks(plRaw)
   const content = [] as ReactElement[]
   let listBuffer: string[] = []
@@ -82,6 +85,7 @@ export function PrivacyPolicyPage() {
 
   return (
     <main className="bp-shell-page bp-shell-soft legal-page">
+      <Seo title={t('seoPrivacyTitle')} description={t('seoPrivacyDescription')} path={routePaths.privacy} />
       <div className="bp-wrap">
         <p className="bp-kicker bp-kicker-dark">Юридична інформація</p>
         <h1 className="bp-page-title">Політика конфіденційності та файлів cookie</h1>
@@ -92,8 +96,8 @@ export function PrivacyPolicyPage() {
         </article>
 
         <div className="bp-inline-actions" style={{ marginTop: 26 }}>
-          <Link className="bp-btn bp-btn-secondary" to={routes.terms}>Умови використання</Link>
-          <Link className="bp-btn bp-btn-primary" to={routes.home}>На головну</Link>
+          <Link className="bp-btn bp-btn-secondary" to={localizedPath(locale, routePaths.terms)}>Умови використання</Link>
+          <Link className="bp-btn bp-btn-primary" to={localizedPath(locale, routePaths.home)}>На головну</Link>
         </div>
       </div>
     </main>

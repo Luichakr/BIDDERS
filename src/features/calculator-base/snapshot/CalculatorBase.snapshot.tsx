@@ -8,6 +8,8 @@ import {
   percentLabel,
   type EuPortCode,
 } from './calculatorOrest.config'
+import { useI18n } from '../../../shared/i18n/I18nProvider'
+import type { MessageKey } from '../../../shared/i18n/messages'
 
 type CarType = 'Automobiles' | 'Crossover' | 'SUVs' | 'Moto' | 'PickupTrucks'
 type FuelType = string
@@ -63,6 +65,7 @@ interface ReferenceData {
 interface BreakdownRow {
   label: string
   value: number
+  group?: 'customs'
 }
 
 interface DerivedValues {
@@ -280,10 +283,12 @@ function mapInitApiToReference(initialData: unknown): ReferenceData | null {
 }
 
 export function CalculatorPage() {
+  const { t } = useI18n()
   const requestSeqRef = useRef(0)
   const [referenceData, setReferenceData] = useState<ReferenceData>(FALLBACK_REFERENCE_DATA)
   const [calcMode, setCalcMode] = useState<CalcMode>('idle')
-  const [caption, setCaption] = useState('Поки що калькулятор у нейтральному стані. Жодних випадкових сум до введення ваших даних.')
+  const [captionKey, setCaptionKey] = useState<MessageKey>('calcCaptionIdle')
+  const [captionExtra, setCaptionExtra] = useState('')
   const [breakdownRows, setBreakdownRows] = useState<BreakdownRow[]>([])
   const [liveTotal, setLiveTotal] = useState(0)
 
@@ -301,6 +306,20 @@ export function CalculatorPage() {
   const [insuranceIncluded, setInsuranceIncluded] = useState(true)
   const [transferIncluded, setTransferIncluded] = useState(true)
   const [derived, setDerived] = useState<DerivedValues>(EMPTY_DERIVED)
+
+  // Localized label maps for tax/VAT profiles (config labels contain Ukrainian)
+  const importTaxLabelMap: Record<string, string> = {
+    'auto-10': t('calcTaxAuto'),
+    'truck-22': t('calcTaxTruck'),
+    'moto-6': t('calcTaxMoto'),
+    'classic-0': t('calcTaxClassic0'),
+  }
+  const vatLabelMap: Record<string, string> = {
+    'bremerhaven-19': '19% (Bremerhaven)',
+    'rotterdam-21': '21% (Rotterdam)',
+    'gdynia-23': '23% (Gdynia)',
+    'classic-9': t('calcVatClassic9'),
+  }
 
   const selectedEuPort = useMemo(
     () => EU_PORT_OPTIONS.find((option) => option.id === euPort) ?? EU_PORT_OPTIONS[0],
@@ -451,7 +470,8 @@ export function CalculatorPage() {
   const calculateWithApi = useCallback(async () => {
     if (!hasRequiredInputs || !selectedOrigin) {
       setCalcMode('idle')
-      setCaption('Поки що калькулятор у нейтральному стані. Жодних випадкових сум до введення ваших даних.')
+      setCaptionKey('calcCaptionIdle')
+      setCaptionExtra('')
       setLiveTotal(0)
       setBreakdownRows([])
       return
@@ -460,7 +480,8 @@ export function CalculatorPage() {
     const requestId = requestSeqRef.current + 1
     requestSeqRef.current = requestId
     setCalcMode('loading')
-    setCaption('Підсумок оновлюється після відповіді API-движка.')
+    setCaptionKey('calcCaptionLoading')
+    setCaptionExtra('')
 
     const exportDocsValue = toSafeNumber(referenceData.calculatorDetails.exportDocumentsFee[exportDocsType])
 
@@ -565,25 +586,26 @@ export function CalculatorPage() {
       const total = carBlock + logisticsBlock + customsBlock + serviceBlock
 
       const rows: BreakdownRow[] = [
-        { label: 'Вартість авто / ставка', value: lotPriceValue },
-        { label: `Аукціонний збір (${auctionType})`, value: nextDerived.auctionFee },
-        { label: `Доставка по США - ${selectedOrigin.cityName}`, value: nextDerived.usDelivery },
-        { label: 'Документи на експорт авто', value: nextDerived.exportDocs },
-        { label: `Доставка з США - ${selectedEuPort.label}`, value: nextDerived.oceanDelivery },
-        { label: `Доставка ${selectedEuPort.label} - Варшава`, value: nextDerived.europeDelivery },
+        { label: t('calcRowCarPrice'), value: lotPriceValue },
+        { label: `${t('calcRowAuctionFee')} (${auctionType})`, value: nextDerived.auctionFee },
+        { label: `${t('calcRowUsDelivery')} - ${selectedOrigin.cityName}`, value: nextDerived.usDelivery },
+        { label: t('calcRowExportDocs'), value: nextDerived.exportDocs },
+        { label: `${t('calcRowOceanFromPrefix')} ${selectedEuPort.label}`, value: nextDerived.oceanDelivery },
+        { label: `${t('calcRowEuDeliveryPortPrefix')} ${selectedEuPort.label} - ${t('calcCityWarsaw')}`, value: nextDerived.europeDelivery },
       ]
-      rows.push({ label: `Налог ${percentLabel(selectedImportTaxProfile.rate)}`, value: importDuty })
-      rows.push({ label: `НДС ${percentLabel(selectedVatProfile.rate)}`, value: vat })
-      rows.push({ label: 'Таможенное агентство', value: customsAgency })
-      if (nextDerived.brokerFee > 0) rows.push({ label: 'Брокерські послуги', value: nextDerived.brokerFee })
-      rows.push({ label: 'Комісія BIDDERS', value: nextDerived.companyFee })
-      if (nextDerived.insuranceFee > 0) rows.push({ label: 'Страхування', value: nextDerived.insuranceFee })
-      if (nextDerived.transferFee > 0) rows.push({ label: 'Комісія за переказ коштів в США', value: nextDerived.transferFee })
+      rows.push({ label: `${t('calcLabelImportTax')} ${percentLabel(selectedImportTaxProfile.rate)}`, value: importDuty, group: 'customs' })
+      rows.push({ label: `${t('calcRowVat')} ${percentLabel(selectedVatProfile.rate)}`, value: vat, group: 'customs' })
+      rows.push({ label: t('calcRowCustomsAgency'), value: customsAgency, group: 'customs' })
+      if (nextDerived.brokerFee > 0) rows.push({ label: t('calcRowBroker'), value: nextDerived.brokerFee, group: 'customs' })
+      rows.push({ label: t('calcRowBiddersFee'), value: nextDerived.companyFee, group: 'customs' })
+      if (nextDerived.insuranceFee > 0) rows.push({ label: t('calcRowInsuranceFee'), value: nextDerived.insuranceFee, group: 'customs' })
+      if (nextDerived.transferFee > 0) rows.push({ label: t('calcRowMoneyTransfer'), value: nextDerived.transferFee, group: 'customs' })
 
       setDerived(nextDerived)
       setBreakdownRows(rows)
       setLiveTotal(total)
-      setCaption('Підсумкова сума враховує логістику в ЄС, вибраний податок, профіль НДС та сервісні витрати.')
+      setCaptionKey('calcCaptionLiveEu')
+      setCaptionExtra('')
       setCalcMode('live')
     } catch (error) {
       if (requestId !== requestSeqRef.current) return
@@ -592,29 +614,35 @@ export function CalculatorPage() {
       setBreakdownRows([])
       const reason = error instanceof Error ? error.message : ''
       if (reason.includes('401')) {
-        setCaption('API калькулятора требует авторизацию. Добавьте токен в localStorage (ключ lubeavtoPartnerToken) в формате token или Bearer token.')
+        setCaptionKey('calcCaptionErr401')
+        setCaptionExtra('')
         return
       }
       if (reason.includes('403')) {
-        setCaption('API калькулятора отклонил запрос (403). Вероятно, нужен разрешенный IP или корректный домен API.')
+        setCaptionKey('calcCaptionErr403')
+        setCaptionExtra('')
         return
       }
       if (reason.includes('400')) {
-        setCaption(`API калькулятора вернул 400 (валидация). Детали: ${reason.slice(0, 160)}`)
+        setCaptionKey('calcCaptionErr400Prefix')
+        setCaptionExtra(reason.slice(0, 160))
         return
       }
       if (reason.includes('invalid-json')) {
-        setCaption('API калькулятора вернул не JSON. Проверьте gateway/WAF ответ в Network.')
+        setCaptionKey('calcCaptionErrJson')
+        setCaptionExtra('')
         return
       }
-      setCaption('Точний підсумок зараз не отримано. Для ручного прорахунку перейдіть у контакти.')
+      setCaptionKey('calcCaptionFallback')
+      setCaptionExtra('')
     }
-  }, [auctionType, carType, engineValue, exportDocsType, fuelType, hasRequiredInputs, lotPriceValue, referenceData, selectedEuPort, selectedImportTaxProfile, selectedVatProfile, selectedOrigin, yearValue, calculateTransferFee, insuranceIncluded])
+  }, [auctionType, carType, engineValue, exportDocsType, fuelType, hasRequiredInputs, lotPriceValue, referenceData, selectedEuPort, selectedImportTaxProfile, selectedVatProfile, selectedOrigin, yearValue, calculateTransferFee, insuranceIncluded, t])
 
   useEffect(() => {
     if (!hasRequiredInputs || !selectedOrigin) {
       setCalcMode('idle')
-      setCaption('Поки що калькулятор у нейтральному стані. Жодних випадкових сум до введення ваших даних.')
+      setCaptionKey('calcCaptionIdle')
+      setCaptionExtra('')
       setLiveTotal(0)
       setBreakdownRows([])
       return
@@ -640,13 +668,14 @@ export function CalculatorPage() {
     setInsuranceIncluded(true)
     setTransferIncluded(true)
     setCalcMode('idle')
-    setCaption('Поки що калькулятор у нейтральному стані. Жодних випадкових сум до введення ваших даних.')
+    setCaptionKey('calcCaptionIdle')
+    setCaptionExtra('')
     setBreakdownRows([])
     setLiveTotal(0)
   }
 
   const splitIndex = useMemo(() => {
-    const explicit = breakdownRows.findIndex((row) => /Налог|НДС|Таможенное/i.test(row.label))
+    const explicit = breakdownRows.findIndex((row) => row.group === 'customs')
     return explicit === -1 ? Math.ceil(breakdownRows.length / 2) : explicit
   }, [breakdownRows])
 
@@ -668,13 +697,13 @@ export function CalculatorPage() {
       <section className="calculator-hero">
         <div className="calculator-hero__inner">
           <div className="calculator-hero__copy">
-            <div className="calculator-pill">Калькулятор імпорту</div>
-            <h1>Розрахуйте реальну вартість авто під ключ ще до ставки на аукціоні</h1>
-            <p>Повторили структуру CarAuction: від ставки до фінальної вартості з митницею та сервісом BIDDERS.</p>
+            <div className="calculator-pill">{t('calcPill')}</div>
+            <h1>{t('calcHeroTitle')}</h1>
+            <p>{t('calcHeroDesc')}</p>
           </div>
           <div className="calculator-hero__note">
-            <strong>Що враховується</strong>
-            <span>Ставка, аукціонний збір, доставка, документи, брокер, комісія, страхування та податки.</span>
+            <strong>{t('calcHeroNoteTitle')}</strong>
+            <span>{t('calcHeroNoteDesc')}</span>
           </div>
         </div>
       </section>
@@ -683,14 +712,14 @@ export function CalculatorPage() {
         <div className="calculator-layout">
           <article className="calculator-card calculator-card--form">
             <div className="calculator-card__head">
-              <div className="calculator-kicker">Параметри авто</div>
-              <h2>Введіть вихідні дані</h2>
-              <p>Потік розрахунку повторює CarAuction: швидкий локальний підрахунок + точний API з fallback-поведінкою.</p>
+              <div className="calculator-kicker">{t('calcFormKicker')}</div>
+              <h2>{t('calcFormTitle')}</h2>
+              <p>{t('calcFormDesc')}</p>
             </div>
 
             <div className="calc-simple-list">
               <div className="calc-simple-row">
-                <label htmlFor="euPort">Порт призначення (ЄС)</label>
+                <label htmlFor="euPort">{t('calcLabelEuPort')}</label>
                 <select id="euPort" className="calc-select" value={euPort} onChange={(event) => setEuPort(event.target.value as EuPortCode)}>
                   {EU_PORT_OPTIONS.map((option) => (
                     <option key={option.id} value={option.id}>{option.label}</option>
@@ -699,18 +728,18 @@ export function CalculatorPage() {
               </div>
 
               <div className="calc-simple-row">
-                <label htmlFor="carType">Тип авто</label>
+                <label htmlFor="carType">{t('calcLabelCarType')}</label>
                 <select id="carType" className="calc-select" value={carType} onChange={(event) => setCarType(event.target.value as CarType)}>
-                  <option value="Automobiles">Легковий</option>
-                  <option value="Crossover">Кросовер</option>
-                  <option value="SUVs">Позашляховик</option>
-                  <option value="Moto">Мотоцикл</option>
-                  <option value="PickupTrucks">Бус / Пікап</option>
+                  <option value="Automobiles">{t('calcCarTypeAuto')}</option>
+                  <option value="Crossover">{t('calcCarTypeCrossover')}</option>
+                  <option value="SUVs">{t('calcCarTypeSuv')}</option>
+                  <option value="Moto">{t('calcCarTypeMoto')}</option>
+                  <option value="PickupTrucks">{t('calcCarTypePickup')}</option>
                 </select>
               </div>
 
               <div className="calc-simple-row">
-                <label htmlFor="fuelType">Тип двигуна</label>
+                <label htmlFor="fuelType">{t('calcLabelFuel')}</label>
                 <select id="fuelType" className="calc-select" value={fuelType} onChange={(event) => setFuelType(event.target.value)}>
                   {fuelOptions.map((option) => (
                     <option key={option} value={option}>{option}</option>
@@ -719,7 +748,7 @@ export function CalculatorPage() {
               </div>
 
               <div className="calc-simple-row">
-                <label htmlFor="auctionType">Аукціон</label>
+                <label htmlFor="auctionType">{t('calcLabelAuction')}</label>
                 <select id="auctionType" className="calc-select" value={auctionType} onChange={(event) => setAuctionType(event.target.value as AuctionType)}>
                   <option value="Copart">Copart</option>
                   <option value="IAAI">IAAI</option>
@@ -728,7 +757,7 @@ export function CalculatorPage() {
               </div>
 
               <div className="calc-simple-row">
-                <label htmlFor="exportDocsType">Тип документів</label>
+                <label htmlFor="exportDocsType">{t('calcLabelDocType')}</label>
                 <select id="exportDocsType" className="calc-select" value={exportDocsType} onChange={(event) => setExportDocsType(event.target.value as ExportDocsType)}>
                   <option value="Usa">USA</option>
                   <option value="Usa closed">USA Closed</option>
@@ -738,7 +767,7 @@ export function CalculatorPage() {
               </div>
 
               <div className="calc-simple-row">
-                <label htmlFor="deliveryOrigin">Місто відправки</label>
+                <label htmlFor="deliveryOrigin">{t('calcLabelCity')}</label>
                 <select id="deliveryOrigin" className="calc-select" value={deliveryOrigin} onChange={(event) => setDeliveryOrigin(event.target.value)}>
                   {referenceData.calculatorDetails.deliveryCoefficientToPort.map((origin) => (
                     <option key={origin.id} value={origin.id}>{origin.cityName}</option>
@@ -747,7 +776,7 @@ export function CalculatorPage() {
               </div>
 
               <div className="calc-simple-row">
-                <label htmlFor="carYear">Рік випуску</label>
+                <label htmlFor="carYear">{t('calcLabelYear')}</label>
                 {releaseYearOptions.length > 0 ? (
                   <select id="carYear" className="calc-select" value={carYear} onChange={(event) => setCarYear(event.target.value)}>
                     {releaseYearOptions.map((year) => (
@@ -760,7 +789,7 @@ export function CalculatorPage() {
               </div>
 
               <div className="calc-simple-row">
-                <label htmlFor="engineVolume">{isElectricFuel(fuelType) ? 'Ємність батареї' : "Об'єм двигуна"}</label>
+                <label htmlFor="engineVolume">{isElectricFuel(fuelType) ? t('calcLabelBattery') : t('calcLabelEngine')}</label>
                 {engineSizeOptions.length > 0 ? (
                   <select id="engineVolume" className="calc-select" value={engineVolume} onChange={(event) => setEngineVolume(event.target.value)}>
                     {engineSizeOptions.map((size) => (
@@ -773,67 +802,67 @@ export function CalculatorPage() {
               </div>
 
               <div className="calc-simple-row">
-                <label htmlFor="lotPrice">Ціна авто / ставка</label>
+                <label htmlFor="lotPrice">{t('calcLabelPrice')}</label>
                 <input id="lotPrice" className="calc-input" type="number" min={0} value={lotPrice} onChange={(event) => setLotPrice(event.target.value)} />
               </div>
 
               <div className="calc-simple-row">
-                <label htmlFor="importTaxProfile">Налог</label>
+                <label htmlFor="importTaxProfile">{t('calcLabelImportTax')}</label>
                 <select id="importTaxProfile" className="calc-select" value={importTaxProfileId} onChange={(event) => setImportTaxProfileId(event.target.value)}>
                   {IMPORT_TAX_PROFILES.map((profile) => (
-                    <option key={profile.id} value={profile.id}>{profile.label}</option>
+                    <option key={profile.id} value={profile.id}>{importTaxLabelMap[profile.id] ?? profile.label}</option>
                   ))}
                 </select>
               </div>
 
               <div className="calc-simple-row">
-                <label htmlFor="vatProfile">НДС</label>
+                <label htmlFor="vatProfile">{t('calcLabelVatProfile')}</label>
                 <select id="vatProfile" className="calc-select" value={vatProfileId} onChange={(event) => setVatProfileId(event.target.value)}>
                   {VAT_PROFILES.map((profile) => (
-                    <option key={profile.id} value={profile.id}>{profile.label}</option>
+                    <option key={profile.id} value={profile.id}>{vatLabelMap[profile.id] ?? profile.label}</option>
                   ))}
                 </select>
               </div>
 
               <div className="calc-toggle-grid">
-                <label className="calc-toggle"><input type="checkbox" checked={insuranceIncluded} onChange={(event) => setInsuranceIncluded(event.target.checked)} /><span>Страхування</span></label>
-                <label className="calc-toggle"><input type="checkbox" checked={transferIncluded} onChange={(event) => setTransferIncluded(event.target.checked)} /><span>Переказ коштів</span></label>
+                <label className="calc-toggle"><input type="checkbox" checked={insuranceIncluded} onChange={(event) => setInsuranceIncluded(event.target.checked)} /><span>{t('calcLabelInsurance')}</span></label>
+                <label className="calc-toggle"><input type="checkbox" checked={transferIncluded} onChange={(event) => setTransferIncluded(event.target.checked)} /><span>{t('calcLabelTransfer')}</span></label>
               </div>
 
               <div className="calc-input-actions">
-                <button className="calc-primary" type="button" onClick={() => calculateWithApi()}>Перерахувати</button>
-                <button className="calc-secondary" type="button" onClick={resetPreset}>Скинути</button>
+                <button className="calc-primary" type="button" onClick={() => calculateWithApi()}>{t('calcBtnRecalc')}</button>
+                <button className="calc-secondary" type="button" onClick={resetPreset}>{t('calcBtnReset')}</button>
               </div>
             </div>
           </article>
 
           <aside className="calculator-card calculator-card--result">
             <div className="calculator-total">
-              <div className="calculator-kicker">Підсумок</div>
+              <div className="calculator-kicker">{t('calcResultKicker')}</div>
               <div className="calculator-total__row">
                 <div className="calculator-total__value">{usd(total)}</div>
                 <div className="calculator-total__badge">{modeLabel}</div>
               </div>
-              <p className="calculator-total__caption">{caption}</p>
+              <p className="calculator-total__caption">{t(captionKey)}{captionExtra ? ` ${captionExtra}` : ''}</p>
             </div>
 
             <div className="calculator-groups">
               <div className="calculator-group">
-                <div className="calculator-group__title">Аукціон та логістика</div>
-                <div className="calc-row"><span>Ставка</span><strong>{usd(lotPriceValue)}</strong></div>
-                <div className="calc-row"><span>Аукціонний збір</span><strong>{usd(derived.auctionFee)}</strong></div>
-                <div className="calc-row"><span>Доставка по США</span><strong>{usd(derived.usDelivery)}</strong></div>
-                <div className="calc-row"><span>Документи</span><strong>{usd(derived.exportDocs)}</strong></div>
-                <div className="calc-row"><span>Морська доставка</span><strong>{usd(derived.oceanDelivery)}</strong></div>
-                <div className="calc-row"><span>Вигрузка з порту</span><strong>{usd(derived.portUnload)}</strong></div>
-                <div className="calc-row"><span>Доставка порт - ЄС</span><strong>{usd(derived.europeDelivery)}</strong></div>
-                <div className="calc-row"><span>Доставка на митницю</span><strong>{usd(derived.customsDelivery)}</strong></div>
-                <div className="calc-row"><span>Прохождение границы и привлечение спец. транспорта</span><strong>{usd(derived.borderHandling)}</strong></div>
+                <div className="calculator-group__title">{t('calcGroupLogistics')}</div>
+                <div className="calc-row"><span>{t('calcRowBid')}</span><strong>{usd(lotPriceValue)}</strong></div>
+                <div className="calc-row"><span>{t('calcRowAuctionFee')}</span><strong>{usd(derived.auctionFee)}</strong></div>
+                <div className="calc-row"><span>{t('calcRowUsDelivery')}</span><strong>{usd(derived.usDelivery)}</strong></div>
+                <div className="calc-row"><span>{t('calcRowDocs')}</span><strong>{usd(derived.exportDocs)}</strong></div>
+                <div className="calc-row"><span>{t('calcRowOcean')}</span><strong>{usd(derived.oceanDelivery)}</strong></div>
+                <div className="calc-row"><span>{t('calcRowPortUnload')}</span><strong>{usd(derived.portUnload)}</strong></div>
+                <div className="calc-row"><span>{t('calcRowEuDelivery')}</span><strong>{usd(derived.europeDelivery)}</strong></div>
+                <div className="calc-row"><span>{t('calcRowCustomsDelivery')}</span><strong>{usd(derived.customsDelivery)}</strong></div>
+                <div className="calc-row"><span>{t('calcRowBorderHandling')}</span><strong>{usd(derived.borderHandling)}</strong></div>
               </div>
 
               <div className="calculator-group">
-                <div className="calculator-group__title">Митниця та сервіс</div>
-                {secondaryRows.length === 0 ? <div className="calc-row"><span>Деталі митниці та сервісу зʼявляться після LIVE-розрахунку</span><strong>—</strong></div> : null}
+                <div className="calculator-group__title">{t('calcGroupCustoms')}</div>
+                {secondaryRows.length === 0 ? <div className="calc-row"><span>{t('calcCustomsPending')}</span><strong>—</strong></div> : null}
                 {secondaryRows.map((row) => (
                   <div className="calc-row" key={row.label}><span>{row.label}</span><strong>{usd(row.value)}</strong></div>
                 ))}

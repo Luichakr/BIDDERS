@@ -1,14 +1,15 @@
 import { Link } from 'react-router-dom'
 import type { InventoryItem } from '../../../shared/types/contracts'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
-import { routes } from '../../../shared/config/routes'
+import { routePaths, localizedPath } from '../../../shared/config/routes'
 
 interface TransitPreviewProps {
   items: InventoryItem[]
 }
 
 export function TransitPreview({ items }: TransitPreviewProps) {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
+  const lp = (path: string) => localizedPath(locale, path)
 
   return (
     <section className="transit-preview reveal delay-2">
@@ -37,7 +38,7 @@ export function TransitPreview({ items }: TransitPreviewProps) {
         ))}
       </div>
 
-      <Link className="transit-more" to={routes.transit}>{t('homeTransitCta')}</Link>
+      <Link className="transit-more" to={lp(routePaths.transit)}>{t('homeTransitCta')}</Link>
     </section>
   )
 }

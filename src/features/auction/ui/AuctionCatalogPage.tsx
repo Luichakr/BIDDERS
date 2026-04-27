@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import type { AuctionCardData } from '../model/auctionData'
 import { fetchInRouteCardById } from '../model/inRoute.service'
-import { routes } from '../../../shared/config/routes'
+import { routePaths, localizedPath } from '../../../shared/config/routes'
+import { useI18n } from '../../../shared/i18n/I18nProvider'
 import './auction-catalog.css'
 
 interface AuctionCatalogPageProps {
@@ -45,6 +46,7 @@ function toggleNumberFilter(value: number, list: number[]): number[] {
 
 export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPageProps) {
   const navigate = useNavigate()
+  const { locale, t } = useI18n()
   const [sortOpen, setSortOpen] = useState(false)
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [sortMode, setSortMode] = useState<SortMode>('price_desc')
@@ -109,6 +111,15 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
   const odoFillLeft = ((odoMin - odoMinLimit) / odoRange) * 100
   const odoFillRight = 100 - ((odoMax - odoMinLimit) / odoRange) * 100
 
+  const sortLabelMap: Record<SortMode, string> = {
+    price_desc: t('catalogSortPriceDesc'),
+    price_asc: t('catalogSortPriceAsc'),
+    year_desc: t('catalogSortYearDesc'),
+    year_asc: t('catalogSortYearAsc'),
+    mileage_asc: t('catalogSortMileageAsc'),
+    mileage_desc: t('catalogSortMileageDesc'),
+  }
+
   useEffect(() => {
     setOdoMin(odoMinLimit)
     setOdoMax(odoMaxLimit)
@@ -134,15 +145,6 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
   const uniqueFuels = useMemo(() => Array.from(new Set(cards.map((card) => card.fuel))).sort(), [cards])
   const uniqueTransmissions = useMemo(() => Array.from(new Set(cards.map((card) => card.transmission))).sort(), [cards])
   const uniqueYears = useMemo(() => Array.from(new Set(cards.map((card) => card.year))).sort((a, b) => b - a), [cards])
-
-  const sortLabelMap: Record<SortMode, string> = {
-    price_desc: 'Спочатку дорожчі',
-    price_asc: 'Спочатку дешевші',
-    year_desc: 'Новіші за роком',
-    year_asc: 'Старіші за роком',
-    mileage_asc: 'Менший пробіг',
-    mileage_desc: 'Більший пробіг',
-  }
 
   const matchesCard = (
     card: AuctionCardData,
@@ -467,19 +469,37 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
     const docType = docByCardId[card.id] ?? docs[0]
 
     const isFixedPrice = mode === 'transit' || mode === 'in-stock'
-      const topBadgeLabel = mode === 'transit' ? 'В ДОРОЗІ' : mode === 'in-stock' ? 'В НАЯВНОСТІ' : 'NEW'
-      const auctionBadgeLabel = mode === 'transit' ? 'В НАЯВН.' : mode === 'in-stock' ? 'ГОТОВЕ' : card.auction
-      const sellerLabel = mode === 'transit' ? 'Локальний' : mode === 'in-stock' ? 'CULT CARS' : card.auction
-      const statusLabel = mode === 'transit' ? 'В дорозі' : mode === 'in-stock' ? 'В наявності' : 'На аукціоні'
-      const priceLabel = mode === 'transit' ? 'Ціна' : mode === 'in-stock' ? 'Ціна' : 'Поточна ставка'
-      const priceNote = mode === 'transit'
-        ? 'Продавець: BIDDERS'
-        : mode === 'in-stock'
-          ? 'Доступне до лізингу'
-          : `Оцінка: ${card.estimateLabel}`
+    const topBadgeLabel = mode === 'transit'
+      ? t('catalogBadgeInTransit')
+      : mode === 'in-stock'
+        ? t('catalogBadgeInStock')
+        : t('catalogBadgeNew')
+    const auctionBadgeLabel = mode === 'transit'
+      ? t('catalogAuctionBadgeAvailable')
+      : mode === 'in-stock'
+        ? t('catalogAuctionBadgeReady')
+        : card.auction
+    const sellerLabel = mode === 'transit'
+      ? t('catalogSellerLocal')
+      : mode === 'in-stock'
+        ? 'CULT CARS'
+        : card.auction
+    const statusLabel = mode === 'transit'
+      ? t('catalogStatusInTransit')
+      : mode === 'in-stock'
+        ? t('catalogStatusInStock')
+        : t('catalogStatusAtAuction')
+    const priceLabel = mode === 'transit' || mode === 'in-stock'
+      ? t('catalogPriceLabel')
+      : t('catalogCurrentBidLabel')
+    const priceNote = mode === 'transit'
+      ? t('catalogPriceNoteSeller')
+      : mode === 'in-stock'
+        ? t('catalogPriceNoteLease')
+        : `${t('catalogPriceNoteEstimate')} ${card.estimateLabel}`
 
-      return (
-      <article className="car-card" key={card.id} onClick={() => navigate(routes.lotDetail.replace(':lotId', card.id))}>
+    return (
+      <article className="car-card" key={card.id} onClick={() => navigate(localizedPath(locale, `lots/${card.id}`))}>
         <div className="card-badge-new">{topBadgeLabel}</div>
 
         <div className="card-photo" data-slides={slides.length}>
@@ -514,10 +534,10 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
           </div>
 
           <div className="card-details">
-            <div className="detail-item"><span className="detail-label">Кілометраж</span><span className="detail-value">{card.mileageLabel}</span></div>
-            <div className="detail-item"><span className="detail-label">Місце</span><span className="detail-value">{card.location}</span></div>
-            <div className="detail-item"><span className="detail-label">Пошкодження</span><span className="detail-value">{card.damage}</span></div>
-            <div className="detail-item"><span className="detail-label">Статус</span><span className={isFixedPrice ? 'detail-value status-onward' : 'detail-value'}>{statusLabel}</span></div>
+            <div className="detail-item"><span className="detail-label">{t('catalogDetailMileage')}</span><span className="detail-value">{card.mileageLabel}</span></div>
+            <div className="detail-item"><span className="detail-label">{t('catalogDetailLocation')}</span><span className="detail-value">{card.location}</span></div>
+            <div className="detail-item"><span className="detail-label">{t('catalogDetailDamage')}</span><span className="detail-value">{card.damage}</span></div>
+            <div className="detail-item"><span className="detail-label">{t('catalogDetailStatus')}</span><span className={isFixedPrice ? 'detail-value status-onward' : 'detail-value'}>{statusLabel}</span></div>
           </div>
         </div>
 
@@ -527,7 +547,7 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
             <div className="current-bid-val">{card.currentBidLabel || formatUsd(card.currentBid)}</div>
           </div>
           <div className="bid-note">{priceNote}</div>
-          <button className="btn-auction" type="button">Детальніше</button>
+          <button className="btn-auction" type="button">{t('catalogCardDetails')}</button>
         </div>
       </article>
     )
@@ -538,7 +558,7 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
       <section className="catalog-bar">
         <div className="catalog-bar-inner">
           <div className="breadcrumb">
-            <Link to={routes.home}>Головна</Link>
+            <Link to={localizedPath(locale, routePaths.home)}>{t('navHome')}</Link>
             <svg width="5" height="9" viewBox="0 0 5 9" fill="none"><path d="M1 1l3 3.5L1 8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" /></svg>
             <span className="current">{title}</span>
           </div>
@@ -552,7 +572,7 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
             ))}
           </div>
 
-          <button className="filter-btn-mobile" type="button" onClick={() => setDrawerOpen(true)}>Фільтри</button>
+          <button className="filter-btn-mobile" type="button" onClick={() => setDrawerOpen(true)}>{t('catalogFilterBtn')}</button>
 
           <div className="sort-wrap">
             <button className="sort-btn" type="button" onClick={() => setSortOpen((prev) => !prev)}>
@@ -580,26 +600,26 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
       <section className="catalog-layout">
         <aside className={drawerOpen ? 'sidebar open-mobile' : 'sidebar'} id="sidebar">
           <div className="sidebar-header">
-            <span className="sidebar-title">Фільтри пошуку</span>
-            <button className="reset-btn" type="button" onClick={resetAll}>Reset All</button>
+            <span className="sidebar-title">{t('catalogFilterTitle')}</span>
+            <button className="reset-btn" type="button" onClick={resetAll}>{t('catalogFilterResetAll')}</button>
           </div>
 
           {mode !== 'transit' ? (
             <>
-              <div className="toggle-row"><span className="toggle-label">Wholesale - Тільки автомобілі</span><button className="toggle-switch on" type="button"></button></div>
-              <div className="toggle-row"><span className="toggle-label">Нещодавно додані - Last 24 Hours</span><button className="toggle-switch" type="button"></button></div>
-              <div className="toggle-row"><span className="toggle-label">Виключити авто на аукціоні</span><button className="toggle-switch" type="button"></button></div>
+              <div className="toggle-row"><span className="toggle-label">{t('catalogToggleWholesale')}</span><button className="toggle-switch on" type="button"></button></div>
+              <div className="toggle-row"><span className="toggle-label">{t('catalogToggleRecent')}</span><button className="toggle-switch" type="button"></button></div>
+              <div className="toggle-row"><span className="toggle-label">{t('catalogToggleExcludeActive')}</span><button className="toggle-switch" type="button"></button></div>
             </>
           ) : null}
 
           {mode !== 'transit' ? (
           <div className={selectedDocTypes.length > 0 ? 'filter-group open has-selection' : 'filter-group open'} data-filter="doc">
             <div className="filter-head" onClick={() => toggleGroup('doc')}>
-              <div className="filter-head-left"><span className="filter-name">Тип документа</span><span className="filter-count">{selectedDocTypes.length}</span></div>
+              <div className="filter-head-left"><span className="filter-name">{t('catalogFilterDocType')}</span><span className="filter-count">{selectedDocTypes.length}</span></div>
               <button className="filter-reset" type="button" onClick={(event) => {
                 event.stopPropagation()
                 setSelectedDocTypes([])
-              }}>Скинути</button>
+              }}>{t('catalogFilterReset')}</button>
               <span className={openGroups.doc ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
             </div>
             {openGroups.doc ? (
@@ -622,12 +642,12 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
             <>
               <div className={(selectedYears.length > 0 || yearFrom !== '' || yearTo !== '') ? 'filter-group year-group open has-selection' : 'filter-group year-group open'} data-filter="year">
                 <div className="filter-head" onClick={() => toggleGroup('year')}>
-                  <div className="filter-head-left"><span className="filter-name">Рік</span></div>
+                  <div className="filter-head-left"><span className="filter-name">{t('catalogFilterYear')}</span></div>
                   <button className="filter-reset" type="button" onClick={(event) => {
                     event.stopPropagation()
                     setYearFrom(minYearAll)
                     setYearTo(maxYearAll)
-                  }}>Скинути</button>
+                  }}>{t('catalogFilterReset')}</button>
                   <span className={openGroups.year ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
                 </div>
                 {openGroups.year ? (
@@ -636,7 +656,7 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
                       <div className="dual-range-wrap">
                         <div className="dual-range-labels">
                           <span>
-                            від
+                            {t('catalogRangeFrom')}
                             <input
                               className="range-val-input"
                               inputMode="numeric"
@@ -646,7 +666,7 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
                             />
                           </span>
                           <span>
-                            до
+                            {t('catalogRangeTo')}
                             <input
                               className="range-val-input"
                               inputMode="numeric"
@@ -696,7 +716,7 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
                               <label className="cb-item" key={year}>
                                 <input type="checkbox" checked={selectedYears.includes(year)} onChange={() => setSelectedYears((prev) => toggleNumberFilter(year, prev))} />
                                 <span className="cb-box"></span>
-                                <span className="cb-label"><span>{year}</span><span className="cb-count">{count} шт</span></span>
+                                <span className="cb-label"><span>{year}</span><span className="cb-count">{count} {t('catalogCountSuffix')}</span></span>
                               </label>
                             )
                           })}
@@ -708,17 +728,17 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
 
               <div className={selectedBrands.length > 0 ? 'filter-group open has-selection' : 'filter-group open'} data-filter="brand">
                 <div className="filter-head" onClick={() => toggleGroup('brand')}>
-                  <div className="filter-head-left"><span className="filter-name">Марка</span><span className="filter-count">{selectedBrands.length}</span></div>
+                  <div className="filter-head-left"><span className="filter-name">{t('catalogFilterBrand')}</span><span className="filter-count">{selectedBrands.length}</span></div>
                   <button className="filter-reset" type="button" onClick={(event) => {
                     event.stopPropagation()
                     setSelectedBrands([])
-                  }}>Скинути</button>
+                  }}>{t('catalogFilterReset')}</button>
                   <span className={openGroups.brand ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
                 </div>
                 {openGroups.brand ? (
                   <div className="filter-body">
                     <div className="filter-inner">
-                      <div className="filter-search-wrap"><input className="filter-search" type="text" placeholder="Шукати..." value={brandSearch} onChange={(event) => setBrandSearch(event.target.value)} /></div>
+                      <div className="filter-search-wrap"><input className="filter-search" type="text" placeholder={t('catalogSearchPlaceholder')} value={brandSearch} onChange={(event) => setBrandSearch(event.target.value)} /></div>
                       <div id="filterBrandList" className="filter-list">
                         {filteredBrands.map((brand) => {
                           const count = brandOptionCounts.get(brand) ?? 0
@@ -726,7 +746,7 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
                             <label className="cb-item" key={brand}>
                               <input type="checkbox" checked={selectedBrands.includes(brand)} onChange={() => setSelectedBrands((prev) => toggleStringFilter(brand, prev))} />
                               <span className="cb-box"></span>
-                              <span className="cb-label"><span>{brand}</span><span className="cb-count">{count} шт</span></span>
+                              <span className="cb-label"><span>{brand}</span><span className="cb-count">{count} {t('catalogCountSuffix')}</span></span>
                             </label>
                           )
                         })}
@@ -738,17 +758,17 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
 
               <div className={selectedModels.length > 0 ? 'filter-group open has-selection' : 'filter-group open'} data-filter="model">
                 <div className="filter-head" onClick={() => toggleGroup('model')}>
-                  <div className="filter-head-left"><span className="filter-name">Модель</span><span className="filter-count">{selectedModels.length}</span></div>
+                  <div className="filter-head-left"><span className="filter-name">{t('catalogFilterModel')}</span><span className="filter-count">{selectedModels.length}</span></div>
                   <button className="filter-reset" type="button" onClick={(event) => {
                     event.stopPropagation()
                     setSelectedModels([])
-                  }}>Скинути</button>
+                  }}>{t('catalogFilterReset')}</button>
                   <span className={openGroups.model ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
                 </div>
                 {openGroups.model ? (
                   <div className="filter-body">
                     <div className="filter-inner">
-                      <div className="filter-search-wrap"><input className="filter-search" type="text" placeholder="Шукати..." value={modelSearch} onChange={(event) => setModelSearch(event.target.value)} /></div>
+                      <div className="filter-search-wrap"><input className="filter-search" type="text" placeholder={t('catalogSearchPlaceholder')} value={modelSearch} onChange={(event) => setModelSearch(event.target.value)} /></div>
                       <div id="filterModelList" className="filter-list">
                         {filteredModels.map((model) => {
                           const count = modelOptionCounts.get(model) ?? 0
@@ -756,7 +776,7 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
                             <label className="cb-item" key={model}>
                               <input type="checkbox" checked={selectedModels.includes(model)} onChange={() => setSelectedModels((prev) => toggleStringFilter(model, prev))} />
                               <span className="cb-box"></span>
-                              <span className="cb-label"><span>{model}</span><span className="cb-count">{count} шт</span></span>
+                              <span className="cb-label"><span>{model}</span><span className="cb-count">{count} {t('catalogCountSuffix')}</span></span>
                             </label>
                           )
                         })}
@@ -768,12 +788,12 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
 
               <div className="filter-group odo-group open" data-filter="odo">
                 <div className="filter-head" onClick={() => toggleGroup('odo')}>
-                  <div className="filter-head-left"><span className="filter-name">Одометр</span></div>
+                  <div className="filter-head-left"><span className="filter-name">{t('catalogFilterMileage')}</span></div>
                   <button className="filter-reset" type="button" onClick={(event) => {
                     event.stopPropagation()
                     setOdoMin(odoMinLimit)
                     setOdoMax(odoMaxLimit)
-                  }}>Скинути</button>
+                  }}>{t('catalogFilterReset')}</button>
                   <span className={openGroups.odo ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
                 </div>
                 {openGroups.odo ? (
@@ -782,7 +802,7 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
                       <div className="dual-range-wrap">
                         <div className="dual-range-labels">
                           <span>
-                            від
+                            {t('catalogRangeFrom')}
                             <input
                               className="range-val-input"
                               id="odoMinLabel"
@@ -794,7 +814,7 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
                             km
                           </span>
                           <span>
-                            до
+                            {t('catalogRangeTo')}
                             <input
                               className="range-val-input"
                               id="odoMaxLabel"
@@ -841,11 +861,11 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
 
               <div className={selectedFuels.length > 0 ? 'filter-group has-selection' : 'filter-group'} data-filter="engine">
                 <div className="filter-head" onClick={() => toggleGroup('engine')}>
-                  <div className="filter-head-left"><span className="filter-name">Тип двигуна</span><span className="filter-count">{selectedFuels.length}</span></div>
+                  <div className="filter-head-left"><span className="filter-name">{t('catalogFilterFuel')}</span><span className="filter-count">{selectedFuels.length}</span></div>
                   <button className="filter-reset" type="button" onClick={(event) => {
                     event.stopPropagation()
                     setSelectedFuels([])
-                  }}>Скинути</button>
+                  }}>{t('catalogFilterReset')}</button>
                   <span className={openGroups.engine ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
                 </div>
                 {openGroups.engine ? (
@@ -858,7 +878,7 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
                           <label className="cb-item" key={fuel}>
                             <input type="checkbox" checked={selectedFuels.includes(fuel)} onChange={() => setSelectedFuels((prev) => toggleStringFilter(fuel, prev))} />
                             <span className="cb-box"></span>
-                            <span className="cb-label"><span>{fuel}</span><span className="cb-count">{count} шт</span></span>
+                            <span className="cb-label"><span>{fuel}</span><span className="cb-count">{count} {t('catalogCountSuffix')}</span></span>
                           </label>
                         )
                       })}
@@ -868,11 +888,11 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
 
               <div className={selectedTransmission.length > 0 ? 'filter-group has-selection' : 'filter-group'} data-filter="trans">
                 <div className="filter-head" onClick={() => toggleGroup('trans')}>
-                  <div className="filter-head-left"><span className="filter-name">Тип коробки</span><span className="filter-count">{selectedTransmission.length}</span></div>
+                  <div className="filter-head-left"><span className="filter-name">{t('catalogFilterTrans')}</span><span className="filter-count">{selectedTransmission.length}</span></div>
                   <button className="filter-reset" type="button" onClick={(event) => {
                     event.stopPropagation()
                     setSelectedTransmission([])
-                  }}>Скинути</button>
+                  }}>{t('catalogFilterReset')}</button>
                   <span className={openGroups.trans ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
                 </div>
                 {openGroups.trans ? (
@@ -885,7 +905,7 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
                           <label className="cb-item" key={value}>
                             <input type="checkbox" checked={selectedTransmission.includes(value)} onChange={() => setSelectedTransmission((prev) => toggleStringFilter(value, prev))} />
                             <span className="cb-box"></span>
-                            <span className="cb-label"><span>{value}</span><span className="cb-count">{count} шт</span></span>
+                            <span className="cb-label"><span>{value}</span><span className="cb-count">{count} {t('catalogCountSuffix')}</span></span>
                           </label>
                         )
                       })}
@@ -897,12 +917,12 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
             <>
               <div className="filter-group odo-group open" data-filter="odo">
                 <div className="filter-head" onClick={() => toggleGroup('odo')}>
-                  <div className="filter-head-left"><span className="filter-name">Одометр</span></div>
+                  <div className="filter-head-left"><span className="filter-name">{t('catalogFilterMileage')}</span></div>
                   <button className="filter-reset" type="button" onClick={(event) => {
                     event.stopPropagation()
                     setOdoMin(odoMinLimit)
                     setOdoMax(odoMaxLimit)
-                  }}>Скинути</button>
+                  }}>{t('catalogFilterReset')}</button>
                   <span className={openGroups.odo ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
                 </div>
                 {openGroups.odo ? (
@@ -911,7 +931,7 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
                       <div className="dual-range-wrap">
                         <div className="dual-range-labels">
                           <span>
-                            від
+                            {t('catalogRangeFrom')}
                             <input
                               className="range-val-input"
                               id="odoMinLabel"
@@ -923,7 +943,7 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
                             km
                           </span>
                           <span>
-                            до
+                            {t('catalogRangeTo')}
                             <input
                               className="range-val-input"
                               id="odoMaxLabel"
@@ -970,22 +990,22 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
 
               <div className={(selectedYears.length > 0 || yearFrom !== '' || yearTo !== '') ? 'filter-group year-group open has-selection' : 'filter-group year-group open'} data-filter="year">
                 <div className="filter-head" onClick={() => toggleGroup('year')}>
-                  <div className="filter-head-left"><span className="filter-name">Рік</span><span className="filter-count">{selectedYears.length + ((yearFrom !== '' || yearTo !== '') ? 1 : 0)}</span></div>
+                  <div className="filter-head-left"><span className="filter-name">{t('catalogFilterYear')}</span><span className="filter-count">{selectedYears.length + ((yearFrom !== '' || yearTo !== '') ? 1 : 0)}</span></div>
                   <button className="filter-reset" type="button" onClick={(event) => {
                     event.stopPropagation()
                     setSelectedYears([])
                     setYearFrom('')
                     setYearTo('')
-                  }}>Скинути</button>
+                  }}>{t('catalogFilterReset')}</button>
                   <span className={openGroups.year ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
                 </div>
                 {openGroups.year ? (
                   <div className="filter-body">
                     <div className="filter-inner">
                       <div className="year-range">
-                        <input className="year-input" type="number" placeholder="Від" value={yearFrom} min={minYearAll} max={maxYearAll} onChange={(event) => setYearFrom(event.target.value ? Number(event.target.value) : '')} />
+                        <input className="year-input" type="number" placeholder={t('catalogYearFrom')} value={yearFrom} min={minYearAll} max={maxYearAll} onChange={(event) => setYearFrom(event.target.value ? Number(event.target.value) : '')} />
                         <span className="year-sep">-</span>
-                        <input className="year-input" type="number" placeholder="До" value={yearTo} min={minYearAll} max={maxYearAll} onChange={(event) => setYearTo(event.target.value ? Number(event.target.value) : '')} />
+                        <input className="year-input" type="number" placeholder={t('catalogYearTo')} value={yearTo} min={minYearAll} max={maxYearAll} onChange={(event) => setYearTo(event.target.value ? Number(event.target.value) : '')} />
                       </div>
                       <div id="filterYearList">
                         {uniqueYears.map((year) => (
@@ -1003,17 +1023,17 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
 
               <div className={selectedBrands.length > 0 ? 'filter-group open has-selection' : 'filter-group open'} data-filter="brand">
                 <div className="filter-head" onClick={() => toggleGroup('brand')}>
-                  <div className="filter-head-left"><span className="filter-name">Марка</span><span className="filter-count">{selectedBrands.length}</span></div>
+                  <div className="filter-head-left"><span className="filter-name">{t('catalogFilterBrand')}</span><span className="filter-count">{selectedBrands.length}</span></div>
                   <button className="filter-reset" type="button" onClick={(event) => {
                     event.stopPropagation()
                     setSelectedBrands([])
-                  }}>Скинути</button>
+                  }}>{t('catalogFilterReset')}</button>
                   <span className={openGroups.brand ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
                 </div>
                 {openGroups.brand ? (
                   <div className="filter-body">
                     <div className="filter-inner">
-                      <div className="filter-search-wrap"><input className="filter-search" type="text" placeholder="Шукати..." value={brandSearch} onChange={(event) => setBrandSearch(event.target.value)} /></div>
+                      <div className="filter-search-wrap"><input className="filter-search" type="text" placeholder={t('catalogSearchPlaceholder')} value={brandSearch} onChange={(event) => setBrandSearch(event.target.value)} /></div>
                       <div id="filterBrandList" className="filter-list">
                         {filteredBrands.map((brand) => (
                           <label className="cb-item" key={brand}>
@@ -1030,17 +1050,17 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
 
               <div className={selectedModels.length > 0 ? 'filter-group open has-selection' : 'filter-group open'} data-filter="model">
                 <div className="filter-head" onClick={() => toggleGroup('model')}>
-                  <div className="filter-head-left"><span className="filter-name">Модель</span><span className="filter-count">{selectedModels.length}</span></div>
+                  <div className="filter-head-left"><span className="filter-name">{t('catalogFilterModel')}</span><span className="filter-count">{selectedModels.length}</span></div>
                   <button className="filter-reset" type="button" onClick={(event) => {
                     event.stopPropagation()
                     setSelectedModels([])
-                  }}>Скинути</button>
+                  }}>{t('catalogFilterReset')}</button>
                   <span className={openGroups.model ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
                 </div>
                 {openGroups.model ? (
                   <div className="filter-body">
                     <div className="filter-inner">
-                      <div className="filter-search-wrap"><input className="filter-search" type="text" placeholder="Шукати..." value={modelSearch} onChange={(event) => setModelSearch(event.target.value)} /></div>
+                      <div className="filter-search-wrap"><input className="filter-search" type="text" placeholder={t('catalogSearchPlaceholder')} value={modelSearch} onChange={(event) => setModelSearch(event.target.value)} /></div>
                       <div id="filterModelList" className="filter-list">
                         {filteredModels.map((model) => (
                           <label className="cb-item" key={model}>
@@ -1057,11 +1077,11 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
 
               <div className={selectedFuels.length > 0 ? 'filter-group has-selection' : 'filter-group'} data-filter="engine">
                 <div className="filter-head" onClick={() => toggleGroup('engine')}>
-                  <div className="filter-head-left"><span className="filter-name">Тип двигуна</span><span className="filter-count">{selectedFuels.length}</span></div>
+                  <div className="filter-head-left"><span className="filter-name">{t('catalogFilterFuel')}</span><span className="filter-count">{selectedFuels.length}</span></div>
                   <button className="filter-reset" type="button" onClick={(event) => {
                     event.stopPropagation()
                     setSelectedFuels([])
-                  }}>Скинути</button>
+                  }}>{t('catalogFilterReset')}</button>
                   <span className={openGroups.engine ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
                 </div>
                 {openGroups.engine ? (
@@ -1079,11 +1099,11 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
 
               <div className={selectedTransmission.length > 0 ? 'filter-group has-selection' : 'filter-group'} data-filter="trans">
                 <div className="filter-head" onClick={() => toggleGroup('trans')}>
-                  <div className="filter-head-left"><span className="filter-name">Передача</span><span className="filter-count">{selectedTransmission.length}</span></div>
+                  <div className="filter-head-left"><span className="filter-name">{t('catalogFilterTrans')}</span><span className="filter-count">{selectedTransmission.length}</span></div>
                   <button className="filter-reset" type="button" onClick={(event) => {
                     event.stopPropagation()
                     setSelectedTransmission([])
-                  }}>Скинути</button>
+                  }}>{t('catalogFilterReset')}</button>
                   <span className={openGroups.trans ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
                 </div>
                 {openGroups.trans ? (
@@ -1101,11 +1121,11 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
 
               <div className={selectedDrive.length > 0 ? 'filter-group has-selection' : 'filter-group'} data-filter="drive">
                 <div className="filter-head" onClick={() => toggleGroup('drive')}>
-                  <div className="filter-head-left"><span className="filter-name">Привідний механізм</span><span className="filter-count">{selectedDrive.length}</span></div>
+                  <div className="filter-head-left"><span className="filter-name">{t('catalogFilterDrive')}</span><span className="filter-count">{selectedDrive.length}</span></div>
                   <button className="filter-reset" type="button" onClick={(event) => {
                     event.stopPropagation()
                     setSelectedDrive([])
-                  }}>Скинути</button>
+                  }}>{t('catalogFilterReset')}</button>
                   <span className={openGroups.drive ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
                 </div>
                 {openGroups.drive ? (
@@ -1123,17 +1143,17 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
 
               <div className="filter-group" data-filter="postal">
                 <div className="filter-head" onClick={() => toggleGroup('postal')}>
-                  <div className="filter-head-left"><span className="filter-name">Пошук за поштовим індексом</span></div>
+                  <div className="filter-head-left"><span className="filter-name">{t('catalogFilterPostal')}</span></div>
                   <span className={openGroups.postal ? 'filter-arrow open' : 'filter-arrow'}>⌄</span>
                 </div>
                 {openGroups.postal ? (
                   <div className="filter-body">
                     <div className="filter-inner">
                       <div className="postal-row">
-                        <input className="postal-input" type="text" placeholder="Поштовий індекс" />
+                        <input className="postal-input" type="text" placeholder={t('catalogPostalPlaceholder')} />
                         <select className="postal-select"><option>50 mi</option><option>100 mi</option><option>200 mi</option></select>
                       </div>
-                      <div className="postal-btn-wrap"><button className="postal-btn" type="button">Шукати</button></div>
+                      <div className="postal-btn-wrap"><button className="postal-btn" type="button">{t('catalogPostalSearch')}</button></div>
                     </div>
                   </div>
                 ) : null}
@@ -1146,29 +1166,29 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
           <div className="catalog-tabs">
             {mode === 'catalog' ? (
               <>
-                <button className="tab-item active" type="button">Все <span className="tab-count">{filteredCards.length}</span></button>
-                <button className="tab-item" type="button">Відкриті аукціони <span className="tab-count">{Math.max(0, filteredCards.length - 2)}</span></button>
-                <button className="tab-item" type="button">В процесі <span className="tab-count">{Math.min(3, filteredCards.length)}</span></button>
-                <button className="tab-item" type="button">Завершені сьогодні <span className="tab-count">1</span></button>
-                <button className="tab-item" type="button">Швидка покупка <span className="tab-count">{Math.max(1, Math.round(filteredCards.length / 2))}</span></button>
-                <button className="tab-archive" type="button">Архівні аукціони</button>
+                <button className="tab-item active" type="button">{t('catalogTabAll')} <span className="tab-count">{filteredCards.length}</span></button>
+                <button className="tab-item" type="button">{t('catalogTabOpenAuctions')} <span className="tab-count">{Math.max(0, filteredCards.length - 2)}</span></button>
+                <button className="tab-item" type="button">{t('catalogTabInProgress')} <span className="tab-count">{Math.min(3, filteredCards.length)}</span></button>
+                <button className="tab-item" type="button">{t('catalogTabClosedToday')} <span className="tab-count">1</span></button>
+                <button className="tab-item" type="button">{t('catalogTabBuyNow')} <span className="tab-count">{Math.max(1, Math.round(filteredCards.length / 2))}</span></button>
+                <button className="tab-archive" type="button">{t('catalogTabArchive')}</button>
               </>
             ) : mode === 'in-stock' ? (
               <>
-                <button className="tab-item active" type="button">В наявності <span className="tab-count">{filteredCards.length}</span></button>
-                <button className="tab-item" type="button">Готові до передачі <span className="tab-count">{Math.min(2, filteredCards.length)}</span></button>
-                <button className="tab-item" type="button">Під замовлення <span className="tab-count">{Math.max(1, Math.round(filteredCards.length / 2))}</span></button>
+                <button className="tab-item active" type="button">{t('catalogTabInStock')} <span className="tab-count">{filteredCards.length}</span></button>
+                <button className="tab-item" type="button">{t('catalogTabReadyToTransfer')} <span className="tab-count">{Math.min(2, filteredCards.length)}</span></button>
+                <button className="tab-item" type="button">{t('catalogTabOnOrder')} <span className="tab-count">{Math.max(1, Math.round(filteredCards.length / 2))}</span></button>
               </>
             ) : (
-              <button className="tab-item active" type="button">Авто в дорозі <span className="tab-count" id="tabCount">{filteredCards.length}</span></button>
+              <button className="tab-item active" type="button">{t('catalogTabInTransit')} <span className="tab-count" id="tabCount">{filteredCards.length}</span></button>
             )}
           </div>
 
           <div className="results-head">
-            <span className="results-count"><strong id="resultsCount">{filteredCards.length}</strong> автомобілів знайдено</span>
+            <span className="results-count"><strong id="resultsCount">{filteredCards.length}</strong> {t('catalogResultsCount')}</span>
             <div className="layout-switcher" id="layoutSwitcher">
-              <button className={layout === 'list' ? 'layout-btn active' : 'layout-btn'} type="button" onClick={() => setLayout('list')}>List</button>
-              <button className={layout === 'grid' ? 'layout-btn active' : 'layout-btn'} type="button" onClick={() => setLayout('grid')}>Grid</button>
+              <button className={layout === 'list' ? 'layout-btn active' : 'layout-btn'} type="button" onClick={() => setLayout('list')}>{t('catalogLayoutList')}</button>
+              <button className={layout === 'grid' ? 'layout-btn active' : 'layout-btn'} type="button" onClick={() => setLayout('grid')}>{t('catalogLayoutGrid')}</button>
             </div>
           </div>
 
@@ -1178,7 +1198,7 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
 
           {hasMoreCards ? (
             <div className="load-more">
-              <button className="btn-load" type="button" onClick={() => setVisibleCount((prev) => prev + 20)}>Завантажити ще</button>
+              <button className="btn-load" type="button" onClick={() => setVisibleCount((prev) => prev + 20)}>{t('catalogLoadMore')}</button>
             </div>
           ) : null}
         </section>

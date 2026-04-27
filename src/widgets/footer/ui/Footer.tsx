@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
-import { routes } from '../../../shared/config/routes'
+import { routePaths, localizedPath } from '../../../shared/config/routes'
 
 export function Footer() {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
+  const lp = (path: string) => localizedPath(locale, path)
 
   return (
     <footer className="px-footer">
@@ -38,20 +39,20 @@ export function Footer() {
             <div className="px-footer__col">
               <h4>{t('footerNavigation')}</h4>
               <ul>
-                <li><a href={routes.home}>{t('navHome')}</a></li>
-                <li><a href={routes.catalog}>{t('navCatalog')}</a></li>
-                <li><a href={routes.transit}>{t('navTransit')}</a></li>
-                <li><a href={routes.blog}>{t('footerBlog')}</a></li>
+                <li><Link to={lp(routePaths.home)}>{t('navHome')}</Link></li>
+                <li><Link to={lp(routePaths.catalog)}>{t('navCatalog')}</Link></li>
+                <li><Link to={lp(routePaths.transit)}>{t('navTransit')}</Link></li>
+                <li><Link to={lp(routePaths.blog)}>{t('footerBlog')}</Link></li>
               </ul>
             </div>
 
             <div className="px-footer__col">
               <h4>{t('footerDirections')}</h4>
               <ul>
-                <li><a href={routes.catalog}>{t('footerDirectionUsa')}</a></li>
-                <li><a href={routes.catalog}>{t('footerDirectionChina')}</a></li>
-                <li><a href={routes.catalog}>{t('footerDirectionEurope')}</a></li>
-                <li><a href={routes.catalog}>{t('footerDirectionMoto')}</a></li>
+                <li><Link to={lp(routePaths.catalog)}>{t('footerDirectionUsa')}</Link></li>
+                <li><Link to={lp(routePaths.catalog)}>{t('footerDirectionChina')}</Link></li>
+                <li><Link to={lp(routePaths.catalog)}>{t('footerDirectionEurope')}</Link></li>
+                <li><Link to={lp(routePaths.catalog)}>{t('footerDirectionMoto')}</Link></li>
               </ul>
             </div>
 
@@ -69,7 +70,7 @@ export function Footer() {
         </div>
 
         <div className="px-footer__brands">
-          <span className="px-footer__brands-label">Офіційні джерела лотів</span>
+          <span className="px-footer__brands-label">{t('footerLotSources')}</span>
           <div className="px-footer__brands-row">
             <img src={`${import.meta.env.BASE_URL}images/copart-logo.png`} alt="Copart" />
             <img src={`${import.meta.env.BASE_URL}images/copart-logo.png`} alt="IAAI" />
@@ -83,8 +84,8 @@ export function Footer() {
         <div className="px-footer__bot">
           <span>{t('footerCopyright')}</span>
           <div className="px-footer__legal">
-            <Link to={routes.privacy}>{t('footerPrivacy')}</Link>
-            <Link to={routes.terms}>{t('footerTerms')}</Link>
+            <Link to={lp(routePaths.privacy)}>{t('footerPrivacy')}</Link>
+            <Link to={lp(routePaths.terms)}>{t('footerTerms')}</Link>
           </div>
         </div>
       </div>

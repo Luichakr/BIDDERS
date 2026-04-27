@@ -1,12 +1,13 @@
 import type { HomePageContract } from '../../../shared/types/contracts'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
 import { Link } from 'react-router-dom'
-import { routes } from '../../../shared/config/routes'
+import { routePaths, localizedPath } from '../../../shared/config/routes'
 
 type HeroSectionProps = Pick<HomePageContract, 'hero' | 'metrics'>
 
 export function HeroSection({ hero }: HeroSectionProps) {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
+  const lp = (path: string) => localizedPath(locale, path)
 
   return (
     <section className="home-hero" id="top">
@@ -26,12 +27,12 @@ export function HeroSection({ hero }: HeroSectionProps) {
           </h1>
           <p className="hero-lead">{t('heroLead') || hero.lead}</p>
           <div className="hero-actions">
-            <Link to={routes.catalog} className="btn-hero primary">{t('heroPrimary')}</Link>
-            <Link to={routes.home} className="btn-hero ghost">{t('heroSecondary')}</Link>
+            <Link to={lp(routePaths.catalog)} className="btn-hero primary">{t('heroPrimary')}</Link>
+            <Link to={lp(routePaths.home)} className="btn-hero ghost">{t('heroSecondary')}</Link>
           </div>
 
           <div className="hero-scenarios">
-            <Link to={routes.catalog} className="hero-scenario">
+            <Link to={lp(routePaths.catalog)} className="hero-scenario">
               <span className="hero-scenario__icon" aria-hidden="true">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 10.5L12 4l9 6.5"/><path d="M5 9.5V20h14V9.5"/><path d="M9 20v-6h6v6"/></svg>
               </span>
@@ -40,7 +41,7 @@ export function HeroSection({ hero }: HeroSectionProps) {
                 <small>{t('heroScenarioOneDesc')}</small>
               </span>
             </Link>
-            <Link to={routes.transit} className="hero-scenario">
+            <Link to={lp(routePaths.transit)} className="hero-scenario">
               <span className="hero-scenario__icon" aria-hidden="true">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 17h13a4 4 0 004-4v0H8a5 5 0 00-5 4z"/><path d="M8 13l2-4h5l2 4"/><path d="M7 7h10"/></svg>
               </span>
@@ -49,7 +50,7 @@ export function HeroSection({ hero }: HeroSectionProps) {
                 <small>{t('heroScenarioTwoDesc')}</small>
               </span>
             </Link>
-            <Link to={routes.lotDetail.replace(':lotId', 'custom')} className="hero-scenario">
+            <Link to={lp(routePaths.catalog)} className="hero-scenario">
               <span className="hero-scenario__icon" aria-hidden="true">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 20h16"/><path d="M6 17l4-10 4 4 4-7"/></svg>
               </span>

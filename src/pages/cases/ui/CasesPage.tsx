@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { routes } from '../../../shared/config/routes'
+import { routePaths, localizedPath } from '../../../shared/config/routes'
+import { useI18n } from '../../../shared/i18n/I18nProvider'
+import { Seo } from '../../../shared/seo/Seo'
 import { formatCaseMoney, getCasesData, getCaseSavings, type CaseRecord } from '../../../features/cases/model/cases.service'
 
 export function CasesPage() {
+  const { locale, t } = useI18n()
   const [caseData, setCaseData] = useState<CaseRecord[]>([])
 
   useEffect(() => {
@@ -12,6 +15,7 @@ export function CasesPage() {
 
   return (
     <main className="bp-shell-page bp-shell-soft">
+      <Seo title={t('seoCasesTitle')} description={t('seoCasesDescription')} path={routePaths.cases} />
       <div className="bp-wrap">
         <p className="bp-kicker bp-kicker-dark">Кейси</p>
         <h1 className="bp-page-title">Реальні кейси клієнтів BIDDERS</h1>
@@ -29,8 +33,8 @@ export function CasesPage() {
         </section>
 
         <div className="bp-inline-actions">
-          <Link className="bp-btn bp-btn-secondary" to={routes.blog}>Читати блог</Link>
-          <Link className="bp-btn bp-btn-primary" to={routes.home}>На головну</Link>
+          <Link className="bp-btn bp-btn-secondary" to={localizedPath(locale, routePaths.blog)}>Читати блог</Link>
+          <Link className="bp-btn bp-btn-primary" to={localizedPath(locale, routePaths.home)}>На головну</Link>
         </div>
       </div>
     </main>

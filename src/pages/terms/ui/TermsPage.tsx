@@ -1,9 +1,13 @@
 import { Link } from 'react-router-dom'
-import { routes } from '../../../shared/config/routes'
+import { routePaths, localizedPath } from '../../../shared/config/routes'
+import { useI18n } from '../../../shared/i18n/I18nProvider'
+import { Seo } from '../../../shared/seo/Seo'
 
 export function TermsPage() {
+  const { locale, t } = useI18n()
   return (
     <main className="bp-shell-page legal-page">
+      <Seo title={t('seoTermsTitle')} description={t('seoTermsDescription')} path={routePaths.terms} />
       <div className="bp-wrap">
         <p className="bp-kicker bp-kicker-dark">Юридична інформація</p>
         <h1 className="bp-page-title">Умови використання</h1>
@@ -35,8 +39,8 @@ export function TermsPage() {
         </section>
 
         <div className="bp-inline-actions" style={{ marginTop: 26 }}>
-          <Link className="bp-btn bp-btn-secondary" to={routes.privacy}>Політика конфіденційності</Link>
-          <Link className="bp-btn bp-btn-primary" to={routes.home}>На головну</Link>
+          <Link className="bp-btn bp-btn-secondary" to={localizedPath(locale, routePaths.privacy)}>Політика конфіденційності</Link>
+          <Link className="bp-btn bp-btn-primary" to={localizedPath(locale, routePaths.home)}>На головну</Link>
         </div>
       </div>
     </main>

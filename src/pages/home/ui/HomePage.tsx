@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
-import { routes } from '../../../shared/config/routes'
+import { routePaths, localizedPath } from '../../../shared/config/routes'
 import { formatCaseMoney, getCasesData, getCaseSavings, type CaseRecord } from '../../../features/cases/model/cases.service'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
+import { Seo } from '../../../shared/seo/Seo'
 
 type FormType = 'b2c' | 'b2b' | null
 
@@ -536,6 +537,7 @@ export function HomePage() {
 
   return (
     <main className="home-page blueprint-home">
+      <Seo title={t('seoHomeTitle')} description={t('seoHomeDescription')} path="" />
       <section className="px px-hero bp-animate" id="top">
         <div className="px-hero__bg" aria-hidden="true"></div>
         <div className="px-wrap">
@@ -651,7 +653,7 @@ export function HomePage() {
                 </div>
                 <h3 className="px-route__title">{t('homeRouteStockTitle')}</h3>
                 <p className="px-route__desc">{t('homeRouteStockDesc')}</p>
-                <Link className="px-route__cta" to={routes.inStock}>
+                <Link className="px-route__cta" to={localizedPath(locale, routePaths.inStock)}>
                   {t('homeRouteViewCarsCta')}
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
                 </Link>
@@ -672,7 +674,7 @@ export function HomePage() {
                 </div>
                 <h3 className="px-route__title">{t('homeRouteTransitTitle')}</h3>
                 <p className="px-route__desc">{t('homeRouteTransitDesc')}</p>
-                <Link className="px-route__cta" to={routes.transit}>
+                <Link className="px-route__cta" to={localizedPath(locale, routePaths.transit)}>
                   {t('homeRouteViewCarsCta')}
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
                 </Link>
@@ -714,7 +716,7 @@ export function HomePage() {
                 </div>
                 <h3 className="px-route__title">{t('homeRouteCatalogTitle')}</h3>
                 <p className="px-route__desc">{t('homeRouteCatalogDesc')}</p>
-                <Link className="px-route__cta" to={routes.catalog}>
+                <Link className="px-route__cta" to={localizedPath(locale, routePaths.catalog)}>
                   {t('homeRouteViewCarsCta')}
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
                 </Link>
@@ -810,7 +812,7 @@ export function HomePage() {
                     <span>{t('homeCalcBtn')}</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
                   </button>
-                  <Link to={routes.calculator} className="px-btn px-btn--ghost">{t('homeCalcBtnOpen')}</Link>
+                  <Link to={localizedPath(locale, routePaths.calculator)} className="px-btn px-btn--ghost">{t('homeCalcBtnOpen')}</Link>
                 </div>
               </div>
 
@@ -927,7 +929,7 @@ export function HomePage() {
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
                 {t('homeTransitEta')}
               </div>
-              <Link className="px-btn px-btn--ghost" to={routes.transit} aria-label={t('homeTransitCtaAll')}>
+              <Link className="px-btn px-btn--ghost" to={localizedPath(locale, routePaths.transit)} aria-label={t('homeTransitCtaAll')}>
                 {t('homeTransitCtaAll')}
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
               </Link>
@@ -935,7 +937,7 @@ export function HomePage() {
           </div>
           <div className="px-grid-3 px-grid-3--scroll">
             {transitItems.map((item) => (
-              <Link className="px-lot px-lot--link" key={item.id} to={routes.lotDetail.replace(':lotId', item.id)}>
+              <Link className="px-lot px-lot--link" key={item.id} to={localizedPath(locale, `lots/${item.id}`)}>
                 <div className="px-lot__image">
                   <img src={item.image} alt={t('routeTransitAlt')} loading="lazy" />
                   <span className="px-lot__badge">{t('homeTransitBadge')}</span>
@@ -969,7 +971,7 @@ export function HomePage() {
               <div className="px-lot__body px-lot__body--cta">
                 <h3 className="px-lot__title px-lot__title--cta">{t('homeTransitCardViewAll')}</h3>
                 <p className="px-lot__desc px-lot__desc--cta">{t('homeTransitCardMore')}</p>
-                <Link className="px-route__cta px-route__cta--inline" to={routes.transit} aria-label={t('homeTransitCtaViewAll')}>
+                <Link className="px-route__cta px-route__cta--inline" to={localizedPath(locale, routePaths.transit)} aria-label={t('homeTransitCtaViewAll')}>
                   {t('homeTransitCtaViewAll')}
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M5 12h14M13 5l7 7-7 7" />
@@ -994,7 +996,7 @@ export function HomePage() {
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>
                 {t('homeStockLocation')}
               </div>
-              <Link className="px-btn px-btn--ghost" to={routes.inStock} aria-label={t('homeStockCtaAll')}>
+              <Link className="px-btn px-btn--ghost" to={localizedPath(locale, routePaths.inStock)} aria-label={t('homeStockCtaAll')}>
                 {t('homeStockCtaAll')}
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
               </Link>
@@ -1031,7 +1033,7 @@ export function HomePage() {
               <div className="px-lot__body px-lot__body--cta">
                 <h3 className="px-lot__title px-lot__title--cta">{t('homeStockCardViewAll')}</h3>
                 <p className="px-lot__desc px-lot__desc--cta">{t('homeStockCardViewAllDesc')}</p>
-                <Link className="px-route__cta px-route__cta--inline" to={routes.inStock} aria-label={t('homeStockCardViewAllCta')}>
+                <Link className="px-route__cta px-route__cta--inline" to={localizedPath(locale, routePaths.inStock)} aria-label={t('homeStockCardViewAllCta')}>
                   {t('homeStockCardViewAllCta')}
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M5 12h14M13 5l7 7-7 7" />
@@ -1070,7 +1072,7 @@ export function HomePage() {
                   {t('homeCatalogLead')}
                 </p>
                 <div className="px-catalog2__actions">
-                  <Link className="px-btn px-btn--primary" to={routes.catalog}>
+                  <Link className="px-btn px-btn--primary" to={localizedPath(locale, routePaths.catalog)}>
                     <span>{t('homeCatalogCta')}</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
                   </Link>
@@ -1319,7 +1321,7 @@ export function HomePage() {
                     <div className="px-case__row"><span>{t('homeCasesRowLabel1')}</span><strong>{formatCaseMoney(item.turnkey, item.currency)}</strong></div>
                     <div className="px-case__row"><span>{t('homeCasesRowLabel2')}</span><strong>{formatCaseMoney(item.market, item.currency)}</strong></div>
                     <div className="px-case__row px-case__row--save"><span>{t('homeCasesRowLabel3')}</span><strong>{formatCaseMoney(getCaseSavings(item), item.currency)}</strong></div>
-                    <Link className="px-case__cta" to={routes.cases} aria-label={`${t('homeCasesCardMore')} ${item.model}`}>
+                    <Link className="px-case__cta" to={localizedPath(locale, routePaths.cases)} aria-label={`${t('homeCasesCardMore')} ${item.model}`}>
                       {t('homeCasesCardMore')}
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
                     </Link>
@@ -1337,7 +1339,7 @@ export function HomePage() {
           </div>
 
           <div className="px-cases__footer">
-            <Link className="px-btn px-btn--ghost" to={routes.cases}>
+            <Link className="px-btn px-btn--ghost" to={localizedPath(locale, routePaths.cases)}>
               {t('homeCasesFooter')}
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
             </Link>
@@ -1599,7 +1601,31 @@ export function HomePage() {
               <section className="bp-budget-block">
                 <div className="bp-budget-block__head">
                   <p className="bp-budget-block__label">{budgetUi.yearLabel}</p>
-                  <span className="bp-budget-chip">{b2cYearMin} - {b2cYearMax}</span>
+                  <div className="bp-budget-chip bp-budget-chip--editable">
+                    <input
+                      type="number"
+                      min={1950}
+                      max={2027}
+                      value={b2cYearMin}
+                      onChange={(e) => {
+                        const v = Number(e.target.value)
+                        if (!Number.isFinite(v)) return
+                        setB2cYearMin(Math.min(Math.max(v, 1950), b2cYearMax - 1))
+                      }}
+                    />
+                    <span>–</span>
+                    <input
+                      type="number"
+                      min={1950}
+                      max={2027}
+                      value={b2cYearMax}
+                      onChange={(e) => {
+                        const v = Number(e.target.value)
+                        if (!Number.isFinite(v)) return
+                        setB2cYearMax(Math.max(Math.min(v, 2027), b2cYearMin + 1))
+                      }}
+                    />
+                  </div>
                 </div>
                 <p className="bp-budget-block__hint">{budgetUi.yearRangeLabel}</p>
                 <div className="bp-budget-range">
@@ -1607,14 +1633,14 @@ export function HomePage() {
                   <div
                     className="bp-budget-range__active"
                     style={{
-                      left: `${((b2cYearMin - 2005) / (2025 - 2005)) * 100}%`,
-                      width: `${((b2cYearMax - b2cYearMin) / (2025 - 2005)) * 100}%`,
+                      left: `${((b2cYearMin - 1950) / (2027 - 1950)) * 100}%`,
+                      width: `${((b2cYearMax - b2cYearMin) / (2027 - 1950)) * 100}%`,
                     }}
                   ></div>
                   <input
                     type="range"
-                    min={2005}
-                    max={2025}
+                    min={1950}
+                    max={2027}
                     value={b2cYearMin}
                     onChange={(e) => {
                       const value = Number(e.target.value)
@@ -1623,8 +1649,8 @@ export function HomePage() {
                   />
                   <input
                     type="range"
-                    min={2005}
-                    max={2025}
+                    min={1950}
+                    max={2027}
                     value={b2cYearMax}
                     onChange={(e) => {
                       const value = Number(e.target.value)
@@ -1633,17 +1659,43 @@ export function HomePage() {
                   />
                 </div>
                 <div className="bp-budget-range__ends">
-                  <span>2005</span>
-                  <span>2025</span>
+                  <span>1950</span>
+                  <span>2027</span>
                 </div>
               </section>
 
               <section className="bp-budget-block">
                 <div className="bp-budget-block__head">
                   <p className="bp-budget-block__label">{budgetUi.budgetLabel}</p>
-                  <span className="bp-budget-chip">
-                    ${b2cBudgetMin.toLocaleString('en-US')} - ${b2cBudgetMax.toLocaleString('en-US')}
-                  </span>
+                  <div className="bp-budget-chip bp-budget-chip--editable">
+                    <span className="bp-budget-chip__pre">$</span>
+                    <input
+                      type="number"
+                      min={0}
+                      max={2000000}
+                      step={500}
+                      value={b2cBudgetMin}
+                      onChange={(e) => {
+                        const v = Number(e.target.value)
+                        if (!Number.isFinite(v)) return
+                        setB2cBudgetMin(Math.min(Math.max(v, 0), b2cBudgetMax - 500))
+                      }}
+                    />
+                    <span>–</span>
+                    <span className="bp-budget-chip__pre">$</span>
+                    <input
+                      type="number"
+                      min={0}
+                      max={2000000}
+                      step={500}
+                      value={b2cBudgetMax}
+                      onChange={(e) => {
+                        const v = Number(e.target.value)
+                        if (!Number.isFinite(v)) return
+                        setB2cBudgetMax(Math.max(Math.min(v, 2000000), b2cBudgetMin + 500))
+                      }}
+                    />
+                  </div>
                 </div>
                 <p className="bp-budget-block__hint">{budgetUi.budgetHint}</p>
                 <div className="bp-budget-range">
@@ -1651,14 +1703,14 @@ export function HomePage() {
                   <div
                     className="bp-budget-range__active"
                     style={{
-                      left: `${((b2cBudgetMin - 3000) / (50000 - 3000)) * 100}%`,
-                      width: `${((b2cBudgetMax - b2cBudgetMin) / (50000 - 3000)) * 100}%`,
+                      left: `${(b2cBudgetMin / 2000000) * 100}%`,
+                      width: `${((b2cBudgetMax - b2cBudgetMin) / 2000000) * 100}%`,
                     }}
                   ></div>
                   <input
                     type="range"
-                    min={3000}
-                    max={50000}
+                    min={0}
+                    max={2000000}
                     step={500}
                     value={b2cBudgetMin}
                     onChange={(e) => {
@@ -1668,8 +1720,8 @@ export function HomePage() {
                   />
                   <input
                     type="range"
-                    min={3000}
-                    max={50000}
+                    min={0}
+                    max={2000000}
                     step={500}
                     value={b2cBudgetMax}
                     onChange={(e) => {
@@ -1679,8 +1731,8 @@ export function HomePage() {
                   />
                 </div>
                 <div className="bp-budget-range__ends">
-                  <span>$3,000</span>
-                  <span>$50,000</span>
+                  <span>$0</span>
+                  <span>$2,000,000</span>
                 </div>
               </section>
             </div>

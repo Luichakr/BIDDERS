@@ -2,8 +2,12 @@ import { useEffect, useState } from 'react'
 import { AuctionCatalogPage } from '../../../features/auction/ui/AuctionCatalogPage'
 import type { AuctionCardData } from '../../../features/auction/model/auctionData'
 import { fetchCatalogCars } from '../../../features/auction/model/inRoute.service'
+import { useI18n } from '../../../shared/i18n/I18nProvider'
+import { Seo } from '../../../shared/seo/Seo'
+import { routePaths } from '../../../shared/config/routes'
 
 export function CatalogPage() {
+  const { t } = useI18n()
   const [cards, setCards] = useState<AuctionCardData[]>([])
 
   useEffect(() => {
@@ -27,5 +31,10 @@ export function CatalogPage() {
     }
   }, [])
 
-  return <AuctionCatalogPage title="Каталог" cards={cards} mode="catalog" />
+  return (
+    <>
+      <Seo title={t('seoCatalogTitle')} description={t('seoCatalogDescription')} path={routePaths.catalog} />
+      <AuctionCatalogPage title={t('catalogTitle')} cards={cards} mode="catalog" />
+    </>
+  )
 }

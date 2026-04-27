@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
-import { routes } from '../../../shared/config/routes'
+import { routePaths, localizedPath } from '../../../shared/config/routes'
 
 export function BudgetSection() {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
+  const lp = (path: string) => localizedPath(locale, path)
 
   const cards = [
     {
@@ -37,7 +38,7 @@ export function BudgetSection() {
                 <li key={item}>{item}</li>
               ))}
             </ul>
-            <Link to={routes.catalog}>{t('budgetCta')}</Link>
+            <Link to={lp(routePaths.catalog)}>{t('budgetCta')}</Link>
           </article>
         ))}
       </div>

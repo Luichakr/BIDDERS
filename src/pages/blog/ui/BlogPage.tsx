@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { routes } from '../../../shared/config/routes'
+import { routePaths, localizedPath } from '../../../shared/config/routes'
+import { useI18n } from '../../../shared/i18n/I18nProvider'
+import { Seo } from '../../../shared/seo/Seo'
 import './blog.css'
 
 type BlogCategory = 'Усі' | 'Гіди' | 'Митниця' | 'Логістика' | 'Кейси' | 'Аукціони' | 'Поради'
@@ -118,6 +120,7 @@ const TAGS = [
 ]
 
 export function BlogPage() {
+  const { locale, t } = useI18n()
   const [activeCategory, setActiveCategory] = useState<BlogCategory>('Усі')
   const [email, setEmail] = useState('')
 
@@ -132,6 +135,7 @@ export function BlogPage() {
 
   return (
     <main className="blog-page">
+      <Seo title={t('seoBlogTitle')} description={t('seoBlogDescription')} path={routePaths.blog} />
       {/* JSON-LD structured data for SEO */}
       <script
         type="application/ld+json"
@@ -197,7 +201,7 @@ export function BlogPage() {
               <h2>Рекомендовані матеріали</h2>
               <p>Найцікавіше, що почитати у першу чергу.</p>
             </div>
-            <Link to={routes.cases} className="blog-section__link">
+            <Link to={localizedPath(locale, routePaths.cases)} className="blog-section__link">
               Всі кейси →
             </Link>
           </header>
@@ -302,7 +306,7 @@ export function BlogPage() {
               <h2>Популярні теги</h2>
               <p>Швидкий пошук матеріалів за ключовим словом.</p>
             </div>
-            <Link to={routes.faq} className="blog-section__link">
+            <Link to={localizedPath(locale, routePaths.faq)} className="blog-section__link">
               Відповіді в FAQ →
             </Link>
           </header>
