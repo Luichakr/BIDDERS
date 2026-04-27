@@ -303,8 +303,8 @@ export function CalculatorPage() {
   const [carYear, setCarYear] = useState('')
   const [engineVolume, setEngineVolume] = useState('')
   const [lotPrice, setLotPrice] = useState('')
-  const [insuranceIncluded, setInsuranceIncluded] = useState(true)
-  const [transferIncluded, setTransferIncluded] = useState(true)
+  const [insuranceIncluded, setInsuranceIncluded] = useState(false)
+  const [transferIncluded, setTransferIncluded] = useState(false)
   const [derived, setDerived] = useState<DerivedValues>(EMPTY_DERIVED)
 
   // Localized label maps for tax/VAT profiles (config labels contain Ukrainian)
@@ -856,8 +856,6 @@ export function CalculatorPage() {
                 <div className="calc-row"><span>{t('calcRowOcean')}</span><strong>{usd(derived.oceanDelivery)}</strong></div>
                 <div className="calc-row"><span>{t('calcRowPortUnload')}</span><strong>{usd(derived.portUnload)}</strong></div>
                 <div className="calc-row"><span>{t('calcRowEuDelivery')}</span><strong>{usd(derived.europeDelivery)}</strong></div>
-                <div className="calc-row"><span>{t('calcRowCustomsDelivery')}</span><strong>{usd(derived.customsDelivery)}</strong></div>
-                <div className="calc-row"><span>{t('calcRowBorderHandling')}</span><strong>{usd(derived.borderHandling)}</strong></div>
               </div>
 
               <div className="calculator-group">

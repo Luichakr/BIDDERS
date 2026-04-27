@@ -51,8 +51,8 @@ export function AppRouter() {
             <Route path="catalog" element={<CatalogPage />} />
             <Route path="in-stock" element={<InStockPage />} />
             <Route path="in-transit" element={<TransitPage />} />
-            <Route path="calculator" element={<CalculatorPage />} />
-            <Route path="calculator/orest" element={<CalculatorBaseSnapshotPage />} />
+            <Route path="calculator" element={<CalculatorBaseSnapshotPage />} />
+            <Route path="calculator/orest" element={<CalculatorPage />} />
             <Route path="calculator-base" element={<CalculatorBaseSnapshotPage />} />
             <Route path="blog" element={<BlogPage />} />
             <Route path="cases" element={<CasesPage />} />
