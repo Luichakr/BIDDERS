@@ -3243,7 +3243,7 @@ export const messages: Record<Locale, Messages> = {
     homeRouteCatalogDesc: 'Szeroka oferta w czasie rzeczywistym — ponad 200 tys. lotów dziennie.',
     homeRouteViewCarsCta: 'Zobacz auta',
     homeRouteGetEstimateCta: 'Uzyskaj wycenę',
-    homeEconKicker: 'Ekonomia · Real numbers',
+    homeEconKicker: 'Ekonomia',
     homeEconTitle: 'Dlaczego to bardziej opłacalne niż rynek w Polsce',
     homeEconLead: 'Realna oszczędność na przykładach klientów — bez zaokrągleń i marketingu.',
     homeEconCase: 'Case ·',

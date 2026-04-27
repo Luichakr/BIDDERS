@@ -664,7 +664,7 @@ export function HomePage() {
             </div>
           </div>
           <div className="px-grid-4">
-            <article className="px-route">
+            <article className="px-route px-route--large">
               <div className="px-route__media">
                 <img
                   src={`${import.meta.env.BASE_URL}${ROUTE_IMAGES.inStock}`}
@@ -690,7 +690,7 @@ export function HomePage() {
               </div>
             </article>
 
-            <article className="px-route">
+            <article className="px-route px-route--large">
               <div className="px-route__media">
                 <img src={`${import.meta.env.BASE_URL}${ROUTE_IMAGES.transit}`} alt={t('routeTransitAlt')} loading="lazy" />
                 <div className="px-route__top">
@@ -711,7 +711,7 @@ export function HomePage() {
               </div>
             </article>
 
-            <article className="px-route px-route--primary">
+            <article className="px-route px-route--primary px-route--small">
               <div className="px-route__media">
                 <img src={`${import.meta.env.BASE_URL}${ROUTE_IMAGES.order}`} alt={t('routeAuctionAlt')} loading="lazy" />
                 <div className="px-route__top">
@@ -732,7 +732,7 @@ export function HomePage() {
               </div>
             </article>
 
-            <article className="px-route">
+            <article className="px-route px-route--small">
               <div className="px-route__media">
                 <img src={`${import.meta.env.BASE_URL}${ROUTE_IMAGES.catalog}`} alt={t('routeCatalogAlt')} loading="lazy" />
                 <div className="px-route__top">
