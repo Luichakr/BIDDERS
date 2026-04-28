@@ -6,6 +6,7 @@ import { formatCaseMoney, getCasesData, getCaseSavings, type CaseRecord } from '
 import { fetchCatalogCars } from '../../../features/auction/model/inRoute.service'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
 import { Seo } from '../../../shared/seo/Seo'
+// import { VehicleSearchFilter } from './VehicleSearchFilter' // disabled — uncomment to enable
 
 type FormType = 'b2c' | 'b2b' | null
 
@@ -611,6 +612,10 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* VEHICLE SEARCH FILTER — disabled, uncomment to enable:
+      <VehicleSearchFilter makesModels={allMakesModels} />
+      */}
+
       <section className="px px-trust bp-animate" aria-label={t('homeTrustAria')}>
         <div className="px-wrap">
           <div className="px-trust__grid">
@@ -861,6 +866,7 @@ export function HomePage() {
                       <p className="px-calcx__card-title">{t('homeCalcCardTitle')}</p>
                     </div>
                     <label className="px-calcx__dest" aria-label={t('homeCalcDestLabel')}>
+                      <span className="px-calcx__dest-hint">Zmień port</span>
                       <select value={calcPortId} onChange={(e) => setCalcPortId(e.target.value)}>
                         {CALC_PORTS.map(p => (
                           <option key={p.id} value={p.id}>USA → {p.label}</option>
