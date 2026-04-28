@@ -15,7 +15,6 @@ export function ContactsPage() {
     { label: 'Telegram', value: '@bidbiders', href: 'https://t.me/bidbiders', ico: '💬', hint: t('ctChannelTelegramHint') },
   ]
 
-  const MAP_POS_STORAGE_KEY = 'BIDDERS_CONTACTS_EU_MAP_POS_V1'
   const MAP_POINTS_STORAGE_KEY = 'BIDDERS_CONTACTS_EU_MAP_POINTS_V1'
   const SVG_VIEWBOX = { width: 760, height: 520 }
   const defaultPoints = {
@@ -29,49 +28,8 @@ export function ContactsPage() {
   const [points, setPoints] = useState(defaultPoints)
   const dragStateRef = useRef<{ key: keyof typeof defaultPoints; dx: number; dy: number } | null>(null)
   const svgRef = useRef<SVGSVGElement | null>(null)
-  const [mapOffset, setMapOffset] = useState<{ x: number; y: number }>(() => {
-    if (typeof window === 'undefined') {
-      return { x: -250, y: 0 }
-    }
-    try {
-      const raw = window.localStorage.getItem(MAP_POS_STORAGE_KEY)
-      if (!raw) return { x: -250, y: 0 }
-      const parsed = JSON.parse(raw) as { x?: number; y?: number }
-      return {
-        x: Number.isFinite(parsed?.x) ? Number(parsed.x) : -250,
-        y: Number.isFinite(parsed?.y) ? Number(parsed.y) : 0,
-      }
-    } catch {
-      return { x: -250, y: 0 }
-    }
-  })
+  const mapOffset = { x: -250, y: 0 }
 
-  const nudgeMap = (dx: number, dy: number) => {
-    setMapOffset((prev) => ({ x: prev.x + dx, y: prev.y + dy }))
-  }
-
-  const saveMapPosition = () => {
-    if (typeof window === 'undefined') return
-    window.localStorage.setItem(MAP_POS_STORAGE_KEY, JSON.stringify(mapOffset))
-  }
-
-  const resetMapPosition = () => {
-    const defaults = { x: -250, y: 0 }
-    setMapOffset(defaults)
-    if (typeof window === 'undefined') return
-    window.localStorage.setItem(MAP_POS_STORAGE_KEY, JSON.stringify(defaults))
-  }
-
-  const savePoints = () => {
-    if (typeof window === 'undefined') return
-    window.localStorage.setItem(MAP_POINTS_STORAGE_KEY, JSON.stringify(points))
-  }
-
-  const resetPoints = () => {
-    setPoints(defaultPoints)
-    if (typeof window === 'undefined') return
-    window.localStorage.setItem(MAP_POINTS_STORAGE_KEY, JSON.stringify(defaultPoints))
-  }
 
   const toSvgPoint = (clientX: number, clientY: number) => {
     const svg = svgRef.current
