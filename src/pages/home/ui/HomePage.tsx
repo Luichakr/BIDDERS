@@ -592,7 +592,7 @@ export function HomePage() {
                 </button>
                 <a href="#scenario-router" className="px-btn px-btn--ghost">{t('homeHeroSecondaryCta')}</a>
               </div>
-              <span className="px-hero__micro">{t('homeHeroMicro')}</span>
+              {/* <span className="px-hero__micro">{t('homeHeroMicro')}</span> */}
               <div className="px-hero__stats">
                 <div>
                   <span className="px-hero__stat-num"><em>€7K</em></span>
