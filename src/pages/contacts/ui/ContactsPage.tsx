@@ -377,22 +377,7 @@ export function ContactsPage() {
                   backgroundPosition: `calc(62% + ${mapOffset.x}px) calc(50% + ${mapOffset.y}px)`,
                 }}
               >
-                <div className="ct-map-adjust" aria-label={t('ctMapControlsAriaLabel')}>
-                  <div className="ct-map-adjust__row">
-                    <button type="button" onClick={() => nudgeMap(-10, 0)} title="←">←</button>
-                    <button type="button" onClick={() => nudgeMap(0, -10)} title="↑">↑</button>
-                    <button type="button" onClick={() => nudgeMap(0, 10)} title="↓">↓</button>
-                    <button type="button" onClick={() => nudgeMap(10, 0)} title="→">→</button>
-                  </div>
-                  <div className="ct-map-adjust__row">
-                    <button type="button" className="ct-map-adjust__save" onClick={saveMapPosition}>Save</button>
-                    <button type="button" className="ct-map-adjust__reset" onClick={resetMapPosition}>Reset</button>
-                  </div>
-                  <div className="ct-map-adjust__row">
-                    <button type="button" className="ct-map-adjust__save" onClick={savePoints}>Save points</button>
-                    <button type="button" className="ct-map-adjust__reset" onClick={resetPoints}>Reset points</button>
-                  </div>
-                </div>
+                {/* map editor removed */}
                 <svg
                   ref={svgRef}
                   viewBox="0 0 760 520"

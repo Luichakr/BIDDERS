@@ -71,13 +71,30 @@ export function Footer() {
 
         <div className="px-footer__brands">
           <span className="px-footer__brands-label">{t('footerLotSources')}</span>
-          <div className="px-footer__brands-row">
-            <img src={`${import.meta.env.BASE_URL}images/copart-logo.png`} alt="Copart" />
-            <img src={`${import.meta.env.BASE_URL}images/copart-logo.png`} alt="IAAI" />
-            <img src={`${import.meta.env.BASE_URL}images/copart-logo.png`} alt="Manheim" />
-            <img src={`${import.meta.env.BASE_URL}images/copart-logo.png`} alt="ADESA" />
-            <img src={`${import.meta.env.BASE_URL}images/copart-logo.png`} alt="Auto Auction" />
-            <img src={`${import.meta.env.BASE_URL}images/copart-logo.png`} alt="Impact Auto" />
+          <div className="px-footer__ticker-wrap">
+            <div className="px-footer__ticker">
+              {[
+                'Copart','IAAI','Manheim','ADESA','EDGEpipeline','ACVauctions',
+                'Copart.ca','Impact','Stark Auto Sales','Progipix',
+                'BCA','Autobid.de','Exleasingcar','Copart.fi','kvdcars',
+                'Auksjonen','Ald Carmarket','Copart.de','OPENLANE','Auto One',
+                'Autorola','Womauktion','Klaravik','Troostwijk','Alcopa Auction',
+                'Copart.uk','Caronsale','Happy Car Service','Glovis','Duocar',
+              ].map((name) => (
+                <span key={name} className="px-footer__ticker-item">{name}</span>
+              ))}
+              {/* duplicate for seamless loop */}
+              {[
+                'Copart','IAAI','Manheim','ADESA','EDGEpipeline','ACVauctions',
+                'Copart.ca','Impact','Stark Auto Sales','Progipix',
+                'BCA','Autobid.de','Exleasingcar','Copart.fi','kvdcars',
+                'Auksjonen','Ald Carmarket','Copart.de','OPENLANE','Auto One',
+                'Autorola','Womauktion','Klaravik','Troostwijk','Alcopa Auction',
+                'Copart.uk','Caronsale','Happy Car Service','Glovis','Duocar',
+              ].map((name) => (
+                <span key={`dup-${name}`} className="px-footer__ticker-item">{name}</span>
+              ))}
+            </div>
           </div>
         </div>
 
