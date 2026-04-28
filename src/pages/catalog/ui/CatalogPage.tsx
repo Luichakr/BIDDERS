@@ -9,11 +9,13 @@ import { routePaths } from '../../../shared/config/routes'
 export function CatalogPage() {
   const { t } = useI18n()
   const [cards, setCards] = useState<AuctionCardData[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     let mounted = true
 
     const load = async () => {
+      setIsLoading(true)
       try {
         const liveCards = await fetchCatalogCars()
         if (!mounted) return
@@ -21,6 +23,8 @@ export function CatalogPage() {
       } catch {
         if (!mounted) return
         setCards([])
+      } finally {
+        if (mounted) setIsLoading(false)
       }
     }
 
@@ -34,7 +38,7 @@ export function CatalogPage() {
   return (
     <>
       <Seo title={t('seoCatalogTitle')} description={t('seoCatalogDescription')} path={routePaths.catalog} />
-      <AuctionCatalogPage title={t('catalogTitle')} cards={cards} mode="catalog" />
+      <AuctionCatalogPage title={t('catalogTitle')} cards={cards} mode="catalog" isLoading={isLoading} />
     </>
   )
 }

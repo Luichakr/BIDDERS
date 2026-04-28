@@ -10,6 +10,7 @@ interface AuctionCatalogPageProps {
   title: string
   cards: AuctionCardData[]
   mode: 'catalog' | 'transit' | 'in-stock'
+  isLoading?: boolean
 }
 
 type SortMode = 'price_desc' | 'price_asc' | 'year_desc' | 'year_asc' | 'mileage_asc' | 'mileage_desc'
@@ -44,7 +45,7 @@ function toggleNumberFilter(value: number, list: number[]): number[] {
   return list.includes(value) ? list.filter((entry) => entry !== value) : [...list, value]
 }
 
-export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPageProps) {
+export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: AuctionCatalogPageProps) {
   const navigate = useNavigate()
   const { locale, t } = useI18n()
   const [sortOpen, setSortOpen] = useState(false)
@@ -431,8 +432,8 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
     return [card.image]
   }
 
-  const hydrateGalleryForTransitCard = async (cardId: string) => {
-    if (mode !== 'transit' || !/^\d+$/.test(cardId) || galleryLoadingIds[cardId]) {
+  const hydrateGalleryForTransitCard = async (cardId: string, step: -1 | 1 = 1) => {
+    if ((mode !== 'transit' && mode !== 'catalog') || !/^\d+$/.test(cardId) || galleryLoadingIds[cardId]) {
       return
     }
 
@@ -442,6 +443,12 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
       const images = liveCard?.images?.filter(Boolean) ?? []
       if (images.length > 1) {
         setGalleryOverrides((prev) => ({ ...prev, [cardId]: images }))
+        // immediately apply the direction after hydration
+        setSlideByCard((prev) => {
+          const current = prev[cardId] ?? 0
+          const next = (current + step + images.length) % images.length
+          return { ...prev, [cardId]: next }
+        })
       }
     } catch {
       // keep single image state if gallery request fails
@@ -452,7 +459,7 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
 
   const moveSlide = (cardId: string, total: number, step: -1 | 1) => {
     if (total <= 1) {
-      void hydrateGalleryForTransitCard(cardId)
+      void hydrateGalleryForTransitCard(cardId, step)
       return
     }
     setSlideByCard((prev) => {
@@ -503,7 +510,11 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
         <div className="card-badge-new">{topBadgeLabel}</div>
 
         <div className="card-photo" data-slides={slides.length}>
-          <img src={currentImage} className="slide-img" alt={card.title} />
+          <img
+            src={currentImage}
+            className="slide-img"
+            alt={card.title}
+          />
           <button className="slide-btn slide-prev" type="button" onClick={(event) => {
             event.stopPropagation()
             moveSlide(card.id, slides.length, -1)
@@ -1193,7 +1204,30 @@ export function AuctionCatalogPage({ title, cards, mode }: AuctionCatalogPagePro
           </div>
 
           <div className={layout === 'grid' ? 'car-list layout-grid' : 'car-list'} id="carList">
-            {visibleCards.map(renderCard)}
+            {isLoading
+              ? Array.from({ length: 8 }).map((_, i) => (
+                  <div className="car-card car-card--skeleton" key={i} aria-hidden="true">
+                    <div className="skeleton-photo" />
+                    <div className="skeleton-body">
+                      <div className="skeleton-line skeleton-line--title" />
+                      <div className="skeleton-line skeleton-line--sub" />
+                      <div className="skeleton-specs">
+                        <div className="skeleton-tag" />
+                        <div className="skeleton-tag" />
+                        <div className="skeleton-tag" />
+                      </div>
+                      <div className="skeleton-details">
+                        <div className="skeleton-line skeleton-line--detail" />
+                        <div className="skeleton-line skeleton-line--detail" />
+                      </div>
+                    </div>
+                    <div className="skeleton-price">
+                      <div className="skeleton-line skeleton-line--price" />
+                      <div className="skeleton-btn" />
+                    </div>
+                  </div>
+                ))
+              : visibleCards.map(renderCard)}
           </div>
 
           {hasMoreCards ? (
