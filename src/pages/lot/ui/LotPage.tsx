@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Link, useParams } from 'react-router-dom'
 import { allAuctionCards, getAuctionCardById } from '../../../features/auction/model/auctionData'
 import { fetchInRouteCardById } from '../../../features/auction/model/inRoute.service'
@@ -83,6 +84,7 @@ export function LotPage() {
   const ts = (key: string) => key.split('|').map(k => t(k.trim())).join(' · ')
 
   const [galleryIndex, setGalleryIndex] = useState(0)
+  const [lightboxOpen, setLightboxOpen] = useState(false)
   const [watching, setWatching] = useState(false)
   const [moreSpecsOpen, setMoreSpecsOpen] = useState(false)
   const [selectedServices, setSelectedServices] = useState<string[]>([])
@@ -115,6 +117,7 @@ export function LotPage() {
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') { setLightboxOpen(false); return }
       const total = images.length
       if (total <= 1) return
       if (event.key === 'ArrowLeft') setGalleryIndex((prev) => (prev - 1 + total) % total)
@@ -202,6 +205,7 @@ export function LotPage() {
   }
 
   return (
+    <>
     <main className="lot-page">
       <Seo
         title={car.title ? `${car.title} | BIDDERS` : t('seoLotTitle')}
@@ -284,7 +288,13 @@ export function LotPage() {
           {/* Gallery column */}
           <div className="lot-gallery">
             <div className="lot-gallery__main">
-              <img src={images[galleryIndex]} alt={car.title} className="lot-gallery__img" />
+              <img
+                src={images[galleryIndex]}
+                alt={car.title}
+                className="lot-gallery__img"
+                style={{ cursor: 'zoom-in' }}
+                onClick={() => setLightboxOpen(true)}
+              />
               {images.length > 1 ? (
                 <>
                   <button className="lot-gallery__arrow prev" type="button" onClick={() => setGalleryIndex((prev) => (prev - 1 + images.length) % images.length)} aria-label={t('lotGalleryPrev')}>‹</button>
@@ -742,5 +752,25 @@ export function LotPage() {
         </div>
       </section>
     </main>
+
+      {lightboxOpen && createPortal(
+        <div className="lb-overlay" onClick={() => setLightboxOpen(false)} role="dialog" aria-modal="true">
+          <button className="lb-close" type="button" onClick={() => setLightboxOpen(false)} aria-label="Zamknij">✕</button>
+          {images.length > 1 && (
+            <button className="lb-nav lb-nav--prev" type="button" onClick={(e) => { e.stopPropagation(); setGalleryIndex((prev) => (prev - 1 + images.length) % images.length) }} aria-label="Poprzednie">‹</button>
+          )}
+          <div className="lb-img-wrap" onClick={(e) => e.stopPropagation()}>
+            <img src={images[galleryIndex]} className="lb-img" alt={car.title} />
+          </div>
+          {images.length > 1 && (
+            <button className="lb-nav lb-nav--next" type="button" onClick={(e) => { e.stopPropagation(); setGalleryIndex((prev) => (prev + 1) % images.length) }} aria-label="Następne">›</button>
+          )}
+          {images.length > 1 && (
+            <div className="lb-counter">{galleryIndex + 1} / {images.length}</div>
+          )}
+        </div>,
+        document.body
+      )}
+    </>
   )
 }
