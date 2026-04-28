@@ -720,7 +720,9 @@ export function CalculatorPage() {
                 <label htmlFor="fuelType">{t('calcLabelFuel')}</label>
                 <select id="fuelType" className="calc-select" value={fuelType} onChange={(event) => setFuelType(event.target.value)}>
                   {fuelOptions.map((option) => (
-                    <option key={option} value={option}>{option}</option>
+                    <option key={option} value={option}>
+                      {option === 'Gas' ? 'Benzyna' : option}
+                    </option>
                   ))}
                 </select>
               </div>
