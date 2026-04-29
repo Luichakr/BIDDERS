@@ -148,7 +148,7 @@ export function Header() {
                     </div>
                     <span className="px-mega-card__label">{t('homeRouteTransitTitle')}</span>
                   </NavLink>
-                  <NavLink className="px-mega-card" to={lp(routePaths.calculator)} role="menuitem" onClick={() => setCatalogOpen(false)}>
+                  <NavLink className="px-mega-card" to={lp(routePaths.catalog)} role="menuitem" onClick={() => setCatalogOpen(false)}>
                     <div className="px-mega-card__img-wrap">
                       <img src={`${import.meta.env.BASE_URL}${ROUTE_IMAGES.order}`} alt={t('homeRouteOrderTitle')} />
                     </div>
@@ -299,7 +299,7 @@ export function Header() {
                   </div>
                   <span className="px-mobile-mega__label">{t('homeRouteTransitTitle')}</span>
                 </NavLink>
-                <NavLink className="px-mobile-mega__card" to={lp(routePaths.calculator)} onClick={closeMobile}>
+                <NavLink className="px-mobile-mega__card" to={lp(routePaths.catalog)} onClick={closeMobile}>
                   <div className="px-mobile-mega__img-wrap">
                     <img src={`${import.meta.env.BASE_URL}${ROUTE_IMAGES.order}`} alt={t('homeRouteOrderTitle')} />
                   </div>

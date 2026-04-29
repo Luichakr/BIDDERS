@@ -32,6 +32,9 @@ export interface AuctionCardData {
   estimateHigh: number
   estimateLabel: string
   status: 'catalog' | 'transit' | 'in-stock'
+  auctionEndMs?: number | null
+  buyNow?: number | null
+  buyNowLabel?: string | null
 }
 
 function parseMoney(value: string): number {

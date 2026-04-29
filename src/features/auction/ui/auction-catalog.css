@@ -1355,6 +1355,33 @@
   display: none;
 }
 
+.catalog-page-react .current-bid-val--buynow {
+  color: #1a9e4a;
+}
+
+.catalog-page-react .auction-timer {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #2a7fff;
+  background: rgba(42, 127, 255, 0.08);
+  border-radius: 8px;
+  padding: 4px 8px;
+  width: fit-content;
+  margin: 2px 0;
+}
+
+.catalog-page-react .auction-timer--urgent {
+  color: #e03;
+  background: rgba(238, 0, 51, 0.08);
+}
+
+.catalog-page-react .auction-timer__icon {
+  font-size: 13px;
+}
+
 .catalog-page-react .btn-auction {
   margin-top: auto;
   padding: 12px 18px;

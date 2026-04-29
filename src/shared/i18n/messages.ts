@@ -385,6 +385,7 @@ export type MessageKey =
   | 'seoLotDescription'
   | 'navChinaCars'
   | 'footerLotSources'
+  | 'catalogSortAuctionTime'
   | 'catalogSortPriceDesc'
   | 'catalogSortPriceAsc'
   | 'catalogSortYearDesc'
@@ -1758,6 +1759,7 @@ export const messages: Record<Locale, Messages> = {
     faqInspectionAnswer: 'Так, доступний огляд на майданчику за попереднім записом.',
     faqCtaHome: 'Блок FAQ на головній',
     faqCtaContacts: 'Перейти до контактів',
+    catalogSortAuctionTime: 'Найближчий аукціон',
     catalogSortPriceDesc: 'Спочатку дорожчі',
     catalogSortPriceAsc: 'Спочатку дешевші',
     catalogSortYearDesc: 'Новіші за роком',
@@ -2454,6 +2456,7 @@ export const messages: Record<Locale, Messages> = {
     homeFaqCtaButton: 'Didn\'t find your answer? Ask',
     navChinaCars: 'Cars from China',
     footerLotSources: 'Official lot sources',
+    catalogSortAuctionTime: 'Auction: soonest first',
     catalogSortPriceDesc: 'Price: high to low',
     catalogSortPriceAsc: 'Price: low to high',
     catalogSortYearDesc: 'Year: newest first',
@@ -3461,6 +3464,7 @@ export const messages: Record<Locale, Messages> = {
     homeFaqCtaButton: 'Nie znalazłeś odpowiedzi? Zapytaj',
     navChinaCars: 'Auta z Chin',
     footerLotSources: 'Oficjalne źródła lotów',
+    catalogSortAuctionTime: 'Aukcja: najwcześniej',
     catalogSortPriceDesc: 'Cena: od najwyższej',
     catalogSortPriceAsc: 'Cena: od najniższej',
     catalogSortYearDesc: 'Rok: najnowsze',
@@ -3480,7 +3484,7 @@ export const messages: Record<Locale, Messages> = {
     catalogCurrentBidLabel: 'Aktualna oferta',
     catalogPriceNoteSeller: 'Sprzedawca: BIDDERS',
     catalogPriceNoteLease: 'Dostępne w leasingu',
-    catalogPriceNoteEstimate: 'Szacunek:',
+    catalogPriceNoteEstimate: 'Wycena rynkowa:',
     catalogDetailMileage: 'Przebieg',
     catalogDetailLocation: 'Lokalizacja',
     catalogDetailDamage: 'Uszkodzenia',

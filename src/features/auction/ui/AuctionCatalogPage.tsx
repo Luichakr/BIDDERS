@@ -1,10 +1,46 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import type { AuctionCardData } from '../model/auctionData'
 import { fetchInRouteCardById } from '../model/inRoute.service'
 import { routePaths, localizedPath } from '../../../shared/config/routes'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
 import './auction-catalog.css'
+
+function formatCountdown(ms: number): string {
+  if (ms <= 0) return '—'
+  const totalSec = Math.floor(ms / 1000)
+  const d = Math.floor(totalSec / 86400)
+  const h = Math.floor((totalSec % 86400) / 3600)
+  const m = Math.floor((totalSec % 3600) / 60)
+  const s = totalSec % 60
+  if (d > 0) return `${d}д ${h}ч ${m}м`
+  if (h > 0) return `${h}ч ${m}м ${s}с`
+  return `${m}м ${s}с`
+}
+
+function AuctionTimer({ endMs }: { endMs: number }) {
+  const [remaining, setRemaining] = useState(() => endMs - Date.now())
+  const rafRef = useRef<number>(0)
+
+  useEffect(() => {
+    const tick = () => {
+      const r = endMs - Date.now()
+      setRemaining(r)
+      if (r > 0) rafRef.current = window.setTimeout(tick, 1000)
+    }
+    tick()
+    return () => clearTimeout(rafRef.current)
+  }, [endMs])
+
+  if (remaining <= 0) return null
+  const urgent = remaining < 3_600_000 // < 1 hour
+  return (
+    <div className={`auction-timer${urgent ? ' auction-timer--urgent' : ''}`}>
+      <span className="auction-timer__icon">⏱</span>
+      {formatCountdown(remaining)}
+    </div>
+  )
+}
 
 interface AuctionCatalogPageProps {
   title: string
@@ -13,7 +49,7 @@ interface AuctionCatalogPageProps {
   isLoading?: boolean
 }
 
-type SortMode = 'price_desc' | 'price_asc' | 'year_desc' | 'year_asc' | 'mileage_asc' | 'mileage_desc'
+type SortMode = 'auction_asc' | 'price_desc' | 'price_asc' | 'year_desc' | 'year_asc' | 'mileage_asc' | 'mileage_desc'
 type LayoutMode = 'list' | 'grid'
 type FilterGroupKey = 'doc' | 'odo' | 'year' | 'brand' | 'model' | 'engine' | 'trans' | 'drive' | 'postal'
 
@@ -50,7 +86,7 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
   const { locale, t } = useI18n()
   const [sortOpen, setSortOpen] = useState(false)
   const [drawerOpen, setDrawerOpen] = useState(false)
-  const [sortMode, setSortMode] = useState<SortMode>('price_desc')
+  const [sortMode, setSortMode] = useState<SortMode>(mode === 'catalog' ? 'auction_asc' : 'price_desc')
   const [layout, setLayout] = useState<LayoutMode>('list')
   const [visibleCount, setVisibleCount] = useState(20)
 
@@ -83,6 +119,7 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
 
   const [brandSearch, setBrandSearch] = useState('')
   const [modelSearch, setModelSearch] = useState('')
+  const [activeTab, setActiveTab] = useState<'all' | 'open' | 'live' | 'closed' | 'buynow'>('all')
 
   const [slideByCard, setSlideByCard] = useState<Record<string, number>>(() => {
     const init: Record<string, number> = {}
@@ -113,6 +150,7 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
   const odoFillRight = 100 - ((odoMax - odoMinLimit) / odoRange) * 100
 
   const sortLabelMap: Record<SortMode, string> = {
+    auction_asc: t('catalogSortAuctionTime'),
     price_desc: t('catalogSortPriceDesc'),
     price_asc: t('catalogSortPriceAsc'),
     year_desc: t('catalogSortYearDesc'),
@@ -195,7 +233,16 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
 
     const sorted = [...items]
     sorted.sort((a, b) => {
+      const aEnd = (a as AuctionCardData & { auctionEndMs?: number | null }).auctionEndMs ?? 0
+      const bEnd = (b as AuctionCardData & { auctionEndMs?: number | null }).auctionEndMs ?? 0
       switch (sortMode) {
+        case 'auction_asc': {
+          // Сначала активные аукционы (ближайшие), потом без таймера
+          const now = Date.now()
+          const aActive = aEnd > now ? aEnd : Infinity
+          const bActive = bEnd > now ? bEnd : Infinity
+          return aActive - bActive
+        }
         case 'price_desc': return b.currentBid - a.currentBid
         case 'price_asc': return a.currentBid - b.currentBid
         case 'year_desc': return b.year - a.year
@@ -285,8 +332,36 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
     setYearTo(maxYearAll)
   }, [maxYearAll, minYearAll, mode])
 
-  const visibleCards = useMemo(() => filteredCards.slice(0, visibleCount), [filteredCards, visibleCount])
-  const hasMoreCards = visibleCount < filteredCards.length
+  const now = Date.now()
+  const tabFilteredCards = useMemo(() => {
+    if (mode !== 'catalog' || activeTab === 'all') return filteredCards
+    return filteredCards.filter((c) => {
+      const endMs = (c as AuctionCardData & { auctionEndMs?: number | null }).auctionEndMs
+      const buyNow = (c as AuctionCardData & { buyNow?: number }).buyNow
+      if (activeTab === 'buynow') return buyNow != null && buyNow > 0
+      if (!endMs) return false
+      if (activeTab === 'open') return endMs > now
+      if (activeTab === 'live') return endMs > now && endMs - now < 24 * 3600 * 1000
+      if (activeTab === 'closed') {
+        const startOfToday = new Date(); startOfToday.setHours(0, 0, 0, 0)
+        return endMs < now && endMs > startOfToday.getTime()
+      }
+      return true
+    })
+  }, [filteredCards, activeTab, mode])
+
+  const tabCounts = useMemo(() => {
+    if (mode !== 'catalog') return {}
+    const open = filteredCards.filter(c => { const e = (c as AuctionCardData & { auctionEndMs?: number | null }).auctionEndMs; return e && e > now }).length
+    const live = filteredCards.filter(c => { const e = (c as AuctionCardData & { auctionEndMs?: number | null }).auctionEndMs; return e && e > now && e - now < 24 * 3600 * 1000 }).length
+    const startOfToday = new Date(); startOfToday.setHours(0, 0, 0, 0)
+    const closed = filteredCards.filter(c => { const e = (c as AuctionCardData & { auctionEndMs?: number | null }).auctionEndMs; return e && e < now && e > startOfToday.getTime() }).length
+    const buynow = filteredCards.filter(c => { const b = (c as AuctionCardData & { buyNow?: number }).buyNow; return b != null && b > 0 }).length
+    return { open, live, closed, buynow }
+  }, [filteredCards, mode])
+
+  const visibleCards = useMemo(() => tabFilteredCards.slice(0, visibleCount), [tabFilteredCards, visibleCount])
+  const hasMoreCards = visibleCount < tabFilteredCards.length
 
   const activeChips = [
     ...selectedDocTypes.map((value) => ({ type: 'doc' as const, value })),
@@ -496,14 +571,20 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
       : mode === 'in-stock'
         ? t('catalogStatusInStock')
         : t('catalogStatusAtAuction')
+    const hasBuyNow = mode === 'catalog' && card.buyNow != null && card.buyNow > 0
     const priceLabel = mode === 'transit' || mode === 'in-stock'
       ? t('catalogPriceLabel')
-      : t('catalogCurrentBidLabel')
+      : hasBuyNow
+        ? t('catalogTabBuyNow')
+        : t('catalogCurrentBidLabel')
+    const displayPrice = hasBuyNow
+      ? (card.buyNowLabel ?? `$${card.buyNow}`)
+      : (card.currentBidLabel || (card.currentBid > 0 ? formatUsd(card.currentBid) : '—'))
     const priceNote = mode === 'transit'
       ? t('catalogPriceNoteSeller')
       : mode === 'in-stock'
         ? t('catalogPriceNoteLease')
-        : `${t('catalogPriceNoteEstimate')} ${card.estimateLabel}`
+        : null
 
     return (
       <article className="car-card" key={card.id} onClick={() => navigate(localizedPath(locale, `lots/${card.id}`))}>
@@ -530,7 +611,10 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
           <div className="card-top">
             <div className="card-title-block">
               <h3 className="card-title">{card.title}</h3>
-              <div className="card-vin">{card.vin} · <span>{sellerLabel}</span></div>
+              <div className="card-vin">
+                {card.vin ? card.vin : `Lot #${card.id}`}
+                {' · '}<span>{sellerLabel}</span>
+              </div>
             </div>
             <span className={isFixedPrice ? 'auction-badge available' : 'auction-badge'}>{auctionBadgeLabel}</span>
             <button className="fav-btn" type="button" onClick={(event) => event.stopPropagation()}>♡</button>
@@ -555,8 +639,11 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
         <div className="card-price">
           <div>
             <div className="current-bid-label">{priceLabel}</div>
-            <div className="current-bid-val">{card.currentBidLabel || formatUsd(card.currentBid)}</div>
+            <div className={`current-bid-val${hasBuyNow ? ' current-bid-val--buynow' : ''}`}>{displayPrice}</div>
           </div>
+          {mode === 'catalog' && card.auctionEndMs && card.auctionEndMs > Date.now() && (
+            <AuctionTimer endMs={card.auctionEndMs} />
+          )}
           <div className="bid-note">{priceNote}</div>
           <button className="btn-auction" type="button">{t('catalogCardDetails')}</button>
         </div>
@@ -1177,11 +1264,11 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
           <div className="catalog-tabs">
             {mode === 'catalog' ? (
               <>
-                <button className="tab-item active" type="button">{t('catalogTabAll')} <span className="tab-count">{filteredCards.length}</span></button>
-                <button className="tab-item" type="button">{t('catalogTabOpenAuctions')} <span className="tab-count">{Math.max(0, filteredCards.length - 2)}</span></button>
-                <button className="tab-item" type="button">{t('catalogTabInProgress')} <span className="tab-count">{Math.min(3, filteredCards.length)}</span></button>
-                <button className="tab-item" type="button">{t('catalogTabClosedToday')} <span className="tab-count">1</span></button>
-                <button className="tab-item" type="button">{t('catalogTabBuyNow')} <span className="tab-count">{Math.max(1, Math.round(filteredCards.length / 2))}</span></button>
+                <button className={activeTab === 'all' ? 'tab-item active' : 'tab-item'} type="button" onClick={() => { setActiveTab('all'); setVisibleCount(20) }}>{t('catalogTabAll')} <span className="tab-count">{filteredCards.length}</span></button>
+                <button className={activeTab === 'open' ? 'tab-item active' : 'tab-item'} type="button" onClick={() => { setActiveTab('open'); setVisibleCount(20) }}>{t('catalogTabOpenAuctions')} <span className="tab-count">{tabCounts.open ?? 0}</span></button>
+                <button className={activeTab === 'live' ? 'tab-item active' : 'tab-item'} type="button" onClick={() => { setActiveTab('live'); setVisibleCount(20) }}>{t('catalogTabInProgress')} <span className="tab-count">{tabCounts.live ?? 0}</span></button>
+                <button className={activeTab === 'closed' ? 'tab-item active' : 'tab-item'} type="button" onClick={() => { setActiveTab('closed'); setVisibleCount(20) }}>{t('catalogTabClosedToday')} <span className="tab-count">{tabCounts.closed ?? 0}</span></button>
+                <button className={activeTab === 'buynow' ? 'tab-item active' : 'tab-item'} type="button" onClick={() => { setActiveTab('buynow'); setVisibleCount(20) }}>{t('catalogTabBuyNow')} <span className="tab-count">{tabCounts.buynow ?? 0}</span></button>
                 <button className="tab-archive" type="button">{t('catalogTabArchive')}</button>
               </>
             ) : mode === 'in-stock' ? (
@@ -1196,7 +1283,7 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
           </div>
 
           <div className="results-head">
-            <span className="results-count"><strong id="resultsCount">{filteredCards.length}</strong> {t('catalogResultsCount')}</span>
+            <span className="results-count"><strong id="resultsCount">{tabFilteredCards.length}</strong> {t('catalogResultsCount')}</span>
             <div className="layout-switcher" id="layoutSwitcher">
               <button className={layout === 'list' ? 'layout-btn active' : 'layout-btn'} type="button" onClick={() => setLayout('list')}>{t('catalogLayoutList')}</button>
               <button className={layout === 'grid' ? 'layout-btn active' : 'layout-btn'} type="button" onClick={() => setLayout('grid')}>{t('catalogLayoutGrid')}</button>

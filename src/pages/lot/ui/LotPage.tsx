@@ -1,14 +1,22 @@
-import { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Link, useParams } from 'react-router-dom'
 import { allAuctionCards, getAuctionCardById } from '../../../features/auction/model/auctionData'
-import { fetchInRouteCardById } from '../../../features/auction/model/inRoute.service'
+import type { AuctionCardData } from '../../../features/auction/model/auctionData'
+import { fetchInRouteCardById, fetchCatalogLotById } from '../../../features/auction/model/inRoute.service'
 import { routePaths, localizedPath } from '../../../shared/config/routes'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
 import { Seo } from '../../../shared/seo/Seo'
 import './lot.css'
 
 type LotMode = 'catalog' | 'transit' | 'in-stock'
+
+function formatAddress(loc: string): React.ReactNode {
+  // Split before postal code pattern like "05-850"
+  const match = loc.match(/^(.+?),\s*(\d{2}-\d{3}.*)$/)
+  if (match) return <>{match[1].trim()},<br />{match[2].trim()}</>
+  return loc
+}
 
 function fmt(value: number): string {
   return `$${Math.round(value).toLocaleString('en-US')}`
@@ -55,16 +63,21 @@ export function LotPage() {
 
     const load = async () => {
       try {
-        const response = await fetchInRouteCardById(lotId)
-        if (!mounted) {
+        // Try lots.json first (Copart/IAAI parser data)
+        const fromJson = await fetchCatalogLotById(lotId)
+        if (fromJson) {
+          if (!mounted) return
+          setLiveCar(fromJson)
+          setLiveLoadState('loaded')
           return
         }
+        // Fallback: legacy in-route API
+        const response = await fetchInRouteCardById(lotId)
+        if (!mounted) return
         setLiveCar(response ?? undefined)
         setLiveLoadState(response ? 'loaded' : 'failed')
       } catch {
-        if (!mounted) {
-          return
-        }
+        if (!mounted) return
         setLiveCar(undefined)
         setLiveLoadState('failed')
       }
@@ -90,25 +103,39 @@ export function LotPage() {
   const [selectedServices, setSelectedServices] = useState<string[]>([])
   const [priceCalcOpen, setPriceCalcOpen] = useState(true)
   const [customsCalcOpen, setCustomsCalcOpen] = useState(false)
-  const [countdownSeconds, setCountdownSeconds] = useState(6 * 24 * 3600 + 20 * 3600 + 25 * 60)
   const [faqOpen, setFaqOpen] = useState<number | null>(0)
 
-  const [bidValue, setBidValue] = useState(car ? car.currentBid + 500 : 0)
+  const [bidValue, setBidValue] = useState(car ? car.currentBid + 100 : 0)
   const [leaseDownPct, setLeaseDownPct] = useState(30)
   const [leaseMonths, setLeaseMonths] = useState(36)
 
   useEffect(() => {
     if (!car) return
-    setBidValue(car.currentBid + 500)
+    setBidValue(car.currentBid + 100)
   }, [car])
+
+  // Таймер — считаем от auctionEndMs или auctionDateLabel
+  const auctionEndMs = (car as AuctionCardData & { auctionEndMs?: number | null })?.auctionEndMs ?? null
+  const [countdownSeconds, setCountdownSeconds] = useState(() => {
+    if (auctionEndMs) return Math.max(0, Math.floor((auctionEndMs - Date.now()) / 1000))
+    return 0
+  })
 
   useEffect(() => {
     if (mode !== 'catalog') return
-    const timer = window.setInterval(() => {
-      setCountdownSeconds((prev) => Math.max(0, prev - 1))
-    }, 1000)
+    if (!auctionEndMs) return
+    const update = () => setCountdownSeconds(Math.max(0, Math.floor((auctionEndMs - Date.now()) / 1000)))
+    update()
+    const timer = window.setInterval(update, 1000)
     return () => window.clearInterval(timer)
-  }, [mode])
+  }, [mode, auctionEndMs])
+
+  const auctionEndLabel = useMemo(() => {
+    if (!auctionEndMs) return car?.auctionDateLabel ?? '—'
+    const d = new Date(auctionEndMs)
+    const localeCode = locale === 'pl' ? 'pl-PL' : locale === 'uk' ? 'uk-UA' : 'en-US'
+    return d.toLocaleString(localeCode, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })
+  }, [auctionEndMs, locale, car?.auctionDateLabel])
 
   const images = useMemo(() => {
     if (!car) return []
@@ -144,10 +171,82 @@ export function LotPage() {
 
   if (!car && isNumericLotId && liveLoadState === 'loading') {
     return (
-      <main className="lot-page">
-        <section className="lot-empty">
-          <h2>{t('lotLoading')}</h2>
-          <p>{t('lotLoadingDesc')}</p>
+      <main className="lot-page lot-page--skeleton">
+        {/* breadcrumb skeleton */}
+        <div className="lot-breadcrumb">
+          <div className="lot-breadcrumb__inner">
+            <div className="lsk lsk--w80" />
+            <span className="lot-breadcrumb__sep">›</span>
+            <div className="lsk lsk--w120" />
+            <span className="lot-breadcrumb__sep">›</span>
+            <div className="lsk lsk--w200" />
+          </div>
+        </div>
+
+        {/* title bar skeleton */}
+        <section className="lot-title-bar">
+          <div className="lot-title-bar__inner">
+            <div className="lot-title-bar__main">
+              <div className="lsk lsk--title" />
+              <div className="lsk-meta">
+                <div className="lsk lsk--w120" />
+                <div className="lsk lsk--w80" />
+                <div className="lsk lsk--pill" />
+              </div>
+            </div>
+            <div className="lot-title-bar__summary">
+              {[1,2,3,4].map(i => (
+                <div className="lot-summary-item" key={i}>
+                  <div className="lsk lsk--w60" />
+                  <div className="lsk lsk--w100" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* main grid skeleton */}
+        <section className="lot-main">
+          <div className="lot-main__inner">
+            {/* gallery */}
+            <div className="lot-gallery">
+              <div className="lsk lsk--photo" />
+              <div className="lsk-thumbs">
+                {[1,2,3,4,5].map(i => <div className="lsk lsk--thumb" key={i} />)}
+              </div>
+            </div>
+            {/* specs */}
+            <div className="lot-specs">
+              <div className="lsk-card">
+                <div className="lsk lsk--w160 lsk--heading" />
+                {[1,2,3,4,5,6].map(i => (
+                  <div className="lsk-row" key={i}>
+                    <div className="lsk lsk--w100" />
+                    <div className="lsk lsk--w140" />
+                  </div>
+                ))}
+              </div>
+              <div className="lsk-card" style={{ marginTop: 16 }}>
+                <div className="lsk lsk--w160 lsk--heading" />
+                {[1,2,3,4].map(i => (
+                  <div className="lsk-row" key={i}>
+                    <div className="lsk lsk--w100" />
+                    <div className="lsk lsk--w120" />
+                  </div>
+                ))}
+              </div>
+            </div>
+            {/* sidebar */}
+            <aside className="lot-sidebar">
+              <div className="lsk-card lsk-card--hero">
+                <div className="lsk lsk--w80" />
+                <div className="lsk lsk--price" />
+                <div className="lsk lsk--w160" />
+                <div className="lsk lsk--btn" style={{ marginTop: 24 }} />
+                <div className="lsk lsk--btn lsk--btn-outline" style={{ marginTop: 10 }} />
+              </div>
+            </aside>
+          </div>
         </section>
       </main>
     )
@@ -243,6 +342,12 @@ export function LotPage() {
           <Link to={lp(mode === 'transit' ? routePaths.transit : mode === 'in-stock' ? routePaths.inStock : routePaths.catalog)}>{modeLabel}</Link>
           <span className="lot-breadcrumb__sep">›</span>
           <span className="lot-breadcrumb__current">{car.title}</span>
+          <Link
+            to={lp(mode === 'transit' ? routePaths.transit : mode === 'in-stock' ? routePaths.inStock : routePaths.catalog)}
+            className="lot-back-btn"
+          >
+            ← {modeLabel}
+          </Link>
         </div>
       </div>
 
@@ -260,7 +365,7 @@ export function LotPage() {
           <div className="lot-title-bar__summary">
             <div className="lot-summary-item">
               <span className="lot-summary-item__label">{t('lotLabelLocation')}</span>
-              <span className="lot-summary-item__value">{car.location}</span>
+              <span className="lot-summary-item__value">{formatAddress(car.location)}</span>
             </div>
             <div className="lot-summary-item">
               <span className="lot-summary-item__label">{mode === 'in-stock' ? t('lotLabelPickupPoint') : t('lotLabelDispatchPort')}</span>
@@ -326,8 +431,14 @@ export function LotPage() {
                 <div className="lot-spec-row">
                   <dt>VIN</dt>
                   <dd>
-                    <span className="lot-spec-mono">{car.vin}</span>
-                    <button className="lot-copy-btn" type="button" onClick={() => navigator.clipboard.writeText(car.vin)}>{t('lotCopyVin')}</button>
+                    {car.vin ? (
+                      <>
+                        <span className="lot-spec-mono">{car.vin}</span>
+                        <button className="lot-copy-btn" type="button" onClick={() => navigator.clipboard.writeText(car.vin)}>{t('lotCopyVin')}</button>
+                      </>
+                    ) : (
+                      <span className="lot-spec-muted">—</span>
+                    )}
                   </dd>
                 </div>
                 <div className="lot-spec-row"><dt>{t('lotLabelSeller')}</dt><dd><span className="lot-dot"></span>{car.seller}</dd></div>
@@ -406,14 +517,13 @@ export function LotPage() {
                 <div className="lot-sb-card lot-sb-card--hero">
                   <div className="lot-sb-kicker">{t('lotSbCurrentBid')}</div>
                   <div className="lot-sb-price">{fmt(car.currentBid)}</div>
-                  <div className="lot-sb-estimate">{t('lotSbEstimate')} <strong>{car.estimateLabel}</strong></div>
 
                   <div className="lot-bid-block">
                     <div className="lot-bid-label">{t('lotSbMaxBid')}</div>
                     <div className="lot-bid-input-row">
-                      <button className="lot-bid-adj" type="button" onClick={() => adjustBid(-500)} aria-label={t('lotSbDecrease')}>−</button>
+                      <button className="lot-bid-adj" type="button" onClick={() => adjustBid(-100)} aria-label={t('lotSbDecrease')}>−</button>
                       <input className="lot-bid-input" value={fmt(bidValue)} readOnly />
-                      <button className="lot-bid-adj" type="button" onClick={() => adjustBid(500)} aria-label={t('lotSbIncrease')}>+</button>
+                      <button className="lot-bid-adj" type="button" onClick={() => adjustBid(100)} aria-label={t('lotSbIncrease')}>+</button>
                     </div>
                   </div>
 
@@ -425,7 +535,7 @@ export function LotPage() {
                     <div className={countdownSeconds <= 0 ? 'lot-timer__value expired' : 'lot-timer__value'}>
                       {countdownSeconds <= 0 ? t('lotSbAuctionEnded') : buildCountdownLabel(countdownSeconds, timerUnits)}
                     </div>
-                    <span className="lot-timer__end">{t('lotSbTimerUntil')} <strong>2 травня, 15:30</strong></span>
+                    <span className="lot-timer__end">{t('lotSbTimerUntil')} <strong>{auctionEndLabel}</strong></span>
                   </div>
                 </div>
 
@@ -477,7 +587,7 @@ export function LotPage() {
                   <ul className="lot-sb-facts">
                     <li><span>{t('lotLabelSeller')}</span><strong>BIDDERS</strong></li>
                     <li><span>{t('lotSbFactDelivery')}</span><strong>{t('lotSbFactDeliveryValue')}</strong></li>
-                    <li><span>{t('lotLabelLocation')}</span><strong>{car.location}</strong></li>
+                    <li><span>{t('lotLabelLocation')}</span><strong>{formatAddress(car.location)}</strong></li>
                   </ul>
 
                   <button className="lot-cta-primary" type="button">{t('lotSbContact')}</button>

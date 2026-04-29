@@ -130,6 +130,26 @@
   max-width: 420px;
 }
 
+.lot-back-btn {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.lot-back-btn:hover {
+  border-color: var(--lot-accent);
+  color: var(--lot-accent) !important;
+  background: rgba(255, 107, 0, 0.06);
+}
+
 /* ============================================================
    TITLE BAR
    ============================================================ */
@@ -2069,4 +2089,78 @@
   padding: 4px 12px;
   border-radius: 20px;
   z-index: 9001;
+}
+
+/* ── Lot page skeleton ── */
+@keyframes lot-shimmer {
+  0%   { background-position: -600px 0 }
+  100% { background-position:  600px 0 }
+}
+
+.lsk {
+  border-radius: 6px;
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.06) 25%,
+    rgba(255,255,255,0.13) 50%,
+    rgba(255,255,255,0.06) 75%
+  );
+  background-size: 600px 100%;
+  animation: lot-shimmer 1.4s infinite linear;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* widths */
+.lsk--w60  { width: 60px }
+.lsk--w80  { width: 80px }
+.lsk--w100 { width: 100px }
+.lsk--w120 { width: 120px }
+.lsk--w140 { width: 140px }
+.lsk--w160 { width: 160px }
+.lsk--w200 { width: 200px }
+
+/* special shapes */
+.lsk--title   { width: 340px; height: 32px; border-radius: 8px }
+.lsk--heading { height: 18px; border-radius: 6px; margin-bottom: 16px }
+.lsk--pill    { width: 90px; height: 22px; border-radius: 20px }
+.lsk--photo   { width: 100%; aspect-ratio: 4/3; height: auto; min-height: 260px; border-radius: 12px }
+.lsk--thumb   { width: 68px; height: 52px; border-radius: 6px; flex-shrink: 0 }
+.lsk--price   { width: 180px; height: 44px; border-radius: 8px; margin: 8px 0 }
+.lsk--btn     { width: 100%; height: 46px; border-radius: 8px }
+.lsk--btn-outline { background: rgba(255,255,255,0.04) }
+
+/* layout helpers */
+.lsk-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.lsk-thumbs {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.lsk-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.lsk-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 24px;
+}
+
+.lsk-card--hero {
+  background: linear-gradient(135deg, #1a2540 0%, #0f1929 100%);
+  border-color: rgba(255,255,255,0.1);
 }

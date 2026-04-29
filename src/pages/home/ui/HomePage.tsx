@@ -730,10 +730,10 @@ export function HomePage() {
                 </div>
                 <h3 className="px-route__title">{t('homeRouteOrderTitle')}</h3>
                 <p className="px-route__desc">{t('homeRouteOrderDesc')}</p>
-                <button type="button" className="px-route__cta" onClick={() => openB2C(t('homeScenarioOrder'))}>
+                <Link className="px-route__cta" to={localizedPath(locale, routePaths.catalog)}>
                   {t('homeRouteGetEstimateCta')}
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-                </button>
+                </Link>
               </div>
             </article>
 
