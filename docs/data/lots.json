@@ -1,61 +1,5 @@
 [
   {
-    "id": "78707285",
-    "source": "copart",
-    "title": "2020 LAND ROVER RANGE ROVER SPORT",
-    "year": 2020,
-    "make": "LAND ROVER",
-    "model": "RANGE ROVER SPORT",
-    "trim": "AUTOMATIC",
-    "vin": "",
-    "engine": "3.0L 6",
-    "transmission": "AUTOMATIC",
-    "drive": "ALL WHEEL DRIVE",
-    "fuel": "GAS",
-    "color": "GRAY",
-    "bodyStyle": "SPORT UTILITY VEHICLE",
-    "mileageKm": 189381,
-    "mileageLabel": "189 381 km",
-    "damage": "MINOR DENT/SCRATCHES",
-    "damageSec": "",
-    "titleStatus": "CLEAN TITLE",
-    "hasKeys": true,
-    "condition": "CERT-D",
-    "currentBid": 100,
-    "currentBidLabel": "$100",
-    "buyNow": 14003,
-    "buyNowLabel": "$14,003",
-    "estimateLow": 23940,
-    "estimateHigh": 29260,
-    "estimateLabel": "$26,600",
-    "auction": "COPART",
-    "auctionEndMs": 1777564800000,
-    "auctionDateLabel": "30.04.2026",
-    "saleTime": "12:00:00",
-    "saleTimeZone": "EDT",
-    "image": "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0326/523712f7039242b3bff6121ee612cbc9_ful.jpg",
-    "images": [
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0326/523712f7039242b3bff6121ee612cbc9_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0326/3e9626d46b90427bb762b9818b00eb46_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0326/077836d3657a46ed9be4fac8fa40f5b0_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0326/c4c1f445f52c4f9da52af47e7865eca6_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0326/e995febdf00d47fd9ddf84d78d23ae55_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0326/f2a21f8ff60548b98a28dcbe98a2ea87_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0426/1d73e7e6103f4b0ebcea4d909020e594_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0426/6830a4435ed54570a293018b46dd8e86_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0426/174e7f8b60c24fc190364a078567dc43_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0326/c0ac60673a1145d4bab8b127fb8af7c0_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0326/3573fc059854420d807e53302b8e5aef_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0326/894b0c1976154f178c74bf283aef6841_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0326/eaeb170c0d6a41e98d619fead0172f85_ful.jpg"
-    ],
-    "location": "FL - FT. PIERCE",
-    "seller": "BRIDGECREST ACCEPTANCE",
-    "sourceUrl": "https://www.copart.com/lot/78707285",
-    "status": "catalog",
-    "fetchedAt": "2026-04-29T11:24:39.015Z"
-  },
-  {
     "id": "74798585",
     "source": "copart",
     "title": "2021 BMW M340I",
@@ -63,7 +7,7 @@
     "make": "BMW",
     "model": "M340I",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "3MW5U7J0XM8",
     "engine": "3.0L  6",
     "transmission": "AUTOMATIC",
     "drive": "Rear-wheel drive",
@@ -108,7 +52,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/74798585",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.716Z"
+    "fetchedAt": "2026-04-29T13:21:12.216Z"
   },
   {
     "id": "99948935",
@@ -118,7 +62,7 @@
     "make": "BMW",
     "model": "Z4",
     "trim": "MANUAL",
-    "vin": "",
+    "vin": "4USBU53546L",
     "engine": "3.0L  6",
     "transmission": "MANUAL",
     "drive": "Rear-wheel drive",
@@ -163,7 +107,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99948935",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.716Z"
+    "fetchedAt": "2026-04-29T13:21:12.217Z"
   },
   {
     "id": "99946285",
@@ -173,7 +117,7 @@
     "make": "BMW",
     "model": "X1",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WBAVM5C57EV",
     "engine": "3.0L  6",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -219,7 +163,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99946285",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.716Z"
+    "fetchedAt": "2026-04-29T13:21:12.217Z"
   },
   {
     "id": "99945505",
@@ -229,7 +173,7 @@
     "make": "BMW",
     "model": "530",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WBAJA7C3XHG",
     "engine": "2.0L  4",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -274,7 +218,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99945505",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.716Z"
+    "fetchedAt": "2026-04-29T13:21:12.217Z"
   },
   {
     "id": "99940235",
@@ -284,7 +228,7 @@
     "make": "BMW",
     "model": "X3",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "5UX53DP07N9",
     "engine": "2.0L  4",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -330,7 +274,7 @@
     "seller": "Progressive",
     "sourceUrl": "https://www.copart.com/lot/99940235",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.716Z"
+    "fetchedAt": "2026-04-29T13:21:12.217Z"
   },
   {
     "id": "99914975",
@@ -340,7 +284,7 @@
     "make": "BMW",
     "model": "X3",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WBXPC93437W",
     "engine": "3.0L  6",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -386,7 +330,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99914975",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.716Z"
+    "fetchedAt": "2026-04-29T13:21:12.217Z"
   },
   {
     "id": "99905515",
@@ -396,7 +340,7 @@
     "make": "BMW",
     "model": "M3",
     "trim": "MANUAL",
-    "vin": "",
+    "vin": "WBSWL935X8P",
     "engine": "4.0L  8",
     "transmission": "MANUAL",
     "drive": "Rear-wheel drive",
@@ -441,7 +385,7 @@
     "seller": "USAA",
     "sourceUrl": "https://www.copart.com/lot/99905515",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.716Z"
+    "fetchedAt": "2026-04-29T13:21:12.217Z"
   },
   {
     "id": "99903095",
@@ -451,7 +395,7 @@
     "make": "BMW",
     "model": "I5",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WBY43FK0XRC",
     "engine": "0",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -496,7 +440,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99903095",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.716Z"
+    "fetchedAt": "2026-04-29T13:21:12.218Z"
   },
   {
     "id": "99895105",
@@ -506,7 +450,7 @@
     "make": "BMW",
     "model": "X1",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WBXHT3C30G5",
     "engine": "2.0L  4",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -551,7 +495,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99895105",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.716Z"
+    "fetchedAt": "2026-04-29T13:21:12.218Z"
   },
   {
     "id": "99893785",
@@ -561,7 +505,7 @@
     "make": "BMW",
     "model": "328",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WBA3B3C57DF",
     "engine": "2.0L  4",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -606,7 +550,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99893785",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.716Z"
+    "fetchedAt": "2026-04-29T13:21:12.218Z"
   },
   {
     "id": "90354385",
@@ -616,7 +560,7 @@
     "make": "MERCEDES-BENZ",
     "model": "E",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WDD1J6GB1JF",
     "engine": "3.0L  6",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -661,7 +605,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/90354385",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.716Z"
+    "fetchedAt": "2026-04-29T13:21:12.218Z"
   },
   {
     "id": "89861385",
@@ -671,7 +615,7 @@
     "make": "MERCEDES-BENZ",
     "model": "400",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WDBEA34E7PB",
     "engine": "4.2L  8",
     "transmission": "AUTOMATIC",
     "drive": "Rear-wheel drive",
@@ -716,7 +660,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/89861385",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.716Z"
+    "fetchedAt": "2026-04-29T13:21:12.218Z"
   },
   {
     "id": "83845985",
@@ -726,7 +670,7 @@
     "make": "MERCEDES BENZ",
     "model": "450",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "4JGDF6EE7JB",
     "engine": "3.0L  6",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -772,7 +716,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/83845985",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.716Z"
+    "fetchedAt": "2026-04-29T13:21:12.219Z"
   },
   {
     "id": "77577025",
@@ -782,7 +726,7 @@
     "make": "MERCEDES-BENZ",
     "model": "GL",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "4JGBF7BE0BA",
     "engine": "4.6L  8",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -828,7 +772,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/77577025",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.716Z"
+    "fetchedAt": "2026-04-29T13:21:12.219Z"
   },
   {
     "id": "66917965",
@@ -838,7 +782,7 @@
     "make": "MERCEDES BENZ",
     "model": "SLK",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WDBKK49FX2F",
     "engine": "2.3L 4",
     "transmission": "AUTOMATIC",
     "drive": "REAR WHEEL DRIVE",
@@ -883,7 +827,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/66917965",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.716Z"
+    "fetchedAt": "2026-04-29T13:21:12.219Z"
   },
   {
     "id": "99946875",
@@ -893,7 +837,7 @@
     "make": "MERCEDES-BENZ",
     "model": "GLE",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "4JGDA5HB6JB",
     "engine": "3.5L 6",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -939,7 +883,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99946875",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.717Z"
+    "fetchedAt": "2026-04-29T13:21:12.219Z"
   },
   {
     "id": "99946545",
@@ -949,7 +893,7 @@
     "make": "MERCEDES-BENZ",
     "model": "GLA",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WDCTG4GB7JJ",
     "engine": "2.0L  4",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -995,7 +939,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99946545",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.717Z"
+    "fetchedAt": "2026-04-29T13:21:12.219Z"
   },
   {
     "id": "99929095",
@@ -1005,7 +949,7 @@
     "make": "MERCEDES-BENZ",
     "model": "CLA",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WDDSJ4EB4EN",
     "engine": "2.0L  4",
     "transmission": "AUTOMATIC",
     "drive": "Front-wheel Drive",
@@ -1050,7 +994,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99929095",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.717Z"
+    "fetchedAt": "2026-04-29T13:21:12.219Z"
   },
   {
     "id": "99927065",
@@ -1060,7 +1004,7 @@
     "make": "MERCEDES-BENZ",
     "model": "C",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WDDGF4HB6DA",
     "engine": "1.8L  4",
     "transmission": "AUTOMATIC",
     "drive": "Rear-wheel drive",
@@ -1085,7 +1029,7 @@
     "auctionEndMs": null,
     "auctionDateLabel": "TBD",
     "saleTime": "12:00:00",
-    "saleTimeZone": "CST",
+    "saleTimeZone": "CDT",
     "image": "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/5e482a69a7d2470cb1e536245e7d1949_ful.jpg",
     "images": [
       "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/5e482a69a7d2470cb1e536245e7d1949_ful.jpg",
@@ -1105,7 +1049,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99927065",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.717Z"
+    "fetchedAt": "2026-04-29T13:21:12.219Z"
   },
   {
     "id": "99918615",
@@ -1115,7 +1059,7 @@
     "make": "MERCEDES-BENZ",
     "model": "GLE",
     "trim": "",
-    "vin": "",
+    "vin": "4JGFB4KB1LA",
     "engine": "2.0L  4",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -1158,7 +1102,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99918615",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.717Z"
+    "fetchedAt": "2026-04-29T13:21:12.219Z"
   },
   {
     "id": "99144595",
@@ -1168,7 +1112,7 @@
     "make": "AUDI",
     "model": "Q5",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WA1C2AFP2GA",
     "engine": "2.0L  4",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -1213,7 +1157,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99144595",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.717Z"
+    "fetchedAt": "2026-04-29T13:21:12.220Z"
   },
   {
     "id": "98979315",
@@ -1223,7 +1167,7 @@
     "make": "AUDI",
     "model": "Q7",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WA1VAAF76JD",
     "engine": "3.0L  6",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -1268,7 +1212,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/98979315",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.717Z"
+    "fetchedAt": "2026-04-29T13:21:12.220Z"
   },
   {
     "id": "99997405",
@@ -1278,7 +1222,7 @@
     "make": "AUDI",
     "model": "A6",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WAUKGAFB2AN",
     "engine": "3.0L  6",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -1324,7 +1268,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99997405",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.717Z"
+    "fetchedAt": "2026-04-29T13:21:12.220Z"
   },
   {
     "id": "99938335",
@@ -1334,7 +1278,7 @@
     "make": "AUDI",
     "model": "E-TRON",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WA1LAAGEXNB",
     "engine": "",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -1380,7 +1324,7 @@
     "seller": "Progressive",
     "sourceUrl": "https://www.copart.com/lot/99938335",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.717Z"
+    "fetchedAt": "2026-04-29T13:21:12.220Z"
   },
   {
     "id": "99900705",
@@ -1390,7 +1334,7 @@
     "make": "AUDI",
     "model": "Q3",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WA1EFCFS8GR",
     "engine": "2.0L  4",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -1436,7 +1380,7 @@
     "seller": "Progressive",
     "sourceUrl": "https://www.copart.com/lot/99900705",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.717Z"
+    "fetchedAt": "2026-04-29T13:21:12.220Z"
   },
   {
     "id": "99900045",
@@ -1446,7 +1390,7 @@
     "make": "AUDI",
     "model": "Q7",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WA1LAAF73KD",
     "engine": "3.0L  6",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -1492,7 +1436,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99900045",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.717Z"
+    "fetchedAt": "2026-04-29T13:21:12.220Z"
   },
   {
     "id": "99883075",
@@ -1502,7 +1446,7 @@
     "make": "AUDI",
     "model": "A4",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WAUFFAFLXDN",
     "engine": "2.0L  4",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -1547,7 +1491,7 @@
     "seller": "USAA",
     "sourceUrl": "https://www.copart.com/lot/99883075",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.717Z"
+    "fetchedAt": "2026-04-29T13:21:12.220Z"
   },
   {
     "id": "99820805",
@@ -1557,7 +1501,7 @@
     "make": "AUDI",
     "model": "Q5",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WA1GAAFY4S2",
     "engine": "2.0L  4",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -1603,7 +1547,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99820805",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.717Z"
+    "fetchedAt": "2026-04-29T13:21:12.220Z"
   },
   {
     "id": "99814645",
@@ -1613,7 +1557,7 @@
     "make": "AUDI",
     "model": "Q5",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WA1BBAFY9R2",
     "engine": "2.0L  4",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -1660,7 +1604,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99814645",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.717Z"
+    "fetchedAt": "2026-04-29T13:21:12.220Z"
   },
   {
     "id": "99791325",
@@ -1670,7 +1614,7 @@
     "make": "AUDI",
     "model": "A3",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WAUAUGFF1J1",
     "engine": "2.0L  4",
     "transmission": "AUTOMATIC",
     "drive": "Front-wheel Drive",
@@ -1715,7 +1659,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99791325",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.717Z"
+    "fetchedAt": "2026-04-29T13:21:12.221Z"
   },
   {
     "id": "97891995",
@@ -1725,7 +1669,7 @@
     "make": "TOYOTA",
     "model": "COROLLA",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "1NXBR32E36Z",
     "engine": "1.8L  4",
     "transmission": "AUTOMATIC",
     "drive": "Front-wheel Drive",
@@ -1739,8 +1683,8 @@
     "titleStatus": "CLEAN TITLE",
     "hasKeys": true,
     "condition": "CERT-D",
-    "currentBid": 1100,
-    "currentBidLabel": "$1,100",
+    "currentBid": 2050,
+    "currentBidLabel": "$2,050",
     "buyNow": 0,
     "buyNowLabel": "—",
     "estimateLow": 0,
@@ -1770,7 +1714,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/97891995",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.717Z"
+    "fetchedAt": "2026-04-29T13:21:12.221Z"
   },
   {
     "id": "93641635",
@@ -1780,7 +1724,7 @@
     "make": "TOYOTA",
     "model": "COROLLA",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "1NXBR18E4WZ",
     "engine": "1.8L 4",
     "transmission": "AUTOMATIC",
     "drive": "FRONT WHEEL DRIVE",
@@ -1825,7 +1769,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/93641635",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.717Z"
+    "fetchedAt": "2026-04-29T13:21:12.221Z"
   },
   {
     "id": "75057165",
@@ -1835,7 +1779,7 @@
     "make": "TOYOTA",
     "model": "CAMRY",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "JT2BG22K8Y0",
     "engine": "2.2L  4",
     "transmission": "AUTOMATIC",
     "drive": "Front-wheel Drive",
@@ -1849,8 +1793,8 @@
     "titleStatus": "CLEAN TITLE",
     "hasKeys": true,
     "condition": "CERT-D",
-    "currentBid": 100,
-    "currentBidLabel": "$100",
+    "currentBid": 125,
+    "currentBidLabel": "$125",
     "buyNow": 0,
     "buyNowLabel": "—",
     "estimateLow": 0,
@@ -1880,7 +1824,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/75057165",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.717Z"
+    "fetchedAt": "2026-04-29T13:21:12.221Z"
   },
   {
     "id": "74301945",
@@ -1890,7 +1834,7 @@
     "make": "TOYOTA",
     "model": "PRIUS",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "JTDKB20U073",
     "engine": "1.5L  4",
     "transmission": "AUTOMATIC",
     "drive": "Front-wheel Drive",
@@ -1936,7 +1880,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/74301945",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.717Z"
+    "fetchedAt": "2026-04-29T13:21:12.221Z"
   },
   {
     "id": "74029845",
@@ -1946,7 +1890,7 @@
     "make": "TOYOTA",
     "model": "CAMRY",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "4T1B61HK9JU",
     "engine": "2.5L  4",
     "transmission": "AUTOMATIC",
     "drive": "Front-wheel Drive",
@@ -1991,7 +1935,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/74029845",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.717Z"
+    "fetchedAt": "2026-04-29T13:21:12.221Z"
   },
   {
     "id": "73538675",
@@ -2001,7 +1945,7 @@
     "make": "TOYOTA",
     "model": "4RUNNER",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "JTEBU14R98K",
     "engine": "4.0L  6",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -2047,7 +1991,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/73538675",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.717Z"
+    "fetchedAt": "2026-04-29T13:21:12.221Z"
   },
   {
     "id": "99999885",
@@ -2057,7 +2001,7 @@
     "make": "TOYOTA",
     "model": "COROLLA",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "1NXBU40E89Z",
     "engine": "1.8L  4",
     "transmission": "AUTOMATIC",
     "drive": "Front-wheel Drive",
@@ -2102,7 +2046,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99999885",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.717Z"
+    "fetchedAt": "2026-04-29T13:21:12.221Z"
   },
   {
     "id": "99999495",
@@ -2112,7 +2056,7 @@
     "make": "TOYOTA",
     "model": "CAMRY",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "4T1BE30K34U",
     "engine": "2.4L  4",
     "transmission": "AUTOMATIC",
     "drive": "Front-wheel Drive",
@@ -2157,7 +2101,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99999495",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.717Z"
+    "fetchedAt": "2026-04-29T13:21:12.221Z"
   },
   {
     "id": "99997925",
@@ -2167,7 +2111,7 @@
     "make": "TOYOTA",
     "model": "COROLLA CROSS",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "7MUFBABG3SV",
     "engine": "2.0L  4",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -2213,7 +2157,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99997925",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.717Z"
+    "fetchedAt": "2026-04-29T13:21:12.221Z"
   },
   {
     "id": "99996165",
@@ -2223,7 +2167,7 @@
     "make": "TOYOTA",
     "model": "COROLLA",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "2T1BR32E96C",
     "engine": "1.8L  4",
     "transmission": "AUTOMATIC",
     "drive": "Front-wheel Drive",
@@ -2268,7 +2212,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99996165",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.717Z"
+    "fetchedAt": "2026-04-29T13:21:12.221Z"
   },
   {
     "id": "93405625",
@@ -2278,7 +2222,7 @@
     "make": "LEXUS",
     "model": "ES",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "JTHBK1GG6F2",
     "engine": "3.5L  6",
     "transmission": "AUTOMATIC",
     "drive": "Front-wheel Drive",
@@ -2323,7 +2267,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/93405625",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.717Z"
+    "fetchedAt": "2026-04-29T13:21:12.221Z"
   },
   {
     "id": "91447855",
@@ -2333,7 +2277,7 @@
     "make": "LEXUS",
     "model": "GX",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "JTJJM7FX1F5",
     "engine": "4.6L  8",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -2379,7 +2323,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/91447855",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.718Z"
+    "fetchedAt": "2026-04-29T13:21:12.221Z"
   },
   {
     "id": "76999075",
@@ -2389,7 +2333,7 @@
     "make": "LEXUS",
     "model": "NX",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "JTJYARBZXK2",
     "engine": "2.0L  4",
     "transmission": "AUTOMATIC",
     "drive": "Front-wheel Drive",
@@ -2435,7 +2379,7 @@
     "seller": "Progressive",
     "sourceUrl": "https://www.copart.com/lot/76999075",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.718Z"
+    "fetchedAt": "2026-04-29T13:21:12.222Z"
   },
   {
     "id": "68250613",
@@ -2445,7 +2389,7 @@
     "make": "LEXUS",
     "model": "NX",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "JTJYARBZXH2",
     "engine": "2.0L  4",
     "transmission": "AUTOMATIC",
     "drive": "Front-wheel Drive",
@@ -2490,7 +2434,7 @@
     "seller": "AMERICAN CREDIT ACCEPTANCE",
     "sourceUrl": "https://www.copart.com/lot/68250613",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.718Z"
+    "fetchedAt": "2026-04-29T13:21:12.222Z"
   },
   {
     "id": "99999435",
@@ -2500,7 +2444,7 @@
     "make": "LEXUS",
     "model": "RX 330",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "2T2GA31U96C",
     "engine": "3.3L 6",
     "transmission": "AUTOMATIC",
     "drive": "FRONT WHEEL DRIVE",
@@ -2546,7 +2490,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99999435",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.718Z"
+    "fetchedAt": "2026-04-29T13:21:12.222Z"
   },
   {
     "id": "99963405",
@@ -2556,7 +2500,7 @@
     "make": "LEXUS",
     "model": "LS",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "JTHBN30F110",
     "engine": "4.3L  8",
     "transmission": "AUTOMATIC",
     "drive": "Rear-wheel drive",
@@ -2601,7 +2545,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99963405",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.718Z"
+    "fetchedAt": "2026-04-29T13:21:12.222Z"
   },
   {
     "id": "99910595",
@@ -2611,7 +2555,7 @@
     "make": "LEXUS",
     "model": "IS",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "JTHCM1D28H5",
     "engine": "3.5L  6",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -2656,7 +2600,7 @@
     "seller": "USAA",
     "sourceUrl": "https://www.copart.com/lot/99910595",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.718Z"
+    "fetchedAt": "2026-04-29T13:21:12.222Z"
   },
   {
     "id": "99882265",
@@ -2666,7 +2610,7 @@
     "make": "LEXUS",
     "model": "RX",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "2T2BK1BA8AC",
     "engine": "3.5L 6",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -2712,7 +2656,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99882265",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.718Z"
+    "fetchedAt": "2026-04-29T13:21:12.222Z"
   },
   {
     "id": "99856075",
@@ -2722,7 +2666,7 @@
     "make": "LEXUS",
     "model": "RX",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "2T2HA31UX6C",
     "engine": "3.3L  6",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -2768,7 +2712,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99856075",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.718Z"
+    "fetchedAt": "2026-04-29T13:21:12.222Z"
   },
   {
     "id": "99853635",
@@ -2778,7 +2722,7 @@
     "make": "LEXUS",
     "model": "RX",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "2T2HK31U59C",
     "engine": "3.5L  6",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -2824,7 +2768,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99853635",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.718Z"
+    "fetchedAt": "2026-04-29T13:21:12.222Z"
   },
   {
     "id": "99541715",
@@ -2834,7 +2778,7 @@
     "make": "PORSCHE",
     "model": "MACAN",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WP1AB2A56FL",
     "engine": "3.0L  6",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -2880,7 +2824,7 @@
     "seller": "Progressive",
     "sourceUrl": "https://www.copart.com/lot/99541715",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.718Z"
+    "fetchedAt": "2026-04-29T13:21:12.222Z"
   },
   {
     "id": "99423075",
@@ -2890,7 +2834,7 @@
     "make": "PORSCHE",
     "model": "CAYENNE",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WP1AA2AYXKD",
     "engine": "3.0L 6",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -2937,7 +2881,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99423075",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.718Z"
+    "fetchedAt": "2026-04-29T13:21:12.222Z"
   },
   {
     "id": "99305295",
@@ -2947,7 +2891,7 @@
     "make": "PORSCHE",
     "model": "CAYENNE",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WP1AA2AY1RD",
     "engine": "3.0L  6",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -2994,7 +2938,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99305295",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.719Z"
+    "fetchedAt": "2026-04-29T13:21:12.222Z"
   },
   {
     "id": "99240405",
@@ -3004,7 +2948,7 @@
     "make": "PORSCHE",
     "model": "CAYENNE",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WP1AA2AY7KD",
     "engine": "3.0L  6",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -3051,7 +2995,7 @@
     "seller": "GEICO",
     "sourceUrl": "https://www.copart.com/lot/99240405",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.719Z"
+    "fetchedAt": "2026-04-29T13:21:12.223Z"
   },
   {
     "id": "99231925",
@@ -3061,7 +3005,7 @@
     "make": "PORSCHE",
     "model": "MACAN",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WP1AA2A59ML",
     "engine": "2.0L  4",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -3107,7 +3051,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99231925",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.719Z"
+    "fetchedAt": "2026-04-29T13:21:12.223Z"
   },
   {
     "id": "98994405",
@@ -3117,7 +3061,7 @@
     "make": "PORSCHE",
     "model": "MACAN",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WP1AA2A54RL",
     "engine": "2.0L  4",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -3163,7 +3107,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/98994405",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.719Z"
+    "fetchedAt": "2026-04-29T13:21:12.223Z"
   },
   {
     "id": "98867445",
@@ -3173,7 +3117,7 @@
     "make": "PORSCHE",
     "model": "PANAMERA",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WP0AA2A77BL",
     "engine": "3.6L  6",
     "transmission": "AUTOMATIC",
     "drive": "Rear-wheel drive",
@@ -3218,7 +3162,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/98867445",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.719Z"
+    "fetchedAt": "2026-04-29T13:21:12.223Z"
   },
   {
     "id": "98859845",
@@ -3228,7 +3172,7 @@
     "make": "PORSCHE",
     "model": "CAYENNE",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WP1AA2AY8LD",
     "engine": "3.0L  6",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -3274,7 +3218,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/98859845",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.719Z"
+    "fetchedAt": "2026-04-29T13:21:12.223Z"
   },
   {
     "id": "98609335",
@@ -3284,7 +3228,7 @@
     "make": "PORSCHE",
     "model": "CAYENNE",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WP1BA2AY9LD",
     "engine": "3.0L 6",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -3330,7 +3274,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/98609335",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.719Z"
+    "fetchedAt": "2026-04-29T13:21:12.223Z"
   },
   {
     "id": "98369125",
@@ -3340,7 +3284,7 @@
     "make": "PORSCHE",
     "model": "CAYENNE",
     "trim": "AUTOMATIC",
-    "vin": "",
+    "vin": "WP1AA2A22GL",
     "engine": "3.6L  6",
     "transmission": "AUTOMATIC",
     "drive": "ALL WHEEL DRIVE",
@@ -3386,6 +3330,6 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/98369125",
     "status": "catalog",
-    "fetchedAt": "2026-04-29T10:25:43.719Z"
+    "fetchedAt": "2026-04-29T13:21:12.223Z"
   }
 ]
