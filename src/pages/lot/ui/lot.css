@@ -445,7 +445,7 @@
 
 .lot-gallery__thumbs {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  grid-template-columns: repeat(6, 1fr);
   gap: 8px;
 }
 
@@ -1995,6 +1995,11 @@
     top: 0;
   }
 
+  /* Планшет: 4+4 */
+  .lot-gallery__thumbs {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
   .lot-title-bar__inner {
     grid-template-columns: 1fr;
   }
@@ -2018,6 +2023,11 @@
 }
 
 @media (max-width: 720px) {
+  /* Мобілка: 3+3+3+3 */
+  .lot-gallery__thumbs {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
   .lot-breadcrumb__inner,
   .lot-title-bar__inner,
   .lot-main__inner,
