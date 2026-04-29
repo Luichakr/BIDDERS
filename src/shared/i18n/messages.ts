@@ -555,6 +555,8 @@ export type MessageKey =
   | 'lotService13'
   | 'lotService14'
   | 'lotServicesNote'
+  | 'lotBuyNowDesc'
+  | 'lotBuyNowBtn'
   | 'lotSbCurrentBid'
   | 'lotSbEstimate'
   | 'lotSbMaxBid'
@@ -562,6 +564,10 @@ export type MessageKey =
   | 'lotSbIncrease'
   | 'lotSbBidNow'
   | 'lotSbHowToBid'
+  | 'timerUnitD'
+  | 'timerUnitH'
+  | 'timerUnitM'
+  | 'timerUnitS'
   | 'lotSbTimeLeft'
   | 'lotSbAuctionEnded'
   | 'lotSbTimerUntil'
@@ -1502,6 +1508,8 @@ export const messages: Record<Locale, Messages> = {
     lotService13: 'Великогабаритний',
     lotService14: 'Великогабаритний+',
     lotServicesNote: 'Встановлення галочки додасть суму до орієнтовної підсумкової ціни.',
+    lotBuyNowDesc: 'Миттєва купівля без торгів',
+    lotBuyNowBtn: 'Купити зараз',
     lotSbCurrentBid: 'Поточна ставка',
     lotSbEstimate: 'Оцінка:',
     lotSbMaxBid: 'Ваша максимальна ставка',
@@ -1509,6 +1517,10 @@ export const messages: Record<Locale, Messages> = {
     lotSbIncrease: 'Збільшити',
     lotSbBidNow: 'Зробити ставку зараз',
     lotSbHowToBid: 'Як зробити ставку? →',
+    timerUnitD: 'д',
+    timerUnitH: 'г',
+    timerUnitM: 'хв',
+    timerUnitS: 'с',
     lotSbTimeLeft: 'Час, що залишився',
     lotSbAuctionEnded: 'Аукціон завершено',
     lotSbTimerUntil: 'до',
@@ -2574,6 +2586,8 @@ export const messages: Record<Locale, Messages> = {
     lotService13: 'Oversized',
     lotService14: 'Oversized+',
     lotServicesNote: 'Checking an option will add the amount to the estimated total price.',
+    lotBuyNowDesc: 'Instant purchase, no bidding',
+    lotBuyNowBtn: 'Buy now',
     lotSbCurrentBid: 'Current bid',
     lotSbEstimate: 'Estimate:',
     lotSbMaxBid: 'Your maximum bid',
@@ -2581,6 +2595,10 @@ export const messages: Record<Locale, Messages> = {
     lotSbIncrease: 'Increase',
     lotSbBidNow: 'Place bid now',
     lotSbHowToBid: 'How to bid? →',
+    timerUnitD: 'd',
+    timerUnitH: 'h',
+    timerUnitM: 'm',
+    timerUnitS: 's',
     lotSbTimeLeft: 'Time remaining',
     lotSbAuctionEnded: 'Auction ended',
     lotSbTimerUntil: 'until',
@@ -3582,6 +3600,8 @@ export const messages: Record<Locale, Messages> = {
     lotService13: 'Ponadgabarytowy',
     lotService14: 'Ponadgabarytowy+',
     lotServicesNote: 'Zaznaczenie opcji doda kwotę do szacowanej ceny końcowej.',
+    lotBuyNowDesc: 'Natychmiastowy zakup bez licytacji',
+    lotBuyNowBtn: 'Kup teraz',
     lotSbCurrentBid: 'Aktualna oferta',
     lotSbEstimate: 'Wycena:',
     lotSbMaxBid: 'Twoja maksymalna oferta',
@@ -3589,6 +3609,10 @@ export const messages: Record<Locale, Messages> = {
     lotSbIncrease: 'Zwiększ',
     lotSbBidNow: 'Złóż ofertę teraz',
     lotSbHowToBid: 'Jak złożyć ofertę? →',
+    timerUnitD: 'd',
+    timerUnitH: 'g',
+    timerUnitM: 'min',
+    timerUnitS: 's',
     lotSbTimeLeft: 'Pozostały czas',
     lotSbAuctionEnded: 'Aukcja zakończona',
     lotSbTimerUntil: 'do',

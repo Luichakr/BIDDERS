@@ -6,19 +6,31 @@ import { routePaths, localizedPath } from '../../../shared/config/routes'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
 import './auction-catalog.css'
 
-function formatCountdown(ms: number): string {
+function getDamageLevel(damage: string): 'green' | 'yellow' | 'red' | 'gray' {
+  const d = damage.toUpperCase()
+  if (!d || d === '—') return 'gray'
+  if (d.includes('RUNS') || d.includes('DRIVES') || d.includes('MINOR') || d.includes('NORMAL') || d.includes('ZUŻYCIE')) return 'yellow'
+  if (d.includes('FRONT') || d.includes('REAR') || d.includes('SIDE') || d.includes('ROLL') || d.includes('BURN') || d.includes('FIRE') || d.includes('ALL OVER')) return 'red'
+  if (d.includes('DENT') || d.includes('SCRATCH') || d.includes('HAIL') || d.includes('VANDAL') || d.includes('THEFT')) return 'yellow'
+  if (d.includes('ENGINE') || d.includes('TRANSMISSION') || d.includes('MECHANICAL')) return 'red'
+  return 'gray'
+}
+
+type TimerUnits = { d: string; h: string; m: string; s: string }
+
+function formatCountdown(ms: number, u: TimerUnits): string {
   if (ms <= 0) return '—'
   const totalSec = Math.floor(ms / 1000)
   const d = Math.floor(totalSec / 86400)
   const h = Math.floor((totalSec % 86400) / 3600)
   const m = Math.floor((totalSec % 3600) / 60)
   const s = totalSec % 60
-  if (d > 0) return `${d}д ${h}ч ${m}м`
-  if (h > 0) return `${h}ч ${m}м ${s}с`
-  return `${m}м ${s}с`
+  if (d > 0) return `${d}${u.d} ${h}${u.h} ${m}${u.m}`
+  if (h > 0) return `${h}${u.h} ${m}${u.m} ${s}${u.s}`
+  return `${m}${u.m} ${s}${u.s}`
 }
 
-function AuctionTimer({ endMs }: { endMs: number }) {
+function AuctionTimer({ endMs, units }: { endMs: number; units: TimerUnits }) {
   const [remaining, setRemaining] = useState(() => endMs - Date.now())
   const rafRef = useRef<number>(0)
 
@@ -37,7 +49,7 @@ function AuctionTimer({ endMs }: { endMs: number }) {
   return (
     <div className={`auction-timer${urgent ? ' auction-timer--urgent' : ''}`}>
       <span className="auction-timer__icon">⏱</span>
-      {formatCountdown(remaining)}
+      {formatCountdown(remaining, units)}
     </div>
   )
 }
@@ -84,6 +96,7 @@ function toggleNumberFilter(value: number, list: number[]): number[] {
 export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: AuctionCatalogPageProps) {
   const navigate = useNavigate()
   const { locale, t } = useI18n()
+  const timerUnits: TimerUnits = { d: t('timerUnitD'), h: t('timerUnitH'), m: t('timerUnitM'), s: t('timerUnitS') }
   const [sortOpen, setSortOpen] = useState(false)
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [sortMode, setSortMode] = useState<SortMode>(mode === 'catalog' ? 'auction_asc' : 'price_desc')
@@ -605,6 +618,12 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
             moveSlide(card.id, slides.length, 1)
           }}>›</button>
           <div className="photo-overlay"></div>
+          {hasBuyNow && (
+            <div className="card-buynow-badge">
+              <span className="card-buynow-badge__label">KUP TERAZ</span>
+              <span className="card-buynow-badge__price">{card.buyNowLabel}</span>
+            </div>
+          )}
         </div>
 
         <div className="card-body">
@@ -631,7 +650,10 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
           <div className="card-details">
             <div className="detail-item"><span className="detail-label">{t('catalogDetailMileage')}</span><span className="detail-value">{card.mileageLabel}</span></div>
             <div className="detail-item"><span className="detail-label">{t('catalogDetailLocation')}</span><span className="detail-value">{card.location}</span></div>
-            <div className="detail-item"><span className="detail-label">{t('catalogDetailDamage')}</span><span className="detail-value">{card.damage.split('|').map(k => t(k.trim())).join(' · ')}</span></div>
+            <div className="detail-item">
+              <span className="detail-label">{t('catalogDetailDamage')}</span>
+              <span className={`detail-value damage-tag damage-tag--${getDamageLevel(card.damage)}`}>{card.damage.split('|').map(k => t(k.trim())).join(' · ')}</span>
+            </div>
             <div className="detail-item"><span className="detail-label">{t('catalogDetailStatus')}</span><span className={isFixedPrice ? 'detail-value status-onward' : 'detail-value'}>{statusLabel}</span></div>
           </div>
         </div>
@@ -640,9 +662,17 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
           <div>
             <div className="current-bid-label">{priceLabel}</div>
             <div className={`current-bid-val${hasBuyNow ? ' current-bid-val--buynow' : ''}`}>{displayPrice}</div>
+            {hasBuyNow && (
+              <div className="card-current-bid-row">
+                <span className="card-current-bid-row__label">{t('catalogCurrentBidLabel')}</span>
+                <span className="card-current-bid-row__val">
+                  {card.currentBid > 0 ? (card.currentBidLabel || formatUsd(card.currentBid)) : '—'}
+                </span>
+              </div>
+            )}
           </div>
           {mode === 'catalog' && card.auctionEndMs && card.auctionEndMs > Date.now() && (
-            <AuctionTimer endMs={card.auctionEndMs} />
+            <AuctionTimer endMs={card.auctionEndMs} units={timerUnits} />
           )}
           <div className="bid-note">{priceNote}</div>
           <button className="btn-auction" type="button">{t('catalogCardDetails')}</button>

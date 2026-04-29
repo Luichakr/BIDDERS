@@ -114,6 +114,10 @@ export function LotPage() {
     setBidValue(car.currentBid + 100)
   }, [car])
 
+  // Buy Now
+  const lotBuyNow = (car as AuctionCardData & { buyNow?: number | null; buyNowLabel?: string | null })?.buyNow ?? null
+  const lotBuyNowLabel = (car as AuctionCardData & { buyNowLabel?: string | null })?.buyNowLabel ?? (lotBuyNow ? `$${Math.round(lotBuyNow).toLocaleString('en-US')}` : null)
+
   // Таймер — считаем от auctionEndMs или auctionDateLabel
   const auctionEndMs = (car as AuctionCardData & { auctionEndMs?: number | null })?.auctionEndMs ?? null
   const [countdownSeconds, setCountdownSeconds] = useState(() => {
@@ -538,6 +542,17 @@ export function LotPage() {
                     <span className="lot-timer__end">{t('lotSbTimerUntil')} <strong>{auctionEndLabel}</strong></span>
                   </div>
                 </div>
+
+                {lotBuyNow != null && lotBuyNow > 0 && (
+                  <div className="lot-sb-card lot-buynow-block">
+                    <div className="lot-buynow-label">
+                      <span className="lot-buynow-tag">KUP TERAZ</span>
+                      <span className="lot-buynow-sub">{t('lotBuyNowDesc') || 'Natychmiastowy zakup bez licytacji'}</span>
+                    </div>
+                    <div className="lot-buynow-price">{lotBuyNowLabel}</div>
+                    <button className="lot-cta-buynow" type="button">{t('lotBuyNowBtn') || 'Kup teraz'}</button>
+                  </div>
+                )}
 
                 <div className={priceCalcOpen ? 'lot-sb-card lot-sb-accordion open' : 'lot-sb-card lot-sb-accordion'}>
                   <button className="lot-accordion-head" type="button" onClick={() => setPriceCalcOpen((prev) => !prev)}>
