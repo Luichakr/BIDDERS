@@ -143,7 +143,8 @@ export function LotPage() {
 
   const images = useMemo(() => {
     if (!car) return []
-    return car.images.length > 0 ? car.images : [car.image]
+    const all = car.images.length > 0 ? car.images : [car.image]
+    return all.slice(0, 12)
   }, [car])
 
   useEffect(() => {
