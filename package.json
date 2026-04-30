@@ -7,13 +7,14 @@
     "dev": "vite",
     "build": "tsc -b && vite build && cp dist/index.html dist/404.html",
     "lint": "eslint .",
-    "preview": "vite preview",
+    "preview": "npm run build && wrangler dev",
     "i18n:sync": "node scripts/i18n/sync-overrides.mjs",
     "i18n:check-seo": "node scripts/i18n/check-seo-i18n.mjs",
     "i18n:find": "node scripts/i18n/find-hardcoded-text.mjs",
     "i18n:keys": "node scripts/i18n/check-missing-keys.mjs",
     "i18n:coverage": "node scripts/i18n/report-i18n-coverage.mjs",
-    "i18n:audit": "node scripts/i18n/find-hardcoded-text.mjs; node scripts/i18n/check-missing-keys.mjs"
+    "i18n:audit": "node scripts/i18n/find-hardcoded-text.mjs; node scripts/i18n/check-missing-keys.mjs",
+    "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
     "react": "^19.2.4",
@@ -21,6 +22,7 @@
     "react-router-dom": "^7.14.1"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.34.0",
     "@eslint/js": "^9.39.4",
     "@types/node": "^24.12.2",
     "@types/react": "^19.2.14",
@@ -37,6 +39,7 @@
     "puppeteer-extra-plugin-stealth": "^2.11.2",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.58.0",
-    "vite": "^8.0.4"
+    "vite": "^8.0.4",
+    "wrangler": "^4.86.0"
   }
 }
