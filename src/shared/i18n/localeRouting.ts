@@ -1,5 +1,10 @@
-export const supportedLocales = ['pl', 'en'] as const
-export type Locale = 'pl' | 'en'
+// On production (bidbidders.com) Ukrainian is hidden — only PL + EN
+export const supportedLocales = (
+  typeof __IS_PROD__ !== 'undefined' && __IS_PROD__
+    ? ['pl', 'en']
+    : ['uk', 'pl', 'en']
+) as unknown as readonly ['uk', 'pl', 'en']
+export type Locale = 'uk' | 'pl' | 'en'
 export const defaultLocale: Locale = 'en'
 export const localeStorageKey = 'bidbiders-locale'
 
@@ -11,6 +16,7 @@ export const localeStorageKey = 'bidbiders-locale'
 export function normalizeLocale(value?: string | null): Locale | null {
   if (!value) return null
   const normalized = value.toLowerCase().split('-')[0]
+  if (normalized === 'uk') return 'uk'
   if (normalized === 'pl') return 'pl'
   if (normalized === 'en') return 'en'
   return null
