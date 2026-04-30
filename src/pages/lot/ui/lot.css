@@ -853,9 +853,10 @@
 
 .lot-bid-input-row {
   display: grid;
-  grid-template-columns: 40px 1fr 40px;
+  grid-template-columns: 40px minmax(0, 1fr) 40px;
   gap: 8px;
   align-items: center;
+  width: 100%;
 }
 
 .lot-bid-adj {
@@ -1984,7 +1985,7 @@
 
 @media (max-width: 960px) {
   .lot-main__inner {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .lot-gallery,
@@ -1993,9 +1994,13 @@
     grid-column: 1;
     position: relative;
     top: 0;
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
   }
 
-  /* Планшет: 4+4 */
+  /* Планшет: 4+4+4 */
   .lot-gallery__thumbs {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -2023,16 +2028,23 @@
 }
 
 @media (max-width: 720px) {
-  /* Мобілка: 3+3+3+3 */
+  /* Мобілка: 3+3+3+3 симетрично */
   .lot-gallery__thumbs {
     grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  /* Головне фото — 16:10 на мобілці */
+  .lot-gallery__main {
+    aspect-ratio: 16 / 10;
+    border-radius: 14px;
   }
 
   .lot-breadcrumb__inner,
   .lot-title-bar__inner,
   .lot-main__inner,
   .lot-section__inner {
-    padding: 0 20px;
+    padding: 0 16px;
   }
 
   .lot-breadcrumb__current {
