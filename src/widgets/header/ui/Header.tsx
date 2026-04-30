@@ -49,8 +49,10 @@ export function Header() {
         }
         if (scrollDir.current === 'down' && y > 100) {
           setHidden(true)
+          document.documentElement.classList.add('header-hidden')
         } else if (scrollDir.current === 'up') {
           setHidden(false)
+          document.documentElement.classList.remove('header-hidden')
         }
       } else {
         setHidden(false)

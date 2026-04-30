@@ -60,7 +60,12 @@
   backdrop-filter: saturate(180%) blur(14px);
   -webkit-backdrop-filter: saturate(180%) blur(14px);
   border-bottom: 1px solid var(--cat-line);
-  transition: box-shadow 0.3s var(--cat-ease);
+  transition: top 0.3s ease, box-shadow 0.3s var(--cat-ease);
+}
+
+/* When header hides on mobile scroll — snap filter bar to top */
+html.header-hidden .catalog-page-react .catalog-bar {
+  top: 0;
 }
 
 .catalog-page-react .catalog-bar-inner {
