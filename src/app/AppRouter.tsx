@@ -64,7 +64,7 @@ export function AppRouter() {
             <Route path="blog"          element={isProd ? <ComingSoonPage /> : <BlogPage />} />
             <Route path="cases"         element={isProd ? <ComingSoonPage /> : <CasesPage />} />
             <Route path="faq"           element={isProd ? <ComingSoonPage /> : <FaqPage />} />
-            <Route path="contacts"      element={isProd ? <ComingSoonPage /> : <ContactsPage />} />
+            <Route path="contacts"      element={<ContactsPage />} />
             <Route path="privacy-policy" element={isProd ? <ComingSoonPage /> : <PrivacyPolicyPage />} />
             <Route path="terms-of-use"  element={isProd ? <ComingSoonPage /> : <TermsPage />} />
             <Route path="china-cars"    element={isProd ? <ComingSoonPage /> : <ChinaCarsPage />} />
