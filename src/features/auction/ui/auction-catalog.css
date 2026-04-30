@@ -1648,24 +1648,8 @@ html.header-hidden .catalog-page-react .catalog-bar {
   }
 
   /* Filter button — icon only, square */
-  .catalog-page-react .filter-btn-mobile {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-    font-size: 0; /* hide text */
-    flex-shrink: 0;
-  }
-
-  .catalog-page-react .filter-btn-mobile::before {
-    width: 18px;
-    height: 18px;
-  }
-
-  /* Sort button — icon only */
+  /* ── Icon-only buttons: same size, same icon scale ── */
+  .catalog-page-react .filter-btn-mobile,
   .catalog-page-react .sort-btn {
     display: inline-flex;
     align-items: center;
@@ -1676,30 +1660,30 @@ html.header-hidden .catalog-page-react .catalog-bar {
     border-radius: 10px;
     gap: 0;
     flex-shrink: 0;
+    font-size: 0;
   }
 
-  /* Hide sort text, keep only the chevron arrow */
+  .catalog-page-react .filter-btn-mobile::before {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Sort: hide text + chevron, show sort icon */
   .catalog-page-react .sort-btn #sortCurrent {
     display: none;
   }
 
-  /* Add sort icon via ::before */
   .catalog-page-react .sort-btn::before {
     content: '';
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     background: currentColor;
     -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.2' stroke-linecap='round'><path d='M3 8h12M3 12h8M3 16h4'/><path d='M17 8v10m0 0l-3-3m3 3l3-3'/></svg>") center/contain no-repeat;
             mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.2' stroke-linecap='round'><path d='M3 8h12M3 12h8M3 16h4'/><path d='M17 8v10m0 0l-3-3m3 3l3-3'/></svg>") center/contain no-repeat;
   }
 
-  /* Hide the default chevron arrow since we have the icon */
   .catalog-page-react .sort-btn::after {
     display: none;
-  }
-
-  .catalog-page-react .filter-btn-mobile {
-    display: inline-flex;
   }
 
   /* Hide list/grid switcher on mobile — grid is default */
