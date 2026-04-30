@@ -1308,7 +1308,7 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
                 <button className="tab-item" type="button">{t('catalogTabOnOrder')} <span className="tab-count">{Math.max(1, Math.round(filteredCards.length / 2))}</span></button>
               </>
             ) : (
-              <button className="tab-item active" type="button">{t('catalogTabInTransit')} <span className="tab-count" id="tabCount">{filteredCards.length}</span></button>
+              <button className="tab-item active" type="button">{t('catalogTabInTransit')}</button>
             )}
           </div>
 
