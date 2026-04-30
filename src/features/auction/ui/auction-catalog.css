@@ -1612,19 +1612,96 @@ html.header-hidden .catalog-page-react .catalog-bar {
     top: 72px;
   }
 
+  /* One compact line: breadcrumb — chips — sort icon — filter icon */
   .catalog-page-react .catalog-bar-inner {
-    flex-wrap: wrap;
-    padding: 12px 20px;
+    flex-wrap: nowrap;
+    padding: 8px 16px;
+    gap: 8px;
+  }
+
+  .catalog-page-react .breadcrumb {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  /* Hide "Home >" on mobile, show only current page */
+  .catalog-page-react .breadcrumb a,
+  .catalog-page-react .breadcrumb svg {
+    display: none;
+  }
+
+  .catalog-page-react .breadcrumb .current {
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .catalog-page-react .active-chips {
-    order: 3;
-    width: 100%;
-    flex: none;
+    order: unset;
+    width: auto;
+    flex: 0;
+    flex-wrap: nowrap;
+    overflow: hidden;
+  }
+
+  /* Filter button — icon only, square */
+  .catalog-page-react .filter-btn-mobile {
+    display: inline-flex;
+    padding: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    justify-content: center;
+    font-size: 0; /* hide text */
+    flex-shrink: 0;
+  }
+
+  .catalog-page-react .filter-btn-mobile::before {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Sort button — icon only */
+  .catalog-page-react .sort-btn {
+    padding: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    justify-content: center;
+    gap: 0;
+    flex-shrink: 0;
+  }
+
+  /* Hide sort text, keep only the chevron arrow */
+  .catalog-page-react .sort-btn #sortCurrent {
+    display: none;
+  }
+
+  /* Add sort icon via ::before */
+  .catalog-page-react .sort-btn::before {
+    content: '';
+    width: 18px;
+    height: 18px;
+    background: currentColor;
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.2' stroke-linecap='round'><path d='M3 8h12M3 12h8M3 16h4'/><path d='M17 8v10m0 0l-3-3m3 3l3-3'/></svg>") center/contain no-repeat;
+            mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.2' stroke-linecap='round'><path d='M3 8h12M3 12h8M3 16h4'/><path d='M17 8v10m0 0l-3-3m3 3l3-3'/></svg>") center/contain no-repeat;
+  }
+
+  /* Hide the default chevron arrow since we have the icon */
+  .catalog-page-react .sort-btn::after {
+    display: none;
   }
 
   .catalog-page-react .filter-btn-mobile {
     display: inline-flex;
+  }
+
+  /* Hide list/grid switcher on mobile — grid is default */
+  .catalog-page-react .layout-switcher {
+    display: none;
   }
 
   .catalog-page-react .catalog-layout {

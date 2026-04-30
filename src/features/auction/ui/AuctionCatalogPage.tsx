@@ -100,7 +100,7 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
   const [sortOpen, setSortOpen] = useState(false)
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [sortMode, setSortMode] = useState<SortMode>(mode === 'catalog' ? 'auction_asc' : 'price_desc')
-  const [layout, setLayout] = useState<LayoutMode>('list')
+  const [layout, setLayout] = useState<LayoutMode>('grid')
   const [visibleCount, setVisibleCount] = useState(20)
 
   const [selectedDocTypes, setSelectedDocTypes] = useState<string[]>([])
@@ -635,7 +635,7 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
                 {' · '}<span>{sellerLabel}</span>
               </div>
             </div>
-            <span className={isFixedPrice ? 'auction-badge available' : 'auction-badge'}>{auctionBadgeLabel}</span>
+            {!isFixedPrice && <span className="auction-badge">{auctionBadgeLabel}</span>}
             <button className="fav-btn" type="button" onClick={(event) => event.stopPropagation()}>♡</button>
           </div>
 
