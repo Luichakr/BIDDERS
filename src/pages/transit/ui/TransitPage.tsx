@@ -6,60 +6,10 @@ import { useI18n } from '../../../shared/i18n/I18nProvider'
 import { Seo } from '../../../shared/seo/Seo'
 import { routePaths } from '../../../shared/config/routes'
 
-const TRANSIT_BOOTSTRAP_CACHE_KEY = 'BIDDERS_TRANSIT_BOOTSTRAP_V1'
-const TRANSIT_BOOTSTRAP_LIMIT = 40
-
-function sortByPriceDesc(cards: AuctionCardData[]): AuctionCardData[] {
-  return [...cards].sort((a, b) => b.currentBid - a.currentBid)
-}
-
-function readTransitBootstrapCache(): AuctionCardData[] {
-  if (typeof window === 'undefined') {
-    return []
-  }
-
-  try {
-    const raw = window.localStorage.getItem(TRANSIT_BOOTSTRAP_CACHE_KEY)
-    if (!raw) {
-      return []
-    }
-
-    const parsed = JSON.parse(raw)
-    if (!Array.isArray(parsed)) {
-      return []
-    }
-
-    return parsed.filter((card): card is AuctionCardData => {
-      return (
-        card &&
-        typeof card === 'object' &&
-        typeof card.id === 'string' &&
-        typeof card.title === 'string' &&
-        typeof card.currentBid === 'number' &&
-        Array.isArray(card.images)
-      )
-    })
-  } catch {
-    return []
-  }
-}
-
-function writeTransitBootstrapCache(cards: AuctionCardData[]): void {
-  if (typeof window === 'undefined') {
-    return
-  }
-
-  try {
-    const topCards = sortByPriceDesc(cards).slice(0, TRANSIT_BOOTSTRAP_LIMIT)
-    window.localStorage.setItem(TRANSIT_BOOTSTRAP_CACHE_KEY, JSON.stringify(topCards))
-  } catch {
-    // ignore localStorage errors (quota/private mode)
-  }
-}
-
 export function TransitPage() {
   const { t } = useI18n()
-  const [cards, setCards] = useState<AuctionCardData[]>(() => readTransitBootstrapCache())
+  const [cards, setCards] = useState<AuctionCardData[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     let mounted = true
@@ -69,10 +19,11 @@ export function TransitPage() {
         const liveCards = await fetchInRouteCards()
         if (!mounted) return
         setCards(liveCards)
-        writeTransitBootstrapCache(liveCards)
       } catch {
         if (!mounted) return
-        // keep bootstrap cache on network error
+        setCards([])
+      } finally {
+        if (mounted) setLoading(false)
       }
     }
 
@@ -86,7 +37,7 @@ export function TransitPage() {
   return (
     <>
       <Seo title={t('seoTransitTitle')} description={t('seoTransitDescription')} path={routePaths.transit} />
-      <AuctionCatalogPage title={t('transitTitle')} cards={cards} mode="transit" />
+      <AuctionCatalogPage title={t('transitTitle')} cards={cards} mode="transit" isLoading={loading} />
     </>
   )
 }
