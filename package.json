@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build && cp dist/index.html dist/404.html",
-    "build:github": "VITE_DEPLOY_TARGET=github-pages npm run build",
+    "build:github": "VITE_DEPLOY_TARGET=github-pages npm run build && node scripts/copy-dist-to-docs.cjs",
     "build:cloudflare": "VITE_DEPLOY_TARGET=cloudflare npm run build",
     "lint": "eslint .",
     "preview": "vite preview",
