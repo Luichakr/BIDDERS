@@ -5,17 +5,11 @@ import { getBrowserLocale, getSavedLocale, type Locale } from './localeRouting'
 const DISMISSED_KEY = 'bidbiders-locale-prompt-dismissed'
 
 const FLAG: Record<Locale, string> = {
-  uk: '🇺🇦',
   pl: '🇵🇱',
   en: '🇬🇧',
 }
 
 const COPY: Record<Locale, { text: string; confirm: string; dismiss: string }> = {
-  uk: {
-    text: 'Схоже, вам зручніше українською. Перейти на українську версію?',
-    confirm: 'Перейти',
-    dismiss: 'Залишитися',
-  },
   pl: {
     text: 'Wygląda na to, że preferujesz język polski. Przejść na polską wersję?',
     confirm: 'Przejdź',

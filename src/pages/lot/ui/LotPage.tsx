@@ -137,7 +137,7 @@ export function LotPage() {
   const auctionEndLabel = useMemo(() => {
     if (!auctionEndMs) return car?.auctionDateLabel ?? '—'
     const d = new Date(auctionEndMs)
-    const localeCode = locale === 'pl' ? 'pl-PL' : locale === 'uk' ? 'uk-UA' : 'en-US'
+    const localeCode = locale === 'pl' ? 'pl-PL' : 'en-US'
     return d.toLocaleString(localeCode, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })
   }, [auctionEndMs, locale, car?.auctionDateLabel])
 

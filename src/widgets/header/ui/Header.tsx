@@ -4,8 +4,8 @@ import { useI18n } from '../../../shared/i18n/I18nProvider'
 import { routePaths, localizedPath } from '../../../shared/config/routes'
 import { ROUTE_IMAGES } from '../../../shared/config/routeCards'
 
-const LOCALE_LABELS: Record<string, string> = { uk: 'UA', pl: 'PL', en: 'EN' }
-const LOCALE_ORDER = ['uk', 'pl', 'en'] as const
+const LOCALE_LABELS: Record<string, string> = { pl: 'PL', en: 'EN' }
+const LOCALE_ORDER = ['pl', 'en'] as const
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -93,7 +93,7 @@ export function Header() {
     }
   }, [catalogOpen])
 
-  const pickLocale = (value: 'uk' | 'pl' | 'en') => {
+  const pickLocale = (value: 'pl' | 'en') => {
     setLocale(value)
     setLocaleOpen(false)
   }
@@ -361,7 +361,6 @@ export function Header() {
         </div>
 
         <div className="px-locale px-locale--mobile">
-          <button type="button" className={locale === 'uk' ? 'active' : ''} onClick={() => setLocale('uk')}>UA</button>
           <button type="button" className={locale === 'pl' ? 'active' : ''} onClick={() => setLocale('pl')}>PL</button>
           <button type="button" className={locale === 'en' ? 'active' : ''} onClick={() => setLocale('en')}>EN</button>
         </div>

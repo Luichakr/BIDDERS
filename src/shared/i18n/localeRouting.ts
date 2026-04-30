@@ -1,5 +1,5 @@
-export const supportedLocales = ['uk', 'pl', 'en'] as const
-export type Locale = 'uk' | 'pl' | 'en'
+export const supportedLocales = ['pl', 'en'] as const
+export type Locale = 'pl' | 'en'
 export const defaultLocale: Locale = 'en'
 export const localeStorageKey = 'bidbiders-locale'
 
@@ -11,7 +11,6 @@ export const localeStorageKey = 'bidbiders-locale'
 export function normalizeLocale(value?: string | null): Locale | null {
   if (!value) return null
   const normalized = value.toLowerCase().split('-')[0]
-  if (normalized === 'uk') return 'uk'
   if (normalized === 'pl') return 'pl'
   if (normalized === 'en') return 'en'
   return null

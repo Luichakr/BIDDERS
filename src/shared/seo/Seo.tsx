@@ -12,7 +12,6 @@ interface SeoProps {
 }
 
 const OG_LOCALE: Record<Locale, string> = {
-  uk: 'uk_UA',
   pl: 'pl_PL',
   en: 'en_US',
 }
