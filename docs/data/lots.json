@@ -52,7 +52,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99948935",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.948Z"
+    "fetchedAt": "2026-05-01T08:01:45.590Z"
   },
   {
     "id": "99946285",
@@ -108,7 +108,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99946285",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.948Z"
+    "fetchedAt": "2026-05-01T08:01:45.590Z"
   },
   {
     "id": "99945505",
@@ -163,7 +163,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99945505",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.949Z"
+    "fetchedAt": "2026-05-01T08:01:45.591Z"
   },
   {
     "id": "99940235",
@@ -219,7 +219,7 @@
     "seller": "Progressive",
     "sourceUrl": "https://www.copart.com/lot/99940235",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.949Z"
+    "fetchedAt": "2026-05-01T08:01:45.591Z"
   },
   {
     "id": "99914975",
@@ -275,7 +275,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99914975",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.949Z"
+    "fetchedAt": "2026-05-01T08:01:45.591Z"
   },
   {
     "id": "99905515",
@@ -330,7 +330,7 @@
     "seller": "USAA",
     "sourceUrl": "https://www.copart.com/lot/99905515",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.949Z"
+    "fetchedAt": "2026-05-01T08:01:45.591Z"
   },
   {
     "id": "99903095",
@@ -385,7 +385,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99903095",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.949Z"
+    "fetchedAt": "2026-05-01T08:01:45.591Z"
   },
   {
     "id": "99895105",
@@ -440,7 +440,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99895105",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.949Z"
+    "fetchedAt": "2026-05-01T08:01:45.591Z"
   },
   {
     "id": "99893785",
@@ -495,7 +495,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99893785",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.949Z"
+    "fetchedAt": "2026-05-01T08:01:45.591Z"
   },
   {
     "id": "99885295",
@@ -551,7 +551,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99885295",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.950Z"
+    "fetchedAt": "2026-05-01T08:01:45.592Z"
   },
   {
     "id": "83845985",
@@ -607,7 +607,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/83845985",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.950Z"
+    "fetchedAt": "2026-05-01T08:01:45.592Z"
   },
   {
     "id": "77577025",
@@ -631,8 +631,8 @@
     "titleStatus": "CLEAN TITLE",
     "hasKeys": true,
     "condition": "CERT-E",
-    "currentBid": 275,
-    "currentBidLabel": "$275",
+    "currentBid": 300,
+    "currentBidLabel": "$300",
     "buyNow": 0,
     "buyNowLabel": "—",
     "estimateLow": 5873,
@@ -663,7 +663,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/77577025",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.950Z"
+    "fetchedAt": "2026-05-01T08:01:45.592Z"
   },
   {
     "id": "99946875",
@@ -719,7 +719,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99946875",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.950Z"
+    "fetchedAt": "2026-05-01T08:01:45.592Z"
   },
   {
     "id": "99946545",
@@ -775,7 +775,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99946545",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.950Z"
+    "fetchedAt": "2026-05-01T08:01:45.592Z"
   },
   {
     "id": "99929095",
@@ -830,7 +830,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99929095",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.950Z"
+    "fetchedAt": "2026-05-01T08:01:45.593Z"
   },
   {
     "id": "99927065",
@@ -885,7 +885,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99927065",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.951Z"
+    "fetchedAt": "2026-05-01T08:01:45.593Z"
   },
   {
     "id": "99918615",
@@ -938,7 +938,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99918615",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.951Z"
+    "fetchedAt": "2026-05-01T08:01:45.593Z"
   },
   {
     "id": "99906695",
@@ -995,7 +995,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99906695",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.951Z"
+    "fetchedAt": "2026-05-01T08:01:45.593Z"
   },
   {
     "id": "99906375",
@@ -1051,7 +1051,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99906375",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.951Z"
+    "fetchedAt": "2026-05-01T08:01:45.593Z"
   },
   {
     "id": "99892425",
@@ -1106,7 +1106,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99892425",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.951Z"
+    "fetchedAt": "2026-05-01T08:01:45.593Z"
   },
   {
     "id": "99144595",
@@ -1161,7 +1161,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99144595",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.951Z"
+    "fetchedAt": "2026-05-01T08:01:45.593Z"
   },
   {
     "id": "99997405",
@@ -1217,7 +1217,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99997405",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.951Z"
+    "fetchedAt": "2026-05-01T08:01:45.593Z"
   },
   {
     "id": "99938335",
@@ -1273,7 +1273,7 @@
     "seller": "Progressive",
     "sourceUrl": "https://www.copart.com/lot/99938335",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.951Z"
+    "fetchedAt": "2026-05-01T08:01:45.593Z"
   },
   {
     "id": "99900705",
@@ -1329,7 +1329,7 @@
     "seller": "Progressive",
     "sourceUrl": "https://www.copart.com/lot/99900705",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.951Z"
+    "fetchedAt": "2026-05-01T08:01:45.593Z"
   },
   {
     "id": "99900045",
@@ -1385,7 +1385,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99900045",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.951Z"
+    "fetchedAt": "2026-05-01T08:01:45.594Z"
   },
   {
     "id": "99883075",
@@ -1440,7 +1440,7 @@
     "seller": "USAA",
     "sourceUrl": "https://www.copart.com/lot/99883075",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.951Z"
+    "fetchedAt": "2026-05-01T08:01:45.594Z"
   },
   {
     "id": "99820805",
@@ -1496,7 +1496,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99820805",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.951Z"
+    "fetchedAt": "2026-05-01T08:01:45.594Z"
   },
   {
     "id": "99814645",
@@ -1553,7 +1553,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99814645",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.952Z"
+    "fetchedAt": "2026-05-01T08:01:45.594Z"
   },
   {
     "id": "99778885",
@@ -1608,7 +1608,7 @@
     "seller": "GEICO",
     "sourceUrl": "https://www.copart.com/lot/99778885",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.952Z"
+    "fetchedAt": "2026-05-01T08:01:45.594Z"
   },
   {
     "id": "99764955",
@@ -1663,7 +1663,7 @@
     "seller": "USAA",
     "sourceUrl": "https://www.copart.com/lot/99764955",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.952Z"
+    "fetchedAt": "2026-05-01T08:01:45.594Z"
   },
   {
     "id": "74029845",
@@ -1718,7 +1718,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/74029845",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.952Z"
+    "fetchedAt": "2026-05-01T08:01:45.594Z"
   },
   {
     "id": "73538675",
@@ -1742,8 +1742,8 @@
     "titleStatus": "CLEAN TITLE",
     "hasKeys": true,
     "condition": "CERT-D",
-    "currentBid": 1350,
-    "currentBidLabel": "$1,350",
+    "currentBid": 1550,
+    "currentBidLabel": "$1,550",
     "buyNow": 0,
     "buyNowLabel": "—",
     "estimateLow": 8708,
@@ -1774,7 +1774,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/73538675",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.952Z"
+    "fetchedAt": "2026-05-01T08:01:45.594Z"
   },
   {
     "id": "99999495",
@@ -1829,7 +1829,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99999495",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.952Z"
+    "fetchedAt": "2026-05-01T08:01:45.594Z"
   },
   {
     "id": "99997925",
@@ -1885,7 +1885,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99997925",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.952Z"
+    "fetchedAt": "2026-05-01T08:01:45.594Z"
   },
   {
     "id": "99996165",
@@ -1940,7 +1940,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99996165",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.952Z"
+    "fetchedAt": "2026-05-01T08:01:45.595Z"
   },
   {
     "id": "99995805",
@@ -1995,7 +1995,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99995805",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.952Z"
+    "fetchedAt": "2026-05-01T08:01:45.595Z"
   },
   {
     "id": "99991215",
@@ -2051,7 +2051,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99991215",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.952Z"
+    "fetchedAt": "2026-05-01T08:01:45.595Z"
   },
   {
     "id": "99970745",
@@ -2107,7 +2107,7 @@
     "seller": "GEICO",
     "sourceUrl": "https://www.copart.com/lot/99970745",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.952Z"
+    "fetchedAt": "2026-05-01T08:01:45.595Z"
   },
   {
     "id": "99960145",
@@ -2162,7 +2162,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99960145",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.952Z"
+    "fetchedAt": "2026-05-01T08:01:45.595Z"
   },
   {
     "id": "99959645",
@@ -2217,7 +2217,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99959645",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.952Z"
+    "fetchedAt": "2026-05-01T08:01:45.595Z"
   },
   {
     "id": "91447855",
@@ -2273,7 +2273,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/91447855",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.953Z"
+    "fetchedAt": "2026-05-01T08:01:45.595Z"
   },
   {
     "id": "76999075",
@@ -2329,7 +2329,7 @@
     "seller": "Progressive",
     "sourceUrl": "https://www.copart.com/lot/76999075",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.953Z"
+    "fetchedAt": "2026-05-01T08:01:45.595Z"
   },
   {
     "id": "68250613",
@@ -2384,7 +2384,7 @@
     "seller": "AMERICAN CREDIT ACCEPTANCE",
     "sourceUrl": "https://www.copart.com/lot/68250613",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.953Z"
+    "fetchedAt": "2026-05-01T08:01:45.595Z"
   },
   {
     "id": "99999435",
@@ -2440,7 +2440,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99999435",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.953Z"
+    "fetchedAt": "2026-05-01T08:01:45.595Z"
   },
   {
     "id": "99963405",
@@ -2495,7 +2495,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99963405",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.953Z"
+    "fetchedAt": "2026-05-01T08:01:45.595Z"
   },
   {
     "id": "99910595",
@@ -2550,7 +2550,7 @@
     "seller": "USAA",
     "sourceUrl": "https://www.copart.com/lot/99910595",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.953Z"
+    "fetchedAt": "2026-05-01T08:01:45.595Z"
   },
   {
     "id": "99882265",
@@ -2606,7 +2606,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99882265",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.953Z"
+    "fetchedAt": "2026-05-01T08:01:45.596Z"
   },
   {
     "id": "99856075",
@@ -2662,7 +2662,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99856075",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.953Z"
+    "fetchedAt": "2026-05-01T08:01:45.596Z"
   },
   {
     "id": "99853635",
@@ -2718,7 +2718,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99853635",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.953Z"
+    "fetchedAt": "2026-05-01T08:01:45.596Z"
   },
   {
     "id": "99835835",
@@ -2773,7 +2773,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99835835",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.953Z"
+    "fetchedAt": "2026-05-01T08:01:45.596Z"
   },
   {
     "id": "99541715",
@@ -2829,7 +2829,7 @@
     "seller": "Progressive",
     "sourceUrl": "https://www.copart.com/lot/99541715",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.953Z"
+    "fetchedAt": "2026-05-01T08:01:45.596Z"
   },
   {
     "id": "99423075",
@@ -2886,7 +2886,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99423075",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.953Z"
+    "fetchedAt": "2026-05-01T08:01:45.596Z"
   },
   {
     "id": "99305295",
@@ -2943,7 +2943,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99305295",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.953Z"
+    "fetchedAt": "2026-05-01T08:01:45.596Z"
   },
   {
     "id": "99240405",
@@ -3000,7 +3000,7 @@
     "seller": "GEICO",
     "sourceUrl": "https://www.copart.com/lot/99240405",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.953Z"
+    "fetchedAt": "2026-05-01T08:01:45.596Z"
   },
   {
     "id": "99231925",
@@ -3056,7 +3056,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99231925",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.954Z"
+    "fetchedAt": "2026-05-01T08:01:45.596Z"
   },
   {
     "id": "98994405",
@@ -3112,7 +3112,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/98994405",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.954Z"
+    "fetchedAt": "2026-05-01T08:01:45.596Z"
   },
   {
     "id": "98867445",
@@ -3167,7 +3167,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/98867445",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.954Z"
+    "fetchedAt": "2026-05-01T08:01:45.597Z"
   },
   {
     "id": "98859845",
@@ -3223,7 +3223,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/98859845",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.954Z"
+    "fetchedAt": "2026-05-01T08:01:45.597Z"
   },
   {
     "id": "98609335",
@@ -3279,7 +3279,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/98609335",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.954Z"
+    "fetchedAt": "2026-05-01T08:01:45.597Z"
   },
   {
     "id": "97840595",
@@ -3335,6 +3335,6 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/97840595",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T05:37:13.954Z"
+    "fetchedAt": "2026-05-01T08:01:45.597Z"
   }
 ]
