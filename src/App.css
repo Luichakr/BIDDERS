@@ -1678,15 +1678,9 @@
     border-bottom: none;
   }
 
-  .bp-sticky-btn {
-    left: 14px;
-    right: 14px;
-    transform: translateY(20px);
-    width: calc(100% - 28px);
-  }
-
+  .bp-sticky-btn,
   .bp-sticky-btn.show {
-    transform: translateY(0);
+    display: none !important;
   }
 }
 

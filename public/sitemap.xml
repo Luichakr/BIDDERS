@@ -4,31 +4,31 @@
 
   <!-- Home -->
   <url>
-    <loc>https://bidbiders.com/BIDDERS/en/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/"/>
+    <loc>https://bidbidders.com/BIDDERS/en/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/"/>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <lastmod>2026-04-26</lastmod>
   </url>
   <url>
-    <loc>https://bidbiders.com/BIDDERS/uk/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/"/>
+    <loc>https://bidbidders.com/BIDDERS/uk/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/"/>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <lastmod>2026-04-26</lastmod>
   </url>
   <url>
-    <loc>https://bidbiders.com/BIDDERS/pl/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/"/>
+    <loc>https://bidbidders.com/BIDDERS/pl/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/"/>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <lastmod>2026-04-26</lastmod>
@@ -36,31 +36,31 @@
 
   <!-- Catalog -->
   <url>
-    <loc>https://bidbiders.com/BIDDERS/en/catalog</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/catalog"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/catalog"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/catalog"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/catalog"/>
+    <loc>https://bidbidders.com/BIDDERS/en/catalog</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/catalog"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/catalog"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/catalog"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/catalog"/>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
     <lastmod>2026-04-26</lastmod>
   </url>
   <url>
-    <loc>https://bidbiders.com/BIDDERS/uk/catalog</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/catalog"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/catalog"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/catalog"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/catalog"/>
+    <loc>https://bidbidders.com/BIDDERS/uk/catalog</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/catalog"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/catalog"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/catalog"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/catalog"/>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
     <lastmod>2026-04-26</lastmod>
   </url>
   <url>
-    <loc>https://bidbiders.com/BIDDERS/pl/catalog</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/catalog"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/catalog"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/catalog"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/catalog"/>
+    <loc>https://bidbidders.com/BIDDERS/pl/catalog</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/catalog"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/catalog"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/catalog"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/catalog"/>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
     <lastmod>2026-04-26</lastmod>
@@ -68,31 +68,31 @@
 
   <!-- In Stock -->
   <url>
-    <loc>https://bidbiders.com/BIDDERS/en/in-stock</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/in-stock"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/in-stock"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/in-stock"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/in-stock"/>
+    <loc>https://bidbidders.com/BIDDERS/en/in-stock</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/in-stock"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/in-stock"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/in-stock"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/in-stock"/>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <lastmod>2026-04-26</lastmod>
   </url>
   <url>
-    <loc>https://bidbiders.com/BIDDERS/uk/in-stock</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/in-stock"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/in-stock"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/in-stock"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/in-stock"/>
+    <loc>https://bidbidders.com/BIDDERS/uk/in-stock</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/in-stock"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/in-stock"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/in-stock"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/in-stock"/>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <lastmod>2026-04-26</lastmod>
   </url>
   <url>
-    <loc>https://bidbiders.com/BIDDERS/pl/in-stock</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/in-stock"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/in-stock"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/in-stock"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/in-stock"/>
+    <loc>https://bidbidders.com/BIDDERS/pl/in-stock</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/in-stock"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/in-stock"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/in-stock"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/in-stock"/>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <lastmod>2026-04-26</lastmod>
@@ -100,31 +100,31 @@
 
   <!-- In Transit -->
   <url>
-    <loc>https://bidbiders.com/BIDDERS/en/in-transit</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/in-transit"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/in-transit"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/in-transit"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/in-transit"/>
+    <loc>https://bidbidders.com/BIDDERS/en/in-transit</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/in-transit"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/in-transit"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/in-transit"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/in-transit"/>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <lastmod>2026-04-26</lastmod>
   </url>
   <url>
-    <loc>https://bidbiders.com/BIDDERS/uk/in-transit</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/in-transit"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/in-transit"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/in-transit"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/in-transit"/>
+    <loc>https://bidbidders.com/BIDDERS/uk/in-transit</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/in-transit"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/in-transit"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/in-transit"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/in-transit"/>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <lastmod>2026-04-26</lastmod>
   </url>
   <url>
-    <loc>https://bidbiders.com/BIDDERS/pl/in-transit</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/in-transit"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/in-transit"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/in-transit"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/in-transit"/>
+    <loc>https://bidbidders.com/BIDDERS/pl/in-transit</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/in-transit"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/in-transit"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/in-transit"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/in-transit"/>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <lastmod>2026-04-26</lastmod>
@@ -132,31 +132,31 @@
 
   <!-- Calculator -->
   <url>
-    <loc>https://bidbiders.com/BIDDERS/en/calculator</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/calculator"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/calculator"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/calculator"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/calculator"/>
+    <loc>https://bidbidders.com/BIDDERS/en/calculator</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/calculator"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/calculator"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/calculator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/calculator"/>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <lastmod>2026-04-26</lastmod>
   </url>
   <url>
-    <loc>https://bidbiders.com/BIDDERS/uk/calculator</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/calculator"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/calculator"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/calculator"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/calculator"/>
+    <loc>https://bidbidders.com/BIDDERS/uk/calculator</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/calculator"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/calculator"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/calculator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/calculator"/>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <lastmod>2026-04-26</lastmod>
   </url>
   <url>
-    <loc>https://bidbiders.com/BIDDERS/pl/calculator</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/calculator"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/calculator"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/calculator"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/calculator"/>
+    <loc>https://bidbidders.com/BIDDERS/pl/calculator</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/calculator"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/calculator"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/calculator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/calculator"/>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <lastmod>2026-04-26</lastmod>
@@ -164,31 +164,31 @@
 
   <!-- Blog -->
   <url>
-    <loc>https://bidbiders.com/BIDDERS/en/blog</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/blog"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/blog"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/blog"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/blog"/>
+    <loc>https://bidbidders.com/BIDDERS/en/blog</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/blog"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/blog"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/blog"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/blog"/>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <lastmod>2026-04-26</lastmod>
   </url>
   <url>
-    <loc>https://bidbiders.com/BIDDERS/uk/blog</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/blog"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/blog"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/blog"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/blog"/>
+    <loc>https://bidbidders.com/BIDDERS/uk/blog</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/blog"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/blog"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/blog"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/blog"/>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <lastmod>2026-04-26</lastmod>
   </url>
   <url>
-    <loc>https://bidbiders.com/BIDDERS/pl/blog</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/blog"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/blog"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/blog"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/blog"/>
+    <loc>https://bidbidders.com/BIDDERS/pl/blog</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/blog"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/blog"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/blog"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/blog"/>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <lastmod>2026-04-26</lastmod>
@@ -196,31 +196,31 @@
 
   <!-- Cases -->
   <url>
-    <loc>https://bidbiders.com/BIDDERS/en/cases</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/cases"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/cases"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/cases"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/cases"/>
+    <loc>https://bidbidders.com/BIDDERS/en/cases</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/cases"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/cases"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/cases"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/cases"/>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <lastmod>2026-04-26</lastmod>
   </url>
   <url>
-    <loc>https://bidbiders.com/BIDDERS/uk/cases</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/cases"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/cases"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/cases"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/cases"/>
+    <loc>https://bidbidders.com/BIDDERS/uk/cases</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/cases"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/cases"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/cases"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/cases"/>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <lastmod>2026-04-26</lastmod>
   </url>
   <url>
-    <loc>https://bidbiders.com/BIDDERS/pl/cases</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/cases"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/cases"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/cases"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/cases"/>
+    <loc>https://bidbidders.com/BIDDERS/pl/cases</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/cases"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/cases"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/cases"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/cases"/>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <lastmod>2026-04-26</lastmod>
@@ -228,31 +228,31 @@
 
   <!-- FAQ -->
   <url>
-    <loc>https://bidbiders.com/BIDDERS/en/faq</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/faq"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/faq"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/faq"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/faq"/>
+    <loc>https://bidbidders.com/BIDDERS/en/faq</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/faq"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/faq"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/faq"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/faq"/>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <lastmod>2026-04-26</lastmod>
   </url>
   <url>
-    <loc>https://bidbiders.com/BIDDERS/uk/faq</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/faq"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/faq"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/faq"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/faq"/>
+    <loc>https://bidbidders.com/BIDDERS/uk/faq</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/faq"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/faq"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/faq"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/faq"/>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <lastmod>2026-04-26</lastmod>
   </url>
   <url>
-    <loc>https://bidbiders.com/BIDDERS/pl/faq</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/faq"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/faq"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/faq"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/faq"/>
+    <loc>https://bidbidders.com/BIDDERS/pl/faq</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/faq"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/faq"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/faq"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/faq"/>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <lastmod>2026-04-26</lastmod>
@@ -260,31 +260,31 @@
 
   <!-- Contacts -->
   <url>
-    <loc>https://bidbiders.com/BIDDERS/en/contacts</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/contacts"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/contacts"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/contacts"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/contacts"/>
+    <loc>https://bidbidders.com/BIDDERS/en/contacts</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/contacts"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/contacts"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/contacts"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/contacts"/>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <lastmod>2026-04-26</lastmod>
   </url>
   <url>
-    <loc>https://bidbiders.com/BIDDERS/uk/contacts</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/contacts"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/contacts"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/contacts"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/contacts"/>
+    <loc>https://bidbidders.com/BIDDERS/uk/contacts</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/contacts"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/contacts"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/contacts"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/contacts"/>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <lastmod>2026-04-26</lastmod>
   </url>
   <url>
-    <loc>https://bidbiders.com/BIDDERS/pl/contacts</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/contacts"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/contacts"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/contacts"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/contacts"/>
+    <loc>https://bidbidders.com/BIDDERS/pl/contacts</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/contacts"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/contacts"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/contacts"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/contacts"/>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <lastmod>2026-04-26</lastmod>
@@ -292,31 +292,31 @@
 
   <!-- Privacy Policy -->
   <url>
-    <loc>https://bidbiders.com/BIDDERS/en/privacy-policy</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/privacy-policy"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/privacy-policy"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/privacy-policy"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/privacy-policy"/>
+    <loc>https://bidbidders.com/BIDDERS/en/privacy-policy</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/privacy-policy"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/privacy-policy"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/privacy-policy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/privacy-policy"/>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
     <lastmod>2026-04-26</lastmod>
   </url>
   <url>
-    <loc>https://bidbiders.com/BIDDERS/uk/privacy-policy</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/privacy-policy"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/privacy-policy"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/privacy-policy"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/privacy-policy"/>
+    <loc>https://bidbidders.com/BIDDERS/uk/privacy-policy</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/privacy-policy"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/privacy-policy"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/privacy-policy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/privacy-policy"/>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
     <lastmod>2026-04-26</lastmod>
   </url>
   <url>
-    <loc>https://bidbiders.com/BIDDERS/pl/privacy-policy</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/privacy-policy"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/privacy-policy"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/privacy-policy"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/privacy-policy"/>
+    <loc>https://bidbidders.com/BIDDERS/pl/privacy-policy</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/privacy-policy"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/privacy-policy"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/privacy-policy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/privacy-policy"/>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
     <lastmod>2026-04-26</lastmod>
@@ -324,31 +324,31 @@
 
   <!-- Terms of Use -->
   <url>
-    <loc>https://bidbiders.com/BIDDERS/en/terms-of-use</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/terms-of-use"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/terms-of-use"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/terms-of-use"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/terms-of-use"/>
+    <loc>https://bidbidders.com/BIDDERS/en/terms-of-use</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/terms-of-use"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/terms-of-use"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/terms-of-use"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/terms-of-use"/>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
     <lastmod>2026-04-26</lastmod>
   </url>
   <url>
-    <loc>https://bidbiders.com/BIDDERS/uk/terms-of-use</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/terms-of-use"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/terms-of-use"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/terms-of-use"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/terms-of-use"/>
+    <loc>https://bidbidders.com/BIDDERS/uk/terms-of-use</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/terms-of-use"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/terms-of-use"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/terms-of-use"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/terms-of-use"/>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
     <lastmod>2026-04-26</lastmod>
   </url>
   <url>
-    <loc>https://bidbiders.com/BIDDERS/pl/terms-of-use</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbiders.com/BIDDERS/en/terms-of-use"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbiders.com/BIDDERS/uk/terms-of-use"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbiders.com/BIDDERS/pl/terms-of-use"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbiders.com/BIDDERS/en/terms-of-use"/>
+    <loc>https://bidbidders.com/BIDDERS/pl/terms-of-use</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/BIDDERS/en/terms-of-use"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://bidbidders.com/BIDDERS/uk/terms-of-use"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/BIDDERS/pl/terms-of-use"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/BIDDERS/en/terms-of-use"/>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
     <lastmod>2026-04-26</lastmod>

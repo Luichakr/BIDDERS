@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://bidbiders.com/sitemap.xml
+Sitemap: https://bidbidders.com/sitemap.xml

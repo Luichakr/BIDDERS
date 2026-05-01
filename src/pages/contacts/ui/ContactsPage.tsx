@@ -11,7 +11,7 @@ export function ContactsPage() {
   const CONTACT_CHANNELS = [
     { label: t('ctChannelPhoneLabel'), value: '+48 784 890 644', href: 'tel:+48784890644', ico: '📞', hint: t('ctChannelPhoneHintMain') },
     { label: t('ctChannelPhoneLabel'), value: '+48 571 660 242', href: 'tel:+48571660242', ico: '📱', hint: t('ctChannelPhoneHintSales') },
-    { label: 'Email', value: 'info@bidbiders.com', href: 'mailto:info@bidbiders.com', ico: '✉️', hint: t('ctChannelEmailHint') },
+    { label: 'Email', value: 'info@bidbidders.com', href: 'mailto:info@bidbidders.com', ico: '✉️', hint: t('ctChannelEmailHint') },
     { label: 'Telegram', value: '@bidbiders', href: 'https://t.me/bidbiders', ico: '💬', hint: t('ctChannelTelegramHint') },
   ]
 
@@ -100,9 +100,9 @@ export function ContactsPage() {
             '@type': 'AutomotiveBusiness',
             name: 'BIDDERS',
             description: t('ctJsonLdDesc'),
-            url: 'https://bidbiders.com',
+            url: 'https://bidbidders.com',
             telephone: '+48784890644',
-            email: 'info@bidbiders.com',
+            email: 'info@bidbidders.com',
             address: {
               '@type': 'PostalAddress',
               streetAddress: t('ctAddressLine1'),

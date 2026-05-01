@@ -72,7 +72,7 @@ export function BlogPage() {
             '@type': 'Blog',
             name: t('blogHeroKicker'),
             description: t('seoBlogDescription'),
-            url: 'https://bidbiders.com/blog',
+            url: 'https://bidbidders.com/blog',
             blogPost: BLOG_POSTS.slice(0, 6).map((post) => ({
               '@type': 'BlogPosting',
               headline: post.title,

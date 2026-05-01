@@ -1291,26 +1291,26 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
         </aside>
 
         <section className="catalog-main">
-          <div className="catalog-tabs">
-            {mode === 'catalog' ? (
-              <>
-                <button className={activeTab === 'all' ? 'tab-item active' : 'tab-item'} type="button" onClick={() => { setActiveTab('all'); setVisibleCount(20) }}>{t('catalogTabAll')} <span className="tab-count">{filteredCards.length}</span></button>
-                <button className={activeTab === 'open' ? 'tab-item active' : 'tab-item'} type="button" onClick={() => { setActiveTab('open'); setVisibleCount(20) }}>{t('catalogTabOpenAuctions')} <span className="tab-count">{tabCounts.open ?? 0}</span></button>
-                <button className={activeTab === 'live' ? 'tab-item active' : 'tab-item'} type="button" onClick={() => { setActiveTab('live'); setVisibleCount(20) }}>{t('catalogTabInProgress')} <span className="tab-count">{tabCounts.live ?? 0}</span></button>
-                <button className={activeTab === 'closed' ? 'tab-item active' : 'tab-item'} type="button" onClick={() => { setActiveTab('closed'); setVisibleCount(20) }}>{t('catalogTabClosedToday')} <span className="tab-count">{tabCounts.closed ?? 0}</span></button>
-                <button className={activeTab === 'buynow' ? 'tab-item active' : 'tab-item'} type="button" onClick={() => { setActiveTab('buynow'); setVisibleCount(20) }}>{t('catalogTabBuyNow')} <span className="tab-count">{tabCounts.buynow ?? 0}</span></button>
-                <button className="tab-archive" type="button">{t('catalogTabArchive')}</button>
-              </>
-            ) : mode === 'in-stock' ? (
-              <>
-                <button className="tab-item active" type="button">{t('catalogTabInStock')} <span className="tab-count">{filteredCards.length}</span></button>
-                <button className="tab-item" type="button">{t('catalogTabReadyToTransfer')} <span className="tab-count">{Math.min(2, filteredCards.length)}</span></button>
-                <button className="tab-item" type="button">{t('catalogTabOnOrder')} <span className="tab-count">{Math.max(1, Math.round(filteredCards.length / 2))}</span></button>
-              </>
-            ) : (
-              <button className="tab-item active" type="button">{t('catalogTabInTransit')} <span className="tab-count" id="tabCount">{filteredCards.length}</span></button>
-            )}
-          </div>
+          {mode !== 'transit' && (
+            <div className="catalog-tabs">
+              {mode === 'catalog' ? (
+                <>
+                  <button className={activeTab === 'all' ? 'tab-item active' : 'tab-item'} type="button" onClick={() => { setActiveTab('all'); setVisibleCount(20) }}>{t('catalogTabAll')} <span className="tab-count">{filteredCards.length}</span></button>
+                  <button className={activeTab === 'open' ? 'tab-item active' : 'tab-item'} type="button" onClick={() => { setActiveTab('open'); setVisibleCount(20) }}>{t('catalogTabOpenAuctions')} <span className="tab-count">{tabCounts.open ?? 0}</span></button>
+                  <button className={activeTab === 'live' ? 'tab-item active' : 'tab-item'} type="button" onClick={() => { setActiveTab('live'); setVisibleCount(20) }}>{t('catalogTabInProgress')} <span className="tab-count">{tabCounts.live ?? 0}</span></button>
+                  <button className={activeTab === 'closed' ? 'tab-item active' : 'tab-item'} type="button" onClick={() => { setActiveTab('closed'); setVisibleCount(20) }}>{t('catalogTabClosedToday')} <span className="tab-count">{tabCounts.closed ?? 0}</span></button>
+                  <button className={activeTab === 'buynow' ? 'tab-item active' : 'tab-item'} type="button" onClick={() => { setActiveTab('buynow'); setVisibleCount(20) }}>{t('catalogTabBuyNow')} <span className="tab-count">{tabCounts.buynow ?? 0}</span></button>
+                  <button className="tab-archive" type="button">{t('catalogTabArchive')}</button>
+                </>
+              ) : (
+                <>
+                  <button className="tab-item active" type="button">{t('catalogTabInStock')} <span className="tab-count">{filteredCards.length}</span></button>
+                  <button className="tab-item" type="button">{t('catalogTabReadyToTransfer')} <span className="tab-count">{Math.min(2, filteredCards.length)}</span></button>
+                  <button className="tab-item" type="button">{t('catalogTabOnOrder')} <span className="tab-count">{Math.max(1, Math.round(filteredCards.length / 2))}</span></button>
+                </>
+              )}
+            </div>
+          )}
 
           <div className="results-head">
             <span className="results-count"><strong id="resultsCount">{tabFilteredCards.length}</strong> {t('catalogResultsCount')}</span>

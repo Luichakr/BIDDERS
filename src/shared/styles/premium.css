@@ -3379,6 +3379,9 @@ header.px-header {
   object-fit: contain;
   display: block;
 }
+@media (max-width: 768px) {
+  .px-header__logo img { height: 32px; }
+}
 .px-header__nav {
   display: flex;
   align-items: center;
@@ -3817,9 +3820,6 @@ header.px-header {
   .px-header__social { gap: 4px; }
   .px-header__social a { width: 30px; height: 30px; border-radius: 8px; }
   .px-header__social a svg { width: 14px; height: 14px; }
-}
-@media (max-width: 420px) {
-  .px-header__social a:nth-child(1) { display: none; }
 }
 @media (max-width: 360px) {
   .px-header__social a:nth-child(6) { display: none; }
