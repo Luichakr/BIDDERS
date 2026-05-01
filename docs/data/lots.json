@@ -52,7 +52,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99948935",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.210Z"
+    "fetchedAt": "2026-05-01T18:59:12.822Z"
   },
   {
     "id": "99946285",
@@ -108,7 +108,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99946285",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.210Z"
+    "fetchedAt": "2026-05-01T18:59:12.822Z"
   },
   {
     "id": "99945505",
@@ -163,7 +163,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99945505",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.210Z"
+    "fetchedAt": "2026-05-01T18:59:12.823Z"
   },
   {
     "id": "99940235",
@@ -219,7 +219,7 @@
     "seller": "Progressive",
     "sourceUrl": "https://www.copart.com/lot/99940235",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.210Z"
+    "fetchedAt": "2026-05-01T18:59:12.823Z"
   },
   {
     "id": "99914975",
@@ -275,7 +275,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99914975",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.211Z"
+    "fetchedAt": "2026-05-01T18:59:12.823Z"
   },
   {
     "id": "99905515",
@@ -330,7 +330,7 @@
     "seller": "USAA",
     "sourceUrl": "https://www.copart.com/lot/99905515",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.211Z"
+    "fetchedAt": "2026-05-01T18:59:12.823Z"
   },
   {
     "id": "99903095",
@@ -351,7 +351,7 @@
     "mileageLabel": "31 752 km",
     "damage": "FRONT END",
     "damageSec": "REAR END",
-    "titleStatus": "",
+    "titleStatus": "SALVAGE TITLE",
     "hasKeys": false,
     "condition": "CERT-E",
     "currentBid": 0,
@@ -385,7 +385,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99903095",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.211Z"
+    "fetchedAt": "2026-05-01T18:59:12.823Z"
   },
   {
     "id": "99895105",
@@ -440,7 +440,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99895105",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.211Z"
+    "fetchedAt": "2026-05-01T18:59:12.823Z"
   },
   {
     "id": "99893785",
@@ -495,7 +495,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99893785",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.211Z"
+    "fetchedAt": "2026-05-01T18:59:12.824Z"
   },
   {
     "id": "99885295",
@@ -551,119 +551,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99885295",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.211Z"
-  },
-  {
-    "id": "83845985",
-    "source": "copart",
-    "title": "2018 MERCEDES BENZ 450",
-    "year": 2018,
-    "make": "MERCEDES BENZ",
-    "model": "450",
-    "trim": "AUTOMATIC",
-    "vin": "4JGDF6EE7JB",
-    "engine": "3.0L  6",
-    "transmission": "AUTOMATIC",
-    "drive": "ALL WHEEL DRIVE",
-    "fuel": "GAS",
-    "color": "BLUE",
-    "bodyStyle": "",
-    "mileageKm": 171068,
-    "mileageLabel": "171 068 km",
-    "damage": "SIDE",
-    "damageSec": "",
-    "titleStatus": "CLEAN TITLE",
-    "hasKeys": false,
-    "condition": "CERT-E",
-    "currentBid": 5500,
-    "currentBidLabel": "$5,500",
-    "buyNow": 0,
-    "buyNowLabel": "—",
-    "estimateLow": 21038,
-    "estimateHigh": 25713,
-    "estimateLabel": "$23,375",
-    "auction": "COPART",
-    "auctionEndMs": 1777654800000,
-    "auctionDateLabel": "1.05.2026",
-    "saleTime": "12:00:00",
-    "saleTimeZone": "CDT",
-    "image": "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0925/002b9b0fcac84e08a3b636a92a5410b6_ful.jpg",
-    "images": [
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0925/002b9b0fcac84e08a3b636a92a5410b6_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0925/9af199dc55b141358387b033dc6c7469_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0925/32061e07bd494ed8a93058ed9ca1a681_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0925/cf3d6141bb9241ae8fd82bb61b536c82_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0925/da92e2d98e7c40ac86de0fa1a8a0e682_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0925/a1400ed4edd040a398452088a4c92ea7_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0925/64aa58a346ae4eb5aa1b0ecb1f34fa9a_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0925/68bba59cc4004f3b9e7f1565bbbbd0c9_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0925/6dee07e1f8104282afd01c2f57efb6c3_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0925/5feff39b401c417185adec8f28874997_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0925/21c0b944f7a94b5c9fda2dd980112e88_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0925/d5d0776a0bcd4086990d27565f96c1dd_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0925/c37bd0853bc648899949d7e577d923f1_ful.jpg"
-    ],
-    "location": "TX - FT. WORTH",
-    "seller": "COPART",
-    "sourceUrl": "https://www.copart.com/lot/83845985",
-    "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.211Z"
-  },
-  {
-    "id": "77577025",
-    "source": "copart",
-    "title": "2011 MERCEDES-BENZ GL",
-    "year": 2011,
-    "make": "MERCEDES-BENZ",
-    "model": "GL",
-    "trim": "AUTOMATIC",
-    "vin": "4JGBF7BE0BA",
-    "engine": "4.6L  8",
-    "transmission": "AUTOMATIC",
-    "drive": "ALL WHEEL DRIVE",
-    "fuel": "GAS",
-    "color": "WHITE",
-    "bodyStyle": "4DR SPOR",
-    "mileageKm": 221072,
-    "mileageLabel": "221 072 km",
-    "damage": "FRONT END",
-    "damageSec": "SIDE",
-    "titleStatus": "CLEAN TITLE",
-    "hasKeys": true,
-    "condition": "CERT-E",
-    "currentBid": 350,
-    "currentBidLabel": "$350",
-    "buyNow": 0,
-    "buyNowLabel": "—",
-    "estimateLow": 5873,
-    "estimateHigh": 7178,
-    "estimateLabel": "$6,525",
-    "auction": "COPART",
-    "auctionEndMs": 1777654800000,
-    "auctionDateLabel": "1.05.2026",
-    "saleTime": "12:00:00",
-    "saleTimeZone": "CDT",
-    "image": "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0226/b9d16083115848e1a45b5e3d42937275_ful.jpg",
-    "images": [
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0226/b9d16083115848e1a45b5e3d42937275_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0226/f996e31c5cbe4a4f8e97442d72bcc8c3_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0226/bff706f7ba7742849bcd3cb7fdbd13ab_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0226/a61f2421c0d945709ee6157e163a3505_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0226/586dcc136643434d85a14ef082b866e0_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0226/bc35075297f24c4f84a29b4b174c7dfe_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0226/1dbabfa073504f7f810fb6238557f657_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0226/a37b5eb1dc244b3a9531d06dd7e405d6_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0226/1dee7a837c514f58a98b189c85654718_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0226/a1ea3199510b42dc9788441d881159ab_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0226/7aec75a3fc214c0b890b2490cb1a2801_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0226/2e1219aa8fe349ac93946f6bdda61a4c_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0226/656778f58c5b4943b7c31530b1983087_vful.jpg"
-    ],
-    "location": "LA - BATON ROUGE",
-    "seller": "COPART",
-    "sourceUrl": "https://www.copart.com/lot/77577025",
-    "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.211Z"
+    "fetchedAt": "2026-05-01T18:59:12.824Z"
   },
   {
     "id": "99946875",
@@ -719,7 +607,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99946875",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.212Z"
+    "fetchedAt": "2026-05-01T18:59:12.824Z"
   },
   {
     "id": "99946545",
@@ -775,7 +663,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99946545",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.212Z"
+    "fetchedAt": "2026-05-01T18:59:12.824Z"
   },
   {
     "id": "99929095",
@@ -830,7 +718,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99929095",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.212Z"
+    "fetchedAt": "2026-05-01T18:59:12.824Z"
   },
   {
     "id": "99927065",
@@ -885,7 +773,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99927065",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.212Z"
+    "fetchedAt": "2026-05-01T18:59:12.824Z"
   },
   {
     "id": "99918615",
@@ -938,7 +826,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99918615",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.212Z"
+    "fetchedAt": "2026-05-01T18:59:12.825Z"
   },
   {
     "id": "99906695",
@@ -995,7 +883,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99906695",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.212Z"
+    "fetchedAt": "2026-05-01T18:59:12.825Z"
   },
   {
     "id": "99906375",
@@ -1051,7 +939,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99906375",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.212Z"
+    "fetchedAt": "2026-05-01T18:59:12.825Z"
   },
   {
     "id": "99892425",
@@ -1106,7 +994,117 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99892425",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.212Z"
+    "fetchedAt": "2026-05-01T18:59:12.825Z"
+  },
+  {
+    "id": "99876965",
+    "source": "copart",
+    "title": "2021 MERCEDES BENZ SPRINTER",
+    "year": 2021,
+    "make": "MERCEDES BENZ",
+    "model": "SPRINTER",
+    "trim": "AUTOMATIC",
+    "vin": "W1W4EDHYXMT",
+    "engine": "3.0L  6",
+    "transmission": "AUTOMATIC",
+    "drive": "Rear-wheel drive",
+    "fuel": "DIESEL",
+    "color": "WHITE",
+    "bodyStyle": "",
+    "mileageKm": 0,
+    "mileageLabel": "—",
+    "damage": "FRONT END",
+    "damageSec": "SIDE",
+    "titleStatus": "",
+    "hasKeys": true,
+    "condition": "CERT-E",
+    "currentBid": 0,
+    "currentBidLabel": "—",
+    "buyNow": 0,
+    "buyNowLabel": "—",
+    "estimateLow": 34583,
+    "estimateHigh": 42268,
+    "estimateLabel": "$38,425",
+    "auction": "COPART",
+    "auctionEndMs": null,
+    "auctionDateLabel": "TBD",
+    "saleTime": "11:00:00",
+    "saleTimeZone": "CDT",
+    "image": "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0226/8f50560782f74c89a3666d573b5f8a18_ful.jpg",
+    "images": [
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0226/8f50560782f74c89a3666d573b5f8a18_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0226/17dc1712cff94b9192b9fe8f6234a14c_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0226/75c00c224dea439695e2a32d5b3e1817_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0226/25443d35383f456ca1b8332dd06dd14c_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0226/7f4f6b4903814e0ea396b27f3e5031ec_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0226/bada24278905426cbdc42cd9b7953cf2_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/139620415ed64f5cb986865942ecd3a0_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/3e9d118f43f5489aa349314989eee650_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/9067b2c6f7394a838594afe323cb83c8_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/b14ceda2391146d5b8a023f1efc03d24_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/b4eddee586f5415da412e894b5717af9_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/7001e0fb40c945a389f209f83c6a0f77_vful.jpg"
+    ],
+    "location": "IL - CHICAGO NORTH",
+    "seller": "COPART",
+    "sourceUrl": "https://www.copart.com/lot/99876965",
+    "status": "catalog",
+    "fetchedAt": "2026-05-01T18:59:12.825Z"
+  },
+  {
+    "id": "99863215",
+    "source": "copart",
+    "title": "2022 MERCEDES-BENZ AMG GT",
+    "year": 2022,
+    "make": "MERCEDES-BENZ",
+    "model": "AMG GT",
+    "trim": "AUTOMATIC",
+    "vin": "W1K7X5KB5NA",
+    "engine": "3.0L  6",
+    "transmission": "AUTOMATIC",
+    "drive": "ALL WHEEL DRIVE",
+    "fuel": "GAS",
+    "color": "WHITE",
+    "bodyStyle": "",
+    "mileageKm": 47685,
+    "mileageLabel": "47 685 km",
+    "damage": "REAR END",
+    "damageSec": "SIDE",
+    "titleStatus": "",
+    "hasKeys": true,
+    "condition": "CERT-D",
+    "currentBid": 0,
+    "currentBidLabel": "—",
+    "buyNow": 0,
+    "buyNowLabel": "—",
+    "estimateLow": 0,
+    "estimateHigh": 0,
+    "estimateLabel": "—",
+    "auction": "COPART",
+    "auctionEndMs": null,
+    "auctionDateLabel": "TBD",
+    "saleTime": "12:00:00",
+    "saleTimeZone": "CDT",
+    "image": "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/dffb210e3ddc4623914e5ba4f238720c_ful.jpg",
+    "images": [
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/dffb210e3ddc4623914e5ba4f238720c_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/416dc81e50a542c2ab7eadb85a7d001f_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/4c5abc5db19a4beba58f8f860691bfbc_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/f4630a802e3642ec80820d32e7fe69b9_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/884ddc2845cf41feafc74d776762d6ef_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/1a8384c62e154643969e2c0e1b9aaaa6_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/37e7cfef48da4e02bafe7bbc41dfcfa8_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/c59ab3bfb90d44818898bf5af7ef5f7a_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/d9140169ebf846f28df583094092f737_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/6a43892832a4459d97c121ccda00e657_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/086b60cdacd34434bab710daa576f821_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/106a6d0632b549dcae27a5418bc0d8d5_vful.jpg"
+    ],
+    "location": "IL - CHICAGO SOUTH",
+    "seller": "COPART",
+    "sourceUrl": "https://www.copart.com/lot/99863215",
+    "status": "catalog",
+    "fetchedAt": "2026-05-01T18:59:12.825Z"
   },
   {
     "id": "99997405",
@@ -1162,7 +1160,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99997405",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.212Z"
+    "fetchedAt": "2026-05-01T18:59:12.825Z"
   },
   {
     "id": "99938335",
@@ -1218,7 +1216,7 @@
     "seller": "Progressive",
     "sourceUrl": "https://www.copart.com/lot/99938335",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.212Z"
+    "fetchedAt": "2026-05-01T18:59:12.825Z"
   },
   {
     "id": "99900705",
@@ -1274,7 +1272,7 @@
     "seller": "Progressive",
     "sourceUrl": "https://www.copart.com/lot/99900705",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.212Z"
+    "fetchedAt": "2026-05-01T18:59:12.825Z"
   },
   {
     "id": "99900045",
@@ -1330,7 +1328,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99900045",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.213Z"
+    "fetchedAt": "2026-05-01T18:59:12.825Z"
   },
   {
     "id": "99883075",
@@ -1385,7 +1383,7 @@
     "seller": "USAA",
     "sourceUrl": "https://www.copart.com/lot/99883075",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.213Z"
+    "fetchedAt": "2026-05-01T18:59:12.825Z"
   },
   {
     "id": "99820805",
@@ -1441,7 +1439,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99820805",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.213Z"
+    "fetchedAt": "2026-05-01T18:59:12.826Z"
   },
   {
     "id": "99814645",
@@ -1498,7 +1496,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99814645",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.213Z"
+    "fetchedAt": "2026-05-01T18:59:12.826Z"
   },
   {
     "id": "99778885",
@@ -1553,7 +1551,7 @@
     "seller": "GEICO",
     "sourceUrl": "https://www.copart.com/lot/99778885",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.213Z"
+    "fetchedAt": "2026-05-01T18:59:12.826Z"
   },
   {
     "id": "99764955",
@@ -1608,7 +1606,7 @@
     "seller": "USAA",
     "sourceUrl": "https://www.copart.com/lot/99764955",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.213Z"
+    "fetchedAt": "2026-05-01T18:59:12.826Z"
   },
   {
     "id": "99757125",
@@ -1663,62 +1661,7 @@
     "seller": "GEICO",
     "sourceUrl": "https://www.copart.com/lot/99757125",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.213Z"
-  },
-  {
-    "id": "74029845",
-    "source": "copart",
-    "title": "2018 TOYOTA CAMRY",
-    "year": 2018,
-    "make": "TOYOTA",
-    "model": "CAMRY",
-    "trim": "AUTOMATIC",
-    "vin": "4T1B61HK9JU",
-    "engine": "2.5L  4",
-    "transmission": "AUTOMATIC",
-    "drive": "Front-wheel Drive",
-    "fuel": "GAS",
-    "color": "BLUE",
-    "bodyStyle": "",
-    "mileageKm": 160165,
-    "mileageLabel": "160 165 km",
-    "damage": "FRONT END",
-    "damageSec": "",
-    "titleStatus": "CLEAN TITLE",
-    "hasKeys": true,
-    "condition": "CERT-D",
-    "currentBid": 6000,
-    "currentBidLabel": "$6,000",
-    "buyNow": 0,
-    "buyNowLabel": "—",
-    "estimateLow": 18608,
-    "estimateHigh": 22743,
-    "estimateLabel": "$20,675",
-    "auction": "COPART",
-    "auctionEndMs": 1777654800000,
-    "auctionDateLabel": "1.05.2026",
-    "saleTime": "12:00:00",
-    "saleTimeZone": "CDT",
-    "image": "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/5d59ed0d95804eb0a6ad04903e961ccd_ful.jpg",
-    "images": [
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/5d59ed0d95804eb0a6ad04903e961ccd_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/5efe9677a32b4040bf74e73a8ee7b321_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/76b996898eee4894bcecb7775c14feb4_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/b7bdfe2f52374545be039b93dbf19619_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/3265319f3043436c8feb4b12e5a4c398_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/9c775bc2b8a042809fe6bdcd1013aa37_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/795ec7c5e21143008725233d8027d515_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/fa2eea4807484db4af5e7b1ca3231761_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/717535d4729d4319a9d9316c339253e2_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/d02ce4a792754e78b12c14a00f8121af_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/36c0621610ca4ff090b4c668057197f8_ful.jpg",
-      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/95e6cf3e6d8641278acd81e22f2561ad_vful.jpg"
-    ],
-    "location": "TX - HOUSTON",
-    "seller": "COPART",
-    "sourceUrl": "https://www.copart.com/lot/74029845",
-    "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.213Z"
+    "fetchedAt": "2026-05-01T18:59:12.826Z"
   },
   {
     "id": "99999495",
@@ -1773,7 +1716,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99999495",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.213Z"
+    "fetchedAt": "2026-05-01T18:59:12.826Z"
   },
   {
     "id": "99997925",
@@ -1829,7 +1772,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99997925",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.213Z"
+    "fetchedAt": "2026-05-01T18:59:12.826Z"
   },
   {
     "id": "99996165",
@@ -1884,7 +1827,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99996165",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.213Z"
+    "fetchedAt": "2026-05-01T18:59:12.826Z"
   },
   {
     "id": "99995805",
@@ -1939,7 +1882,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99995805",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.213Z"
+    "fetchedAt": "2026-05-01T18:59:12.826Z"
   },
   {
     "id": "99991215",
@@ -1995,7 +1938,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99991215",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.213Z"
+    "fetchedAt": "2026-05-01T18:59:12.826Z"
   },
   {
     "id": "99970745",
@@ -2051,7 +1994,7 @@
     "seller": "GEICO",
     "sourceUrl": "https://www.copart.com/lot/99970745",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.214Z"
+    "fetchedAt": "2026-05-01T18:59:12.826Z"
   },
   {
     "id": "99960145",
@@ -2106,7 +2049,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99960145",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.214Z"
+    "fetchedAt": "2026-05-01T18:59:12.827Z"
   },
   {
     "id": "99959645",
@@ -2161,7 +2104,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99959645",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.214Z"
+    "fetchedAt": "2026-05-01T18:59:12.827Z"
   },
   {
     "id": "99945665",
@@ -2216,7 +2159,62 @@
     "seller": "GEICO",
     "sourceUrl": "https://www.copart.com/lot/99945665",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.214Z"
+    "fetchedAt": "2026-05-01T18:59:12.827Z"
+  },
+  {
+    "id": "99941595",
+    "source": "copart",
+    "title": "2015 TOYOTA TUNDRA",
+    "year": 2015,
+    "make": "TOYOTA",
+    "model": "TUNDRA",
+    "trim": "AUTOMATIC",
+    "vin": "5TFRM5F17FX",
+    "engine": "4.6L  8",
+    "transmission": "AUTOMATIC",
+    "drive": "Rear-wheel drive",
+    "fuel": "GAS",
+    "color": "BLUE",
+    "bodyStyle": "CREW PICKUP",
+    "mileageKm": 173490,
+    "mileageLabel": "173 490 km",
+    "damage": "REAR END",
+    "damageSec": "SIDE",
+    "titleStatus": "",
+    "hasKeys": true,
+    "condition": "CERT-D",
+    "currentBid": 0,
+    "currentBidLabel": "—",
+    "buyNow": 0,
+    "buyNowLabel": "—",
+    "estimateLow": 17303,
+    "estimateHigh": 21148,
+    "estimateLabel": "$19,225",
+    "auction": "COPART",
+    "auctionEndMs": null,
+    "auctionDateLabel": "TBD",
+    "saleTime": "10:00:00",
+    "saleTimeZone": "EDT",
+    "image": "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/3f11368a5c1849f6bda533d0fc42294a_ful.jpg",
+    "images": [
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/3f11368a5c1849f6bda533d0fc42294a_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/938b1c5bab2840cc8219a0381e60f93f_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/69b4addcc0fd4737813fe520e6791b6a_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/c90a941dd926499ba1f0c97da3d6dfff_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/de2a73ca745242fdaefb206bd22374af_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/24c9497e98ab402096d1343fca3a4f67_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/cd8cf4d896ab493daea4e42c73b30455_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/b9e789b623624cdb964a66c9286696a9_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/2e392a2600c5415b9059efddbfb3c4ee_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/9dfe2526ecb24d8a829a23c580e6da33_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/d362ddebe3c94d73b15b04eeae04132f_ful.jpg",
+      "https://cs.copart.com/v1/AUTH_svc.pdoc00001/ids-c-prod-lpp/0126/97f45125ec29473b9fd8680bf8458765_vful.jpg"
+    ],
+    "location": "FL - MIAMI CENTRAL",
+    "seller": "COPART",
+    "sourceUrl": "https://www.copart.com/lot/99941595",
+    "status": "catalog",
+    "fetchedAt": "2026-05-01T18:59:12.827Z"
   },
   {
     "id": "91447855",
@@ -2272,7 +2270,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/91447855",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.214Z"
+    "fetchedAt": "2026-05-01T18:59:12.827Z"
   },
   {
     "id": "76999075",
@@ -2328,7 +2326,7 @@
     "seller": "Progressive",
     "sourceUrl": "https://www.copart.com/lot/76999075",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.214Z"
+    "fetchedAt": "2026-05-01T18:59:12.827Z"
   },
   {
     "id": "68250613",
@@ -2383,7 +2381,7 @@
     "seller": "AMERICAN CREDIT ACCEPTANCE",
     "sourceUrl": "https://www.copart.com/lot/68250613",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.214Z"
+    "fetchedAt": "2026-05-01T18:59:12.827Z"
   },
   {
     "id": "99999435",
@@ -2439,7 +2437,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99999435",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.214Z"
+    "fetchedAt": "2026-05-01T18:59:12.827Z"
   },
   {
     "id": "99963405",
@@ -2494,7 +2492,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99963405",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.214Z"
+    "fetchedAt": "2026-05-01T18:59:12.827Z"
   },
   {
     "id": "99910595",
@@ -2549,7 +2547,7 @@
     "seller": "USAA",
     "sourceUrl": "https://www.copart.com/lot/99910595",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.214Z"
+    "fetchedAt": "2026-05-01T18:59:12.827Z"
   },
   {
     "id": "99882265",
@@ -2605,7 +2603,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99882265",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.214Z"
+    "fetchedAt": "2026-05-01T18:59:12.827Z"
   },
   {
     "id": "99856075",
@@ -2661,7 +2659,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99856075",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.214Z"
+    "fetchedAt": "2026-05-01T18:59:12.827Z"
   },
   {
     "id": "99853635",
@@ -2717,7 +2715,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99853635",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.214Z"
+    "fetchedAt": "2026-05-01T18:59:12.828Z"
   },
   {
     "id": "99835835",
@@ -2772,7 +2770,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99835835",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.214Z"
+    "fetchedAt": "2026-05-01T18:59:12.828Z"
   },
   {
     "id": "99541715",
@@ -2828,7 +2826,7 @@
     "seller": "Progressive",
     "sourceUrl": "https://www.copart.com/lot/99541715",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.214Z"
+    "fetchedAt": "2026-05-01T18:59:12.828Z"
   },
   {
     "id": "99423075",
@@ -2885,7 +2883,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99423075",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.214Z"
+    "fetchedAt": "2026-05-01T18:59:12.828Z"
   },
   {
     "id": "99305295",
@@ -2942,7 +2940,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99305295",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.215Z"
+    "fetchedAt": "2026-05-01T18:59:12.828Z"
   },
   {
     "id": "99240405",
@@ -2999,7 +2997,7 @@
     "seller": "GEICO",
     "sourceUrl": "https://www.copart.com/lot/99240405",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.215Z"
+    "fetchedAt": "2026-05-01T18:59:12.828Z"
   },
   {
     "id": "99231925",
@@ -3055,7 +3053,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/99231925",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.215Z"
+    "fetchedAt": "2026-05-01T18:59:12.828Z"
   },
   {
     "id": "98994405",
@@ -3111,7 +3109,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/98994405",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.215Z"
+    "fetchedAt": "2026-05-01T18:59:12.828Z"
   },
   {
     "id": "98867445",
@@ -3166,7 +3164,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/98867445",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.215Z"
+    "fetchedAt": "2026-05-01T18:59:12.828Z"
   },
   {
     "id": "98859845",
@@ -3222,7 +3220,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/98859845",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.215Z"
+    "fetchedAt": "2026-05-01T18:59:12.829Z"
   },
   {
     "id": "98609335",
@@ -3278,7 +3276,7 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/98609335",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.215Z"
+    "fetchedAt": "2026-05-01T18:59:12.829Z"
   },
   {
     "id": "97840595",
@@ -3334,6 +3332,6 @@
     "seller": "COPART",
     "sourceUrl": "https://www.copart.com/lot/97840595",
     "status": "catalog",
-    "fetchedAt": "2026-05-01T16:48:18.215Z"
+    "fetchedAt": "2026-05-01T18:59:12.829Z"
   }
 ]
