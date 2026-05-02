@@ -54,3 +54,45 @@ GitHub нужен для тестирования, проверки, ревью 
 **Важно:**
 GitHub может содержать всё.
 Production содержит только то, что явно разрешено пользователем.
+
+---
+
+## Cloudflare Pages — SPA routing
+
+### Проблема
+При деплое через `wrangler pages deploy` (без git-integration) файл `public/_redirects`
+с правилом `/* /index.html 200` **не применяется** для rewrite-правил.
+Cloudflare отдаёт `404.html` со статусом **HTTP 404** для всех маршрутов SPA.
+
+### Решение (зафиксировано 2026-05-02)
+
+Добавлены два файла:
+
+**`functions/[[catchall]].js`** — основной механизм:
+```js
+// Catch-all Pages Function. Отдаёт статические файлы как есть;
+// если файл не найден (404), возвращает index.html со статусом 200,
+// чтобы React Router мог обработать маршрут на клиенте.
+export async function onRequestGet(context) {
+  const response = await context.env.ASSETS.fetch(context.request)
+  if (response.status !== 404) return response
+  const indexUrl = new URL('/index.html', context.request.url)
+  return context.env.ASSETS.fetch(indexUrl.toString())
+}
+```
+
+**`public/_redirects`** — fallback (сохранён, но не действует без Functions):
+```
+/* /index.html 200
+```
+
+### Результат
+Все SPA-маршруты (`/pl`, `/en`, `/pl/calculator`, `/pl/in-transit`, `/pl/contacts`)
+возвращают **HTTP 200**. Статические файлы (sitemap.xml, robots.txt, assets)
+обрабатываются как обычно.
+
+### Важно при будущих деплоях
+- `functions/[[catchall]].js` обязателен для работы SPA на production.
+- При сборке `npm run build:cloudflare` wrangler автоматически обнаруживает папку
+  `functions/` в корне проекта и включает Functions bundle в деплой.
+- Не удалять `functions/` — без него все direct-URL и F5 на страницах вернут 404.
