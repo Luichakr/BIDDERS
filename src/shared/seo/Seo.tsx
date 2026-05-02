@@ -1,6 +1,11 @@
 import { useEffect } from 'react'
 import { useI18n } from '../i18n/I18nProvider'
 import { supportedLocales, type Locale } from '../i18n/localeRouting'
+import { isProductionDeploy } from '../../config/productionRoutes'
+
+const hreflangLocales = isProductionDeploy()
+  ? supportedLocales.filter(l => l !== 'uk')
+  : supportedLocales
 
 interface SeoProps {
   /** Full page title, e.g. t('seoHomeTitle') */
@@ -72,7 +77,7 @@ export function Seo({ title, description, path }: SeoProps) {
     setLink('canonical', canonical)
 
     // Hreflang alternates
-    supportedLocales.forEach(loc => {
+    hreflangLocales.forEach(loc => {
       setLink('alternate', buildUrl(base, loc, path), { hreflang: loc })
     })
     // x-default points to English

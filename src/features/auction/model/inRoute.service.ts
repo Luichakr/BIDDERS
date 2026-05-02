@@ -1,6 +1,6 @@
 import type { AuctionCardData } from './auctionData'
+import { apiFetch } from '../../../shared/api/client'
 
-const API_BASE_URL = String(import.meta.env.VITE_CALCULATOR_API_BASE_URL ?? 'https://api-lubeavto-partner.azurewebsites.net').replace(/\/$/, '')
 const DEFAULT_PAGE_SIZE = 500
 const MAX_PAGES = 20
 const TRANSIT_GALLERY_HYDRATE_LIMIT = 24
@@ -69,19 +69,6 @@ type ApiInRouteListResponse = {
   totalRecords?: number
 }
 
-function getCalculatorAuthToken(): string {
-  const envToken = String(import.meta.env.VITE_CALCULATOR_API_TOKEN ?? '').trim()
-  if (envToken.length > 0) {
-    return envToken
-  }
-
-  if (typeof window === 'undefined') {
-    return ''
-  }
-
-  const fromStorage = String(window.localStorage.getItem('BIDDERS_API_TOKEN') ?? '').trim()
-  return fromStorage
-}
 
 function toName(value: string | ApiNameObject | null | undefined): string {
   if (typeof value === 'string') {
@@ -303,17 +290,7 @@ function mapInRouteCarToAuctionCard(car: ApiInRouteCar, status: AuctionCardData[
 }
 
 async function fetchJson<T>(path: string): Promise<T> {
-  const token = getCalculatorAuthToken()
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-    cache: 'no-store',
-  })
-
-  if (!response.ok) {
-    throw new Error(`In-route API error ${response.status}`)
-  }
-
-  return (await response.json()) as T
+  return apiFetch<T>(path)
 }
 
 async function fetchPagedCars(path: string, status: AuctionCardData['status']): Promise<AuctionCardData[]> {

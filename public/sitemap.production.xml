@@ -4,10 +4,10 @@
 
   <!-- Home PL -->
   <url>
-    <loc>https://bidbidders.com/pl/</loc>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/pl/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/en/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/en/"/>
+    <loc>https://bidbidders.com/pl</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/pl"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/en"/>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <lastmod>2026-05-01</lastmod>
@@ -15,10 +15,10 @@
 
   <!-- Home EN -->
   <url>
-    <loc>https://bidbidders.com/en/</loc>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/pl/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/en/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/en/"/>
+    <loc>https://bidbidders.com/en</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://bidbidders.com/pl"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bidbidders.com/en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bidbidders.com/en"/>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <lastmod>2026-05-01</lastmod>

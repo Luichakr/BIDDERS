@@ -92,27 +92,11 @@ function isElectricFuel(fuel: string): boolean {
   return normalized === 'electro' || normalized === 'electric' || normalized === 'ev'
 }
 
-function toAuthorizationHeaderValue(tokenLike: string): string {
-  const normalized = String(tokenLike).trim()
-  if (!normalized) return ''
-  return /^Bearer\s+/i.test(normalized) ? normalized : `Bearer ${normalized}`
-}
+import { API_BASE_URL, toAuthHeader, getAuthToken } from '../../../shared/api/client'
 
 const CURRENT_YEAR = new Date().getFullYear()
-const API_BASE_URL = String(import.meta.env.VITE_CALCULATOR_API_BASE_URL ?? 'https://api-lubeavto-partner.azurewebsites.net').replace(/\/$/, '')
 const INIT_API_URL = `${API_BASE_URL}/api/v0/calculator/count-pricing`
 const CALCULATE_API_URL = `${API_BASE_URL}/api/v0/calculator/count-pricing/calculate`
-
-function getCalculatorAuthToken(): string {
-  const envToken = String(import.meta.env.VITE_CALCULATOR_API_TOKEN ?? '').trim()
-  if (envToken) return envToken
-
-  if (typeof window === 'undefined') return ''
-  const localToken = String(window.localStorage.getItem('lubeavtoPartnerToken') ?? '').trim()
-  if (localToken) return localToken
-
-  return ''
-}
 
 const FALLBACK_REFERENCE_DATA: ReferenceData = {
   coefficients: {
@@ -302,7 +286,7 @@ export function CalculatorPage() {
 
   useEffect(() => {
     if (typeof window === 'undefined') return
-    const resolvedToken = getCalculatorAuthToken()
+    const resolvedToken = getAuthToken()
     if (!resolvedToken) return
 
     const existing = String(window.localStorage.getItem('lubeavtoPartnerToken') ?? '').trim()
@@ -405,8 +389,8 @@ export function CalculatorPage() {
 
     async function loadReference(): Promise<void> {
       try {
-        const token = getCalculatorAuthToken()
-        const authorization = toAuthorizationHeaderValue(token)
+        const token = getAuthToken()
+        const authorization = toAuthHeader(token)
         const response = await fetch(INIT_API_URL, {
           cache: 'no-cache',
           headers: {
@@ -469,8 +453,8 @@ export function CalculatorPage() {
     }
 
     try {
-      const token = getCalculatorAuthToken()
-      const authorization = toAuthorizationHeaderValue(token)
+      const token = getAuthToken()
+      const authorization = toAuthHeader(token)
       const response = await fetch(CALCULATE_API_URL, {
         method: 'POST',
         mode: 'cors',
