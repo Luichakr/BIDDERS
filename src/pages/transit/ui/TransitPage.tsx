@@ -38,6 +38,7 @@ export function TransitPage() {
   return (
     <>
       <Seo title={t('seoTransitTitle')} description={t('seoTransitDescription')} path={routePaths.transit} />
+      <AuctionCatalogPage title={t('transitTitle')} cards={cards} mode="transit" isLoading={loading} />
       <section className="transit-seo-intro">
         <div className="transit-seo-intro__inner">
           <h2 className="transit-seo-intro__h2">{t('transitSeoH2')}</h2>
@@ -54,7 +55,6 @@ export function TransitPage() {
           </div>
         </div>
       </section>
-      <AuctionCatalogPage title={t('transitTitle')} cards={cards} mode="transit" isLoading={loading} />
     </>
   )
 }
