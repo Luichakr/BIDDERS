@@ -10,6 +10,7 @@ const LOCALE_ORDER_ALL = ['uk', 'pl', 'en'] as const
 const LOCALE_ORDER = isProductionDeploy()
   ? (['pl', 'en'] as const)
   : LOCALE_ORDER_ALL
+const isProd = isProductionDeploy()
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -113,7 +114,8 @@ export function Header() {
           <nav className="px-header__nav" aria-label={t('headerPrimaryNavAria')}>
             <NavLink to={lp(routePaths.home)}>{t('navHome')}</NavLink>
 
-            {/* Catalog dropdown */}
+            {/* Catalog dropdown — hidden on production */}
+            {!isProd && (
             <div
               ref={catalogRef}
               className={catalogOpen ? 'px-nav-dropdown open' : 'px-nav-dropdown'}
@@ -167,9 +169,11 @@ export function Header() {
                 </div>
               </div>
             </div>
+            )}
+            {isProd && <NavLink to={lp(routePaths.transit)}>{t('navTransit')}</NavLink>}
 
             <NavLink to={lp(routePaths.calculator)}>{t('navCalculator')}</NavLink>
-            <NavLink to={lp(routePaths.blog)}>{t('navBlog')}</NavLink>
+            {!isProd && <NavLink to={lp(routePaths.blog)}>{t('navBlog')}</NavLink>}
             <NavLink to={lp(routePaths.faq)}>FAQ</NavLink>
             <NavLink to={lp(routePaths.contacts)}>{t('navContacts')}</NavLink>
           </nav>
@@ -262,7 +266,8 @@ export function Header() {
         <div className="px-mobile__links">
           <NavLink to={lp(routePaths.home)} onClick={closeMobile}>{t('navHome')}</NavLink>
 
-          {/* Catalog accordion in mobile */}
+          {/* Catalog accordion in mobile — hidden on production */}
+          {!isProd && (
           <div className={mobileCatalogOpen ? 'px-mobile-group open' : 'px-mobile-group'}>
             <button
               type="button"
@@ -303,10 +308,12 @@ export function Header() {
               </div>
             </div>
           </div>
+          )}
+          {isProd && <NavLink to={lp(routePaths.transit)} onClick={closeMobile}>{t('navTransit')}</NavLink>}
 
           <NavLink to={lp(routePaths.calculator)} onClick={closeMobile}>{t('navCalculator')}</NavLink>
-          <NavLink to={lp(routePaths.blog)} onClick={closeMobile}>{t('navBlog')}</NavLink>
-          <NavLink to={lp(routePaths.cases)} onClick={closeMobile}>{t('navCases')}</NavLink>
+          {!isProd && <NavLink to={lp(routePaths.blog)} onClick={closeMobile}>{t('navBlog')}</NavLink>}
+          {!isProd && <NavLink to={lp(routePaths.cases)} onClick={closeMobile}>{t('navCases')}</NavLink>}
           <NavLink to={lp(routePaths.faq)} onClick={closeMobile}>FAQ</NavLink>
           <NavLink to={lp(routePaths.contacts)} onClick={closeMobile}>{t('navContacts')}</NavLink>
         </div>

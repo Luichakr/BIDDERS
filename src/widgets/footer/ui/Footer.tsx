@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
 import { routePaths, localizedPath } from '../../../shared/config/routes'
+import { isProductionDeploy } from '../../../config/productionRoutes'
+
+const isProd = isProductionDeploy()
 
 export function Footer() {
   const { t, locale } = useI18n()
@@ -34,15 +37,16 @@ export function Footer() {
               <h4>{t('footerNavigation')}</h4>
               <ul>
                 <li><Link to={lp(routePaths.home)}>{t('navHome')}</Link></li>
-                <li><Link to={lp(routePaths.catalog)}>{t('navCatalog')}</Link></li>
+                {!isProd && <li><Link to={lp(routePaths.catalog)}>{t('navCatalog')}</Link></li>}
                 <li><Link to={lp(routePaths.transit)}>{t('navTransit')}</Link></li>
                 <li><Link to={lp(routePaths.calculator)}>{t('footerCalculator')}</Link></li>
                 <li><Link to={lp(routePaths.contacts)}>{t('footerContacts')}</Link></li>
                 <li><Link to={lp(routePaths.faq)}>{t('footerFaq')}</Link></li>
-                <li><Link to={lp(routePaths.blog)}>{t('footerBlog')}</Link></li>
+                {!isProd && <li><Link to={lp(routePaths.blog)}>{t('footerBlog')}</Link></li>}
               </ul>
             </div>
 
+            {!isProd && (
             <div className="px-footer__col">
               <h4>{t('footerDirections')}</h4>
               <ul>
@@ -52,6 +56,7 @@ export function Footer() {
                 <li><Link to={lp(routePaths.catalog)}>{t('footerDirectionMoto')}</Link></li>
               </ul>
             </div>
+            )}
 
             <div className="px-footer__col">
               <h4>{t('footerContact')}</h4>

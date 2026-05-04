@@ -6,6 +6,9 @@ import { formatCaseMoney, getCasesData, getCaseSavings, type CaseRecord } from '
 import { fetchCatalogCars } from '../../../features/auction/model/inRoute.service'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
 import { Seo } from '../../../shared/seo/Seo'
+import { isProductionDeploy } from '../../../config/productionRoutes'
+
+const isProd = isProductionDeploy()
 // import { VehicleSearchFilter } from './VehicleSearchFilter' // disabled — uncomment to enable
 
 type FormType = 'b2c' | 'b2b' | null
@@ -716,6 +719,7 @@ export function HomePage() {
         </div>
       </section>
 
+      {!isProd && (
       <section className="px px-section px-section--light bp-animate" id="scenario-router">
         <div className="px-wrap">
           <div className="px-header">
@@ -817,6 +821,7 @@ export function HomePage() {
           </div>
         </div>
       </section>
+      )}
 
       <section className="px px-section px-section--dark bp-animate" id="economy">
         <div className="px-wrap">
@@ -1078,6 +1083,7 @@ export function HomePage() {
         </div>
       </section>
 
+      {!isProd && (
       <section className="px px-section px-section--light bp-animate" id="in-stock">
         <div className="px-wrap">
           <div className="px-lots-head">
@@ -1153,7 +1159,9 @@ export function HomePage() {
           </div>
         </div>
       </section>
+      )}
 
+      {!isProd && (
       <section className="px px-section bp-animate" id="catalog-block">
         <div className="px-wrap">
           <div className="px-catalog2">
@@ -1267,6 +1275,7 @@ export function HomePage() {
           </div>
         </div>
       </section>
+      )}
 
       <section className="px px-section px-section--light px-section--grad bp-animate" id="how">
         <div className="px-wrap">
@@ -1365,6 +1374,7 @@ export function HomePage() {
         </div>
       </section>
 
+      {!isProd && (
       <section className="px px-section px-section--dark bp-animate" id="cases">
         <div className="px-wrap">
           <div className="px-header px-cases__header">
@@ -1445,6 +1455,7 @@ export function HomePage() {
           </div>
         </div>
       </section>
+      )}
 
       <section className="px px-section px-section--light bp-animate" id="instagram">
         <div className="px-wrap">
