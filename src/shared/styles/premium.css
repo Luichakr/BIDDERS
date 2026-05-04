@@ -2112,7 +2112,7 @@
 
 /* ======== CATALOG 2 (hero with car + stats + features) ======== */
 .px-catalog2 {
-  background: url('/images/catalog/fon_1.webp') center center / cover no-repeat;
+  background: url('/images/catalog/fon_1.webp') center 30% / cover no-repeat;
   color: #fff;
   border-radius: 28px;
   padding: clamp(28px, 4vw, 56px);
@@ -2122,10 +2122,15 @@
 .px-catalog2::before {
   content: '';
   position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse 45% 80% at 95% 20%, rgba(255,92,0,0.18), transparent 60%),
-    radial-gradient(ellipse 35% 60% at 55% 55%, rgba(255,92,0,0.10), transparent 65%);
+  background: linear-gradient(135deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.20) 60%, rgba(0,0,0,0.50) 100%);
   pointer-events: none;
+}
+@media (max-width: 640px) {
+  .px-catalog2 {
+    background-position: center 20%;
+    background-size: cover;
+    border-radius: 18px;
+  }
 }
 .px-catalog2 > * { position: relative; z-index: 1; }
 
@@ -2269,15 +2274,11 @@
 
 @media (max-width: 1100px) {
   .px-catalog2__top { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-  .px-catalog2__center { grid-column: 1 / -1; order: 3; min-height: 260px; }
   .px-catalog2__features { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 640px) {
   .px-catalog2__top { grid-template-columns: 1fr; }
   .px-catalog2__features { grid-template-columns: 1fr; }
-  .px-catalog2__pin--us { top: 12%; left: 4%; }
-  .px-catalog2__pin--eu { top: 16%; right: 4%; }
-  .px-catalog2__car { width: 100%; max-width: 100%; }
 }
 
 /* ======== APP ======== */

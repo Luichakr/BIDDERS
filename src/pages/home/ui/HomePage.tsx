@@ -1195,13 +1195,6 @@ export function HomePage() {
                 </div>
               </div>
 
-              <div className="px-catalog2__center" aria-hidden="true">
-                <div className="px-catalog2__map">
-                  <span className="px-catalog2__pin px-catalog2__pin--us">USA</span>
-                  <span className="px-catalog2__pin px-catalog2__pin--eu">EUROPE</span>
-                </div>
-                <img className="px-catalog2__car" src={`${import.meta.env.BASE_URL}images/catalog/app.webp`} alt="" />
-              </div>
 
               <div className="px-catalog2__stats">
                 <div className="px-catalog2__stat">
