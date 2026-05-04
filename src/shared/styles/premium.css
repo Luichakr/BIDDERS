@@ -2141,7 +2141,7 @@
   align-items: center;
 }
 
-.px-catalog2__left { display: flex; flex-direction: column; grid-column: span 2; max-width: 560px; }
+.px-catalog2__left { display: flex; flex-direction: column; grid-column: span 2; max-width: 420px; }
 .px-catalog2__actions {
   margin-top: 28px;
   display: flex; flex-wrap: wrap; align-items: center; gap: 20px;
@@ -2251,8 +2251,10 @@
 .px-catalog2__features {
   margin-top: clamp(24px, 3vw, 36px);
   padding: clamp(20px, 2.5vw, 28px);
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(10,18,38,0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.12);
   border-radius: 20px;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
