@@ -3289,7 +3289,7 @@ export const messages: Record<Locale, Messages> = {
     faqFullQ14: 'What happens after winning an auction?',
     faqFullA14: 'We handle payment to the auction, arrange inland transport to the US port, book ocean freight, manage EU customs clearance, and deliver the car to you.',
     faqFullQ15: 'How do I contact BIDDERS for a quote?',
-    faqFullA15: 'Call us, email info@bidbidders.com, or fill out the contact form. We reply within 15 minutes during business hours.',
+    faqFullA15: 'Call us, email sales@bidbidders.com, or fill out the contact form. We reply within 15 minutes during business hours.',
     faqFullQ16: 'What is the difference between Copart and IAAI?',
     faqFullA16: 'Both are major US salvage auctions. Copart tends to have a larger inventory and more condition grades. IAAI often has a wider range of specialty and fleet vehicles. We buy from both.',
     faqFullQ17: 'Can BIDDERS help with customs clearance for cars from the USA?',

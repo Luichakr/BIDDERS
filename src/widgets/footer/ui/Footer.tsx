@@ -64,8 +64,9 @@ export function Footer() {
                 <li>{t('footerAddress')}</li>
                 <li><a href="tel:+48784890644">+48 784 890 644</a></li>
                 <li><a href="tel:+48571660242">+48 571 660 242</a></li>
-                <li><a href="mailto:info@bidbidders.com">info@bidbidders.com</a></li>
                 <li><a href="mailto:sales@bidbidders.com">sales@bidbidders.com</a></li>
+                <li><a href="mailto:info@bidbidders.com">info@bidbidders.com</a></li>
+                <li><a href="mailto:biuro@bidbidders.com">biuro@bidbidders.com</a></li>
               </ul>
             </div>
           </div>
