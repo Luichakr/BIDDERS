@@ -2141,7 +2141,7 @@
   align-items: center;
 }
 
-.px-catalog2__left { display: flex; flex-direction: column; grid-column: span 2; }
+.px-catalog2__left { display: flex; flex-direction: column; grid-column: span 2; max-width: 560px; }
 .px-catalog2__actions {
   margin-top: 28px;
   display: flex; flex-wrap: wrap; align-items: center; gap: 20px;
