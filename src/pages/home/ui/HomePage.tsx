@@ -1696,6 +1696,23 @@ export function HomePage() {
       {openForm === 'b2c' && (
         <div className="bp-modal bp-modal--budget" ref={b2cModalRef} role="dialog" aria-modal="true" aria-label={t('homeModalB2cAria')}>
           <button type="button" className="bp-modal-close" onClick={closeForms}>×</button>
+          {b2cSuccess ? (
+            <div className="bp-thank-you">
+              <div className="bp-thank-you__icon" aria-hidden="true">
+                <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="32" cy="32" r="32" fill="#FF5C00" fillOpacity="0.12"/>
+                  <circle cx="32" cy="32" r="24" fill="#FF5C00" fillOpacity="0.18"/>
+                  <path d="M20 33l9 9 15-17" stroke="#FF5C00" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <h3 className="bp-thank-you__title">{t('thankYouTitle')}</h3>
+              <p className="bp-thank-you__text">{t('thankYouText')}</p>
+              <button type="button" className="bp-btn bp-btn-primary bp-thank-you__btn" onClick={closeForms}>
+                {t('thankYouBtn')}
+              </button>
+            </div>
+          ) : (
+          <>
           <h3 className="bp-budget-modal__title">{budgetUi.title}</h3>
           <p className="bp-budget-modal__lead">{budgetUi.subtitle}</p>
 
@@ -1991,19 +2008,36 @@ export function HomePage() {
               <textarea value={b2c.comment} onChange={(e) => setB2c((prev) => ({ ...prev, comment: e.target.value }))}></textarea>
             </label>
             {b2cError && <p className="bp-form-error">{b2cError}</p>}
-            {b2cSuccess && <p className="bp-form-success">{b2cSuccess}</p>}
-            {b2cSuccess && b2cCountdown !== null && <p className="bp-form-meta">{t('homeModalAutoClose')} {b2cCountdown} {locale === 'pl' ? 's.' : locale === 'en' ? 'sec.' : 'с.'}</p>}
             <button type="submit" className="bp-btn bp-btn-primary" disabled={isSubmittingB2c}>
               {isSubmittingB2c ? t('homeModalSending') : budgetUi.submit}
             </button>
             <p className="bp-budget-consent">{budgetUi.consent}</p>
           </form>
+          </>
+          )}
         </div>
       )}
 
       {openForm === 'b2b' && (
         <div className="bp-modal" ref={b2bModalRef} role="dialog" aria-modal="true" aria-label={t('homeModalB2bAria')}>
           <button type="button" className="bp-modal-close" onClick={closeForms}>×</button>
+          {b2bSuccess ? (
+            <div className="bp-thank-you">
+              <div className="bp-thank-you__icon" aria-hidden="true">
+                <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="32" cy="32" r="32" fill="#FF5C00" fillOpacity="0.12"/>
+                  <circle cx="32" cy="32" r="24" fill="#FF5C00" fillOpacity="0.18"/>
+                  <path d="M20 33l9 9 15-17" stroke="#FF5C00" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <h3 className="bp-thank-you__title">{t('thankYouTitle')}</h3>
+              <p className="bp-thank-you__text">{t('thankYouText')}</p>
+              <button type="button" className="bp-btn bp-btn-primary bp-thank-you__btn" onClick={closeForms}>
+                {t('thankYouBtn')}
+              </button>
+            </div>
+          ) : (
+          <>
           <h3>{t('homeModalB2bTitle')}</h3>
           <form onSubmit={onSubmitB2B}>
             <label>
@@ -2023,12 +2057,12 @@ export function HomePage() {
               <textarea value={b2b.comment} onChange={(e) => setB2b((prev) => ({ ...prev, comment: e.target.value }))}></textarea>
             </label>
             {b2bError && <p className="bp-form-error">{b2bError}</p>}
-            {b2bSuccess && <p className="bp-form-success">{b2bSuccess}</p>}
-            {b2bSuccess && b2bCountdown !== null && <p className="bp-form-meta">{t('homeModalAutoClose')} {b2bCountdown} {locale === 'pl' ? 's.' : locale === 'en' ? 'sec.' : 'с.'}</p>}
             <button type="submit" className="bp-btn bp-btn-primary" disabled={isSubmittingB2b}>
               {isSubmittingB2b ? t('homeModalSending') : t('homeModalSubmit')}
             </button>
           </form>
+          </>
+          )}
         </div>
       )}
     </main>

@@ -221,6 +221,9 @@ export type MessageKey =
   | 'homeModalSending'
   | 'homeModalSubmit'
   | 'homeModalB2bAria'
+  | 'thankYouTitle'
+  | 'thankYouText'
+  | 'thankYouBtn'
   | 'homeModalB2bTitle'
   | 'homeModalCompanyLabel'
   | 'homeModalFormatLabel'
@@ -1391,6 +1394,9 @@ export const messages: Record<Locale, Messages> = {
     homeModalAutoClose: 'Вікно закриється через',
     homeModalSending: 'Відправляємо...',
     homeModalSubmit: 'Надіслати заявку',
+    thankYouTitle: 'Дякуємо! Заявку отримано.',
+    thankYouText: 'Наша команда зв\'яжеться з вами в робочий час з 10:00 до 20:00.',
+    thankYouBtn: 'Зрозуміло, дякую',
     homeModalB2bAria: 'B2B форма',
     homeModalB2bTitle: 'Партнерство / Продаж авто',
     homeModalCompanyLabel: 'Ім\'я / Компанія',
@@ -2490,6 +2496,9 @@ export const messages: Record<Locale, Messages> = {
     homeModalAutoClose: 'This window closes in',
     homeModalSending: 'Sending...',
     homeModalSubmit: 'Send request',
+    thankYouTitle: 'Thank you! Request received.',
+    thankYouText: 'Our team will get in touch with you during working hours, 10:00–20:00.',
+    thankYouBtn: 'Got it, thanks!',
     homeModalB2bAria: 'B2B form',
     homeModalB2bTitle: 'Partnership / Sell your car',
     homeModalCompanyLabel: 'Name / Company',
@@ -3589,6 +3598,9 @@ export const messages: Record<Locale, Messages> = {
     homeModalAutoClose: 'To okno zamknie się za',
     homeModalSending: 'Wysyłanie...',
     homeModalSubmit: 'Wyślij zgłoszenie',
+    thankYouTitle: 'Dziękujemy! Zgłoszenie przyjęte.',
+    thankYouText: 'Nasz zespół skontaktuje się z Tobą w godzinach pracy: 10:00–20:00.',
+    thankYouBtn: 'Rozumiem, dziękuję',
     homeModalB2bAria: 'Formularz B2B',
     homeModalB2bTitle: 'Partnerstwo / Sprzedaż auta',
     homeModalCompanyLabel: 'Imię / Firma',
