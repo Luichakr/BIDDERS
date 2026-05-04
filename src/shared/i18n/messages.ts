@@ -3656,7 +3656,7 @@ export const messages: Record<Locale, Messages> = {
     homeHowKicker: 'Jak to działa · The Process',
     homeHowHeading: 'Pięć etapów od aukcji do wydania',
     homeHowLead: 'Od doboru auta z USA i samochodów ze Stanów, przez aukcje Copart i IAAI, aż do wydania pojazdu w Twoim mieście.',
-    homeHowAct: 'Akt',
+    homeHowAct: 'Etap',
     homeStep1Title: 'Brief i budżet',
     homeStep1Desc: 'Ustalamy zadanie, termin i docelowy budżet',
     homeStep2Title: 'Dobór i weryfikacja',
