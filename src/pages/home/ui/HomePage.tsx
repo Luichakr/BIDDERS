@@ -719,7 +719,6 @@ export function HomePage() {
         </div>
       </section>
 
-      {!isProd && (
       <section className="px px-section px-section--light bp-animate" id="scenario-router">
         <div className="px-wrap">
           <div className="px-header">
@@ -729,7 +728,9 @@ export function HomePage() {
               <p className="px-sub">{t('homeRouteLead')}</p>
             </div>
           </div>
-          <div className="px-grid-4">
+          <div className={isProd ? 'px-grid-2' : 'px-grid-4'}>
+            {/* Card 1: In Stock — staging only */}
+            {!isProd && (
             <article className="px-route px-route--large">
               <div className="px-route__media">
                 <img
@@ -755,12 +756,14 @@ export function HomePage() {
                 </Link>
               </div>
             </article>
+            )}
 
+            {/* Card 2: Transit — always shown */}
             <article className="px-route px-route--large">
               <div className="px-route__media">
                 <img src={`${import.meta.env.BASE_URL}${ROUTE_IMAGES.transit}`} alt={t('routeTransitAlt')} loading="lazy" />
                 <div className="px-route__top">
-                  <span className="px-route__num">02</span>
+                  <span className="px-route__num">{isProd ? '01' : '02'}</span>
                   <span className="px-route__pill">{t('homeRoutePillTransit')}</span>
                 </div>
               </div>
@@ -777,11 +780,12 @@ export function HomePage() {
               </div>
             </article>
 
+            {/* Card 3: Order — always shown, opens popup on prod */}
             <article className="px-route px-route--primary px-route--small">
               <div className="px-route__media">
                 <img src={`${import.meta.env.BASE_URL}${ROUTE_IMAGES.order}`} alt={t('routeAuctionAlt')} loading="lazy" />
                 <div className="px-route__top">
-                  <span className="px-route__num">03</span>
+                  <span className="px-route__num">{isProd ? '02' : '03'}</span>
                   <span className="px-route__pill">{t('homeRoutePillOrder')}</span>
                 </div>
               </div>
@@ -791,13 +795,22 @@ export function HomePage() {
                 </div>
                 <h3 className="px-route__title">{t('homeRouteOrderTitle')}</h3>
                 <p className="px-route__desc">{t('homeRouteOrderDesc')}</p>
-                <Link className="px-route__cta" to={localizedPath(locale, routePaths.catalog)}>
-                  {t('homeRouteGetEstimateCta')}
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-                </Link>
+                {isProd ? (
+                  <button type="button" className="px-route__cta" onClick={() => openB2C(t('homeRouteOrderTitle'))}>
+                    {t('homeRouteGetEstimateCta')}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                  </button>
+                ) : (
+                  <Link className="px-route__cta" to={localizedPath(locale, routePaths.catalog)}>
+                    {t('homeRouteGetEstimateCta')}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                  </Link>
+                )}
               </div>
             </article>
 
+            {/* Card 4: Catalog — staging only */}
+            {!isProd && (
             <article className="px-route px-route--small">
               <div className="px-route__media">
                 <img src={`${import.meta.env.BASE_URL}${ROUTE_IMAGES.catalog}`} alt={t('routeCatalogAlt')} loading="lazy" />
@@ -818,10 +831,10 @@ export function HomePage() {
                 </Link>
               </div>
             </article>
+            )}
           </div>
         </div>
       </section>
-      )}
 
       <section className="px px-section px-section--dark bp-animate" id="economy">
         <div className="px-wrap">

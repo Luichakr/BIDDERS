@@ -435,6 +435,13 @@
 
 /* ======== SCENARIO ROUTER — 4 ROUTE CARDS ======== */
 
+.px-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  list-style: none;
+  padding: 0;
+}
 .px-grid-4 {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -1127,6 +1134,7 @@
   .px-grid-5 { grid-template-columns: repeat(3, 1fr); }
   .px-grid-5 > *:nth-child(n+4) { border-top: 1px solid var(--px-line-dark-2); }
   .px-grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .px-grid-2 { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 900px) {
@@ -1150,6 +1158,7 @@
 @media (max-width: 720px) {
   .px-grid-5 { grid-template-columns: 1fr; }
   .px-grid-4 { grid-template-columns: 1fr; }
+  .px-grid-2 { grid-template-columns: 1fr; }
   .px-grid-3 { grid-template-columns: 1fr; }
   .px-grid-3--scroll { grid-auto-columns: minmax(290px, 88vw); }
   .px-lot__title--cta { font-size: 21px; }
