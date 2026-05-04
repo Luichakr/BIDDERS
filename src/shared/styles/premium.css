@@ -2112,7 +2112,7 @@
 
 /* ======== CATALOG 2 (hero with car + stats + features) ======== */
 .px-catalog2 {
-  background: linear-gradient(135deg, #0f1a30, #0a1226 55%, #0f1a30);
+  background: url('/images/catalog/fon_1.webp') center center / cover no-repeat;
   color: #fff;
   border-radius: 28px;
   padding: clamp(28px, 4vw, 56px);
@@ -2123,10 +2123,8 @@
   content: '';
   position: absolute; inset: 0;
   background:
-    radial-gradient(ellipse 45% 80% at 95% 20%, rgba(255,92,0,0.28), transparent 60%),
-    radial-gradient(ellipse 35% 60% at 55% 55%, rgba(255,92,0,0.18), transparent 65%),
-    radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0);
-  background-size: 100% 100%, 100% 100%, 24px 24px;
+    radial-gradient(ellipse 45% 80% at 95% 20%, rgba(255,92,0,0.18), transparent 60%),
+    radial-gradient(ellipse 35% 60% at 55% 55%, rgba(255,92,0,0.10), transparent 65%);
   pointer-events: none;
 }
 .px-catalog2 > * { position: relative; z-index: 1; }
