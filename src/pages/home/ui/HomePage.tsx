@@ -430,7 +430,7 @@ export function HomePage() {
       },
       {
         id: 'stock-placeholder-3',
-        image: `${import.meta.env.BASE_URL}images/location/showroom.webp`,
+        image: `${import.meta.env.BASE_URL}images/location/showroom_new.jpg`,
         year: '2020',
         makeModel: 'BMW M3',
         vin: 'WBS000...3303',
@@ -1577,7 +1577,7 @@ export function HomePage() {
             </div>
 
             <div className="px-loc__showroom" aria-hidden="true">
-              <img src={`${import.meta.env.BASE_URL}images/location/showroom.webp`} alt="" loading="lazy" />
+              <img src={`${import.meta.env.BASE_URL}images/location/showroom_new.jpg`} alt="" loading="lazy" />
               <span className="px-loc__kicker">BIDDERS · SHOWROOM</span>
               <span className="px-loc__pin">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>
