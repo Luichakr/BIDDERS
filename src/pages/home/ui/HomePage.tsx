@@ -1516,7 +1516,7 @@ export function HomePage() {
               </div>
             </div>
             <div className="px-insta__phone" aria-hidden="true">
-              <img src={`${import.meta.env.BASE_URL}images/economy/insta.png`} alt="" loading="lazy" />
+              <img src={`${import.meta.env.BASE_URL}images/economy/iphone.png`} alt="" loading="lazy" />
             </div>
           </div>
         </div>
