@@ -99,7 +99,7 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
   const timerUnits: TimerUnits = { d: t('timerUnitD'), h: t('timerUnitH'), m: t('timerUnitM'), s: t('timerUnitS') }
   const [sortOpen, setSortOpen] = useState(false)
   const [drawerOpen, setDrawerOpen] = useState(false)
-  const [sortMode, setSortMode] = useState<SortMode>(mode === 'catalog' ? 'auction_asc' : 'price_desc')
+  const [sortMode, setSortMode] = useState<SortMode>(mode === 'catalog' ? 'auction_asc' : 'year_desc')
   const [layout, setLayout] = useState<LayoutMode>('list')
   const [visibleCount, setVisibleCount] = useState(20)
 
@@ -599,8 +599,14 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
         ? t('catalogPriceNoteLease')
         : null
 
+    const slug = [card.make, card.model, String(card.year), card.vin || card.id]
+      .join('-')
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^a-z0-9-]/g, '')
+
     return (
-      <article className="car-card" key={card.id} onClick={() => navigate(localizedPath(locale, `lots/${card.id}`))}>
+      <article className="car-card" key={card.id} onClick={() => navigate(localizedPath(locale, `cars/${slug}`))}>
         <div className="card-badge-new">{topBadgeLabel}</div>
 
         <div className="card-photo" data-slides={slides.length}>

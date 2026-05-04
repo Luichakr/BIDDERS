@@ -855,6 +855,31 @@ export function CalculatorPage() {
           </aside>
         </div>
       </section>
+
+      <section className="calc-seo-block">
+        <div className="calc-seo-block__inner">
+          <h2 className="calc-seo-block__title">{t('calcSeoTitle')}</h2>
+          <p className="calc-seo-block__text">{t('calcSeoP1')}</p>
+          <p className="calc-seo-block__text">{t('calcSeoP2')}</p>
+
+          <div className="calc-faq">
+            <h3 className="calc-faq__title">{t('calcFaqTitle')}</h3>
+            {([
+              ['calcFaqQ1', 'calcFaqA1'],
+              ['calcFaqQ2', 'calcFaqA2'],
+              ['calcFaqQ3', 'calcFaqA3'],
+              ['calcFaqQ4', 'calcFaqA4'],
+              ['calcFaqQ5', 'calcFaqA5'],
+              ['calcFaqQ6', 'calcFaqA6'],
+            ] as [MessageKey, MessageKey][]).map(([qKey, aKey]) => (
+              <details key={qKey} className="calc-faq__item">
+                <summary className="calc-faq__question">{t(qKey)}</summary>
+                <p className="calc-faq__answer">{t(aKey)}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
     </main>
   )
 }

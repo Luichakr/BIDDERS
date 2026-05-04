@@ -1,6 +1,7 @@
 export interface CaseRecord {
   id: string
   model: string
+  usaPrice?: number
   turnkey: number
   market: number
   currency: 'EUR' | 'USD'
@@ -12,6 +13,7 @@ const FALLBACK_CASES: CaseRecord[] = [
   {
     id: 'case-bmw-x5-2021',
     model: 'BMW X5 xDrive45e 2021',
+    usaPrice: 8200,
     turnkey: 13500,
     market: 18000,
     currency: 'EUR',
@@ -21,6 +23,7 @@ const FALLBACK_CASES: CaseRecord[] = [
   {
     id: 'case-porsche-cayenne-2024',
     model: 'PORSCHE CAYENNE COUPE 2024',
+    usaPrice: 13800,
     turnkey: 20200,
     market: 26000,
     currency: 'EUR',
@@ -30,6 +33,7 @@ const FALLBACK_CASES: CaseRecord[] = [
   {
     id: 'case-toyota-camry-2026',
     model: 'TOYOTA CAMRY XSE 2026',
+    usaPrice: 10500,
     turnkey: 16900,
     market: 21100,
     currency: 'EUR',
@@ -39,6 +43,7 @@ const FALLBACK_CASES: CaseRecord[] = [
   {
     id: 'case-bmw-m4-2023',
     model: 'BMW M4 COMPETITION 2023',
+    usaPrice: 28000,
     turnkey: 41200,
     market: 49800,
     currency: 'EUR',
@@ -48,6 +53,7 @@ const FALLBACK_CASES: CaseRecord[] = [
   {
     id: 'case-audi-q7-2022',
     model: 'AUDI Q7 PREMIUM 2022',
+    usaPrice: 18500,
     turnkey: 28400,
     market: 34900,
     currency: 'EUR',
@@ -57,6 +63,7 @@ const FALLBACK_CASES: CaseRecord[] = [
   {
     id: 'case-mercedes-gle-2024',
     model: 'MERCEDES GLE 350 2024',
+    usaPrice: 24000,
     turnkey: 37800,
     market: 46200,
     currency: 'EUR',

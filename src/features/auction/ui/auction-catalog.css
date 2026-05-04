@@ -1940,3 +1940,67 @@
   padding: 4px 14px;
   border-radius: 20px;
 }
+
+/* ============================================================
+   Transit SEO intro section
+   ============================================================ */
+.transit-seo-intro {
+  background: #f5f6fa;
+  border-bottom: 1px solid rgba(26,34,54,0.08);
+  padding: 36px 24px;
+}
+
+.transit-seo-intro__inner {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.transit-seo-intro__h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a2236;
+  margin: 0 0 16px;
+  line-height: 1.35;
+}
+
+.transit-seo-intro__inner p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #5a6478;
+  margin: 0 0 10px;
+}
+
+.transit-seo-intro__inner p:last-of-type {
+  margin-bottom: 20px;
+}
+
+.transit-seo-intro__ctas {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.transit-seo-intro__cta {
+  display: inline-block;
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+
+.transit-seo-intro__cta:hover {
+  opacity: 0.85;
+}
+
+.transit-seo-intro__cta--primary {
+  background: #ff5c00;
+  color: #ffffff;
+}
+
+.transit-seo-intro__cta--secondary {
+  background: transparent;
+  color: #ff5c00;
+  border: 1.5px solid #ff5c00;
+}

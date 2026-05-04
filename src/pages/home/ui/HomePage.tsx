@@ -42,6 +42,62 @@ const INITIAL_B2B: B2BState = {
   comment: '',
 }
 
+function HomeSchema() {
+  useEffect(() => {
+    const schemas = [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: 'BIDDERS',
+        url: 'https://bidbidders.com',
+        logo: 'https://bidbidders.com/images/logo-carwaw-white.png',
+        contactPoint: {
+          '@type': 'ContactPoint',
+          telephone: '+48-784-890-644',
+          contactType: 'customer service',
+          availableLanguage: ['Polish', 'English', 'Ukrainian'],
+        },
+        sameAs: [
+          'https://www.instagram.com/bidderscom',
+          'https://www.tiktok.com/@bidders.com',
+        ],
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: 'BIDDERS',
+        url: 'https://bidbidders.com',
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        name: 'USA Car Import Service',
+        provider: { '@type': 'Organization', name: 'BIDDERS' },
+        serviceType: 'Car Import',
+        areaServed: { '@type': 'Country', name: 'Poland' },
+        description: 'End-to-end car import from USA auctions (Copart, IAAI, Manheim) — auction bidding, shipping, customs clearance, and delivery to Poland.',
+      },
+    ]
+
+    const existing = document.querySelectorAll('script[data-schema="home"]')
+    existing.forEach(el => el.remove())
+
+    schemas.forEach(schema => {
+      const script = document.createElement('script')
+      script.type = 'application/ld+json'
+      script.dataset['schema'] = 'home'
+      script.textContent = JSON.stringify(schema)
+      document.head.appendChild(script)
+    })
+
+    return () => {
+      document.querySelectorAll('script[data-schema="home"]').forEach(el => el.remove())
+    }
+  }, [])
+
+  return null
+}
+
 export function HomePage() {
   const { locale, t } = useI18n()
   const [openForm, setOpenForm] = useState<FormType>(null)
@@ -569,6 +625,7 @@ export function HomePage() {
   return (
     <main className="home-page blueprint-home">
       <Seo title={t('seoHomeTitle')} description={t('seoHomeDescription')} path="" />
+      <HomeSchema />
       <section className="px px-hero bp-animate" id="top">
         <div className="px-hero__bg" aria-hidden="true"></div>
         <div className="px-wrap">

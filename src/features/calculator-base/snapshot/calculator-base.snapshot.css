@@ -752,3 +752,88 @@
     font-size: 15px;
   }
 }
+
+
+/* ============================================================
+   Calculator SEO text + FAQ block
+   ============================================================ */
+.calc-seo-block {
+  background: #f5f6fa;
+  border-top: 1px solid rgba(26,34,54,0.08);
+  padding: 48px 24px;
+}
+
+.calc-seo-block__inner {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.calc-seo-block__title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1b2a4a;
+  margin: 0 0 16px;
+}
+
+.calc-seo-block__text {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #5a6478;
+  margin: 0 0 10px;
+}
+
+.calc-faq {
+  margin-top: 36px;
+}
+
+.calc-faq__title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1b2a4a;
+  margin: 0 0 20px;
+}
+
+.calc-faq__item {
+  border-top: 1px solid rgba(26,34,54,0.1);
+  padding: 14px 0;
+}
+
+.calc-faq__item:last-child {
+  border-bottom: 1px solid rgba(26,34,54,0.1);
+}
+
+.calc-faq__question {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a2236;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.calc-faq__question::-webkit-details-marker {
+  display: none;
+}
+
+.calc-faq__question::after {
+  content: "+";
+  font-size: 20px;
+  font-weight: 400;
+  color: #ff5c00;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.calc-faq__item[open] .calc-faq__question::after {
+  transform: rotate(45deg);
+}
+
+.calc-faq__answer {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #5a6478;
+  margin: 10px 0 0;
+}

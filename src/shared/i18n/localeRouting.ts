@@ -3,15 +3,20 @@ export type Locale = 'uk' | 'pl' | 'en'
 export const defaultLocale: Locale = 'en'
 export const localeStorageKey = 'bidbiders-locale'
 
+/** Locales surfaced in the production UI (no Ukrainian on bidbidders.com) */
+const isProduction = import.meta.env.VITE_DEPLOY_TARGET === 'cloudflare'
+export const productionLocales: readonly ('pl' | 'en')[] = ['pl', 'en']
+
 /**
  * Normalizes any BCP-47 language tag to a supported locale.
- * 'uk-UA' → 'uk', 'pl-PL' → 'pl', 'en-GB' → 'en'
+ * In production: 'uk' → null (falls back to defaultLocale 'en')
+ * 'pl-PL' → 'pl', 'en-GB' → 'en'
  * Everything else → null (caller should fall back to defaultLocale)
  */
 export function normalizeLocale(value?: string | null): Locale | null {
   if (!value) return null
   const normalized = value.toLowerCase().split('-')[0]
-  if (normalized === 'uk') return 'uk'
+  if (normalized === 'uk') return isProduction ? null : 'uk'
   if (normalized === 'pl') return 'pl'
   if (normalized === 'en') return 'en'
   return null

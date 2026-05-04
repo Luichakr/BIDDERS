@@ -36,6 +36,9 @@ export function Footer() {
                 <li><Link to={lp(routePaths.home)}>{t('navHome')}</Link></li>
                 <li><Link to={lp(routePaths.catalog)}>{t('navCatalog')}</Link></li>
                 <li><Link to={lp(routePaths.transit)}>{t('navTransit')}</Link></li>
+                <li><Link to={lp(routePaths.calculator)}>{t('footerCalculator')}</Link></li>
+                <li><Link to={lp(routePaths.contacts)}>{t('footerContacts')}</Link></li>
+                <li><Link to={lp(routePaths.faq)}>{t('footerFaq')}</Link></li>
                 <li><Link to={lp(routePaths.blog)}>{t('footerBlog')}</Link></li>
               </ul>
             </div>
@@ -56,8 +59,8 @@ export function Footer() {
                 <li>{t('footerAddress')}</li>
                 <li><a href="tel:+48784890644">+48 784 890 644</a></li>
                 <li><a href="tel:+48571660242">+48 571 660 242</a></li>
-                <li><a href="mailto:info@bidders.pl">info@bidders.pl</a></li>
-                <li><a href="mailto:sales@bidders.pl">sales@bidders.pl</a></li>
+                <li><a href="mailto:info@bidbidders.com">info@bidbidders.com</a></li>
+                <li><a href="mailto:sales@bidbidders.com">sales@bidbidders.com</a></li>
               </ul>
             </div>
           </div>

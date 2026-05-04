@@ -14,6 +14,8 @@ interface SeoProps {
   description: string
   /** Page path WITHOUT locale prefix, e.g. '' for home, 'catalog', 'faq' */
   path: string
+  /** Optional custom OG image URL; falls back to /og-image.jpg */
+  ogImage?: string
 }
 
 const OG_LOCALE: Record<Locale, string> = {
@@ -57,7 +59,7 @@ function setLink(rel: string, href: string, extra?: Record<string, string>) {
   el.href = href
 }
 
-export function Seo({ title, description, path }: SeoProps) {
+export function Seo({ title, description, path, ogImage: ogImageProp }: SeoProps) {
   const { locale } = useI18n()
 
   useEffect(() => {
@@ -83,6 +85,8 @@ export function Seo({ title, description, path }: SeoProps) {
     // x-default points to English
     setLink('alternate', buildUrl(base, 'en', path), { hreflang: 'x-default' })
 
+    const ogImage = ogImageProp ?? `${import.meta.env.VITE_SITE_ORIGIN ?? 'https://bidbidders.com'}/og-image.jpg`
+
     // Open Graph
     setMeta('property', 'og:type', 'website')
     setMeta('property', 'og:site_name', 'BIDDERS')
@@ -90,12 +94,16 @@ export function Seo({ title, description, path }: SeoProps) {
     setMeta('property', 'og:description', description)
     setMeta('property', 'og:url', canonical)
     setMeta('property', 'og:locale', OG_LOCALE[locale])
+    setMeta('property', 'og:image', ogImage)
+    setMeta('property', 'og:image:width', '1200')
+    setMeta('property', 'og:image:height', '630')
 
-    // Twitter card (bonus)
+    // Twitter card
     setMeta('name', 'twitter:card', 'summary_large_image')
     setMeta('name', 'twitter:title', title)
     setMeta('name', 'twitter:description', description)
-  }, [title, description, path, locale])
+    setMeta('name', 'twitter:image', ogImage)
+  }, [title, description, path, locale, ogImageProp])
 
   return null
 }

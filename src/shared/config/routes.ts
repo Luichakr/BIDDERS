@@ -24,6 +24,7 @@ export const routePaths = {
   privacy: 'privacy-policy',
   terms: 'terms-of-use',
   lotDetail: 'lots/:lotId',
+  car: 'cars',
   chinaCars: 'china-cars',
 } as const
 

@@ -25,6 +25,9 @@ export function CasesPage() {
           {caseData.map((item) => (
             <article className="bp-case-card" key={item.id}>
               <h2>{item.model}</h2>
+              {item.usaPrice != null && (
+                <div className="bp-case-row"><span>{t('casesLabelUsaPrice')}</span><strong>{formatCaseMoney(item.usaPrice, item.currency)}</strong></div>
+              )}
               <div className="bp-case-row"><span>{t('casesLabelTurnkey')}</span><strong>{formatCaseMoney(item.turnkey, item.currency)}</strong></div>
               <div className="bp-case-row"><span>{t('casesLabelMarket')}</span><strong>{formatCaseMoney(item.market, item.currency)}</strong></div>
               <div className="bp-case-row bp-case-row-save"><span>{t('casesLabelSavings')}</span><strong>{formatCaseMoney(getCaseSavings(item), item.currency)}</strong></div>
@@ -32,9 +35,13 @@ export function CasesPage() {
           ))}
         </section>
 
+        <p className="bp-page-sub cases-seo-text">{t('casesSeoP1')}</p>
+
         <div className="bp-inline-actions">
+          <Link className="bp-btn bp-btn-primary" to={localizedPath(locale, routePaths.calculator)}>{t('casesCtaCalc')}</Link>
+          <Link className="bp-btn bp-btn-primary" to={localizedPath(locale, routePaths.transit)}>{t('casesCtaTransit')}</Link>
           <Link className="bp-btn bp-btn-secondary" to={localizedPath(locale, routePaths.blog)}>{t('casesCtaBlog')}</Link>
-          <Link className="bp-btn bp-btn-primary" to={localizedPath(locale, routePaths.home)}>{t('casesCtaHome')}</Link>
+          <Link className="bp-btn bp-btn-secondary" to={localizedPath(locale, routePaths.home)}>{t('casesCtaHome')}</Link>
         </div>
       </div>
     </main>

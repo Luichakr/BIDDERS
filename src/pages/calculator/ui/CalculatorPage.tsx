@@ -261,6 +261,60 @@ function mapInitApiToReference(initialData: unknown): ReferenceData | null {
   }
 }
 
+function CalcSchema() {
+  const { t } = useI18n()
+
+  useEffect(() => {
+    const faqItems = [
+      ['calcFaqQ1', 'calcFaqA1'],
+      ['calcFaqQ2', 'calcFaqA2'],
+      ['calcFaqQ3', 'calcFaqA3'],
+      ['calcFaqQ4', 'calcFaqA4'],
+      ['calcFaqQ5', 'calcFaqA5'],
+      ['calcFaqQ6', 'calcFaqA6'],
+    ] as [MessageKey, MessageKey][]
+
+    const schemas = [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebApplication',
+        name: 'BIDDERS Car Import Cost Calculator',
+        url: 'https://bidbidders.com/en/calculator',
+        applicationCategory: 'FinanceApplication',
+        operatingSystem: 'Web',
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+        description: t('seoCalculatorDescription'),
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqItems.map(([qKey, aKey]) => ({
+          '@type': 'Question',
+          name: t(qKey),
+          acceptedAnswer: { '@type': 'Answer', text: t(aKey) },
+        })),
+      },
+    ]
+
+    const existing = document.querySelectorAll('script[data-schema="calculator"]')
+    existing.forEach(el => el.remove())
+
+    schemas.forEach(schema => {
+      const script = document.createElement('script')
+      script.type = 'application/ld+json'
+      script.dataset['schema'] = 'calculator'
+      script.textContent = JSON.stringify(schema)
+      document.head.appendChild(script)
+    })
+
+    return () => {
+      document.querySelectorAll('script[data-schema="calculator"]').forEach(el => el.remove())
+    }
+  }, [t])
+
+  return null
+}
+
 export function CalculatorPage() {
   const { t } = useI18n()
   const requestSeqRef = useRef(0)
@@ -657,6 +711,7 @@ export function CalculatorPage() {
   return (
     <main className="calculator-react-page">
       <Seo title={t('seoCalculatorTitle')} description={t('seoCalculatorDescription')} path={routePaths.calculator} />
+      <CalcSchema />
       <section className="calculator-hero">
         <div className="calculator-hero__inner">
           <div className="calculator-hero__copy">
@@ -815,6 +870,31 @@ export function CalculatorPage() {
               </div>
             </div>
           </aside>
+        </div>
+      </section>
+
+      <section className="calc-seo-block">
+        <div className="calc-seo-block__inner">
+          <h2 className="calc-seo-block__title">{t('calcSeoTitle')}</h2>
+          <p className="calc-seo-block__text">{t('calcSeoP1')}</p>
+          <p className="calc-seo-block__text">{t('calcSeoP2')}</p>
+
+          <div className="calc-faq">
+            <h3 className="calc-faq__title">{t('calcFaqTitle')}</h3>
+            {([
+              ['calcFaqQ1', 'calcFaqA1'],
+              ['calcFaqQ2', 'calcFaqA2'],
+              ['calcFaqQ3', 'calcFaqA3'],
+              ['calcFaqQ4', 'calcFaqA4'],
+              ['calcFaqQ5', 'calcFaqA5'],
+              ['calcFaqQ6', 'calcFaqA6'],
+            ] as [MessageKey, MessageKey][]).map(([qKey, aKey]) => (
+              <details key={qKey} className="calc-faq__item">
+                <summary className="calc-faq__question">{t(qKey)}</summary>
+                <p className="calc-faq__answer">{t(aKey)}</p>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
     </main>

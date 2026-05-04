@@ -85,6 +85,7 @@ export type MessageKey =
   | 'footerInstagram'
   | 'footerFacebook'
   | 'footerBlog'
+  | 'footerFaq'
   | 'footerDirections'
   | 'footerDirectionUsa'
   | 'footerDirectionChina'
@@ -802,9 +803,13 @@ export type MessageKey =
   | 'casesPageSub'
   | 'casesLabelTurnkey'
   | 'casesLabelMarket'
+  | 'casesLabelUsaPrice'
   | 'casesLabelSavings'
   | 'casesCtaBlog'
   | 'casesCtaHome'
+  | 'casesCtaCalc'
+  | 'casesCtaTransit'
+  | 'casesSeoP1'
   | 'faqKicker'
   | 'faqPageTitle'
   | 'faqPageSub'
@@ -1013,6 +1018,86 @@ export type MessageKey =
   | 'statusInTransit'
   | 'statusDocsCustom'
   | 'statusDocsUnclear'
+  | 'transitSeoP1'
+  | 'transitSeoP2'
+  | 'transitSeoH2'
+  | 'transitSeoP3'
+  | 'transitSeoCtaCalc'
+  | 'transitSeoCtaContacts'
+  | 'carPageH1Suffix'
+  | 'carPageSeoText'
+  | 'carPageNotFound'
+  | 'carPageCtaTransit'
+  | 'carPageCtaCalc'
+  | 'carPageCtaContacts'
+  | 'carPageLabelVin'
+  | 'carPageLabelYear'
+  | 'carPageLabelMake'
+  | 'carPageLabelModel'
+  | 'carPageLabelLocation'
+  | 'carPageLabelMileage'
+  | 'calcSeoTitle'
+  | 'calcSeoP1'
+  | 'calcSeoP2'
+  | 'calcFaqTitle'
+  | 'calcFaqQ1'
+  | 'calcFaqA1'
+  | 'calcFaqQ2'
+  | 'calcFaqA2'
+  | 'calcFaqQ3'
+  | 'calcFaqA3'
+  | 'calcFaqQ4'
+  | 'calcFaqA4'
+  | 'calcFaqQ5'
+  | 'calcFaqA5'
+  | 'calcFaqQ6'
+  | 'calcFaqA6'
+  | 'footerCalculator'
+  | 'footerContacts'
+  | 'faqFullKicker'
+  | 'faqFullTitle'
+  | 'faqFullSub'
+  | 'seoFaqFullTitle'
+  | 'seoFaqFullDescription'
+  | 'faqFullQ1'
+  | 'faqFullA1'
+  | 'faqFullQ2'
+  | 'faqFullA2'
+  | 'faqFullQ3'
+  | 'faqFullA3'
+  | 'faqFullQ4'
+  | 'faqFullA4'
+  | 'faqFullQ5'
+  | 'faqFullA5'
+  | 'faqFullQ6'
+  | 'faqFullA6'
+  | 'faqFullQ7'
+  | 'faqFullA7'
+  | 'faqFullQ8'
+  | 'faqFullA8'
+  | 'faqFullQ9'
+  | 'faqFullA9'
+  | 'faqFullQ10'
+  | 'faqFullA10'
+  | 'faqFullQ11'
+  | 'faqFullA11'
+  | 'faqFullQ12'
+  | 'faqFullA12'
+  | 'faqFullQ13'
+  | 'faqFullA13'
+  | 'faqFullQ14'
+  | 'faqFullA14'
+  | 'faqFullQ15'
+  | 'faqFullA15'
+  | 'faqFullQ16'
+  | 'faqFullA16'
+  | 'faqFullQ17'
+  | 'faqFullA17'
+  | 'faqFullQ18'
+  | 'faqFullA18'
+  | 'faqFullCtaCalc'
+  | 'faqFullCtaContacts'
+  | 'faqFullCtaTransit'
 
 type Messages = Record<string, string>
 
@@ -1102,6 +1187,7 @@ export const messages: Record<Locale, Messages> = {
     footerInstagram: 'Instagram',
     footerFacebook: 'Facebook',
     footerBlog: 'Блог',
+    footerFaq: 'FAQ',
     footerDirections: 'Напрямки',
     footerDirectionUsa: 'Авто з США',
     footerDirectionChina: 'Авто з Китаю',
@@ -1754,10 +1840,14 @@ export const messages: Record<Locale, Messages> = {
     casesPageTitle: 'Реальні кейси клієнтів BIDDERS',
     casesPageSub: 'Єдина методика порівняння: ціна під ключ, ціна ринку Польщі, фінальна економія.',
     casesLabelTurnkey: 'Під ключ',
+    casesLabelUsaPrice: 'Ціна в США',
     casesLabelMarket: 'Ринок Польщі',
     casesLabelSavings: 'Економія',
     casesCtaBlog: 'Читати блог',
     casesCtaHome: 'На головну',
+    casesCtaCalc: 'Розрахувати вартість',
+    casesCtaTransit: 'Авто в дорозі',
+    casesSeoP1: 'Реальні кейси підтверджують: купити авто зі США через BIDDERS вигідніше за ринок Польщі на 5 000–15 000 EUR. Ми спеціалізуємось на імпорті з Copart, IAAI та Manheim.',
     faqKicker: 'FAQ',
     faqPageTitle: 'Часті запитання про імпорт авто',
     faqPageSub: 'Відповіді про терміни, під ключ, гарантії, застосунок і живий огляд на майданчику.',
@@ -2030,6 +2120,86 @@ export const messages: Record<Locale, Messages> = {
     statusInTransit: 'В дорозі',
     statusDocsCustom: 'Розмитнення включено',
     statusDocsUnclear: 'Документи уточнюються',
+    transitSeoH2: 'Автомобілі зі США та Канади в дорозі до Польщі',
+    transitSeoP1: 'Відстежуйте ваше авто з США в режимі реального часу — від аукціону до порту і далі.',
+    transitSeoP2: 'Ми контролюємо кожен етап логістики: завантаження, транспортування та митне оформлення.',
+    transitSeoP3: 'Хочете дізнатися повну вартість доставки ще до покупки?',
+    transitSeoCtaCalc: 'Відкрити калькулятор',
+    transitSeoCtaContacts: 'Зв\'язатися з нами',
+    carPageH1Suffix: 'зі США',
+    carPageSeoText: 'Купуйте авто зі США під ключ — від аукціону Copart або IAAI до вашого порогу. Розрахуйте повну вартість або перегляньте авто, які вже прямують до Польщі.',
+    carPageNotFound: 'Автомобіль не знайдено',
+    carPageCtaTransit: 'Авто в дорозі',
+    carPageCtaCalc: 'Розрахувати вартість',
+    carPageCtaContacts: 'Зв\'язатися',
+    carPageLabelVin: 'VIN',
+    carPageLabelYear: 'Рік',
+    carPageLabelMake: 'Марка',
+    carPageLabelModel: 'Модель',
+    carPageLabelLocation: 'Локація',
+    carPageLabelMileage: 'Пробіг',
+    calcSeoTitle: 'Як розраховується вартість імпорту авто?',
+    calcSeoP1: 'Наш калькулятор враховує вартість авто на аукціоні, збір аукціону, доставку до порту, морське перевезення, митні збори та ПДВ.',
+    calcSeoP2: 'Введіть параметри автомобіля і отримайте орієнтовну вартість "під ключ" ще до першої ставки.',
+    calcFaqTitle: 'Часті запитання',
+    calcFaqQ1: 'Що входить у вартість імпорту авто з США?',
+    calcFaqA1: 'Аукціонний збір, доставка до порту, морське перевезення, митний збір, акциз, ПДВ і послуги агента.',
+    calcFaqQ2: 'Як довго йде авто з США?',
+    calcFaqA2: 'Від 30 до 60 днів: 5–10 днів на порт, 20–30 днів морем, 7–14 днів розмитнення.',
+    calcFaqQ3: 'Чи включає калькулятор мито?',
+    calcFaqA3: 'Так, калькулятор враховує акциз і ПДВ відповідно до типу та об\'єму двигуна.',
+    calcFaqQ4: 'Чи можна купити битий авто з США?',
+    calcFaqA4: 'Так, ми працюємо з лотами з пошкодженнями. Калькулятор розраховує вартість для будь-якого стану.',
+    calcFaqQ5: 'Коли потрібно платити за авто?',
+    calcFaqA5: 'Оплата проходить після виграшу аукціону, до відправлення з США.',
+    calcFaqQ6: 'Чи є прихована комісія?',
+    calcFaqA6: 'Ні. Усі витрати прозорі і відображаються в калькуляторі до підтвердження угоди.',
+    footerCalculator: 'Калькулятор',
+    footerContacts: 'Контакти',
+    faqFullKicker: 'FAQ',
+    faqFullTitle: 'Часті запитання про імпорт авто з США',
+    faqFullSub: 'Відповіді на найпоширеніші питання про спроведення авто зі Штатів, вартість, терміни та митницю.',
+    seoFaqFullTitle: 'FAQ — Часті запитання про імпорт авто з США | BIDDERS',
+    seoFaqFullDescription: 'Відповіді на питання про вартість, терміни, мито, VAT та процес спроведення авто з США і Штатів під ключ.',
+    faqFullQ1: 'Скільки коштує спроведення авто зі США?',
+    faqFullA1: 'Вартість залежить від ціни авто на аукціоні, комісій Copart або IAAI, доставки до порту, фрахту та митних зборів. Середня вартість під ключ — від €8 000 до €25 000. Порахуйте точну суму в калькуляторі.',
+    faqFullQ2: 'Що входить у вартість під ключ?',
+    faqFullA2: 'Аукціонний збір, доставка до порту в США, морський фрахт, розмитнення, акциз, ПДВ і послуги агента. Жодних прихованих платежів.',
+    faqFullQ3: 'Як розрахувати вартість авто зі Штатів?',
+    faqFullA3: 'Скористайтесь нашим калькулятором — введіть ціну авто, тип, об\'єм двигуна та маршрут. Отримаєте повний розрахунок ще до першої ставки.',
+    faqFullQ4: 'Скільки часу йде авто зі США до Польщі?',
+    faqFullA4: 'Середній термін — 30–60 днів: 5–10 днів до порту, 20–30 днів морем, 7–14 днів митниця.',
+    faqFullQ5: 'Яке мито за авто зі США?',
+    faqFullA5: 'Мито (6,5% або нуль для деяких моделей) + акциз (залежить від об\'єму двигуна) + ПДВ 23%. Точні цифри показує калькулятор.',
+    faqFullQ6: 'Чи потрібно платити акциз за авто зі США?',
+    faqFullA6: 'Так, для більшості автомобілів зі США акциз розраховується за об\'ємом двигуна. Для електромобілів — окремі ставки.',
+    faqFullQ7: 'Чи можна купити авто з Copart або IAAI?',
+    faqFullA7: 'Так, ми ліцензований партнер Copart і IAAI. Купуємо лоти на аукціонах у США від вашого імені.',
+    faqFullQ8: 'Як перевірити VIN авто зі США перед покупкою?',
+    faqFullA8: 'Ми перевіряємо VIN через CarFax та NMVTIS до ставки. Отримуєте повну історію: ДТП, пробіг, кількість власників.',
+    faqFullQ9: 'Чи варто купувати пошкоджене авто зі США?',
+    faqFullA9: 'Залежить від ступеня пошкоджень та вашого бюджету. Ми оцінюємо фото та звіти і допомагаємо прийняти зважене рішення.',
+    faqFullQ10: 'Що таке salvage title в автомобілі зі США?',
+    faqFullA10: 'Salvage title означає, що страхова компанія визнала авто тотальним збитком. Такі авто можна ввезти і відновити, але реєстрація в ЄС потребує додаткових перевірок.',
+    faqFullQ11: 'Які документи потрібні для реєстрації авто зі США?',
+    faqFullA11: 'Title (документ власності), Bill of Lading, митна декларація та сертифікат відповідності. Ми готуємо повний пакет.',
+    faqFullQ12: 'Чи допомагає BIDDERS з розмитненням?',
+    faqFullA12: 'Так, повне митне оформлення входить у сервіс під ключ. Ви нічого не робите самостійно.',
+    faqFullQ13: 'Чи можна відстежити авто, поки воно в дорозі?',
+    faqFullA13: 'Так. Ви бачите статус у реальному часі: порт відправлення, судно, дата прибуття та митниця.',
+    faqFullQ14: 'BIDDERS допомагає з транспортуванням, ремонтом і реєстрацією?',
+    faqFullA14: 'Так. Ми організовуємо доставку до вашого міста, можемо порекомендувати сервіс і консультуємо щодо реєстрації.',
+    faqFullQ15: 'Які аукціони в США ви використовуєте?',
+    faqFullA15: 'Copart, IAAI, Manheim, ADESA та кілька регіональних майданчиків. Вибираємо найкращий варіант під ваш запит.',
+    faqFullQ16: 'Чи можна спровести авто з Канади або Кореї?',
+    faqFullA16: 'Так, ми працюємо з Copart Canada та корейськими майданчиками. Умови схожі, терміни можуть відрізнятись.',
+    faqFullQ17: 'Як виглядає процес спроведення авто зі США крок за кроком?',
+    faqFullA17: 'Бриф → підбір лота → перевірка VIN → ставка → викуп → доставка до порту → фрахт → митниця → видача авто.',
+    faqFullQ18: 'Як зв\'язатися з BIDDERS для консультації?',
+    faqFullA18: 'Зателефонуйте, напишіть на email або заповніть форму на сторінці Контакти. Відповідаємо протягом 15 хвилин у робочий час.',
+    faqFullCtaCalc: 'Порахувати вартість',
+    faqFullCtaContacts: 'Звʼязатися',
+    faqFullCtaTransit: 'Авто в дорозі',
   },
   en: {
     navHome: 'Home',
@@ -2090,7 +2260,7 @@ export const messages: Record<Locale, Messages> = {
     homeTransitDesc: 'Real vehicles already purchased and heading to clients.',
     homeTransitCta: 'View all cars in transit',
     catalogTitle: 'Catalog from IAAI and COPART',
-    transitTitle: 'Cars in transit',
+    transitTitle: 'Cars from the USA in Transit',
     resultsSuffix: 'results found',
     filterAuction: 'Auction',
     filterDamage: 'Damage',
@@ -2106,7 +2276,7 @@ export const messages: Record<Locale, Messages> = {
     sourceLot: 'Lot source',
     noResults: 'No lots match current filters.',
     footerTagline: 'Professional vehicle import from the US and Canada: from bidding to turnkey delivery.',
-    footerTaglineLong: 'Your trusted partner for importing vehicles from US, China, and Europe auctions since 2013.',
+    footerTaglineLong: 'Your trusted USA car import partner — Copart, IAAI, Manheim auctions, ocean shipping, EU customs since 2013.',
     footerNavigation: 'Navigation',
     footerContact: 'Contact',
     footerLocation: 'Warsaw, Poland',
@@ -2116,6 +2286,7 @@ export const messages: Record<Locale, Messages> = {
     footerInstagram: 'Instagram',
     footerFacebook: 'Facebook',
     footerBlog: 'Blog',
+    footerFaq: 'FAQ',
     footerDirections: 'Directions',
     footerDirectionUsa: 'Cars from USA',
     footerDirectionChina: 'Cars from China',
@@ -2177,13 +2348,13 @@ export const messages: Record<Locale, Messages> = {
     cookieNecessary: 'Required only',
     cookieAccept: 'Accept all',
     cookieDetails: 'Learn more',
-    seoHomeTitle: 'Your trusted partner for importing cars from the USA, Canada, and Korea | BIDDERS',
+    seoHomeTitle: 'USA Car Import — Auctions, Delivery, Customs | BIDDERS',
     seoHomeDescription: 'Turnkey car import from €8,000. Save up to €7,000. Delivery in 45-60 days. Catalog, cars in transit, in-stock offers, yard inspection, and an auction purchase app.',
     seoCatalogTitle: 'Car Catalog from US Auctions | BIDDERS',
     seoCatalogDescription: 'Browse vehicles from Copart, IAAI, and Manheim auctions. Filter by make, year, budget, and condition. Full turnkey cost estimate included.',
     seoInStockTitle: 'Cars in Stock — Ready to Ship | BIDDERS',
     seoInStockDescription: 'Vehicles available in Poland or ready for dispatch. On-site inspection available, documents ready. Fast handover.',
-    seoTransitTitle: 'Cars in Transit — Track Online | BIDDERS',
+    seoTransitTitle: 'Cars from USA in Transit — Track Online | BIDDERS',
     seoTransitDescription: 'Over 1800 vehicles on their way to Poland. Track delivery status in real time and get up-to-date updates.',
     seoCalculatorTitle: 'Car Import Cost Calculator | BIDDERS',
     seoCalculatorDescription: 'Calculate the full turnkey cost: auction price, shipping, customs, and VAT. Accurate estimate with no hidden fees.',
@@ -2216,8 +2387,8 @@ export const messages: Record<Locale, Messages> = {
     homeHeroTitleLineOne: 'Your trusted partner',
     homeHeroTitleLineTwo: 'for importing cars from',
     homeHeroTitleAccent: 'the USA, Canada, and Korea',
-    homeHeroDominant: 'Save up to €7,000 when buying a car from the USA',
-    homeHeroLead: 'From €8,000 turnkey. Average delivery time is 45-60 days. You know the final cost in advance and get the full document package.',
+    homeHeroDominant: 'Import cars from USA auctions — Copart, IAAI, Manheim — starting from €8,000 turnkey',
+    homeHeroLead: 'We handle the full USA car import process: auction bidding, ocean shipping, EU customs clearance, and delivery to your door. Average delivery time 45–60 days.',
     homeHeroPrimaryCta: 'Get a turnkey estimate',
     homeHeroSecondaryCta: 'View cars',
     homeHeroMicro: 'We reply within 15 minutes during business hours',
@@ -2385,7 +2556,7 @@ export const messages: Record<Locale, Messages> = {
     homeProblem5Fix: 'Full documentation support',
     homeHowKicker: 'How it works · The Process',
     homeHowHeading: 'Five acts from auction to keys',
-    homeHowLead: 'From lot sourcing in the US, Canada, Europe or China — to handover in your city.',
+    homeHowLead: 'From winning a car at Copart, IAAI, or Manheim in the USA — to customs clearance and delivery to your city in Europe.',
     homeHowAct: 'Act',
     homeStep1Title: 'Brief and budget',
     homeStep1Desc: 'We lock down the task, timeline, and target budget',
@@ -2832,10 +3003,14 @@ export const messages: Record<Locale, Messages> = {
     casesPageTitle: 'Real client cases from BIDDERS',
     casesPageSub: 'One consistent methodology: turnkey price, Polish market price, final savings.',
     casesLabelTurnkey: 'Turnkey',
+    casesLabelUsaPrice: 'USA price',
     casesLabelMarket: 'Polish market',
     casesLabelSavings: 'Savings',
     casesCtaBlog: 'Read the blog',
     casesCtaHome: 'Back to home',
+    casesCtaCalc: 'Calculate cost',
+    casesCtaTransit: 'Cars in transit',
+    casesSeoP1: 'Real cases prove it: importing a car from the USA through BIDDERS saves EUR 5,000–15,000 compared to the Polish market. We specialize in cars from Copart, IAAI, and Manheim.',
     faqKicker: 'FAQ',
     faqPageTitle: 'Frequently asked questions about car import',
     faqPageSub: 'Answers about timelines, turnkey service, guarantees, the app, and in-person vehicle inspection.',
@@ -3044,6 +3219,86 @@ export const messages: Record<Locale, Messages> = {
     statusInTransit: 'In transit',
     statusDocsCustom: 'Customs included',
     statusDocsUnclear: 'Documents pending',
+    transitSeoH2: 'Cars from USA and Canada in transit to Poland',
+    transitSeoP1: 'Track your car from the USA in real time — from auction win to port arrival and beyond. We handle cars from Copart, IAAI, and Manheim shipped to Europe.',
+    transitSeoP2: 'We manage every step of the import logistics: loading at the US port, ocean shipping, customs clearance, and delivery to Poland.',
+    transitSeoP3: 'Want to know the full import cost before you bid on a car from the USA?',
+    transitSeoCtaCalc: 'Open calculator',
+    transitSeoCtaContacts: 'Contact us',
+    carPageH1Suffix: 'from USA',
+    carPageSeoText: 'Buy a car from the USA turnkey — from Copart or IAAI auction to your door. Calculate the full cost or browse cars already in transit to Poland.',
+    carPageNotFound: 'Car not found',
+    carPageCtaTransit: 'Cars in transit',
+    carPageCtaCalc: 'Calculate cost',
+    carPageCtaContacts: 'Contact us',
+    carPageLabelVin: 'VIN',
+    carPageLabelYear: 'Year',
+    carPageLabelMake: 'Make',
+    carPageLabelModel: 'Model',
+    carPageLabelLocation: 'Location',
+    carPageLabelMileage: 'Mileage',
+    calcSeoTitle: 'How is the car import cost calculated?',
+    calcSeoP1: 'Our USA car import cost calculator factors in the auction price, buyer\'s fee, inland transport, ocean freight, customs duty, and VAT — covering cars from Copart, IAAI, and Manheim.',
+    calcSeoP2: 'Enter your car\'s details and get a full turnkey cost estimate before placing your first bid at a US auction.',
+    calcFaqTitle: 'Frequently asked questions',
+    calcFaqQ1: 'What is included in the USA car import cost?',
+    calcFaqA1: 'Auction fee, inland delivery to the US port, ocean freight, customs duty, excise tax, VAT, and agent fees. The calculator covers all costs for importing cars from the USA to Europe.',
+    calcFaqQ2: 'How long does shipping a car from the USA to Europe take?',
+    calcFaqA2: 'Typically 30–60 days: 5–10 days inland to the port, 20–30 days ocean shipping, 7–14 days customs clearance in Europe.',
+    calcFaqQ3: 'Does the calculator include customs duty and VAT?',
+    calcFaqA3: 'Yes. The car import cost calculator includes excise duty and VAT based on engine type and displacement, aligned with EU import rules.',
+    calcFaqQ4: 'Can I import a salvage or damaged car from the USA?',
+    calcFaqA4: 'Yes, we work with salvage-title lots from Copart and IAAI. The calculator handles any condition and title type.',
+    calcFaqQ5: 'When do I pay for the car?',
+    calcFaqA5: 'Payment is due after you win the auction at a US auto auction, before the car is shipped from the USA.',
+    calcFaqQ6: 'Are there any hidden fees?',
+    calcFaqA6: 'No. All import costs — from auction fee to VAT — are transparent and shown in the calculator before you commit.',
+    footerCalculator: 'Calculator',
+    footerContacts: 'Contacts',
+    faqFullKicker: 'FAQ',
+    faqFullTitle: 'Frequently asked questions about importing cars from the USA',
+    faqFullSub: 'Everything you need to know about USA car import — costs, timelines, customs, and the full process.',
+    seoFaqFullTitle: 'FAQ — USA Car Import Questions Answered | BIDDERS',
+    seoFaqFullDescription: 'Answers to the most common questions about importing cars from the USA — costs, customs duty, VAT, timelines, Copart, IAAI, and salvage titles.',
+    faqFullQ1: 'How much does it cost to import a car from the USA?',
+    faqFullA1: 'The total cost depends on the auction price, buyer\'s fee, inland transport to the port, ocean freight, EU customs duty, excise tax, and VAT. Typical turnkey costs range from €8,000 to €25,000+. Use our calculator for a precise estimate.',
+    faqFullQ2: 'How does the USA car import calculator work?',
+    faqFullA2: 'Enter the car\'s auction price, type, engine size, and destination port. The calculator instantly shows the full cost breakdown — auction fee, freight, customs, excise, and VAT — before you bid.',
+    faqFullQ3: 'Does the calculator include customs duty, VAT, and other fees?',
+    faqFullA3: 'Yes. The calculator covers all costs: buyer\'s fee, inland transport, ocean freight, EU customs duty (typically 6.5%), excise tax, and VAT (23% in Poland). No hidden fees.',
+    faqFullQ4: 'How long does shipping a car from the USA to Europe take?',
+    faqFullA4: 'On average 30–60 days: 5–10 days from auction to the US port, 20–30 days ocean transit, 7–14 days EU customs clearance.',
+    faqFullQ5: 'Can I buy a car from Copart or IAAI?',
+    faqFullA5: 'Yes. BIDDERS is a licensed buyer at Copart, IAAI, Manheim, and ADESA. We bid on your behalf and handle the entire purchase process.',
+    faqFullQ6: 'What documents do I need to import a car from the USA?',
+    faqFullA6: 'The key documents are: Certificate of Title, Bill of Lading, commercial invoice, customs declaration, and certificate of conformity for EU registration. We prepare everything.',
+    faqFullQ7: 'Can I track my car while it is in transit from the USA?',
+    faqFullA7: 'Yes. You can see real-time status — loading, departure port, vessel name, estimated arrival, and customs clearance stage — through your BIDDERS client dashboard.',
+    faqFullQ8: 'Is it safe to buy a damaged or salvage car from the USA?',
+    faqFullA8: 'It can be an excellent value if assessed correctly. We review the damage report and photos before bidding and advise whether the repair cost makes the purchase worthwhile.',
+    faqFullQ9: 'What is a salvage title?',
+    faqFullA9: 'A salvage title means an insurance company declared the vehicle a total loss. Salvage-title cars can still be imported to Europe, but EU registration requires an additional technical inspection.',
+    faqFullQ10: 'Can BIDDERS handle the full import process end-to-end?',
+    faqFullA10: 'Yes. We cover everything: auction sourcing, bidding, purchase, transport to port, ocean shipping, EU customs clearance, and delivery to your address.',
+    faqFullQ11: 'What costs are included in door-to-door import from the USA?',
+    faqFullA11: 'Auction fee, inland delivery to US port, ocean freight, EU port handling, customs duty, excise tax, VAT, and agent fees. Everything is included in our turnkey quote.',
+    faqFullQ12: 'Can I import a car to Poland through BIDDERS?',
+    faqFullA12: 'Yes. Poland is our primary delivery market. We handle customs clearance at the Polish border and can deliver to any address in Poland.',
+    faqFullQ13: 'Can I calculate my import costs before bidding at auction?',
+    faqFullA13: 'Yes — that is exactly what our calculator is for. Enter the expected auction price and get the full turnkey cost before you place a single bid.',
+    faqFullQ14: 'What happens after winning an auction?',
+    faqFullA14: 'We handle payment to the auction, arrange inland transport to the US port, book ocean freight, manage EU customs clearance, and deliver the car to you.',
+    faqFullQ15: 'How do I contact BIDDERS for a quote?',
+    faqFullA15: 'Call us, email info@bidbidders.com, or fill out the contact form. We reply within 15 minutes during business hours.',
+    faqFullQ16: 'What is the difference between Copart and IAAI?',
+    faqFullA16: 'Both are major US salvage auctions. Copart tends to have a larger inventory and more condition grades. IAAI often has a wider range of specialty and fleet vehicles. We buy from both.',
+    faqFullQ17: 'Can BIDDERS help with customs clearance for cars from the USA?',
+    faqFullA17: 'Yes. EU customs clearance is included in the full-service package. We handle all documentation, declarations, and duty payments on your behalf.',
+    faqFullQ18: 'Can I import a car from Canada or Korea as well?',
+    faqFullA18: 'Yes. We work with Copart Canada and select Korean auction platforms. The process is similar; timelines may vary by shipping route.',
+    faqFullCtaCalc: 'Calculate import cost',
+    faqFullCtaContacts: 'Contact us',
+    faqFullCtaTransit: 'Cars in transit',
   },
   pl: {
     navHome: 'Główna',
@@ -3104,7 +3359,7 @@ export const messages: Record<Locale, Messages> = {
     homeTransitDesc: 'Prawdziwe samochody już kupione i jadące do klientów.',
     homeTransitCta: 'Zobacz wszystkie auta w drodze',
     catalogTitle: 'Katalog aut z IAAI i COPART',
-    transitTitle: 'Auta w drodze',
+    transitTitle: 'Auta z USA w drodze',
     resultsSuffix: 'wyników',
     filterAuction: 'Aukcja',
     filterDamage: 'Uszkodzenia',
@@ -3120,7 +3375,7 @@ export const messages: Record<Locale, Messages> = {
     sourceLot: 'Źródło lotu',
     noResults: 'Brak ofert dla wybranych filtrów.',
     footerTagline: 'Profesjonalny import aut z USA i Kanady: od licytacji po dostawę pod dom.',
-    footerTaglineLong: 'Twój zaufany partner w imporcie aut z aukcji USA, Chin i Europy od 2013 roku.',
+    footerTaglineLong: 'Twój zaufany partner w sprowadzaniu aut z USA i samochodów ze Stanów — aukcje, transport, odprawa celna od 2013 roku.',
     footerNavigation: 'Nawigacja',
     footerContact: 'Kontakt',
     footerLocation: 'Warszawa, Polska',
@@ -3130,6 +3385,7 @@ export const messages: Record<Locale, Messages> = {
     footerInstagram: 'Instagram',
     footerFacebook: 'Facebook',
     footerBlog: 'Blog',
+    footerFaq: 'FAQ',
     footerDirections: 'Kierunki',
     footerDirectionUsa: 'Auta z USA',
     footerDirectionChina: 'Auta z Chin',
@@ -3197,9 +3453,9 @@ export const messages: Record<Locale, Messages> = {
     seoCatalogDescription: 'Przeglądaj auta z aukcji Copart, IAAI i Manheim. Filtruj po marce, roku, budżecie i stanie. Pełna wycena pod dom w zestawie.',
     seoInStockTitle: 'Auta dostępne — gotowe do wysyłki | BIDDERS',
     seoInStockDescription: 'Pojazdy dostępne w Polsce lub gotowe do wysyłki. Możliwość oględzin na miejscu, dokumenty gotowe. Szybkie przekazanie.',
-    seoTransitTitle: 'Auta w drodze — śledź online | BIDDERS',
+    seoTransitTitle: 'Auta z USA w drodze — śledź online | BIDDERS',
     seoTransitDescription: 'Ponad 1800 pojazdów w drodze do Polski. Śledź status dostawy w czasie rzeczywistym i otrzymuj aktualne informacje.',
-    seoCalculatorTitle: 'Kalkulator kosztów importu auta | BIDDERS',
+    seoCalculatorTitle: 'Kalkulator sprowadzenia auta z USA | BIDDERS',
     seoCalculatorDescription: 'Oblicz pełny koszt pod dom: aukcja, transport, cło, VAT. Dokładna wycena bez ukrytych opłat.',
     seoBlogTitle: 'Blog o imporcie aut z USA | BIDDERS',
     seoBlogDescription: 'Artykuły, przypadki i porady dotyczące zakupu aut na aukcjach w USA, logistyki i odprawy celnej w Polsce.',
@@ -3230,8 +3486,8 @@ export const messages: Record<Locale, Messages> = {
     homeHeroTitleLineOne: 'Twój zaufany partner',
     homeHeroTitleLineTwo: 'w imporcie aut z',
     homeHeroTitleAccent: 'USA, Kanady i Korei',
-    homeHeroDominant: 'Oszczędzaj do 7 000 EUR przy zakupie auta z USA',
-    homeHeroLead: 'Od 8 000 EUR pod dom. Średni czas dostawy to 45-60 dni. Z góry znasz koszt końcowy i otrzymujesz pełen pakiet dokumentów.',
+    homeHeroDominant: 'Oszczędzaj do 7 000 EUR przy zakupie auta z USA i samochodów ze Stanów',
+    homeHeroLead: 'Sprowadzamy auta z USA i samochody ze Stanów od 8 000 EUR pod dom. Średni czas dostawy 45-60 dni. Z góry znasz koszt końcowy i otrzymujesz pełen pakiet dokumentów.',
     homeHeroPrimaryCta: 'Uzyskaj wycenę pod dom',
     homeHeroSecondaryCta: 'Zobacz auta',
     homeHeroMicro: 'Odpowiadamy w ciągu 15 minut w godzinach pracy',
@@ -3399,7 +3655,7 @@ export const messages: Record<Locale, Messages> = {
     homeProblem5Fix: 'Pełna obsługa dokumentacji',
     homeHowKicker: 'Jak to działa · The Process',
     homeHowHeading: 'Pięć etapów od aukcji do wydania',
-    homeHowLead: 'Od doboru lotu w USA, Kanadzie, Europie czy Chinach — do wydania auta w Twoim mieście.',
+    homeHowLead: 'Od doboru auta z USA i samochodów ze Stanów, przez aukcje Copart i IAAI, aż do wydania pojazdu w Twoim mieście.',
     homeHowAct: 'Akt',
     homeStep1Title: 'Brief i budżet',
     homeStep1Desc: 'Ustalamy zadanie, termin i docelowy budżet',
@@ -3846,10 +4102,14 @@ export const messages: Record<Locale, Messages> = {
     casesPageTitle: 'Realne przypadki klientów BIDDERS',
     casesPageSub: 'Jedna metodologia porównania: cena pod dom, cena rynku polskiego, końcowa oszczędność.',
     casesLabelTurnkey: 'Pod klucz',
+    casesLabelUsaPrice: 'Cena w USA',
     casesLabelMarket: 'Rynek polski',
     casesLabelSavings: 'Oszczędność',
     casesCtaBlog: 'Czytaj blog',
     casesCtaHome: 'Na stronę główną',
+    casesCtaCalc: 'Oblicz koszt',
+    casesCtaTransit: 'Auta w drodze',
+    casesSeoP1: 'Realne przypadki potwierdzają: sprowadzenie auta z USA przez BIDDERS to oszczędność 5 000–15 000 EUR w porównaniu z rynkiem polskim. Specjalizujemy się w autach z Copart, IAAI i Manheim.',
     faqKicker: 'FAQ',
     faqPageTitle: 'Często zadawane pytania o import aut',
     faqPageSub: 'Odpowiedzi na pytania o terminy, usługę pod dom, gwarancje, aplikację i oględziny na placu.',
@@ -4058,5 +4318,85 @@ export const messages: Record<Locale, Messages> = {
     statusInTransit: 'W drodze',
     statusDocsCustom: 'Odprawa celna wliczona',
     statusDocsUnclear: 'Dokumenty w trakcie',
+    transitSeoH2: 'Samochody z USA i ze Stanów dostępne w drodze do Polski',
+    transitSeoP1: 'Śledź swoje auto z USA i samochody ze Stanów w czasie rzeczywistym — od wygranej na aukcji do portu i dalej.',
+    transitSeoP2: 'Kontrolujemy każdy etap logistyki dla aut z Ameryki: załadunek, transport morski i odprawę celną.',
+    transitSeoP3: 'Chcesz poznać pełny koszt sprowadzenia auta ze Stanów jeszcze przed zakupem?',
+    transitSeoCtaCalc: 'Otwórz kalkulator',
+    transitSeoCtaContacts: 'Skontaktuj się z nami',
+    carPageH1Suffix: 'ze Stanów',
+    carPageSeoText: 'Kup auto ze Stanów pod klucz — od aukcji Copart lub IAAI pod Twój próg. Oblicz pełny koszt sprowadzenia lub przeglądaj samochody ze Stanów już w drodze do Polski.',
+    carPageNotFound: 'Nie znaleziono pojazdu',
+    carPageCtaTransit: 'Auta w drodze',
+    carPageCtaCalc: 'Oblicz koszt',
+    carPageCtaContacts: 'Skontaktuj się',
+    carPageLabelVin: 'VIN',
+    carPageLabelYear: 'Rok',
+    carPageLabelMake: 'Marka',
+    carPageLabelModel: 'Model',
+    carPageLabelLocation: 'Lokalizacja',
+    carPageLabelMileage: 'Przebieg',
+    calcSeoTitle: 'Jak obliczana jest cena importu auta?',
+    calcSeoP1: 'Nasz kalkulator sprowadzenia auta z USA uwzględnia cenę pojazdu na aukcji, opłatę aukcyjną, transport do portu, fracht morski, cło i VAT — zarówno dla aut z USA, jak i samochodów ze Stanów sprowadzanych przez agenta.',
+    calcSeoP2: 'Podaj parametry pojazdu i otrzymaj orientacyjny koszt sprowadzenia samochodu ze Stanów "pod klucz" jeszcze przed pierwszą licytacją.',
+    calcFaqTitle: 'Najczęstsze pytania',
+    calcFaqQ1: 'Co wchodzi w koszt importu auta z USA?',
+    calcFaqA1: 'Opłata aukcyjna, transport do portu, fracht morski, cło, akcyza, VAT i prowizja agenta. Kalkulator pokazuje pełny koszt sprowadzenia auta z USA i samochodu ze Stanów.',
+    calcFaqQ2: 'Ile czasu jedzie auto z USA do Polski?',
+    calcFaqA2: 'Samochody ze Stanów jadą zwykle 30–60 dni: 5–10 dni do portu, 20–30 dni morzem, 7–14 dni odprawa celna.',
+    calcFaqQ3: 'Czy kalkulator uwzględnia cło i podatki?',
+    calcFaqA3: 'Tak, kalkulator kosztów importu auta z USA uwzględnia akcyzę i VAT na podstawie typu i pojemności silnika.',
+    calcFaqQ4: 'Czy można sprowadzić rozbite auto z USA?',
+    calcFaqA4: 'Tak, pracujemy z uszkodzonymi samochodami ze Stanów (salvage title). Kalkulator obsługuje każdy stan pojazdu.',
+    calcFaqQ5: 'Kiedy trzeba zapłacić za auto?',
+    calcFaqA5: 'Płatność następuje po wygraniu aukcji, przed wysyłką auta z USA lub ze Stanów.',
+    calcFaqQ6: 'Czy są ukryte opłaty?',
+    calcFaqA6: 'Nie. Wszystkie koszty sprowadzenia auta ze Stanów są przejrzyste i widoczne w kalkulatorze przed potwierdzeniem transakcji.',
+    footerCalculator: 'Kalkulator',
+    footerContacts: 'Kontakty',
+    faqFullKicker: 'FAQ',
+    faqFullTitle: 'Często zadawane pytania o sprowadzanie aut z USA',
+    faqFullSub: 'Odpowiedzi na pytania o koszt, czas, cło i cały proces importu auta z USA i samochodów ze Stanów.',
+    seoFaqFullTitle: 'FAQ — Sprowadzanie aut z USA: pytania i odpowiedzi | BIDDERS',
+    seoFaqFullDescription: 'Odpowiedzi na najczęstsze pytania o import aut z USA i samochodów ze Stanów — koszty, cło, VAT, akcyza, Copart, IAAI i salvage title.',
+    faqFullQ1: 'Ile kosztuje sprowadzenie auta z USA?',
+    faqFullA1: 'Koszt zależy od ceny auta na aukcji, opłaty aukcyjnej, transportu do portu, frachtu morskiego, cła i VAT. Orientacyjnie od 8 000 EUR do 25 000 EUR pod klucz. Dokładny koszt obliczysz w kalkulatorze.',
+    faqFullQ2: 'Ile kosztuje sprowadzenie samochodu ze Stanów?',
+    faqFullA2: 'Koszt sprowadzenia samochodu ze Stanów obejmuje: opłatę aukcyjną, transport w USA do portu, fracht morski, odprawę celną, akcyzę i VAT. Kalkulator pokazuje pełną kwotę przed licytacją.',
+    faqFullQ3: 'Jak działa kalkulator sprowadzenia auta z USA?',
+    faqFullA3: 'Wprowadź cenę auta, typ nadwozia, pojemność silnika i docelowy port. Kalkulator natychmiast pokaże pełny koszt importu — aukcja, fracht, cło, akcyza, VAT — jeszcze przed pierwszą ofertą.',
+    faqFullQ4: 'Czy cena z kalkulatora obejmuje cło, VAT i akcyzę?',
+    faqFullA4: 'Tak. Kalkulator kosztów sprowadzenia auta z USA uwzględnia cło (najczęściej 6,5%), akcyzę i VAT (23% w Polsce). Żadnych ukrytych opłat.',
+    faqFullQ5: 'Ile wynosi cło za auto z USA?',
+    faqFullA5: 'Standardowe cło unijne wynosi 6,5% wartości celnej pojazdu. Dla niektórych marek i modeli może wynosić 0% (np. samochody z Korei na mocy umowy handlowej). Dokładną kwotę pokazuje kalkulator.',
+    faqFullQ6: 'Jak liczony jest VAT przy imporcie auta z USA?',
+    faqFullA6: 'VAT w Polsce wynosi 23% i jest naliczany od wartości celnej powiększonej o cło i akcyzę. Kalkulator uwzględnia tę stawkę automatycznie.',
+    faqFullQ7: 'Czy za samochód ze Stanów trzeba zapłacić akcyzę?',
+    faqFullA7: 'Tak, akcyza jest obowiązkowa i zależy od pojemności silnika. Dla samochodów elektrycznych ze Stanów obowiązują inne stawki. Szczegóły w kalkulatorze.',
+    faqFullQ8: 'Ile trwa sprowadzenie auta z USA do Polski?',
+    faqFullA8: 'Średnio 30–60 dni: 5–10 dni transport do portu w USA, 20–30 dni transport morski, 7–14 dni odprawa celna w Polsce.',
+    faqFullQ9: 'Ile trwa transport samochodu ze Stanów?',
+    faqFullA9: 'Transport morski z USA do Europy trwa zwykle 20–30 dni, w zależności od portu załadunku i docelowego portu (Kłajpeda, Bremerhaven lub Gdańsk).',
+    faqFullQ10: 'Jak wygląda sprowadzenie auta z USA krok po kroku?',
+    faqFullA10: 'Brief i budżet → dobór lotu z Copart lub IAAI → weryfikacja VIN → licytacja i zakup → transport do portu → fracht morski → odprawa celna → wydanie auta.',
+    faqFullQ11: 'Czy można kupić auto z Copart lub IAAI?',
+    faqFullA11: 'Tak. BIDDERS jest licencjonowanym kupującym na Copart, IAAI, Manheim i ADESA. Licytujemy w Twoim imieniu i zajmujemy się całym procesem zakupu.',
+    faqFullQ12: 'Jak sprawdzić VIN auta z USA przed zakupem?',
+    faqFullA12: 'Sprawdzamy VIN przez CarFax i NMVTIS przed złożeniem oferty. Otrzymujesz pełną historię: wypadki, przebieg, liczba właścicieli i typ tytułu własności.',
+    faqFullQ13: 'Czy warto kupić uszkodzone auto z USA?',
+    faqFullA13: 'Jeśli koszt naprawy jest proporcjonalny do oszczędności, zdecydowanie tak. Oceniamy zdjęcia i raport uszkodzeń i doradzamy, czy zakup się opłaca.',
+    faqFullQ14: 'Czym jest salvage title w samochodzie z USA?',
+    faqFullA14: 'Salvage title oznacza, że ubezpieczyciel uznał pojazd za całkowitą szkodę. Takie auta można sprowadzić do Polski, ale rejestracja wymaga dodatkowych badań technicznych.',
+    faqFullQ15: 'Jakie dokumenty są potrzebne do rejestracji auta z USA?',
+    faqFullA15: 'Potrzebne są: Certificate of Title (dokument własności), Bill of Lading, faktura handlowa, zgłoszenie celne i świadectwo zgodności. Kompletujemy cały pakiet dokumentów.',
+    faqFullQ16: 'Czy BIDDERS pomaga w odprawie celnej?',
+    faqFullA16: 'Tak. Pełna odprawa celna wchodzi w skład usługi pod klucz. Zajmujemy się całą dokumentacją, deklaracjami i płatnościami celnymi.',
+    faqFullQ17: 'Czy można śledzić auto w drodze?',
+    faqFullA17: 'Tak. Widzisz status w czasie rzeczywistym: załadunek, port wyjścia, nazwa statku, szacowana data przybycia i etap odprawy celnej.',
+    faqFullQ18: 'Czy BIDDERS pomaga z transportem, naprawą i rejestracją?',
+    faqFullA18: 'Tak. Organizujemy dostawę do Twojego miasta, możemy polecić sprawdzony serwis i konsultujemy rejestrację w Polsce.',
+    faqFullCtaCalc: 'Oblicz koszt importu',
+    faqFullCtaContacts: 'Skontaktuj się',
+    faqFullCtaTransit: 'Auta w drodze',
   },
 }

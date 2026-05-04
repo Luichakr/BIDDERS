@@ -14,6 +14,8 @@ export const PRODUCTION_ALLOWED_ROUTES: readonly string[] = [
   '/en/in-transit',
   '/en/contact',
   '/en/contacts',
+  '/pl/faq',
+  '/en/faq',
 ] as const
 
 export function isProductionDeploy(): boolean {
@@ -27,7 +29,13 @@ function normalize(pathname: string): string {
   return pathname
 }
 
+const PRODUCTION_ALLOWED_PREFIXES: readonly string[] = [
+  '/pl/cars/',
+  '/en/cars/',
+]
+
 export function isRouteAllowed(pathname: string): boolean {
   const p = normalize(pathname)
-  return PRODUCTION_ALLOWED_ROUTES.includes(p)
+  if (PRODUCTION_ALLOWED_ROUTES.includes(p)) return true
+  return PRODUCTION_ALLOWED_PREFIXES.some(prefix => p.startsWith(prefix))
 }

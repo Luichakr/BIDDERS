@@ -4,10 +4,11 @@ import type { AuctionCardData } from '../../../features/auction/model/auctionDat
 import { fetchInRouteCards } from '../../../features/auction/model/inRoute.service'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
 import { Seo } from '../../../shared/seo/Seo'
-import { routePaths } from '../../../shared/config/routes'
+import { Link } from 'react-router'
+import { routePaths, localizedPath } from '../../../shared/config/routes'
 
 export function TransitPage() {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const [cards, setCards] = useState<AuctionCardData[]>([])
   const [loading, setLoading] = useState<boolean>(true)
 
@@ -37,6 +38,22 @@ export function TransitPage() {
   return (
     <>
       <Seo title={t('seoTransitTitle')} description={t('seoTransitDescription')} path={routePaths.transit} />
+      <section className="transit-seo-intro">
+        <div className="transit-seo-intro__inner">
+          <h2 className="transit-seo-intro__h2">{t('transitSeoH2')}</h2>
+          <p>{t('transitSeoP1')}</p>
+          <p>{t('transitSeoP2')}</p>
+          <p>{t('transitSeoP3')}</p>
+          <div className="transit-seo-intro__ctas">
+            <Link to={localizedPath(locale, routePaths.calculator)} className="transit-seo-intro__cta transit-seo-intro__cta--primary">
+              {t('transitSeoCtaCalc')}
+            </Link>
+            <Link to={localizedPath(locale, routePaths.contacts)} className="transit-seo-intro__cta transit-seo-intro__cta--secondary">
+              {t('transitSeoCtaContacts')}
+            </Link>
+          </div>
+        </div>
+      </section>
       <AuctionCatalogPage title={t('transitTitle')} cards={cards} mode="transit" isLoading={loading} />
     </>
   )
