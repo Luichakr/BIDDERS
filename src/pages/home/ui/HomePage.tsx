@@ -1333,6 +1333,7 @@ export function HomePage() {
         </div>
       </section>
 
+      {!isProd && (
       <section className="px px-section px-section--light bp-animate" id="app">
         <div className="px-wrap">
           <div className="px-app">
@@ -1366,6 +1367,7 @@ export function HomePage() {
           </div>
         </div>
       </section>
+      )}
 
       {!isProd && (
       <section className="px px-section px-section--dark bp-animate" id="cases">
@@ -1663,7 +1665,7 @@ export function HomePage() {
               <span>{t('homeFinalPrimaryCta')}</span>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
             </button>
-            <p className="px-final__micro">{t('homeFinalMicro')}</p>
+            {!isProd && <p className="px-final__micro">{t('homeFinalMicro')}</p>}
           </div>
         </div>
       </section>
