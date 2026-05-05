@@ -74,7 +74,7 @@ export function EuropeMapBlock() {
   )
 
   return (
-    <section className="ct-section ct-section--dark bp-animate" style={{ '--ct-navy': 'var(--px-navy, #1b2a4a)', '--ct-navy-deep': 'var(--px-navy-deep, #0f1a33)', '--ct-accent': 'var(--px-orange, #ff5c00)', '--ct-accent-hot': 'var(--px-orange-hot, #ff7a2f)', '--ct-accent-soft': 'var(--px-orange-soft, rgba(255,92,0,0.12))', '--ct-text': 'var(--px-text, #1a2236)', '--ct-muted': 'var(--px-text-muted, #5a6478)', '--ct-line': 'var(--px-line, rgba(26,34,54,0.1))', '--ct-radius-md': '18px', '--ct-radius-lg': '24px' } as React.CSSProperties}>
+    <section className="ct-section ct-section--dark" style={{ '--ct-navy': 'var(--px-navy, #1b2a4a)', '--ct-navy-deep': 'var(--px-navy-deep, #0f1a33)', '--ct-accent': 'var(--px-orange, #ff5c00)', '--ct-accent-hot': 'var(--px-orange-hot, #ff7a2f)', '--ct-accent-soft': 'var(--px-orange-soft, rgba(255,92,0,0.12))', '--ct-text': 'var(--px-text, #1a2236)', '--ct-muted': 'var(--px-text-muted, #5a6478)', '--ct-line': 'var(--px-line, rgba(26,34,54,0.1))', '--ct-radius-md': '18px', '--ct-radius-lg': '24px' } as React.CSSProperties}>
       <div className="ct-section__inner">
         <div className="ct-europe">
           <div className="ct-europe__layout">
@@ -149,7 +149,7 @@ export function EuropeMapBlock() {
                 ref={svgRef}
                 viewBox="0 0 760 520"
                 xmlns="http://www.w3.org/2000/svg"
-                preserveAspectRatio="xMidYMid slice"
+                preserveAspectRatio="xMidYMid meet"
                 onMouseMove={(e) => moveDrag(e.clientX, e.clientY)}
                 onMouseUp={endDrag}
                 onMouseLeave={endDrag}

@@ -930,6 +930,7 @@
 
 @media (max-width: 960px) {
   .ct-europe__map--handoff { background-position: 55% 40%; }
+  .ct-europe__map { min-height: unset; aspect-ratio: 760 / 520; }
 }
 
 /* ============================================================
