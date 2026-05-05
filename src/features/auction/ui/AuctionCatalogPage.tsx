@@ -6,15 +6,6 @@ import { routePaths, localizedPath } from '../../../shared/config/routes'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
 import './auction-catalog.css'
 
-function getDamageLevel(damage: string): 'green' | 'yellow' | 'red' | 'gray' {
-  const d = damage.toUpperCase()
-  if (!d || d === '—') return 'gray'
-  if (d.includes('RUNS') || d.includes('DRIVES') || d.includes('MINOR') || d.includes('NORMAL') || d.includes('ZUŻYCIE')) return 'yellow'
-  if (d.includes('FRONT') || d.includes('REAR') || d.includes('SIDE') || d.includes('ROLL') || d.includes('BURN') || d.includes('FIRE') || d.includes('ALL OVER')) return 'red'
-  if (d.includes('DENT') || d.includes('SCRATCH') || d.includes('HAIL') || d.includes('VANDAL') || d.includes('THEFT')) return 'yellow'
-  if (d.includes('ENGINE') || d.includes('TRANSMISSION') || d.includes('MECHANICAL')) return 'red'
-  return 'gray'
-}
 
 type TimerUnits = { d: string; h: string; m: string; s: string }
 
@@ -574,11 +565,6 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
       : mode === 'in-stock'
         ? t('catalogAuctionBadgeReady')
         : card.auction
-    const sellerLabel = mode === 'transit'
-      ? t('catalogSellerLocal')
-      : mode === 'in-stock'
-        ? 'CULT CARS'
-        : card.auction
     const statusLabel = mode === 'transit'
       ? t('catalogStatusInTransit')
       : mode === 'in-stock'
@@ -637,8 +623,19 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
             <div className="card-title-block">
               <h3 className="card-title">{card.title}</h3>
               <div className="card-vin">
-                {card.vin ? card.vin : `Lot #${card.id}`}
-                {' · '}<span>{sellerLabel}</span>
+                {card.vin ? (
+                  <>
+                    <span className="card-vin__text">{card.vin}</span>
+                    <button
+                      className="card-vin__copy"
+                      type="button"
+                      title="Kopiuj VIN"
+                      onClick={(e) => { e.stopPropagation(); navigator.clipboard.writeText(card.vin) }}
+                    >
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" width="13" height="13"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                    </button>
+                  </>
+                ) : `Lot #${card.id}`}
               </div>
             </div>
             <span className={isFixedPrice ? 'auction-badge available' : 'auction-badge'}>{auctionBadgeLabel}</span>
@@ -656,10 +653,6 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
           <div className="card-details">
             <div className="detail-item"><span className="detail-label">{t('catalogDetailMileage')}</span><span className="detail-value">{card.mileageLabel}</span></div>
             <div className="detail-item"><span className="detail-label">{t('catalogDetailLocation')}</span><span className="detail-value">{card.location}</span></div>
-            <div className="detail-item">
-              <span className="detail-label">{t('catalogDetailDamage')}</span>
-              <span className={`detail-value damage-tag damage-tag--${getDamageLevel(card.damage)}`}>{card.damage.split('|').map(k => t(k.trim())).join(' · ')}</span>
-            </div>
             <div className="detail-item"><span className="detail-label">{t('catalogDetailStatus')}</span><span className={isFixedPrice ? 'detail-value status-onward' : 'detail-value'}>{statusLabel}</span></div>
           </div>
         </div>

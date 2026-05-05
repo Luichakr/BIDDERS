@@ -3720,7 +3720,7 @@ export const messages: Record<Locale, Messages> = {
     homeLocRoute: 'Wyznacz trasę',
     homeLocShowroom: 'BIDDERS · SHOWROOM',
     homeB2bKicker: 'Partnerstwo · B2B',
-    homeB2bHeading: 'Partneruj z nami lub sprzedaj auto',
+    homeB2bHeading: 'Zostań naszym partnerem lub sprzedaj z nami swój samochód',
     homeB2bLead: 'Dla dealerów, serwisów, logistyki i prywatnych sprzedawców.',
     homeB2bCard1Num: '01 · Partnerstwo',
     homeB2bCard1Title: 'Dla dealerów i serwisów',

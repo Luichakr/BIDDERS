@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 import { Link, useParams } from 'react-router-dom'
 import { allAuctionCards, getAuctionCardById } from '../../../features/auction/model/auctionData'
 import type { AuctionCardData } from '../../../features/auction/model/auctionData'
-import { fetchInRouteCardById, fetchCatalogLotById } from '../../../features/auction/model/inRoute.service'
+import { fetchInRouteCardById, fetchCatalogLotById, fetchCatalogLotByVin } from '../../../features/auction/model/inRoute.service'
 import { routePaths, localizedPath } from '../../../shared/config/routes'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
 import { Seo } from '../../../shared/seo/Seo'
@@ -42,16 +42,76 @@ function buildCountdownLabel(
   return parts.join(' ')
 }
 
+function parseVinFromSlug(slug: string): string {
+  const parts = slug.split('-')
+  for (let i = parts.length - 1; i >= 0; i--) {
+    if (/^[A-Za-z0-9]{17}$/.test(parts[i] ?? '')) return (parts[i] ?? '').toUpperCase()
+  }
+  return (parts[parts.length - 1] ?? '').toUpperCase()
+}
+
 export function LotPage() {
   const { locale, t } = useI18n()
   const lp = (path: string) => localizedPath(locale, path)
-  const { lotId } = useParams<{ lotId: string }>()
+  const { lotId, slug } = useParams<{ lotId?: string; slug?: string }>()
+  const isSlugMode = !!slug
+  const vinFromSlug = isSlugMode ? parseVinFromSlug(slug!) : ''
+
   const fallbackCar = getAuctionCardById(lotId)
   const [liveCar, setLiveCar] = useState<typeof fallbackCar>(undefined)
   const [liveLoadState, setLiveLoadState] = useState<'idle' | 'loading' | 'loaded' | 'failed'>('idle')
   const isNumericLotId = /^\d+$/.test(lotId ?? '')
 
   useEffect(() => {
+    // Slug mode: find by VIN
+    if (isSlugMode) {
+      let mounted = true
+      setLiveLoadState('loading')
+      const load = async () => {
+        try {
+          const found = await fetchCatalogLotByVin(vinFromSlug)
+          if (!mounted) return
+          if (found) {
+            setLiveCar(found)
+            setLiveLoadState('loaded')
+            return
+          }
+          // Fallback: search in-route cards by VIN
+          const { fetchInRouteCards, fetchInRouteCardById: fetchById } = await import('../../../features/auction/model/inRoute.service')
+          const cards = await fetchInRouteCards()
+          const byVin = cards.find(c => c.vin && c.vin.toUpperCase() === vinFromSlug) ?? null
+          if (!mounted) return
+          if (!byVin) {
+            setLiveCar(undefined)
+            setLiveLoadState('failed')
+            return
+          }
+          // Fetch full detail to get complete gallery (list endpoint may have only 1 photo)
+          if (/^\d+$/.test(byVin.id)) {
+            try {
+              const detail = await fetchById(byVin.id)
+              if (!mounted) return
+              const fullCar = detail && detail.images && detail.images.length > 1
+                ? { ...byVin, images: detail.images, image: detail.images[0] ?? byVin.image }
+                : byVin
+              setLiveCar(fullCar)
+              setLiveLoadState('loaded')
+              return
+            } catch { /* fall through */ }
+          }
+          setLiveCar(byVin)
+          setLiveLoadState('loaded')
+        } catch {
+          if (!mounted) return
+          setLiveCar(undefined)
+          setLiveLoadState('failed')
+        }
+      }
+      void load()
+      return () => { mounted = false }
+    }
+
+    // Normal lot ID mode
     if (!lotId || !isNumericLotId) {
       setLiveCar(undefined)
       setLiveLoadState('idle')
@@ -88,7 +148,7 @@ export function LotPage() {
     return () => {
       mounted = false
     }
-  }, [isNumericLotId, lotId])
+  }, [isSlugMode, vinFromSlug, isNumericLotId, lotId])
 
   const car = liveCar ?? fallbackCar
   const mode: LotMode = (car?.status as LotMode) ?? 'catalog'
@@ -314,7 +374,7 @@ export function LotPage() {
       <Seo
         title={car.title ? `${car.title} | BIDDERS` : t('seoLotTitle')}
         description={t('seoLotDescription')}
-        path={`${routePaths.lotDetail.replace(':lotId', lotId ?? '')}`}
+        path={isSlugMode ? `cars/${slug}` : `${routePaths.lotDetail.replace(':lotId', lotId ?? '')}`}
       />
       {/* JSON-LD structured data for SEO */}
       <script
@@ -448,8 +508,6 @@ export function LotPage() {
                 </div>
                 <div className="lot-spec-row"><dt>{t('lotLabelSeller')}</dt><dd><span className="lot-dot"></span>{car.seller}</dd></div>
                 <div className="lot-spec-row"><dt>{t('lotLabelDocuments')}</dt><dd className="lot-spec-ok">{ts(car.titleStatus ?? '')}</dd></div>
-                <div className="lot-spec-row"><dt>{t('lotLabelPrimaryDamage')}</dt><dd className="lot-spec-warn">{ts(car.damage)}</dd></div>
-                <div className="lot-spec-row"><dt>{t('lotLabelSecondaryDamage')}</dt><dd>—</dd></div>
                 <div className="lot-spec-row"><dt>{t('lotLabelMileage')}</dt><dd>{car.mileageLabel}</dd></div>
                 <div className="lot-spec-row"><dt>{t('lotLabelKeys')}</dt><dd>{ts(car.keys ?? '')}</dd></div>
               </dl>
@@ -733,7 +791,6 @@ export function LotPage() {
               <div className="lot-know-card__icon">🚀</div>
               <h3>{t('lotKnowCheckTitle')}</h3>
               <ul>
-                <li>{t('lotKnowCheckDamage')} <strong>{ts(car.damage)}</strong></li>
                 <li>{t('lotKnowCheckDocs')} <strong>{ts(car.titleStatus ?? '')}</strong></li>
                 <li>{t('lotKnowCheckBudget')} {car.currentBidLabel || fmt(car.currentBid)} {t('lotKnowCheckBudgetSuffix')}</li>
                 <li>{t('lotKnowCheckAgreement')}</li>
@@ -852,7 +909,7 @@ export function LotPage() {
                 {car.title} {t('lotSummaryStatusP1')} <strong>«{statusPill}»</strong>. {t('lotSummaryStatusP2')}
               </p>
               <p className="lot-summary-card__facts">
-                {t('lotSummaryStatusFacts')} <strong>{ts(car.titleStatus ?? '')}</strong>, {t('lotSummaryStatusFactsDmg')} <strong>{ts(car.damage)}</strong>, {t('lotSummaryStatusFactsLoc')} <strong>{car.location}</strong>.
+                {t('lotSummaryStatusFacts')} <strong>{ts(car.titleStatus ?? '')}</strong>, {t('lotSummaryStatusFactsLoc')} <strong>{car.location}</strong>.
               </p>
               <p>
                 {t('lotSummaryStatusP3')}

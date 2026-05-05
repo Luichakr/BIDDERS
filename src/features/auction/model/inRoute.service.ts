@@ -411,3 +411,17 @@ export async function fetchCatalogLotById(id: string): Promise<AuctionCardData |
     return null
   }
 }
+
+export async function fetchCatalogLotByVin(vin: string): Promise<AuctionCardData | null> {
+  try {
+    const base = import.meta.env.BASE_URL ?? '/'
+    const url = base.replace(/\/$/, '') + '/data/lots.json'
+    const res = await fetch(url)
+    if (!res.ok) return null
+    const lots = (await res.json()) as AuctionCardData[]
+    const vinUpper = vin.toUpperCase()
+    return lots.find((l) => l.vin && l.vin.toUpperCase() === vinUpper) ?? null
+  } catch {
+    return null
+  }
+}

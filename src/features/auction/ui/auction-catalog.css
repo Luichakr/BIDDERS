@@ -72,6 +72,10 @@
   gap: 14px;
 }
 
+.catalog-page-react .catalog-bar-inner .filter-btn-mobile {
+  margin-left: auto;
+}
+
 .catalog-page-react .breadcrumb {
   display: flex;
   align-items: center;
@@ -1188,6 +1192,37 @@
 .catalog-page-react .card-vin span {
   color: var(--cat-text-2);
   font-weight: 600;
+}
+
+.catalog-page-react .card-vin {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.catalog-page-react .card-vin__text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--cat-text-3);
+}
+
+.catalog-page-react .card-vin__copy {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  padding: 2px;
+  cursor: pointer;
+  color: var(--cat-text-3);
+  display: flex;
+  align-items: center;
+  opacity: 0.6;
+  transition: opacity 0.15s, color 0.15s;
+}
+
+.catalog-page-react .card-vin__copy:hover {
+  opacity: 1;
+  color: var(--cat-accent);
 }
 
 .catalog-page-react .auction-badge {

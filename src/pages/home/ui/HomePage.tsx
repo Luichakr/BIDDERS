@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
+import { EuropeMapBlock } from '../../../widgets/europe-map/ui/EuropeMapBlock'
 import { Link } from 'react-router-dom'
 import { routePaths, localizedPath } from '../../../shared/config/routes'
 import { ROUTE_IMAGES } from '../../../shared/config/routeCards'
@@ -7,6 +8,10 @@ import { fetchCatalogCars } from '../../../features/auction/model/inRoute.servic
 import { useI18n } from '../../../shared/i18n/I18nProvider'
 import { Seo } from '../../../shared/seo/Seo'
 import { isProductionDeploy } from '../../../config/productionRoutes'
+import { CAR_MAKES_MODELS } from '../../../shared/data/carMakesModels'
+import { sendB2CLead, sendB2BLead } from '../../../shared/api/sendLeadEmail'
+import { PhoneField } from '../../../shared/ui/PhoneField'
+import { isValidPhoneNumber } from 'react-phone-number-input'
 
 const isProd = isProductionDeploy()
 // import { VehicleSearchFilter } from './VehicleSearchFilter' // disabled — uncomment to enable
@@ -114,7 +119,7 @@ export function HomePage() {
   const [b2cBudgetMax, setB2cBudgetMax] = useState(30000)
   const [b2cMake, setB2cMake] = useState('')
   const [b2cModel, setB2cModel] = useState('')
-  const [allMakesModels, setAllMakesModels] = useState<Record<string, string[]>>({})
+  const [allMakesModels, setAllMakesModels] = useState<Record<string, string[]>>(CAR_MAKES_MODELS)
   const allMakes = useMemo(() => Object.keys(allMakesModels).sort(), [allMakesModels])
   const availableModels = useMemo(() => {
     if (!b2cMake) return []
@@ -241,16 +246,47 @@ export function HomePage() {
 
   useEffect(() => {
     fetchCatalogCars().then((cards) => {
-      const map: Record<string, Set<string>> = {}
+      // Build a lowercase → canonical name lookup from the static list
+      const canonicalMap: Record<string, string> = {}
+      for (const make of Object.keys(CAR_MAKES_MODELS)) {
+        canonicalMap[make.toLowerCase()] = make
+      }
+      // Also map known raw variants from lots.json → canonical
+      const rawAliases: Record<string, string> = {
+        'mercedes benz': 'Mercedes-Benz',
+        'mercedes-benz': 'Mercedes-Benz',
+        'vw': 'Volkswagen',
+        'land rover': 'Land Rover',
+        'alfa romeo': 'Alfa Romeo',
+        'aston martin': 'Aston Martin',
+        'rolls royce': 'Rolls-Royce',
+        'rolls-royce': 'Rolls-Royce',
+      }
+
+      function normalizeMake(raw: string): string {
+        const lower = raw.toLowerCase()
+        if (rawAliases[lower]) return rawAliases[lower]
+        if (canonicalMap[lower]) return canonicalMap[lower]
+        // Title-case fallback
+        return raw.replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+      }
+
+      // Start with static list
+      const merged: Record<string, Set<string>> = {}
+      for (const [make, models] of Object.entries(CAR_MAKES_MODELS)) {
+        merged[make] = new Set(models)
+      }
+      // Enrich with live lots data, normalized to canonical names
       for (const card of cards) {
-        const make = card.make?.trim()
+        const rawMake = card.make?.trim()
         const model = card.model?.trim()
-        if (!make || make === 'BID BIDDERS' || make === 'Unknown') continue
-        if (!map[make]) map[make] = new Set()
-        if (model && model !== 'Unknown') map[make].add(model)
+        if (!rawMake || rawMake === 'BID BIDDERS' || rawMake === 'Unknown') continue
+        const make = normalizeMake(rawMake)
+        if (!merged[make]) merged[make] = new Set()
+        if (model && model !== 'Unknown') merged[make].add(model)
       }
       const result: Record<string, string[]> = {}
-      for (const [make, models] of Object.entries(map)) {
+      for (const [make, models] of Object.entries(merged)) {
         result[make] = Array.from(models)
       }
       setAllMakesModels(result)
@@ -592,9 +628,39 @@ export function HomePage() {
       setB2cError(t('homePhoneRequiredError'))
       return
     }
+    if (!isValidPhoneNumber(b2c.phone)) {
+      setB2cError('Wprowadź poprawny numer telefonu')
+      return
+    }
     setIsSubmittingB2c(true)
     setB2cError('')
-    await new Promise((resolve) => window.setTimeout(resolve, 800))
+    try {
+      await sendB2CLead({
+        name: b2c.name,
+        phone: b2c.phone,
+        email: b2c.email,
+        bodyType: bodyTypeItems.find((item) => item.id === b2cBodyType)?.label ?? b2cBodyType,
+        yearMin: b2cYearMin,
+        yearMax: b2cYearMax,
+        budgetMin: b2cBudgetMin,
+        budgetMax: b2cBudgetMax,
+        make: b2cMake,
+        model: b2cModel,
+        generation: b2cGeneration,
+        drive: b2cDrive,
+        fuel: b2cFuel,
+        gearbox: b2cGearbox,
+        color: b2cColor,
+        damageType: b2cDamageType,
+        steering: b2cSteering,
+        power: b2cPower,
+        engineVol: b2cEngineVol,
+        scenario: b2c.scenario,
+        comment: b2c.comment,
+      })
+    } catch {
+      // silent — still show thank-you to user
+    }
     setIsSubmittingB2c(false)
     setB2cSuccess(t('homeB2cSuccess'))
     setB2cCountdown(3)
@@ -612,13 +678,26 @@ export function HomePage() {
       setB2bError(t('homePhoneRequiredError'))
       return
     }
+    if (!isValidPhoneNumber(b2b.phone)) {
+      setB2bError('Wprowadź poprawny numer telefonu')
+      return
+    }
     if (!b2b.format.trim()) {
       setB2bError(t('homeB2bFormatError'))
       return
     }
     setIsSubmittingB2b(true)
     setB2bError('')
-    await new Promise((resolve) => window.setTimeout(resolve, 800))
+    try {
+      await sendB2BLead({
+        company: b2b.company,
+        phone: b2b.phone,
+        format: b2b.format,
+        comment: b2b.comment,
+      })
+    } catch {
+      // silent — still show thank-you to user
+    }
     setIsSubmittingB2b(false)
     setB2bSuccess(t('homeB2bSuccess'))
     setB2bCountdown(3)
@@ -932,7 +1011,7 @@ export function HomePage() {
                 <div
                   className="px-calcx__car"
                   aria-hidden="true"
-                  style={{ backgroundImage: `url(${import.meta.env.BASE_URL}images/calc-car.jpg)` }}
+                  style={{ backgroundImage: `url(${import.meta.env.BASE_URL}images/calc-car.webp)` }}
                 />
                 <div className="px-calcx__card">
                   <div className="px-calcx__card-head">
@@ -1625,6 +1704,8 @@ export function HomePage() {
         </div>
       </section>
 
+      <EuropeMapBlock />
+
       <section className="px px-section bp-animate" id="faq">
         <div className="px-wrap">
           <div className="px-header">
@@ -1969,10 +2050,9 @@ export function HomePage() {
                 </label>
                 <label>
                   {t('homeModalPhoneLabel')}
-                  <input
+                  <PhoneField
                     value={b2c.phone}
-                    onChange={(e) => setB2c((prev) => ({ ...prev, phone: e.target.value }))}
-                    placeholder={budgetUi.phonePlaceholder}
+                    onChange={(v) => setB2c((prev) => ({ ...prev, phone: v }))}
                   />
                 </label>
                 <label>
@@ -2046,7 +2126,10 @@ export function HomePage() {
             </label>
             <label>
               {t('homeModalPhoneLabel')}
-              <input value={b2b.phone} onChange={(e) => setB2b((prev) => ({ ...prev, phone: e.target.value }))} />
+              <PhoneField
+                value={b2b.phone}
+                onChange={(v) => setB2b((prev) => ({ ...prev, phone: v }))}
+              />
             </label>
             <label>
               {t('homeModalFormatLabel')}

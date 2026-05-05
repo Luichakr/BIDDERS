@@ -100,7 +100,7 @@
 .lot-breadcrumb__inner {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 clamp(20px, 4vw, 64px);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -177,7 +177,7 @@
 .lot-title-bar__inner {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 clamp(20px, 4vw, 64px);
   position: relative;
   z-index: 1;
   display: grid;
@@ -329,9 +329,9 @@
 .lot-main__inner {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 clamp(20px, 4vw, 64px);
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(0, 0.8fr) minmax(320px, 380px);
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.8fr) minmax(256px, 304px);
   gap: 24px;
   align-items: start;
 }
@@ -1349,7 +1349,7 @@
 .lot-section__inner {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 clamp(20px, 4vw, 64px);
 }
 
 .lot-section__head {
@@ -1965,7 +1965,7 @@
 
 @media (max-width: 1200px) {
   .lot-main__inner {
-    grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
+    grid-template-columns: minmax(0, 1fr) minmax(256px, 304px);
   }
 
   .lot-gallery {

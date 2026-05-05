@@ -1609,7 +1609,7 @@
   object-fit: contain;
   object-position: top right;
   display: block;
-  transform: rotate(-3deg);
+  transform: rotate(-3deg) translateY(-47px);
 }
 .px-econ__big-content {
   position: relative;

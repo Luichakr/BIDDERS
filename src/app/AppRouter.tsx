@@ -20,7 +20,7 @@ import { TermsPage } from '../pages/terms/ui/TermsPage'
 import { ChinaCarsPage } from '../pages/china-cars/ui/ChinaCarsPage'
 import { CalculatorPage as CalculatorBaseSnapshotPage } from '../features/calculator-base/snapshot/CalculatorBase.snapshot'
 import { NotFoundPage } from '../pages/not-found/ui/NotFoundPage'
-import { CarPage } from '../pages/car/ui/CarPage'
+
 
 // ─────────────────────────────────────────────
 // Legacy redirect helpers
@@ -69,7 +69,7 @@ export function AppRouter() {
               <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
               <Route path="terms-of-use" element={<TermsPage />} />
               <Route path="lots/:lotId" element={<LotPage />} />
-              <Route path="cars/:slug" element={<CarPage />} />
+              <Route path="cars/:slug" element={<LotPage />} />
               <Route path="china-cars" element={<ChinaCarsPage />} />
             </Route>
           </Route>

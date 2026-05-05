@@ -719,7 +719,7 @@
 
 .ct-europe__map--handoff {
   background-size: cover;
-  background-position: calc(62% - 250px) center;
+  background-position: calc(62% - 165px) center;
 }
 
 .ct-europe__map::after {
