@@ -1588,7 +1588,7 @@ export function HomePage() {
                   </span>
                   <span className="px-social__label">+48 784 890 644</span>
                 </a>
-                <a className="px-social px-social--messenger" href="https://m.me/bidders.com.ua" target="_blank" rel="noreferrer" aria-label="Messenger">
+                <a className="px-social px-social--messenger" href="https://m.me/bidbidders" target="_blank" rel="noreferrer" aria-label="Messenger">
                   <span className="px-social__icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.26 2 11.5c0 2.85 1.31 5.4 3.38 7.14V22l3.1-1.7c.83.23 1.7.35 2.62.35 5.52 0 10-4.26 10-9.5S17.52 2 12 2zm1.02 12.78l-2.54-2.72-4.96 2.72 5.46-5.78 2.6 2.72 4.9-2.72-5.46 5.78z"/></svg>
                   </span>
