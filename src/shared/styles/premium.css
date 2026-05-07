@@ -1268,6 +1268,11 @@
   color: var(--px-orange);
   position: relative;
   white-space: normal;
+  padding-right: 0.12em;
+  background: linear-gradient(110deg, #ffffff 0%, #ffb07a 12%, var(--px-orange) 58%, #e04800 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 .px-hero__title em::after {
   content: '';
@@ -1282,6 +1287,10 @@
   font-size: clamp(20px, 1.7vw, 24px);
   color: var(--px-orange);
   margin: 0 0 16px;
+  background: linear-gradient(110deg, #ffffff 0%, #ffb07a 12%, var(--px-orange) 58%, #e04800 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 .px-hero__lead {
   font-size: 17px;

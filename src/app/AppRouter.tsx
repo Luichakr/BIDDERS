@@ -9,7 +9,6 @@ import { HomePage } from '../pages/home/ui/HomePage'
 import { CatalogPage } from '../pages/catalog/ui/CatalogPage'
 import { TransitPage } from '../pages/transit/ui/TransitPage'
 import { LotPage } from '../pages/lot/ui/LotPage'
-import { CalculatorPage } from '../pages/calculator/ui/CalculatorPage'
 import { InStockPage } from '../pages/stock/ui/InStockPage'
 import { BlogPage } from '../pages/blog/ui/BlogPage'
 import { CasesPage } from '../pages/cases/ui/CasesPage'
@@ -18,6 +17,7 @@ import { ContactsPage } from '../pages/contacts/ui/ContactsPage'
 import { PrivacyPolicyPage } from '../pages/privacy/ui/PrivacyPolicyPage'
 import { TermsPage } from '../pages/terms/ui/TermsPage'
 import { ChinaCarsPage } from '../pages/china-cars/ui/ChinaCarsPage'
+import { DobieramyAutoPage } from '../pages/dobieramy-auto/ui/DobieramyAutoPage'
 import { CalculatorPage as CalculatorBaseSnapshotPage } from '../features/calculator-base/snapshot/CalculatorBase.snapshot'
 import { NotFoundPage } from '../pages/not-found/ui/NotFoundPage'
 
@@ -49,6 +49,10 @@ export function AppRouter() {
         {/* Root → detect preferred locale and redirect */}
         <Route path="/" element={<LocaleRedirect />} />
 
+        {/* Bare landing pages — no AppLayout (no header / footer / sticky CTA),
+            no ProductionGate. Used for ad traffic (FB Groups, Meta Ads, Google Ads). */}
+        <Route path="/pl/dobieramy-auto" element={<DobieramyAutoPage />} />
+
         {/* Locale-prefixed routes */}
         <Route path="/:locale" element={<LocaleGuard />}>
           <Route element={<AppLayout />}>
@@ -58,7 +62,6 @@ export function AppRouter() {
               <Route path="in-stock" element={<InStockPage />} />
               <Route path="in-transit" element={<TransitPage />} />
               <Route path="calculator" element={<CalculatorBaseSnapshotPage />} />
-              <Route path="calculator/orest" element={<CalculatorPage />} />
               <Route path="calculator-base" element={<CalculatorBaseSnapshotPage />} />
               <Route path="blog" element={<BlogPage />} />
               <Route path="cases" element={<CasesPage />} />
@@ -80,7 +83,6 @@ export function AppRouter() {
         <Route path="/in-stock" element={<Navigate replace to="/en/in-stock" />} />
         <Route path="/in-transit" element={<Navigate replace to="/en/in-transit" />} />
         <Route path="/calculator" element={<Navigate replace to="/en/calculator" />} />
-        <Route path="/calculator/orest" element={<Navigate replace to="/en/calculator/orest" />} />
         <Route path="/calculator-base" element={<Navigate replace to="/en/calculator-base" />} />
         <Route path="/blog" element={<Navigate replace to="/en/blog" />} />
         <Route path="/cases" element={<Navigate replace to="/en/cases" />} />
@@ -90,6 +92,7 @@ export function AppRouter() {
         <Route path="/privacy-policy" element={<Navigate replace to="/en/privacy-policy" />} />
         <Route path="/terms-of-use" element={<Navigate replace to="/en/terms-of-use" />} />
         <Route path="/china-cars" element={<Navigate replace to="/en/china-cars" />} />
+        <Route path="/dobieramy-auto" element={<Navigate replace to="/pl/dobieramy-auto" />} />
         <Route path="/cars-in-transit" element={<Navigate replace to="/en/in-transit" />} />
         <Route path="/lots/:lotId" element={<LotLegacyRedirect />} />
 

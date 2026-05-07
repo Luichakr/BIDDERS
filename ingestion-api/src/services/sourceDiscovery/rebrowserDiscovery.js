@@ -13,10 +13,15 @@ async function listCsvUrls(owner, repo) {
   return csvFiles
 }
 
-async function fetchRows(csvUrl) {
+async function fetchRows(csvUrl, maxRows = config.referenceMaxRows) {
   const csv = await requestWithRetry({ url: csvUrl, expectJson: false, source: 'rebrowser-csv' })
   const rows = parse(csv, { columns: true, skip_empty_lines: true })
-  return rows.slice(0, config.referenceMaxRows)
+  if (!Number.isFinite(maxRows) || maxRows <= 0) return rows
+  return rows.slice(0, maxRows)
+}
+
+function normalizeId(value) {
+  return String(value || '').trim().replace(/\D/g, '')
 }
 
 export async function discoverCopartSeeds() {
@@ -67,5 +72,38 @@ export async function discoverReferenceRows(source) {
   } catch (error) {
     logger.warn({ source, error: String(error) }, 'failed to fetch reference rows')
     return []
+  }
+}
+
+export async function discoverReferenceRowById(source, id) {
+  const target = normalizeId(id)
+  if (!target) return null
+
+  const repo = source === 'copart' ? 'copart-dataset' : 'iaai-dataset'
+
+  try {
+    const csvUrls = await listCsvUrls('rebrowser', repo)
+    for (const csvUrl of csvUrls) {
+      const rows = await fetchRows(csvUrl, Number.POSITIVE_INFINITY)
+      const hit = rows.find((row) => {
+        if (source === 'iaai') {
+          const itemId = normalizeId(row.itemId)
+          const stockNumber = normalizeId(row.stockNumber)
+          return itemId === target || stockNumber === target
+        }
+
+        const lotId = normalizeId(row.lotId)
+        return lotId === target
+      })
+
+      if (hit) {
+        logger.info({ source, id: target, csvUrl }, 'reference row found by id')
+        return hit
+      }
+    }
+    return null
+  } catch (error) {
+    logger.warn({ source, id: target, error: String(error) }, 'failed to discover reference row by id')
+    return null
   }
 }

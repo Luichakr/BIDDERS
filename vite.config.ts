@@ -13,5 +13,13 @@ export default defineConfig(() => {
   return {
     base,
     plugins: [react()],
+    server: {
+      proxy: {
+        '/ingestion-api': {
+          target: 'http://localhost:3001',
+          rewrite: (path) => path.replace(/^\/ingestion-api/, ''),
+        },
+      },
+    },
   }
 })

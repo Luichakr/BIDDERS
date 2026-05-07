@@ -36,7 +36,7 @@ export function ContactsPage() {
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'AutomotiveBusiness',
-            name: 'BIDDERS',
+            name: 'BID BIDDERS',
             description: t('ctJsonLdDesc'),
             url: 'https://bidbidders.com',
             telephone: '+48784890644',
@@ -75,7 +75,7 @@ export function ContactsPage() {
                 <span>{t('ctHeroFactChat')}</span>
               </div>
               <div className="ct-hero__fact">
-                <strong>09–19</strong>
+                <strong>09–20</strong>
                 <span>{t('ctHeroFactHours')}</span>
               </div>
             </div>
@@ -113,17 +113,15 @@ export function ContactsPage() {
           </header>
 
           <div className="ct-map-wrap">
-            <div className="ct-map" role="img" aria-label={t('ctMapAriaLabel')}>
-              <div className="ct-map__placeholder"></div>
-              <div className="ct-map__grid"></div>
-              <div className="ct-map__road r1"></div>
-              <div className="ct-map__road r2"></div>
-              <div className="ct-map__road r3"></div>
-              <div className="ct-map__pin">
-                <span className="ct-map__pin-mark" aria-hidden="true"></span>
-                <span className="ct-map__pin-label">BIDDERS, Jawczyce</span>
-              </div>
-              <span className="ct-map__badge">{t('ctMapBadge')}</span>
+            <div className="ct-map">
+              <iframe
+                className="ct-map__iframe"
+                src="https://maps.google.com/maps?q=Jawczyce,+ul.+Poznanska+56,+05-850+Jawczyce&output=embed&z=15"
+                title="BID BIDDERS — Jawczyce"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
             </div>
 
             <div className="ct-address">
@@ -216,9 +214,7 @@ export function ContactsPage() {
                 <h3>{t('ctHoursOfficeTitle')}</h3>
               </div>
               <ul className="ct-hour-list">
-                <li><span>{t('ctHoursMonFri')}</span><strong>09:00 – 19:00</strong></li>
-                <li><span>{t('ctHoursSaturday')}</span><strong>{t('ctHoursOnAppointment')}</strong></li>
-                <li><span>{t('ctHoursSunday')}</span><strong>{t('ctHoursDayOff')}</strong></li>
+                <li><span>{t('ctHoursEveryDay')}</span><strong>09:00 – 20:00</strong></li>
               </ul>
             </div>
 
@@ -228,9 +224,7 @@ export function ContactsPage() {
                 <h3>{t('ctHoursOnlineTitle')}</h3>
               </div>
               <ul className="ct-hour-list">
-                <li><span>{t('ctHoursMonFri')}</span><strong>08:00 – 22:00</strong></li>
-                <li><span>{t('ctHoursSatSun')}</span><strong>10:00 – 18:00</strong></li>
-                <li><span>{t('ctHoursTelegramChat')}</span><strong>24/7</strong></li>
+                <li><span>{t('ctHoursEveryDay')}</span><strong>08:00 – 22:00</strong></li>
               </ul>
             </div>
 
@@ -240,9 +234,7 @@ export function ContactsPage() {
                 <h3>{t('ctHoursDeliveryTitle')}</h3>
               </div>
               <ul className="ct-hour-list">
-                <li><span>{t('ctHoursMonFri')}</span><strong>10:00 – 18:00</strong></li>
-                <li><span>{t('ctHoursSaturday')}</span><strong>{t('ctHoursOnAppointment')}</strong></li>
-                <li><span>{t('ctHoursDuration')}</span><strong>{t('ctHoursDurationValue')}</strong></li>
+                <li><span>{t('ctHoursEveryDay')}</span><strong>09:00 – 20:00</strong></li>
               </ul>
             </div>
           </div>

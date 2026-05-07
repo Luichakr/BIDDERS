@@ -3,46 +3,7 @@ import { logger } from '../../utils/logger.js'
 import { normalizeIaaiLot } from '../../normalizers/iaaiNormalizer.js'
 import { IaaiClient } from './client.js'
 import { discoverIaaiSeeds, discoverReferenceRows } from '../../services/sourceDiscovery/rebrowserDiscovery.js'
-
-function mapReferenceRow(row) {
-  return {
-    stockNumber: row.stockNumber,
-    itemId: row.itemId,
-    salvageId: row.salvageId,
-    vin: row.vin,
-    year: row.year,
-    make: row.make,
-    model: row.model,
-    series: row.series,
-    bodyStyle: row.bodyStyle,
-    exteriorColor: row.exteriorColor,
-    engine: row.engine,
-    transmission: row.transmission,
-    drivetrain: row.drivetrain,
-    fuelType: row.fuelType,
-    primaryDamage: row.primaryDamage,
-    secondaryDamage: row.secondaryDamage,
-    titleCode: row.titleCode,
-    hasKeys: row.hasKeys,
-    runAndDrive: row.runAndDrive,
-    startsDesc: row.startsDesc,
-    mileage: row.mileage,
-    odometerBrand: row.odometerBrand,
-    odometerUnit: row.odometerUnit,
-    buyNowPrice: row.buyNowPrice,
-    minimumBidAmount: row.minimumBidAmount,
-    auctionDateTime: row.auctionDateTime,
-    inventoryStatus: row.inventoryStatus,
-    branchName: row.branchName,
-    locationName: row.locationName,
-    locationCity: row.locationCity,
-    locationState: row.locationState,
-    sellerName: row.sellerName,
-    imageUrl: row.imageUrl,
-    listingUrl: row.listingUrl,
-    updatedAt: row.updatedAt,
-  }
-}
+import { mapIaaiReferenceRow } from './referenceRowMapper.js'
 
 export async function extractIaaiLots(limit = config.maxLotsPerSource) {
   const client = new IaaiClient()
@@ -69,7 +30,7 @@ export async function extractIaaiLots(limit = config.maxLotsPerSource) {
   if (!normalized.length && config.allowReferenceFallback) {
     const rows = await discoverReferenceRows('iaai')
     for (const row of rows.slice(0, limit)) {
-      normalized.push(normalizeIaaiLot(mapReferenceRow(row)))
+      normalized.push(normalizeIaaiLot(mapIaaiReferenceRow(row)))
     }
     logger.warn({ count: normalized.length }, 'iaai fallback dataset used due live extraction failure')
   }

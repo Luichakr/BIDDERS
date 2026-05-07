@@ -89,7 +89,7 @@ export function Seo({ title, description, path, ogImage: ogImageProp }: SeoProps
 
     // Open Graph
     setMeta('property', 'og:type', 'website')
-    setMeta('property', 'og:site_name', 'BIDDERS')
+    setMeta('property', 'og:site_name', 'BID BIDDERS')
     setMeta('property', 'og:title', title)
     setMeta('property', 'og:description', description)
     setMeta('property', 'og:url', canonical)

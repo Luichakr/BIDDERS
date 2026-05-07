@@ -5,6 +5,7 @@ import { logger } from '../utils/logger.js'
 import { createHealthRouter } from './routes/health.js'
 import { createLotsRouter } from './routes/lots.js'
 import { createAdminRouter } from './routes/admin.js'
+import { createAuctionLotResolverRouter } from './routes/auctionLotResolver.js'
 
 export function createServer({ store, lotRepository, ingestionService }) {
   const app = express()
@@ -16,6 +17,7 @@ export function createServer({ store, lotRepository, ingestionService }) {
   app.use('/api', createHealthRouter({ store }))
   app.use('/api', createLotsRouter({ lotRepository }))
   app.use('/api', createAdminRouter({ ingestionService }))
+  app.use('/api', createAuctionLotResolverRouter({ lotRepository }))
 
   app.use((error, _req, res, _next) => {
     logger.error({ error: String(error) }, 'unhandled api error')

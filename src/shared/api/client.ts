@@ -9,7 +9,7 @@ export function getAuthToken(): string {
   if (typeof window === 'undefined') return ''
   return (
     String(window.localStorage.getItem('BIDDERS_API_TOKEN') ?? '').trim() ||
-    String(window.localStorage.getItem('lubeavtoPartnerToken') ?? '').trim()
+    String(window.localStorage.getItem('bidbiddersPartnerToken') ?? '').trim()
   )
 }
 

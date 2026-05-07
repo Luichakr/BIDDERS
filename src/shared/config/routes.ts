@@ -15,7 +15,6 @@ export const routePaths = {
   inStock: 'in-stock',
   transit: 'in-transit',
   calculator: 'calculator',
-  calculatorOrest: 'calculator/orest',
   calculatorBase: 'calculator-base',
   blog: 'blog',
   cases: 'cases',
@@ -26,6 +25,7 @@ export const routePaths = {
   lotDetail: 'lots/:lotId',
   car: 'cars',
   chinaCars: 'china-cars',
+  dobieramyAuto: 'dobieramy-auto',
 } as const
 
 export type RoutePath = (typeof routePaths)[keyof typeof routePaths]

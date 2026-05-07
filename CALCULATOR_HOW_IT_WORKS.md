@@ -8,7 +8,7 @@
 1. Base URL is read from `VITE_CALCULATOR_API_BASE_URL`.
 2. Token is read in this order:
 - `VITE_CALCULATOR_API_TOKEN`
-- `localStorage['lubeavtoPartnerToken']`
+- `localStorage['bidbiddersPartnerToken']`
 3. Request header is always normalized to `Authorization: Bearer <token>`.
 4. Init endpoint (reference data):
 - `GET /api/v0/calculator/count-pricing`
@@ -62,7 +62,7 @@ Most common reason: app is in `fallback` because API auth failed (`401/403`) or 
 When status is `LIVE API`, totals include excise/VAT/toll and should match backend logic.
 
 ## Quick operational checklist
-1. Ensure token exists in `.env.local` as `VITE_CALCULATOR_API_TOKEN` or in localStorage key `lubeavtoPartnerToken`.
+1. Ensure token exists in `.env.local` as `VITE_CALCULATOR_API_TOKEN` or in localStorage key `bidbiddersPartnerToken`.
 2. Open calculator and verify mode badge is `LIVE API`.
 3. If badge is `FALLBACK`, check browser Network for API status and response body.
 4. For local static preview, build and copy `dist -> docs`, then run preview for `/BIDDERS/`.

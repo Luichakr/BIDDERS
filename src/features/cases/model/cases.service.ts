@@ -17,7 +17,7 @@ const FALLBACK_CASES: CaseRecord[] = [
     turnkey: 13500,
     market: 18000,
     currency: 'EUR',
-    source: 'BIDDERS internal delivery ledger',
+    source: 'BID BIDDERS internal delivery ledger',
     image: 'images/routes/in-stock.webp',
   },
   {
@@ -27,7 +27,7 @@ const FALLBACK_CASES: CaseRecord[] = [
     turnkey: 20200,
     market: 26000,
     currency: 'EUR',
-    source: 'BIDDERS internal delivery ledger',
+    source: 'BID BIDDERS internal delivery ledger',
     image: 'images/routes/transit.webp',
   },
   {
@@ -37,7 +37,7 @@ const FALLBACK_CASES: CaseRecord[] = [
     turnkey: 16900,
     market: 21100,
     currency: 'EUR',
-    source: 'BIDDERS internal delivery ledger',
+    source: 'BID BIDDERS internal delivery ledger',
     image: 'images/routes/catalog.webp',
   },
   {
@@ -47,7 +47,7 @@ const FALLBACK_CASES: CaseRecord[] = [
     turnkey: 41200,
     market: 49800,
     currency: 'EUR',
-    source: 'BIDDERS internal delivery ledger',
+    source: 'BID BIDDERS internal delivery ledger',
     image: 'images/routes/auction.jpg',
   },
   {
@@ -57,7 +57,7 @@ const FALLBACK_CASES: CaseRecord[] = [
     turnkey: 28400,
     market: 34900,
     currency: 'EUR',
-    source: 'BIDDERS internal delivery ledger',
+    source: 'BID BIDDERS internal delivery ledger',
     image: 'images/routes/in-stock.webp',
   },
   {
@@ -67,7 +67,7 @@ const FALLBACK_CASES: CaseRecord[] = [
     turnkey: 37800,
     market: 46200,
     currency: 'EUR',
-    source: 'BIDDERS internal delivery ledger',
+    source: 'BID BIDDERS internal delivery ledger',
     image: 'images/routes/transit.webp',
   },
 ]

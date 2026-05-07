@@ -109,7 +109,7 @@ export class LotRepository {
 
   async getLotById(id) {
     const lots = await this.store.readLots()
-    return lots.find((lot) => lot.id === id || lot.lotId === id) || null
+    return lots.find((lot) => lot.id === id || lot.lotId === id || lot.externalId === id) || null
   }
 
   async getFilters() {

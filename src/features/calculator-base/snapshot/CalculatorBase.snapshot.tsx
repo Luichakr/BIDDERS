@@ -1,86 +1,18 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import './calculator-base.snapshot.css'
-import {
-  EU_PORT_OPTIONS,
-  IMPORT_TAX_PROFILES,
-  VAT_PROFILES,
-  computeEuCustoms,
-  percentLabel,
-  type EuPortCode,
-} from './calculatorOrest.config'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
 import type { MessageKey } from '../../../shared/i18n/messages'
+import { calculateImportTotal } from '../../car-price-calculator/model/calculateImportTotal'
+import type { AuctionType, CarType, EuPortId, ImportTaxType } from '../../car-price-calculator/model/calculatorTypes'
+import { EU_PORTS } from '../../car-price-calculator/model/euPorts'
+import { useExchangeRate, FALLBACK_EUR_USD_RATE } from '../../car-price-calculator/model/exchangeRate'
+import { BRANCHES } from '../../car-price-calculator/model/usRoutes'
+import { resolveAuctionLotUrl } from '../../car-price-calculator/model/auctionLotResolver'
 
-type CarType = 'Automobiles' | 'Crossover' | 'SUVs' | 'Moto' | 'PickupTrucks'
-type FuelType = string
-type AuctionType = 'Copart' | 'IAAI' | 'Manheim'
-type ExportDocsType = 'Usa' | 'Usa closed' | 'Canada' | 'Manheim'
-type CalcMode = 'idle' | 'loading' | 'live' | 'fallback'
+// ─── Helpers ─────────────────────────────────────────────────────────────────
 
-interface AuctionCoefficient {
-  item: string
-  coefficient: number
-}
-
-interface DeliveryOrigin {
-  id: number
-  cityName: string
-  value: number
-  deliveryCoefficientId: number
-  deliveryCoefficient: {
-    id: number
-    portKey: string
-    portName: string
-    klaipedaValue: number
-    odesaValue: number
-  }
-}
-
-interface ReferenceData {
-  coefficients: {
-    vehicle: Array<{ item: string; coefficient: number }>
-    copart: AuctionCoefficient[]
-    iaai: AuctionCoefficient[]
-    manheim: AuctionCoefficient[]
-  }
-  options: {
-    fuelType: FuelType[]
-    engineSize: number[]
-    releaseYear: number[]
-  }
-  calculatorDetails: {
-    brokerPriceKlaidepa: number
-    unloadingFromPortBrokerOdesa: number
-    deliveryToBorderKlaidepa: number
-    lubeAvtoFee: number
-    unloadingFromPortKlaidepa: number
-    deliveryToLvivKlaidepa: number
-    specialTransportPrice: number
-    insuranceFee: number
-    exportDocumentsFee: Record<string, number>
-    deliveryCoefficientToPort: DeliveryOrigin[]
-  }
-}
-
-interface BreakdownRow {
-  label: string
-  value: number
-  group?: 'customs'
-}
-
-interface DerivedValues {
-  auctionFee: number
-  usDelivery: number
-  exportDocs: number
-  oceanDelivery: number
-  portUnload: number
-  europeDelivery: number
-  customsDelivery: number
-  borderHandling: number
-  brokerFee: number
-  companyFee: number
-  insuranceFee: number
-  transferFee: number
+function eur(value: number): string {
+  return `€${Math.round(value).toLocaleString('en-US')}`
 }
 
 function usd(value: number): string {
@@ -92,592 +24,250 @@ function toSafeNumber(value: unknown): number {
   return Number.isFinite(parsed) ? parsed : 0
 }
 
-function isElectricFuel(fuel: string): boolean {
-  const normalized = String(fuel).trim().toLowerCase()
-  return normalized === 'electro' || normalized === 'electric' || normalized === 'ev'
+// ─── Constants ───────────────────────────────────────────────────────────────
+
+const EU_PORT_LIST: { id: EuPortId; label: string }[] = [
+  { id: 'rotterdam',   label: 'Rotterdam, NL (21%)' },
+  { id: 'bremerhaven', label: 'Bremerhaven, DE (19%)' },
+  { id: 'klaipeda',    label: 'Klaipeda, LT (21%)' },
+  { id: 'gdynia',      label: 'Gdynia, PL (23%)' },
+]
+
+const IMPORT_TAX_OPTIONS: { id: ImportTaxType; labelKey: MessageKey }[] = [
+  { id: 'standard',   labelKey: 'calcTaxAuto' },
+  { id: 'truck',      labelKey: 'calcTaxTruck' },
+  { id: 'motorcycle', labelKey: 'calcTaxMoto' },
+  { id: 'electric',   labelKey: 'calcTaxClassic0' },
+]
+
+const CAR_TYPE_OPTIONS: { value: CarType; labelKey: MessageKey }[] = [
+  { value: 'Automobiles',  labelKey: 'calcCarTypeAuto' },
+  { value: 'Crossover',    labelKey: 'calcCarTypeCrossover' },
+  { value: 'SUVs',         labelKey: 'calcCarTypeSuv' },
+  { value: 'PickupTrucks', labelKey: 'calcCarTypePickup' },
+  { value: 'Moto',         labelKey: 'calcCarTypeMoto' },
+]
+
+// Only auctions that have bid.cars route data
+const AUCTION_OPTIONS: AuctionType[] = ['Copart', 'IAAI']
+
+// ─── Searchable Branch Select ─────────────────────────────────────────────────
+
+interface BranchSelectProps {
+  branches: { id: number; name: string }[]
+  value: number | null
+  onChange: (id: number) => void
+  placeholder: string
+  notFoundText: string
 }
 
-import { API_BASE_URL, toAuthHeader, getAuthToken } from '../../../shared/api/client'
+function BranchSelect({ branches, value, onChange, placeholder, notFoundText }: BranchSelectProps) {
+  const [query, setQuery]     = useState('')
+  const [open, setOpen]       = useState(false)
+  const wrapRef               = useRef<HTMLDivElement>(null)
 
-const CURRENT_YEAR = new Date().getFullYear()
-const INIT_API_URL = `${API_BASE_URL}/api/v0/calculator/count-pricing`
-const CALCULATE_API_URL = `${API_BASE_URL}/api/v0/calculator/count-pricing/calculate`
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase()
+    if (!q) return branches
+    return branches.filter((b) => b.name.toLowerCase().includes(q))
+  }, [branches, query])
 
-const FALLBACK_REFERENCE_DATA: ReferenceData = {
-  coefficients: {
-    vehicle: [
-      { item: 'Automobiles', coefficient: 800 },
-      { item: 'Crossover', coefficient: 900 },
-      { item: 'SUVs', coefficient: 950 },
-      { item: 'Moto', coefficient: 450 },
-      { item: 'PickupTrucks', coefficient: 1200 },
-    ],
-    copart: [
-      { item: '999', coefficient: 365 },
-      { item: '1999', coefficient: 535 },
-      { item: '4999', coefficient: 805 },
-      { item: '7999', coefficient: 990 },
-      { item: '12499', coefficient: 1105 },
-      { item: '14999', coefficient: 1120 },
-    ],
-    iaai: [
-      { item: '999', coefficient: 365 },
-      { item: '1999', coefficient: 535 },
-      { item: '4999', coefficient: 805 },
-      { item: '7999', coefficient: 990 },
-      { item: '12499', coefficient: 1105 },
-      { item: '14999', coefficient: 1120 },
-    ],
-    manheim: [
-      { item: '3000', coefficient: 280 },
-      { item: '10000', coefficient: 465 },
-      { item: '20000', coefficient: 585 },
-      { item: '30000', coefficient: 710 },
-      { item: '50000', coefficient: 885 },
-      { item: '999999999', coefficient: 1555 },
-    ],
-  },
-  options: {
-    fuelType: ['Gas', 'Diesel', 'Hybrid', 'Electro'],
-    engineSize: [],
-    releaseYear: [],
-  },
-  calculatorDetails: {
-    brokerPriceKlaidepa: 250,
-    unloadingFromPortBrokerOdesa: 670,
-    deliveryToBorderKlaidepa: 80,
-    lubeAvtoFee: 600,
-    unloadingFromPortKlaidepa: 400,
-    deliveryToLvivKlaidepa: 800,
-    specialTransportPrice: 110,
-    insuranceFee: 1,
-    exportDocumentsFee: { Usa: 150, 'Usa closed': 200, Canada: 350, Manheim: 250 },
-    deliveryCoefficientToPort: [
-      { id: 1, cityName: 'ABILENE - TX', value: 420, deliveryCoefficientId: 1, deliveryCoefficient: { id: 1, portKey: 'houston_tx', portName: 'HOUSTON,TX', klaipedaValue: 900, odesaValue: 1400 } },
-      { id: 2, cityName: 'ALBANY - NY', value: 325, deliveryCoefficientId: 2, deliveryCoefficient: { id: 2, portKey: 'elizabeth_nj', portName: 'New York, NY', klaipedaValue: 750, odesaValue: 1250 } },
-      { id: 3, cityName: 'ALBUQUERQUE - NM', value: 770, deliveryCoefficientId: 1, deliveryCoefficient: { id: 1, portKey: 'houston_tx', portName: 'HOUSTON,TX', klaipedaValue: 900, odesaValue: 1400 } },
-      { id: 296, cityName: 'ACE - Carson (CA)', value: 345, deliveryCoefficientId: 4, deliveryCoefficient: { id: 4, portKey: 'losangeles_ca', portName: 'LOSANGELES,CA', klaipedaValue: 1475, odesaValue: 999999 } },
-    ],
-  },
-}
+  const selectedName = branches.find((b) => b.id === value)?.name ?? ''
 
-const EMPTY_DERIVED: DerivedValues = {
-  auctionFee: 0,
-  usDelivery: 0,
-  exportDocs: 0,
-  oceanDelivery: 0,
-  portUnload: 0,
-  europeDelivery: 0,
-  customsDelivery: 0,
-  borderHandling: 0,
-  brokerFee: 0,
-  companyFee: 0,
-  insuranceFee: 0,
-  transferFee: 0,
-}
-
-function getAuctionTable(reference: ReferenceData, auctionType: AuctionType): AuctionCoefficient[] {
-  if (auctionType === 'Copart') return reference.coefficients.copart
-  if (auctionType === 'IAAI') return reference.coefficients.iaai
-  return reference.coefficients.manheim
-}
-
-function getAuctionCoefficientEntry(reference: ReferenceData, auctionType: AuctionType, price: number): AuctionCoefficient | null {
-  const table = getAuctionTable(reference, auctionType)
-  if (table.length === 0) return null
-
-  const firstMatch = table.find((row) => price <= toSafeNumber(row.item))
-  return firstMatch ?? table[table.length - 1]
-}
-
-function getAuctionFee(reference: ReferenceData, auctionType: AuctionType, price: number): number {
-  const entry = getAuctionCoefficientEntry(reference, auctionType, price)
-  return entry ? toSafeNumber(entry.coefficient) : 0
-}
-
-function mapInitApiToReference(initialData: unknown): ReferenceData | null {
-  const payload = (initialData && typeof initialData === 'object') ? initialData as Record<string, unknown> : null
-  const origins = Array.isArray(payload?.deliveryCoefficientToPort) ? payload.deliveryCoefficientToPort : []
-  if (origins.length === 0) return null
-
-  const mappedOrigins: DeliveryOrigin[] = origins.map((origin) => {
-    const entry = (origin && typeof origin === 'object') ? origin as Record<string, unknown> : {}
-    const rawDelivery = (entry.deliveryCoefficient && typeof entry.deliveryCoefficient === 'object')
-      ? entry.deliveryCoefficient as Record<string, unknown>
-      : {}
-
-    return {
-      id: toSafeNumber(entry.id),
-      cityName: String(entry.cityName ?? 'Unknown'),
-      value: toSafeNumber(entry.value),
-      deliveryCoefficientId: toSafeNumber(entry.deliveryCoefficientId),
-      deliveryCoefficient: {
-        id: toSafeNumber(rawDelivery.id),
-        portKey: String(rawDelivery.portKey ?? ''),
-        portName: String(rawDelivery.portName ?? '—'),
-        klaipedaValue: toSafeNumber(rawDelivery.klaipedaValue),
-        odesaValue: toSafeNumber(rawDelivery.odesaValue),
-      },
-    }
-  })
-
-  const exportDocumentsFee = (payload?.exportDocumentsFee && typeof payload.exportDocumentsFee === 'object')
-    ? payload.exportDocumentsFee as Record<string, number>
-    : FALLBACK_REFERENCE_DATA.calculatorDetails.exportDocumentsFee
-
-  const fuelType = Array.isArray(payload?.fuelType)
-    ? payload.fuelType.map((item) => String(item)).filter(Boolean)
-    : FALLBACK_REFERENCE_DATA.options.fuelType
-
-  const engineSize = Array.isArray(payload?.engineSize)
-    ? payload.engineSize.map((item) => toSafeNumber(item)).filter((value) => value > 0)
-    : FALLBACK_REFERENCE_DATA.options.engineSize
-
-  const releaseYear = Array.isArray(payload?.releaseYear)
-    ? payload.releaseYear
-      .map((item) => Math.round(toSafeNumber(item)))
-      .filter((value) => value > 0)
-    : FALLBACK_REFERENCE_DATA.options.releaseYear
-
-  return {
-    coefficients: {
-      vehicle: Array.isArray(payload?.vehicleCoefficients) ? payload.vehicleCoefficients as Array<{ item: string; coefficient: number }> : FALLBACK_REFERENCE_DATA.coefficients.vehicle,
-      copart: Array.isArray(payload?.copartCoefficients) ? payload.copartCoefficients as AuctionCoefficient[] : FALLBACK_REFERENCE_DATA.coefficients.copart,
-      iaai: Array.isArray(payload?.iaaiCoefficients) ? payload.iaaiCoefficients as AuctionCoefficient[] : FALLBACK_REFERENCE_DATA.coefficients.iaai,
-      manheim: Array.isArray(payload?.manheimCoefficients) ? payload.manheimCoefficients as AuctionCoefficient[] : FALLBACK_REFERENCE_DATA.coefficients.manheim,
-    },
-    options: {
-      fuelType: fuelType.length > 0 ? fuelType : FALLBACK_REFERENCE_DATA.options.fuelType,
-      engineSize,
-      releaseYear,
-    },
-    calculatorDetails: {
-      brokerPriceKlaidepa: toSafeNumber(payload?.brokerPriceKlaidepa),
-      unloadingFromPortBrokerOdesa: toSafeNumber(payload?.unloadingFromPortBrokerOdesa),
-      deliveryToBorderKlaidepa: toSafeNumber(payload?.deliveryToBorderKlaidepa),
-      lubeAvtoFee: toSafeNumber(payload?.lubeAvtoFee),
-      unloadingFromPortKlaidepa: toSafeNumber(payload?.unloadingFromPortKlaidepa),
-      deliveryToLvivKlaidepa: toSafeNumber(payload?.deliveryToLvivKlaidepa),
-      specialTransportPrice: toSafeNumber(payload?.specialTransportPrice),
-      insuranceFee: 1,
-      exportDocumentsFee,
-      deliveryCoefficientToPort: mappedOrigins,
-    },
+  const handleSelect = (id: number) => {
+    onChange(id)
+    setQuery('')
+    setOpen(false)
   }
+
+  const handleBlur = (e: React.FocusEvent) => {
+    if (wrapRef.current && !wrapRef.current.contains(e.relatedTarget as Node)) {
+      setOpen(false)
+      setQuery('')
+    }
+  }
+
+  return (
+    <div ref={wrapRef} className="calc-branch-wrap" onBlur={handleBlur}>
+      <input
+        className="calc-input calc-branch-input"
+        type="text"
+        placeholder={open ? placeholder : selectedName || placeholder}
+        value={open ? query : selectedName}
+        onFocus={() => { setOpen(true); setQuery('') }}
+        onChange={(e) => setQuery(e.target.value)}
+        autoComplete="off"
+      />
+      {open && (
+        <div className="calc-branch-dropdown">
+          {filtered.length === 0 ? (
+            <div className="calc-branch-empty">{notFoundText}</div>
+          ) : (
+            filtered.map((b) => (
+              <button
+                key={b.id}
+                type="button"
+                className={`calc-branch-option${b.id === value ? ' calc-branch-option--active' : ''}`}
+                onMouseDown={(e) => { e.preventDefault(); handleSelect(b.id) }}
+              >
+                {b.name}
+              </button>
+            ))
+          )}
+        </div>
+      )}
+    </div>
+  )
 }
+
+// ─── Main Component ───────────────────────────────────────────────────────────
 
 export function CalculatorPage() {
   const { t } = useI18n()
-  const requestSeqRef = useRef(0)
-  const [referenceData, setReferenceData] = useState<ReferenceData>(FALLBACK_REFERENCE_DATA)
-  const [calcMode, setCalcMode] = useState<CalcMode>('idle')
-  const [captionKey, setCaptionKey] = useState<MessageKey>('calcCaptionIdle')
-  const [captionExtra, setCaptionExtra] = useState('')
-  const [breakdownRows, setBreakdownRows] = useState<BreakdownRow[]>([])
-  const [liveTotal, setLiveTotal] = useState(0)
 
-  const [carType, setCarType] = useState<CarType>('Automobiles')
-  const [fuelType, setFuelType] = useState<FuelType>('Gas')
-  const [auctionType, setAuctionType] = useState<AuctionType>('Copart')
-  const [exportDocsType, setExportDocsType] = useState<ExportDocsType>('Usa')
-  const [euPort, setEuPort] = useState<EuPortCode>('bremerhaven')
-  const [importTaxProfileId, setImportTaxProfileId] = useState<string>('auto-10')
-  const [vatProfileId, setVatProfileId] = useState<string>('bremerhaven-19')
-  const [deliveryOrigin, setDeliveryOrigin] = useState('')
-  const [carYear, setCarYear] = useState('')
-  const [engineVolume, setEngineVolume] = useState('')
-  const [lotPrice, setLotPrice] = useState('')
-  const [insuranceIncluded, setInsuranceIncluded] = useState(false)
-  const [transferIncluded, setTransferIncluded] = useState(false)
-  const [derived, setDerived] = useState<DerivedValues>(EMPTY_DERIVED)
+  // Exchange rate (live NBP, silent fallback)
+  const { eurUsdRate, loading: rateLoading } = useExchangeRate()
 
-  // Localized label maps for tax/VAT profiles (config labels contain Ukrainian)
-  const importTaxLabelMap: Record<string, string> = {
-    'auto-10': t('calcTaxAuto'),
-    'truck-22': t('calcTaxTruck'),
-    'moto-6': t('calcTaxMoto'),
-    'classic-0': t('calcTaxClassic0'),
-  }
-  const vatLabelMap: Record<string, string> = {
-    'bremerhaven-19': '19% (Bremerhaven)',
-    'rotterdam-21': '21% (Rotterdam)',
-    'gdynia-23': '23% (Gdynia)',
-    'classic-9': t('calcVatClassic9'),
-  }
+  // Form state
+  const [lotPrice,      setLotPrice]      = useState('')
+  const [auction,       setAuction]       = useState<AuctionType>('Copart')
+  const [branchId,      setBranchId]      = useState<number | null>(null)
+  const [euPortId,      setEuPortId]      = useState<EuPortId>('rotterdam')
+  const [carType,       setCarType]       = useState<CarType>('Automobiles')
+  const [importTaxType, setImportTaxType] = useState<ImportTaxType>('standard')
 
-  const selectedEuPort = useMemo(
-    () => EU_PORT_OPTIONS.find((option) => option.id === euPort) ?? EU_PORT_OPTIONS[0],
-    [euPort],
+  // Auction URL resolver state
+  const [auctionUrl,        setAuctionUrl]        = useState('')
+  const [auctionUrlStatus,  setAuctionUrlStatus]  = useState<'idle' | 'loading' | 'success' | 'warning' | 'error'>('idle')
+  const [auctionUrlMessage, setAuctionUrlMessage] = useState('')
+  const [requireManualBranch, setRequireManualBranch] = useState(false)
+
+  // Branches filtered by selected auction, sorted alphabetically
+  const filteredBranches = useMemo(
+    () => BRANCHES.filter((b) => b.group === auction).sort((a, b) => a.name.localeCompare(b.name)),
+    [auction],
   )
 
-  const selectedImportTaxProfile = useMemo(
-    () => IMPORT_TAX_PROFILES.find((profile) => profile.id === importTaxProfileId) ?? IMPORT_TAX_PROFILES[0],
-    [importTaxProfileId],
-  )
-
-  const selectedVatProfile = useMemo(
-    () => VAT_PROFILES.find((profile) => profile.id === vatProfileId) ?? VAT_PROFILES[0],
-    [vatProfileId],
-  )
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-    const resolvedToken = getAuthToken()
-    if (!resolvedToken) return
-
-    const existing = String(window.localStorage.getItem('lubeavtoPartnerToken') ?? '').trim()
-    if (!existing) {
-      window.localStorage.setItem('lubeavtoPartnerToken', resolvedToken)
-    }
-  }, [])
+  // Effective branch: keep current if still valid, otherwise pick first available
+  const effectiveBranchId = useMemo(() => {
+    if (branchId !== null && filteredBranches.some((b) => b.id === branchId)) return branchId
+    if (requireManualBranch) return null
+    return filteredBranches[0]?.id ?? null
+  }, [branchId, filteredBranches, requireManualBranch])
 
   const lotPriceValue = toSafeNumber(lotPrice)
-  const yearValue = toSafeNumber(carYear)
-  const engineValue = toSafeNumber(engineVolume)
-  const selectedOrigin = useMemo(
-    () => referenceData.calculatorDetails.deliveryCoefficientToPort.find((entry) => String(entry.id) === deliveryOrigin),
-    [deliveryOrigin, referenceData.calculatorDetails.deliveryCoefficientToPort],
-  )
+  const hasInputs     = lotPriceValue > 0 && effectiveBranchId !== null
+  const showEmptyState = effectiveBranchId !== null && lotPriceValue === 0
 
-  const fuelOptions = referenceData.options.fuelType
-  const engineSizeOptions = referenceData.options.engineSize
-  const releaseYearOptions = referenceData.options.releaseYear
+  // Core calculation — only calculateImportTotal, no local formulas
+  const result = useMemo(() => {
+    if (!hasInputs || effectiveBranchId === null) return null
+    return calculateImportTotal({
+      lotPrice: lotPriceValue,
+      auction,
+      branchId: effectiveBranchId,
+      euPortId,
+      carType,
+      importTaxType,
+      eurUsdRate: rateLoading ? FALLBACK_EUR_USD_RATE : eurUsdRate,
+    })
+  }, [hasInputs, lotPriceValue, auction, effectiveBranchId, euPortId, carType, importTaxType, eurUsdRate, rateLoading])
 
-  const hasRequiredInputs = useMemo(() => (
-    yearValue >= 2008 && yearValue <= CURRENT_YEAR && engineValue > 0 && lotPriceValue > 0
-  ), [engineValue, lotPriceValue, yearValue])
-
-  const calculateTransferFee = useCallback((price: number, auctionFee: number) => {
-    if (!transferIncluded) return 0
-    const rate = (exportDocsType === 'Canada' || exportDocsType === 'Manheim') ? 0.02 : 0.01
-    return Math.max(1, Math.round((price + auctionFee) * rate))
-  }, [exportDocsType, transferIncluded])
-
-  const syncReferenceFields = useCallback(() => {
-    if (!hasRequiredInputs || !selectedOrigin) {
-      setDerived(EMPTY_DERIVED)
-      return
-    }
-
-    const details = referenceData.calculatorDetails
-    const auctionFee = getAuctionFee(referenceData, auctionType, lotPriceValue)
-    const oceanDelivery = toSafeNumber(selectedEuPort.oceanDeliveryUsd)
-    const next: DerivedValues = {
-      auctionFee,
-      usDelivery: toSafeNumber(selectedOrigin.value),
-      exportDocs: toSafeNumber(details.exportDocumentsFee[exportDocsType]),
-      oceanDelivery,
-      portUnload: 0,
-      europeDelivery: toSafeNumber(selectedEuPort.deliveryToWarsawUsd),
-      customsDelivery: 0,
-      borderHandling: 0,
-      brokerFee: 0,
-      companyFee: toSafeNumber(details.lubeAvtoFee),
-      insuranceFee: insuranceIncluded ? toSafeNumber(details.insuranceFee || 1) : 0,
-      transferFee: calculateTransferFee(lotPriceValue, auctionFee),
-    }
-
-    setDerived(next)
-  }, [auctionType, calculateTransferFee, exportDocsType, hasRequiredInputs, insuranceIncluded, lotPriceValue, referenceData, selectedEuPort, selectedOrigin])
-
-  useEffect(() => {
-    if (referenceData.calculatorDetails.deliveryCoefficientToPort.length === 0) {
-      setDeliveryOrigin('')
-      return
-    }
-    const exists = referenceData.calculatorDetails.deliveryCoefficientToPort.some((origin) => String(origin.id) === deliveryOrigin)
-    if (!exists) {
-      setDeliveryOrigin(String(referenceData.calculatorDetails.deliveryCoefficientToPort[0].id))
-    }
-  }, [deliveryOrigin, referenceData.calculatorDetails.deliveryCoefficientToPort])
-
-  useEffect(() => {
-    if (fuelOptions.length === 0) return
-    if (!fuelOptions.includes(fuelType)) {
-      setFuelType(fuelOptions[0])
-    }
-  }, [fuelOptions, fuelType])
-
-  useEffect(() => {
-    if (releaseYearOptions.length === 0) return
-    const selectedYear = toSafeNumber(carYear)
-    const exists = releaseYearOptions.some((year) => year === selectedYear)
-    if (!exists) {
-      setCarYear(String(releaseYearOptions[0]))
-    }
-  }, [carYear, releaseYearOptions])
-
-  useEffect(() => {
-    if (engineSizeOptions.length === 0) return
-    const selectedEngine = toSafeNumber(engineVolume)
-    const exists = engineSizeOptions.some((size) => size === selectedEngine)
-    if (!exists) {
-      setEngineVolume(String(engineSizeOptions[0]))
-    }
-  }, [engineSizeOptions, engineVolume])
-
-  useEffect(() => {
-    let isActive = true
-
-    async function loadReference(): Promise<void> {
-      try {
-        const token = getAuthToken()
-        const authorization = toAuthHeader(token)
-        const response = await fetch(INIT_API_URL, {
-          cache: 'no-cache',
-          headers: {
-            Accept: 'application/json',
-            ...(authorization ? { Authorization: authorization } : {}),
-          },
-        })
-        if (!response.ok) throw new Error('reference-init unavailable')
-        const payload: unknown = await response.json()
-        const mapped = mapInitApiToReference(payload)
-        if (!mapped || !isActive) return
-        setReferenceData(mapped)
-      } catch {
-        if (!isActive) return
-        setReferenceData(FALLBACK_REFERENCE_DATA)
-      }
-    }
-
-    loadReference()
-    return () => {
-      isActive = false
-    }
-  }, [])
-
-  useEffect(() => {
-    syncReferenceFields()
-  }, [syncReferenceFields])
-
-  const calculateWithApi = useCallback(async () => {
-    if (!hasRequiredInputs || !selectedOrigin) {
-      setCalcMode('idle')
-      setCaptionKey('calcCaptionIdle')
-      setCaptionExtra('')
-      setLiveTotal(0)
-      setBreakdownRows([])
-      return
-    }
-
-    const requestId = requestSeqRef.current + 1
-    requestSeqRef.current = requestId
-    setCalcMode('loading')
-    setCaptionKey('calcCaptionLoading')
-    setCaptionExtra('')
-
-    const exportDocsValue = toSafeNumber(referenceData.calculatorDetails.exportDocumentsFee[exportDocsType])
-
-    const payload = {
-      price: lotPriceValue,
-      vehicleType: carType,
-      fuelType,
-      releaseYear: isElectricFuel(fuelType) ? undefined : yearValue,
-      engineSize: isElectricFuel(fuelType) ? undefined : (carType === 'Moto' ? Math.max(0, engineValue * 1000) : engineValue),
-      batteryCapacity: isElectricFuel(fuelType) ? Math.max(0, engineValue) : 0,
-      auction: auctionType,
-      isKlaipeda: selectedEuPort.id === 'klaipeda',
-      exportDocumentFee: { key: exportDocsType, value: exportDocsValue },
-      deliveryCoefficientToPort: selectedOrigin,
-      vehicleCoefficients: referenceData.coefficients.vehicle.find((row) => row.item === carType) ?? null,
-      auctionCoefficients: getAuctionCoefficientEntry(referenceData, auctionType, lotPriceValue),
-    }
-
-    try {
-      const token = getAuthToken()
-      const authorization = toAuthHeader(token)
-      const response = await fetch(CALCULATE_API_URL, {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json-patch+json',
-          Accept: 'application/json',
-          ...(authorization ? { Authorization: authorization } : {}),
-        },
-        body: JSON.stringify(payload),
-      })
-
-      if (!response.ok) {
-        const responseText = await response.text().catch(() => '')
-        throw new Error(`calculator-${response.status}:${responseText.slice(0, 240)}`)
-      }
-
-      const rawText = await response.text()
-      let result: Record<string, unknown>
-      try {
-        result = JSON.parse(rawText) as Record<string, unknown>
-      } catch {
-        throw new Error(`calculator-invalid-json:${rawText.slice(0, 240)}`)
-      }
-      if (requestId !== requestSeqRef.current) return
-
-      const resultAuction = (result.auctionCoefficients && typeof result.auctionCoefficients === 'object')
-        ? result.auctionCoefficients as Record<string, unknown>
-        : null
-      const resultDelivery = (result.deliveryCoefficientToPort && typeof result.deliveryCoefficientToPort === 'object')
-        ? result.deliveryCoefficientToPort as Record<string, unknown>
-        : null
-      const apiAuctionFee = toSafeNumber(resultAuction?.coefficient)
-      const apiUsDelivery = toSafeNumber(resultDelivery?.value)
-      const apiExportDocs = toSafeNumber(result.exportDocumentsFee)
-      const apiOceanDelivery = toSafeNumber(selectedEuPort.oceanDeliveryUsd)
-      const apiPortUnload = 0
-      const apiEuropeDelivery = toSafeNumber(selectedEuPort.deliveryToWarsawUsd)
-      const apiCustomsDelivery = 0
-      const apiBorderHandling = 0
-      const apiBrokerFee = 0
-      const apiCompanyFee = toSafeNumber(result.lubeAvtoFee)
-      const apiInsuranceFee = insuranceIncluded ? toSafeNumber(result.insuranceFee) : 0
-      const apiTransferFee = calculateTransferFee(lotPriceValue, apiAuctionFee)
-
-      const nextDerived: DerivedValues = {
-        auctionFee: apiAuctionFee,
-        usDelivery: apiUsDelivery,
-        exportDocs: apiExportDocs,
-        oceanDelivery: apiOceanDelivery,
-        portUnload: apiPortUnload,
-        europeDelivery: apiEuropeDelivery,
-        customsDelivery: apiCustomsDelivery,
-        borderHandling: apiBorderHandling,
-        brokerFee: apiBrokerFee,
-        companyFee: apiCompanyFee,
-        insuranceFee: apiInsuranceFee,
-        transferFee: apiTransferFee,
-      }
-
-      const carBlock = lotPriceValue + nextDerived.auctionFee
-      const logisticsBlock =
-        nextDerived.usDelivery +
-        nextDerived.exportDocs +
-        nextDerived.oceanDelivery +
-        nextDerived.portUnload +
-        nextDerived.europeDelivery +
-        nextDerived.customsDelivery +
-        nextDerived.borderHandling
-      const customsBase = carBlock + logisticsBlock
-      const customs = computeEuCustoms(
-        customsBase,
-        selectedImportTaxProfile.rate,
-        selectedVatProfile.rate,
-        toSafeNumber(selectedEuPort.customsAgencyUsd),
-      )
-      const importDuty = customs.importDuty
-      const vat = customs.vat
-      const customsAgency = customs.customsAgency
-      const customsBlock = customs.customsBlock
-      const serviceBlock = nextDerived.brokerFee + nextDerived.companyFee + nextDerived.insuranceFee + nextDerived.transferFee
-      const total = carBlock + logisticsBlock + customsBlock + serviceBlock
-
-      const rows: BreakdownRow[] = [
-        { label: t('calcRowCarPrice'), value: lotPriceValue },
-        { label: `${t('calcRowAuctionFee')} (${auctionType})`, value: nextDerived.auctionFee },
-        { label: `${t('calcRowUsDelivery')} - ${selectedOrigin.cityName}`, value: nextDerived.usDelivery },
-        { label: t('calcRowExportDocs'), value: nextDerived.exportDocs },
-        { label: `${t('calcRowOceanFromPrefix')} ${selectedEuPort.label}`, value: nextDerived.oceanDelivery },
-        { label: `${t('calcRowEuDeliveryPortPrefix')} ${selectedEuPort.label} - ${t('calcCityWarsaw')}`, value: nextDerived.europeDelivery },
-      ]
-      rows.push({ label: `${t('calcLabelImportTax')} ${percentLabel(selectedImportTaxProfile.rate)}`, value: importDuty, group: 'customs' })
-      rows.push({ label: `${t('calcRowVat')} ${percentLabel(selectedVatProfile.rate)}`, value: vat, group: 'customs' })
-      rows.push({ label: t('calcRowCustomsAgency'), value: customsAgency, group: 'customs' })
-      if (nextDerived.brokerFee > 0) rows.push({ label: t('calcRowBroker'), value: nextDerived.brokerFee, group: 'customs' })
-      rows.push({ label: t('calcRowBiddersFee'), value: nextDerived.companyFee, group: 'customs' })
-      if (nextDerived.insuranceFee > 0) rows.push({ label: t('calcRowInsuranceFee'), value: nextDerived.insuranceFee, group: 'customs' })
-      if (nextDerived.transferFee > 0) rows.push({ label: t('calcRowMoneyTransfer'), value: nextDerived.transferFee, group: 'customs' })
-
-      setDerived(nextDerived)
-      setBreakdownRows(rows)
-      setLiveTotal(total)
-      setCaptionKey('calcCaptionLiveEu')
-      setCaptionExtra('')
-      setCalcMode('live')
-    } catch (error) {
-      if (requestId !== requestSeqRef.current) return
-      setCalcMode('fallback')
-      setLiveTotal(0)
-      setBreakdownRows([])
-      const reason = error instanceof Error ? error.message : ''
-      if (reason.includes('401')) {
-        setCaptionKey('calcCaptionErr401')
-        setCaptionExtra('')
-        return
-      }
-      if (reason.includes('403')) {
-        setCaptionKey('calcCaptionErr403')
-        setCaptionExtra('')
-        return
-      }
-      if (reason.includes('400')) {
-        setCaptionKey('calcCaptionErr400Prefix')
-        setCaptionExtra(reason.slice(0, 160))
-        return
-      }
-      if (reason.includes('invalid-json')) {
-        setCaptionKey('calcCaptionErrJson')
-        setCaptionExtra('')
-        return
-      }
-      setCaptionKey('calcCaptionFallback')
-      setCaptionExtra('')
-    }
-  }, [auctionType, carType, engineValue, exportDocsType, fuelType, hasRequiredInputs, lotPriceValue, referenceData, selectedEuPort, selectedImportTaxProfile, selectedVatProfile, selectedOrigin, yearValue, calculateTransferFee, insuranceIncluded, t])
-
-  useEffect(() => {
-    if (!hasRequiredInputs || !selectedOrigin) {
-      setCalcMode('idle')
-      setCaptionKey('calcCaptionIdle')
-      setCaptionExtra('')
-      setLiveTotal(0)
-      setBreakdownRows([])
-      return
-    }
-
-    const timer = window.setTimeout(() => {
-      calculateWithApi()
-    }, 220)
-
-    return () => {
-      window.clearTimeout(timer)
-    }
-  }, [calculateWithApi, hasRequiredInputs, selectedOrigin])
-
-  const resetPreset = () => {
-    setCarType('Automobiles')
-    setFuelType('Gas')
-    setAuctionType('Copart')
-    setExportDocsType('Usa')
-    setCarYear('')
-    setEngineVolume('')
-    setLotPrice('')
-    setInsuranceIncluded(true)
-    setTransferIncluded(true)
-    setCalcMode('idle')
-    setCaptionKey('calcCaptionIdle')
-    setCaptionExtra('')
-    setBreakdownRows([])
-    setLiveTotal(0)
+  const handleAuctionChange = (next: AuctionType) => {
+    setAuction(next)
+    setBranchId(null) // reset → effectiveBranchId picks first of new auction
+    setRequireManualBranch(false)
   }
 
-  const splitIndex = useMemo(() => {
-    const explicit = breakdownRows.findIndex((row) => row.group === 'customs')
-    return explicit === -1 ? Math.ceil(breakdownRows.length / 2) : explicit
-  }, [breakdownRows])
+  const handleResolveUrl = async () => {
+    const url = auctionUrl.trim()
+    if (!url) return
 
-  const secondaryRows = breakdownRows.slice(splitIndex)
+    // IAAI is temporarily unavailable in link resolver flow.
+    // Short-circuit before any API call to avoid unnecessary wait.
+    if (/iaai\.com/i.test(url)) {
+      setAuction('IAAI')
+      setAuctionUrlStatus('error')
+      setAuctionUrlMessage(t('calcAuctionUrlIaaiUnavailable'))
+      return
+    }
 
-  const localSubtotal = lotPriceValue + Object.values(derived).reduce((acc, value) => acc + value, 0)
-  const total = calcMode === 'live' ? liveTotal : localSubtotal
+    setAuctionUrlStatus('loading')
+    setAuctionUrlMessage(t('calcAuctionUrlLoading'))
 
-  const modeLabel = calcMode === 'live'
-    ? 'LIVE API'
-    : calcMode === 'loading'
-      ? 'LOADING'
-      : calcMode === 'fallback'
-        ? 'FALLBACK'
-        : 'IDLE'
+    const result = await resolveAuctionLotUrl(url)
+
+    if (!result.ok) {
+      const isUnsupported = result.error?.toLowerCase().includes('unsupported')
+      setAuctionUrlStatus('error')
+      setAuctionUrlMessage(isUnsupported ? t('calcAuctionUrlUnsupported') : t('calcAuctionUrlError'))
+      return
+    }
+
+    const d = result.data
+
+    // Auto-fill form fields from resolved lot
+    if (d.lotPrice > 0) setLotPrice(String(d.lotPrice))
+    if (d.source === 'copart' || d.source === 'iaai') {
+      const nextAuction: AuctionType = d.source === 'copart' ? 'Copart' : 'IAAI'
+      setAuction(nextAuction)
+      setBranchId(null)
+    }
+    if (d.matchedBranchId !== null) {
+      setBranchId(d.matchedBranchId)
+      setRequireManualBranch(false)
+    } else if (d.locationCity || d.locationName) {
+      // CF Worker doesn't match branches; do it client-side using city/name from API.
+      const auctionGroup = d.source === 'copart' ? 'Copart' : 'IAAI'
+      const needle = String(d.locationCity || d.locationName).toLowerCase().trim()
+      const matched = BRANCHES.find(
+        (b) => b.group === auctionGroup && b.name.toLowerCase() === needle,
+      ) ?? BRANCHES.find(
+        (b) => b.group === auctionGroup && b.name.toLowerCase().includes(needle),
+      )
+      if (matched) {
+        setBranchId(matched.id)
+        setRequireManualBranch(false)
+      } else {
+        setRequireManualBranch(true)
+      }
+    } else {
+      setRequireManualBranch(true)
+    }
+    if (d.mappedCarType)       setCarType(d.mappedCarType)
+    if (d.mappedImportTaxType) setImportTaxType(d.mappedImportTaxType)
+
+    // Partial result (IAAI anti-bot blocked full data — auction type set, rest manual)
+    if (result.partial) {
+      setAuctionUrlStatus('warning')
+      setAuctionUrlMessage(d.source === 'iaai' ? t('calcAuctionUrlIaaiPartial') : t('calcAuctionUrlPartial'))
+      return
+    }
+
+    const title = [d.year, d.make, d.model].filter(Boolean).join(' ') || d.title || d.lotId
+
+    // Re-check whether we ended up with a branch (server matched OR client matched above)
+    const auctionGroup = d.source === 'copart' ? 'Copart' : 'IAAI'
+    const needle       = String(d.locationCity || d.locationName || '').toLowerCase().trim()
+    const clientMatchedBranch =
+      d.matchedBranchId !== null ||
+      (needle && BRANCHES.some(
+        (b) => b.group === auctionGroup &&
+          (b.name.toLowerCase() === needle || b.name.toLowerCase().includes(needle)),
+      ))
+
+    if (!clientMatchedBranch) {
+      setAuctionUrlStatus('warning')
+      setAuctionUrlMessage(t('calcAuctionUrlBranchMissing'))
+    } else {
+      setAuctionUrlStatus('success')
+      setAuctionUrlMessage(t('calcAuctionUrlSuccess').replace('{title}', title))
+    }
+  }
 
   return (
     <main className="calculator-react-page">
+      {/* Hero */}
       <section className="calculator-hero">
         <div className="calculator-hero__inner">
           <div className="calculator-hero__copy">
@@ -694,174 +284,221 @@ export function CalculatorPage() {
 
       <section className="calculator-shell">
         <div className="calculator-layout">
+
+          {/* ── Left: Form ── */}
           <article className="calculator-card calculator-card--form">
             <div className="calculator-card__head">
               <div className="calculator-kicker">{t('calcFormKicker')}</div>
-              <h2>{t('calcFormTitle')}</h2>
-              <p>{t('calcFormDesc')}</p>
+              <h2>{t('calcFormTitle2')}</h2>
+              <p>{t('calcFormDesc2')}</p>
             </div>
 
             <div className="calc-simple-list">
-              <div className="calc-simple-row">
-                <label htmlFor="euPort">{t('calcLabelEuPort')}</label>
-                <select id="euPort" className="calc-select" value={euPort} onChange={(event) => setEuPort(event.target.value as EuPortCode)}>
-                  {EU_PORT_OPTIONS.map((option) => (
-                    <option key={option.id} value={option.id}>{option.label}</option>
-                  ))}
-                </select>
-              </div>
 
-              <div className="calc-simple-row">
-                <label htmlFor="carType">{t('calcLabelCarType')}</label>
-                <select id="carType" className="calc-select" value={carType} onChange={(event) => setCarType(event.target.value as CarType)}>
-                  <option value="Automobiles">{t('calcCarTypeAuto')}</option>
-                  <option value="Crossover">{t('calcCarTypeCrossover')}</option>
-                  <option value="SUVs">{t('calcCarTypeSuv')}</option>
-                  <option value="Moto">{t('calcCarTypeMoto')}</option>
-                  <option value="PickupTrucks">{t('calcCarTypePickup')}</option>
-                </select>
-              </div>
-
-              <div className="calc-simple-row">
-                <label htmlFor="fuelType">{t('calcLabelFuel')}</label>
-                <select id="fuelType" className="calc-select" value={fuelType} onChange={(event) => setFuelType(event.target.value)}>
-                  {fuelOptions.map((option) => (
-                    <option key={option} value={option}>
-                      {option === 'Gas' ? 'Benzyna' : option}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="calc-simple-row">
-                <label htmlFor="auctionType">{t('calcLabelAuction')}</label>
-                <select id="auctionType" className="calc-select" value={auctionType} onChange={(event) => setAuctionType(event.target.value as AuctionType)}>
-                  <option value="Copart">Copart</option>
-                  <option value="IAAI">IAAI</option>
-                  <option value="Manheim">Manheim</option>
-                </select>
-              </div>
-
-              <div className="calc-simple-row">
-                <label htmlFor="exportDocsType">{t('calcLabelDocType')}</label>
-                <select id="exportDocsType" className="calc-select" value={exportDocsType} onChange={(event) => setExportDocsType(event.target.value as ExportDocsType)}>
-                  <option value="Usa">USA</option>
-                  <option value="Usa closed">USA Closed</option>
-                  <option value="Canada">Canada</option>
-                  <option value="Manheim">Manheim</option>
-                </select>
-              </div>
-
-              <div className="calc-simple-row">
-                <label htmlFor="deliveryOrigin">{t('calcLabelCity')}</label>
-                <select id="deliveryOrigin" className="calc-select" value={deliveryOrigin} onChange={(event) => setDeliveryOrigin(event.target.value)}>
-                  {referenceData.calculatorDetails.deliveryCoefficientToPort.map((origin) => (
-                    <option key={origin.id} value={origin.id}>{origin.cityName}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="calc-simple-row">
-                <label htmlFor="carYear">{t('calcLabelYear')}</label>
-                {releaseYearOptions.length > 0 ? (
-                  <select id="carYear" className="calc-select" value={carYear} onChange={(event) => setCarYear(event.target.value)}>
-                    {releaseYearOptions.map((year) => (
-                      <option key={year} value={year}>{year}</option>
-                    ))}
-                  </select>
-                ) : (
-                  <input id="carYear" className="calc-input" value={carYear} onChange={(event) => setCarYear(event.target.value)} />
+              {/* 0. Auction URL auto-fill */}
+              <div className="calc-auction-url-row">
+                <label htmlFor="auctionUrl">{t('calcAuctionUrlLabel')}</label>
+                <div className="calc-auction-url-control">
+                  <input
+                    id="auctionUrl"
+                    className="calc-input"
+                    type="url"
+                    placeholder={t('calcAuctionUrlPlaceholder')}
+                    value={auctionUrl}
+                    onChange={(e) => { setAuctionUrl(e.target.value); setAuctionUrlStatus('idle') }}
+                    onKeyDown={(e) => { if (e.key === 'Enter') void handleResolveUrl() }}
+                  />
+                  <button
+                    type="button"
+                    className="calc-auction-url-button"
+                    disabled={auctionUrlStatus === 'loading' || !auctionUrl.trim()}
+                    onClick={() => void handleResolveUrl()}
+                  >
+                    {auctionUrlStatus === 'loading' ? '…' : t('calcAuctionUrlButton')}
+                  </button>
+                </div>
+                {auctionUrlStatus !== 'idle' && auctionUrlStatus !== 'loading' && auctionUrlMessage && (
+                  <div className={`calc-auction-url-message calc-auction-url-message--${auctionUrlStatus}`}>
+                    {auctionUrlMessage}
+                  </div>
                 )}
               </div>
 
-              <div className="calc-simple-row">
-                <label htmlFor="engineVolume">{isElectricFuel(fuelType) ? t('calcLabelBattery') : t('calcLabelEngine')}</label>
-                {engineSizeOptions.length > 0 ? (
-                  <select id="engineVolume" className="calc-select" value={engineVolume} onChange={(event) => setEngineVolume(event.target.value)}>
-                    {engineSizeOptions.map((size) => (
-                      <option key={size} value={size}>{size}</option>
-                    ))}
-                  </select>
-                ) : (
-                  <input id="engineVolume" className="calc-input" value={engineVolume} onChange={(event) => setEngineVolume(event.target.value)} />
-                )}
-              </div>
-
+              {/* 1. Lot price */}
               <div className="calc-simple-row">
                 <label htmlFor="lotPrice">{t('calcLabelPrice')}</label>
-                <input id="lotPrice" className="calc-input" type="number" min={0} value={lotPrice} onChange={(event) => setLotPrice(event.target.value)} />
+                <input
+                  id="lotPrice"
+                  className={`calc-input calc-input--price${!lotPrice ? ' calc-input--price-empty' : ''}`}
+                  type="number"
+                  min={0}
+                  placeholder={t('calcPricePlaceholder')}
+                  value={lotPrice}
+                  onChange={(e) => setLotPrice(e.target.value)}
+                />
               </div>
 
+              {/* 2. Auction */}
               <div className="calc-simple-row">
-                <label htmlFor="importTaxProfile">{t('calcLabelImportTax')}</label>
-                <select id="importTaxProfile" className="calc-select" value={importTaxProfileId} onChange={(event) => setImportTaxProfileId(event.target.value)}>
-                  {IMPORT_TAX_PROFILES.map((profile) => (
-                    <option key={profile.id} value={profile.id}>{importTaxLabelMap[profile.id] ?? profile.label}</option>
+                <label htmlFor="auction">{t('calcLabelAuction')}</label>
+                <select
+                  id="auction"
+                  className="calc-select"
+                  value={auction}
+                  onChange={(e) => handleAuctionChange(e.target.value as AuctionType)}
+                >
+                  {AUCTION_OPTIONS.map((a) => (
+                    <option key={a} value={a}>{a}</option>
                   ))}
                 </select>
               </div>
 
+              {/* 3. Branch / city — searchable */}
               <div className="calc-simple-row">
-                <label htmlFor="vatProfile">{t('calcLabelVatProfile')}</label>
-                <select id="vatProfile" className="calc-select" value={vatProfileId} onChange={(event) => setVatProfileId(event.target.value)}>
-                  {VAT_PROFILES.map((profile) => (
-                    <option key={profile.id} value={profile.id}>{vatLabelMap[profile.id] ?? profile.label}</option>
+                <label>{t('calcLabelCity')}</label>
+                <BranchSelect
+                  branches={filteredBranches}
+                  value={effectiveBranchId}
+                  onChange={(id) => { setBranchId(id); setRequireManualBranch(false) }}
+                  placeholder={t('calcBranchPlaceholder')}
+                  notFoundText={t('calcBranchNotFound')}
+                />
+              </div>
+
+              {/* 4. EU Port */}
+              <div className="calc-simple-row">
+                <label htmlFor="euPort">{t('calcLabelEuPort')}</label>
+                <select
+                  id="euPort"
+                  className="calc-select"
+                  value={euPortId}
+                  onChange={(e) => setEuPortId(e.target.value as EuPortId)}
+                >
+                  {EU_PORT_LIST.map((p) => (
+                    <option key={p.id} value={p.id}>{p.label}</option>
                   ))}
                 </select>
               </div>
 
-              <div className="calc-toggle-grid">
-                <label className="calc-toggle"><input type="checkbox" checked={insuranceIncluded} onChange={(event) => setInsuranceIncluded(event.target.checked)} /><span>{t('calcLabelInsurance')}</span></label>
-                <label className="calc-toggle"><input type="checkbox" checked={transferIncluded} onChange={(event) => setTransferIncluded(event.target.checked)} /><span>{t('calcLabelTransfer')}</span></label>
+              {/* 5. Car type */}
+              <div className="calc-simple-row">
+                <label htmlFor="carType">{t('calcLabelCarType')}</label>
+                <select
+                  id="carType"
+                  className="calc-select"
+                  value={carType}
+                  onChange={(e) => setCarType(e.target.value as CarType)}
+                >
+                  {CAR_TYPE_OPTIONS.map((o) => (
+                    <option key={o.value} value={o.value}>{t(o.labelKey)}</option>
+                  ))}
+                </select>
               </div>
 
-              <div className="calc-input-actions">
-                <button className="calc-primary" type="button" onClick={() => calculateWithApi()}>{t('calcBtnRecalc')}</button>
-                <button className="calc-secondary" type="button" onClick={resetPreset}>{t('calcBtnReset')}</button>
+              {/* 6. Import tax */}
+              <div className="calc-simple-row">
+                <label htmlFor="importTaxType">{t('calcLabelImportTax')}</label>
+                <select
+                  id="importTaxType"
+                  className="calc-select"
+                  value={importTaxType}
+                  onChange={(e) => setImportTaxType(e.target.value as ImportTaxType)}
+                >
+                  {IMPORT_TAX_OPTIONS.map((o) => (
+                    <option key={o.id} value={o.id}>{t(o.labelKey)}</option>
+                  ))}
+                </select>
               </div>
+
             </div>
           </article>
 
+          {/* ── Right: Result ── */}
           <aside className="calculator-card calculator-card--result">
             <div className="calculator-total">
-              <div className="calculator-kicker">{t('calcResultKicker')}</div>
+              <div className="calculator-kicker">{t('calcResultKicker2')}</div>
               <div className="calculator-total__row">
-                <div className="calculator-total__value">{usd(total)}</div>
-                <div className="calculator-total__badge">{modeLabel}</div>
+                <div className="calculator-total__value">
+                  {result ? eur(result.totalEur) : '—'}
+                </div>
               </div>
-              <p className="calculator-total__caption">{t(captionKey)}{captionExtra ? ` ${captionExtra}` : ''}</p>
+              <p className="calculator-total__caption">
+                {!hasInputs
+                  ? t('calcCaptionIdle2')
+                  : result === null
+                    ? t('calcRouteUnavailable2')
+                    : t('calcCaptionResult')}
+              </p>
             </div>
 
-            <div className="calculator-groups">
-              <div className="calculator-group">
-                <div className="calculator-group__title">{t('calcGroupLogistics')}</div>
-                <div className="calc-row"><span>{t('calcRowBid')}</span><strong>{usd(lotPriceValue)}</strong></div>
-                <div className="calc-row"><span>{t('calcRowAuctionFee')}</span><strong>{usd(derived.auctionFee)}</strong></div>
-                <div className="calc-row"><span>{t('calcRowUsDelivery')}</span><strong>{usd(derived.usDelivery)}</strong></div>
-                <div className="calc-row"><span>{t('calcRowDocs')}</span><strong>{usd(derived.exportDocs)}</strong></div>
-                <div className="calc-row"><span>{t('calcRowOcean')}</span><strong>{usd(derived.oceanDelivery)}</strong></div>
-                <div className="calc-row"><span>{t('calcRowPortUnload')}</span><strong>{usd(derived.portUnload)}</strong></div>
-                <div className="calc-row"><span>{t('calcRowEuDelivery')}</span><strong>{usd(derived.europeDelivery)}</strong></div>
-              </div>
+            {(result || showEmptyState) ? (
+              <div className="calculator-groups">
 
-              <div className="calculator-group">
-                <div className="calculator-group__title">{t('calcGroupCustoms')}</div>
-                {secondaryRows.length === 0 ? <div className="calc-row"><span>{t('calcCustomsPending')}</span><strong>—</strong></div> : null}
-                {secondaryRows.map((row) => (
-                  <div className="calc-row" key={row.label}><span>{row.label}</span><strong>{usd(row.value)}</strong></div>
-                ))}
+                {/* Logistics */}
+                <div className="calculator-group">
+                  <div className="calculator-group__title">{t('calcGroupLogistics')}</div>
+                  <div className="calc-row">
+                    <span>{t('calcRowCarPrice2')}</span>
+                    <strong>{result ? usd(result.lotPrice) : '—'}</strong>
+                  </div>
+                  <div className="calc-row">
+                    <span>{t('calcRowAuctionFee')}</span>
+                    <strong>{result ? usd(result.auctionFee) : '—'}</strong>
+                  </div>
+                  <div className="calc-row">
+                    <span>{t('calcRowUsDelivery2')}</span>
+                    <strong>{result ? usd(result.usDelivery) : '—'}</strong>
+                  </div>
+                  <div className="calc-row">
+                    <span>{t('calcRowOceanDelivery')}</span>
+                    <strong>{result ? usd(result.oceanDelivery) : '—'}</strong>
+                  </div>
+                </div>
+
+                {/* Customs base — separating row between groups */}
+                <div className="calc-customs-base">
+                  <span>{t('calcRowCustomsBase')}</span>
+                  <strong>{result ? usd(result.logisticsBase) : '—'}</strong>
+                </div>
+
+                {/* Customs */}
+                <div className="calculator-group">
+                  <div className="calculator-group__title">{t('calcGroupCustoms')}</div>
+                  <div className="calc-row">
+                    <span>{t('calcLabelImportTax')}{result ? ` (${Math.round(result.importTaxRate * 100)}%)` : ''}</span>
+                    <strong>{result ? eur(result.importDutyEur) : '—'}</strong>
+                  </div>
+                  <div className="calc-row">
+                    <span>{t('calcRowVat')}{result ? ` (${Math.round(result.vatRate * 100)}% · ${EU_PORTS[euPortId].name})` : ` · ${EU_PORTS[euPortId].name}`}</span>
+                    <strong>{result ? eur(result.vatAmountEur) : '—'}</strong>
+                  </div>
+                  <div className="calc-row">
+                    <span>{t('calcRowCustomsAgency')}</span>
+                    <strong>{result ? eur(result.customsAgencyEur) : '—'}</strong>
+                  </div>
+                  <div className="calc-row">
+                    <span>{t('calcRowBiddersFee2')}</span>
+                    <strong>{result ? usd(result.bidBiddersFeeUsd) : '—'}</strong>
+                  </div>
+                  <div className="calc-row calc-row--total">
+                    <span>{t('calcRowTotal')}</span>
+                    <strong>{result ? eur(result.totalEur) : '—'}</strong>
+                  </div>
+                </div>
+
               </div>
-            </div>
+            ) : null}
           </aside>
+
         </div>
       </section>
 
+      {/* SEO block */}
       <section className="calc-seo-block">
         <div className="calc-seo-block__inner">
           <h2 className="calc-seo-block__title">{t('calcSeoTitle')}</h2>
           <p className="calc-seo-block__text">{t('calcSeoP1')}</p>
           <p className="calc-seo-block__text">{t('calcSeoP2')}</p>
-
           <div className="calc-faq">
             <h3 className="calc-faq__title">{t('calcFaqTitle')}</h3>
             {([

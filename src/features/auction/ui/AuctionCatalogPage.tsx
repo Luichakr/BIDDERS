@@ -9,6 +9,37 @@ import './auction-catalog.css'
 
 type TimerUnits = { d: string; h: string; m: string; s: string }
 
+// ── Filter persistence (sessionStorage) ──────────────────────────────────────
+function filterKey(mode: string) { return `auction_filters_${mode}` }
+
+interface PersistedFilters {
+  selectedDocTypes: string[]
+  selectedBrands: string[]
+  selectedModels: string[]
+  selectedFuels: string[]
+  selectedTransmission: string[]
+  selectedDrive: string[]
+  selectedYears: number[]
+  odoMin: number
+  odoMax: number
+  yearFrom: number | ''
+  yearTo: number | ''
+  sortMode: string
+  activeTab: string
+  visibleCount: number
+}
+
+function loadFilters(mode: string): Partial<PersistedFilters> {
+  try {
+    const raw = sessionStorage.getItem(filterKey(mode))
+    return raw ? JSON.parse(raw) : {}
+  } catch { return {} }
+}
+
+function saveFilters(mode: string, filters: PersistedFilters) {
+  try { sessionStorage.setItem(filterKey(mode), JSON.stringify(filters)) } catch { /* ignore */ }
+}
+
 function formatCountdown(ms: number, u: TimerUnits): string {
   if (ms <= 0) return '—'
   const totalSec = Math.floor(ms / 1000)
@@ -90,25 +121,31 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
   const timerUnits: TimerUnits = { d: t('timerUnitD'), h: t('timerUnitH'), m: t('timerUnitM'), s: t('timerUnitS') }
   const [sortOpen, setSortOpen] = useState(false)
   const [drawerOpen, setDrawerOpen] = useState(false)
-  const [sortMode, setSortMode] = useState<SortMode>(mode === 'catalog' ? 'auction_asc' : 'year_desc')
   const [layout, setLayout] = useState<LayoutMode>('list')
-  const [visibleCount, setVisibleCount] = useState(20)
 
-  const [selectedDocTypes, setSelectedDocTypes] = useState<string[]>([])
-  const [selectedBrands, setSelectedBrands] = useState<string[]>([])
-  const [selectedModels, setSelectedModels] = useState<string[]>([])
-  const [selectedFuels, setSelectedFuels] = useState<string[]>([])
-  const [selectedTransmission, setSelectedTransmission] = useState<string[]>([])
-  const [selectedDrive, setSelectedDrive] = useState<string[]>([])
-  const [selectedYears, setSelectedYears] = useState<number[]>([])
-  const [odoMin, setOdoMin] = useState<number>(() => parseMileageRange(cards)[0])
-  const [odoMax, setOdoMax] = useState<number>(() => parseMileageRange(cards)[1])
+  // ── Restore persisted filters ────────────────────────────────────────────
+  const _saved = loadFilters(mode)
+  const [_odoMinInit, _odoMaxInit] = parseMileageRange(cards)
+
+  const [sortMode, setSortMode] = useState<SortMode>(
+    (_saved.sortMode as SortMode) ?? (mode === 'catalog' ? 'auction_asc' : 'year_desc')
+  )
+  const [visibleCount, setVisibleCount] = useState(_saved.visibleCount ?? 20)
+  const [selectedDocTypes, setSelectedDocTypes] = useState<string[]>(_saved.selectedDocTypes ?? [])
+  const [selectedBrands, setSelectedBrands] = useState<string[]>(_saved.selectedBrands ?? [])
+  const [selectedModels, setSelectedModels] = useState<string[]>(_saved.selectedModels ?? [])
+  const [selectedFuels, setSelectedFuels] = useState<string[]>(_saved.selectedFuels ?? [])
+  const [selectedTransmission, setSelectedTransmission] = useState<string[]>(_saved.selectedTransmission ?? [])
+  const [selectedDrive, setSelectedDrive] = useState<string[]>(_saved.selectedDrive ?? [])
+  const [selectedYears, setSelectedYears] = useState<number[]>(_saved.selectedYears ?? [])
+  const [odoMin, setOdoMin] = useState<number>(_saved.odoMin ?? _odoMinInit)
+  const [odoMax, setOdoMax] = useState<number>(_saved.odoMax ?? _odoMaxInit)
   const [odoMinInput, setOdoMinInput] = useState<string>('')
   const [odoMaxInput, setOdoMaxInput] = useState<string>('')
   const [yearMinInput, setYearMinInput] = useState<string>('')
   const [yearMaxInput, setYearMaxInput] = useState<string>('')
-  const [yearFrom, setYearFrom] = useState<number | ''>('')
-  const [yearTo, setYearTo] = useState<number | ''>('')
+  const [yearFrom, setYearFrom] = useState<number | ''>(_saved.yearFrom ?? '')
+  const [yearTo, setYearTo] = useState<number | ''>(_saved.yearTo ?? '')
   const [openGroups, setOpenGroups] = useState<Record<FilterGroupKey, boolean>>({
     doc: true,
     odo: true,
@@ -123,7 +160,9 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
 
   const [brandSearch, setBrandSearch] = useState('')
   const [modelSearch, setModelSearch] = useState('')
-  const [activeTab, setActiveTab] = useState<'all' | 'open' | 'live' | 'closed' | 'buynow'>('all')
+  const [activeTab, setActiveTab] = useState<'all' | 'open' | 'live' | 'closed' | 'buynow'>(
+    (_saved.activeTab as 'all' | 'open' | 'live' | 'closed' | 'buynow') ?? 'all'
+  )
 
   const [slideByCard, setSlideByCard] = useState<Record<string, number>>(() => {
     const init: Record<string, number> = {}
@@ -149,6 +188,19 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
 
   const [minYearAll, maxYearAll] = useMemo(() => parseYearRange(cards), [cards])
   const [odoMinLimit, odoMaxLimit] = useMemo(() => parseMileageRange(cards), [cards])
+
+  // ── Save filters to sessionStorage on every change ───────────────────────
+  useEffect(() => {
+    saveFilters(mode, {
+      selectedDocTypes, selectedBrands, selectedModels, selectedFuels,
+      selectedTransmission, selectedDrive, selectedYears,
+      odoMin, odoMax, yearFrom, yearTo,
+      sortMode, activeTab, visibleCount,
+    })
+  }, [mode, selectedDocTypes, selectedBrands, selectedModels, selectedFuels,
+      selectedTransmission, selectedDrive, selectedYears,
+      odoMin, odoMax, yearFrom, yearTo, sortMode, activeTab, visibleCount])
+
   const odoRange = Math.max(1, odoMaxLimit - odoMinLimit)
   const odoFillLeft = ((odoMin - odoMinLimit) / odoRange) * 100
   const odoFillRight = 100 - ((odoMax - odoMinLimit) / odoRange) * 100
@@ -336,6 +388,18 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
     setYearTo(maxYearAll)
   }, [maxYearAll, minYearAll, mode])
 
+  // Lock body scroll when mobile filter drawer is open
+  useEffect(() => {
+    if (drawerOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [drawerOpen])
+
   const now = Date.now()
   const tabFilteredCards = useMemo(() => {
     if (mode !== 'catalog' || activeTab === 'all') return filteredCards
@@ -392,6 +456,7 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
     setYearTo(mode === 'transit' ? maxYearAll : '')
     setBrandSearch('')
     setModelSearch('')
+    try { sessionStorage.removeItem(filterKey(mode)) } catch { /* ignore */ }
   }
 
   const removeChip = (type: 'doc' | 'brand' | 'model' | 'fuel' | 'trans' | 'drive' | 'year' | 'yearRange', value: string) => {

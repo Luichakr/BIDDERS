@@ -107,8 +107,8 @@ export function Header() {
     <>
       <header className={['px-header', scrolled ? 'scrolled' : '', hidden ? 'hidden-up' : ''].filter(Boolean).join(' ')}>
         <div className="px-header__bar">
-          <NavLink className="px-header__logo" to={lp(routePaths.home)} aria-label="BIDDERS" onClick={closeMobile}>
-            <img src={`${import.meta.env.BASE_URL}images/logo-carwaw-black.png`} alt="BIDDERS" />
+          <NavLink className="px-header__logo" to={lp(routePaths.home)} aria-label="BID BIDDERS" onClick={closeMobile}>
+            <img src={`${import.meta.env.BASE_URL}images/logo-carwaw-black.png`} alt="BID BIDDERS" />
           </NavLink>
 
           <nav className="px-header__nav" aria-label={t('headerPrimaryNavAria')}>
@@ -194,6 +194,11 @@ export function Header() {
             <a href="https://www.tiktok.com/@bidders.com" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005.8 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1.84-.1z"/>
+              </svg>
+            </a>
+            <a href="https://www.facebook.com/bidbidders" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M22 12c0-5.5-4.5-10-10-10S2 6.5 2 12c0 5 3.7 9.1 8.4 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7C18.3 21.1 22 17 22 12z"/>
               </svg>
             </a>
           </div>
@@ -342,6 +347,11 @@ export function Header() {
           <a href="https://www.tiktok.com/@bidders.com" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005.8 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1.84-.1z"/>
+            </svg>
+          </a>
+          <a href="https://www.facebook.com/bidbidders" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M22 12c0-5.5-4.5-10-10-10S2 6.5 2 12c0 5 3.7 9.1 8.4 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7C18.3 21.1 22 17 22 12z"/>
             </svg>
           </a>
         </div>

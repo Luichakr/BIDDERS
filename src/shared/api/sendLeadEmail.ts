@@ -107,8 +107,8 @@ function formatB2BMessage(p: B2BLeadPayload): string {
 export async function sendB2CLead(payload: B2CLeadPayload): Promise<void> {
   const body = {
     access_key: ACCESS_KEY,
-    subject: `[BIDDERS] Nowe zapytanie B2C — ${payload.name || payload.phone}`,
-    from_name: 'BIDDERS Website',
+    subject: `[BID BIDDERS] Nowe zapytanie B2C — ${payload.name || payload.phone}`,
+    from_name: 'BID BIDDERS Website',
     replyto: payload.email || undefined,
     message: formatB2CMessage(payload),
   }
@@ -132,8 +132,8 @@ export async function sendB2CLead(payload: B2CLeadPayload): Promise<void> {
 export async function sendB2BLead(payload: B2BLeadPayload): Promise<void> {
   const body = {
     access_key: ACCESS_KEY,
-    subject: `[BIDDERS] Nowe zapytanie B2B — ${payload.company || payload.phone}`,
-    from_name: 'BIDDERS Website',
+    subject: `[BID BIDDERS] Nowe zapytanie B2B — ${payload.company || payload.phone}`,
+    from_name: 'BID BIDDERS Website',
     message: formatB2BMessage(payload),
   }
 

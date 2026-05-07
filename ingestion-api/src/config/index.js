@@ -43,6 +43,8 @@ export const config = {
   retryBaseDelayMs: readNumber('RETRY_BASE_DELAY_MS', 750),
 
   chromeExecutablePath: process.env.CHROME_EXECUTABLE_PATH || '',
+  zenrowsApiKey: process.env.ZENROWS_API_KEY || '',
+  scrapingBeeApiKey: process.env.SCRAPINGBEE_API_KEY || '',
 
   enableCopart: readBool('ENABLE_COPART', true),
   enableIaai: readBool('ENABLE_IAAI', true),

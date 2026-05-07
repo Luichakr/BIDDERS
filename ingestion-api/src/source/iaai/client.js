@@ -1,8 +1,23 @@
 import { requestWithRetry, humanDelay } from '../../utils/httpClient.js'
-import { warmupCookies } from '../common/browserSession.js'
+import { fetchWithScrapingProvider } from '../common/scrapingProvider.js'
 import { logger } from '../../utils/logger.js'
 
 const SOURCE = 'iaai'
+
+const BROWSER_HEADERS = {
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+  'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+  'accept-language': 'en-US,en;q=0.9',
+  'sec-fetch-dest': 'document',
+  'sec-fetch-mode': 'navigate',
+  'sec-fetch-site': 'none',
+  'sec-fetch-user': '?1',
+  'sec-ch-ua': '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
+  'sec-ch-ua-mobile': '?0',
+  'sec-ch-ua-platform': '"macOS"',
+  'upgrade-insecure-requests': '1',
+  referer: 'https://www.iaai.com/',
+}
 
 function isBlocked(body) {
   return /_Incapsula_Resource|Access denied|Request unsuccessful/i.test(String(body || ''))
@@ -11,16 +26,12 @@ function isBlocked(body) {
 function extractJsonFromHtml(html) {
   const nextData = html.match(/<script[^>]*id="__NEXT_DATA__"[^>]*>([\s\S]*?)<\/script>/i)
   if (nextData?.[1]) {
-    try {
-      return JSON.parse(nextData[1])
-    } catch {}
+    try { return JSON.parse(nextData[1]) } catch {}
   }
 
   const initialState = html.match(/window\.__INITIAL_STATE__\s*=\s*(\{[\s\S]*?\});/i)
   if (initialState?.[1]) {
-    try {
-      return JSON.parse(initialState[1])
-    } catch {}
+    try { return JSON.parse(initialState[1]) } catch {}
   }
 
   return null
@@ -64,42 +75,32 @@ function extractFallbackFromHtml(html, itemId) {
 }
 
 export class IaaiClient {
-  constructor() {
-    this.cookieHeader = ''
-  }
-
-  async warmup(itemId = '37926262') {
-    this.cookieHeader = await warmupCookies({
-      source: SOURCE,
-      url: `https://www.iaai.com/vehicledetails/${itemId}`,
-      extraHeaders: { referer: 'https://www.iaai.com/' },
-    })
-    return this.cookieHeader
-  }
-
   async fetchLot(itemId) {
     await humanDelay()
 
     const url = `https://www.iaai.com/vehicledetails/${itemId}`
-    const fetchOnce = async () => requestWithRetry({
-      source: SOURCE,
-      url,
-      expectJson: false,
-      headers: {
-        referer: 'https://www.iaai.com/',
-        ...(this.cookieHeader ? { cookie: this.cookieHeader } : {}),
-      },
-    })
 
-    let html = await fetchOnce()
-    if (isBlocked(html)) {
-      logger.warn({ itemId }, 'iaai blocked response, trying browser warmup')
-      await this.warmup(itemId)
-      html = await fetchOnce()
+    // 1. Try plain HTTP fetch first (fast path)
+    let html
+    try {
+      html = await requestWithRetry({
+        source: SOURCE,
+        url,
+        expectJson: false,
+        headers: BROWSER_HEADERS,
+      })
+    } catch (err) {
+      logger.warn({ itemId, err: String(err) }, 'iaai plain fetch failed')
+      html = null
     }
 
-    if (isBlocked(html)) {
-      throw new Error('IAAI response blocked by anti-bot protection')
+    // 2. Try a server-side anti-bot provider (browserless from user perspective).
+    if (!html || isBlocked(html)) {
+      const providerHtml = await fetchWithScrapingProvider({ source: SOURCE, url })
+      if (!providerHtml || isBlocked(providerHtml)) {
+        throw new Error('IAAI response blocked by anti-bot protection')
+      }
+      html = providerHtml
     }
 
     const parsed = extractJsonFromHtml(html)

@@ -12,6 +12,21 @@ import { CAR_MAKES_MODELS } from '../../../shared/data/carMakesModels'
 import { sendB2CLead, sendB2BLead } from '../../../shared/api/sendLeadEmail'
 import { PhoneField } from '../../../shared/ui/PhoneField'
 import { isValidPhoneNumber } from 'react-phone-number-input'
+import { calculateImportTotal } from '../../../features/car-price-calculator/model/calculateImportTotal'
+import { BRANCHES } from '../../../features/car-price-calculator/model/usRoutes'
+import { useExchangeRate, FALLBACK_EUR_USD_RATE } from '../../../features/car-price-calculator/model/exchangeRate'
+import type { EuPortId } from '../../../features/car-price-calculator/model/calculatorTypes'
+
+// Default home-widget params (Copart, first branch alphabetically, Automobiles, 10%)
+const HOME_BRANCH_ID: number =
+  BRANCHES.filter((b) => b.group === 'Copart').sort((a, b) => a.name.localeCompare(b.name))[0]?.id ?? 175
+
+const HOME_CALC_PORTS: { id: EuPortId; label: string; vatPct: number }[] = [
+  { id: 'rotterdam',   label: 'Rotterdam, NL',   vatPct: 21 },
+  { id: 'gdynia',      label: 'Gdynia, PL',       vatPct: 23 },
+  { id: 'bremerhaven', label: 'Bremerhaven, DE',  vatPct: 19 },
+  { id: 'klaipeda',    label: 'Klaipeda, LT',     vatPct: 21 },
+]
 
 const isProd = isProductionDeploy()
 // import { VehicleSearchFilter } from './VehicleSearchFilter' // disabled — uncomment to enable
@@ -56,7 +71,7 @@ function HomeSchema() {
       {
         '@context': 'https://schema.org',
         '@type': 'Organization',
-        name: 'BIDDERS',
+        name: 'BID BIDDERS',
         url: 'https://bidbidders.com',
         logo: 'https://bidbidders.com/images/logo-carwaw-white.png',
         contactPoint: {
@@ -73,14 +88,14 @@ function HomeSchema() {
       {
         '@context': 'https://schema.org',
         '@type': 'WebSite',
-        name: 'BIDDERS',
+        name: 'BID BIDDERS',
         url: 'https://bidbidders.com',
       },
       {
         '@context': 'https://schema.org',
         '@type': 'Service',
         name: 'USA Car Import Service',
-        provider: { '@type': 'Organization', name: 'BIDDERS' },
+        provider: { '@type': 'Organization', name: 'BID BIDDERS' },
         serviceType: 'Car Import',
         areaServed: { '@type': 'Country', name: 'Poland' },
         description: 'End-to-end car import from USA auctions (Copart, IAAI, Manheim) — auction bidding, shipping, customs clearance, and delivery to Poland.',
@@ -206,34 +221,28 @@ export function HomePage() {
   const [b2cCountdown, setB2cCountdown] = useState<number | null>(null)
   const [b2bCountdown, setB2bCountdown] = useState<number | null>(null)
   const [showSticky, setShowSticky] = useState(false)
-  const CALC_PORTS = useMemo(() => ([
-    { id: 'rotterdam',   label: 'Rotterdam, NL',   ocean: 1095, delivery: 640, agency: 540, vat: 0.21 },
-    { id: 'gdynia',      label: 'Gdynia, PL',      ocean:  920, delivery: 290, agency: 500, vat: 0.23 },
-    { id: 'bremerhaven', label: 'Bremerhaven, DE', ocean: 1030, delivery: 510, agency: 520, vat: 0.19 },
-    { id: 'klaipeda',    label: 'Klaipeda, LT',    ocean:  980, delivery: 430, agency: 510, vat: 0.21 },
-  ]), [])
   const [calcBid, setCalcBid] = useState<number>(14800)
-  const [calcPortId, setCalcPortId] = useState<string>('gdynia')
+  const [calcPortId, setCalcPortId] = useState<EuPortId>('gdynia')
+  const { eurUsdRate, loading: rateLoading } = useExchangeRate()
   const calc = useMemo(() => {
-    const bid = Math.max(0, Number.isFinite(calcBid) ? calcBid : 0)
-    const port = CALC_PORTS.find(p => p.id === calcPortId) ?? CALC_PORTS[1]
-    const auctionFee = bid <= 2000 ? 365 : bid <= 5000 ? 580 : bid <= 10000 ? 830 : bid <= 15000 ? 980 : bid <= 20000 ? 1080 : 1200
-    const biddersFee = 600
-    const insurance = 80
-    const transferFee = 80
-    const commission = auctionFee + biddersFee + insurance + transferFee
-    const usInland = 270
-    const exportDocs = 150
-    const logisticsEu = usInland + exportDocs + port.ocean
-    const customsBase = bid + auctionFee + usInland + exportDocs + port.ocean
-    const importDuty = Math.round(customsBase * 0.10)
-    const vat = Math.round((customsBase + importDuty) * port.vat)
-    const taxes = importDuty + vat + port.agency
-    const cityDelivery = port.delivery
-    const total = bid + commission + logisticsEu + taxes + cityDelivery
-    const savings = Math.round(total * 0.118)
-    return { bid, port, commission, logisticsEu, taxes, cityDelivery, total, savings }
-  }, [calcBid, calcPortId, CALC_PORTS])
+    const lotPrice = Math.max(0, Number.isFinite(calcBid) ? calcBid : 0)
+    const port = HOME_CALC_PORTS.find((p) => p.id === calcPortId) ?? HOME_CALC_PORTS[1]!
+    const result = calculateImportTotal({
+      lotPrice,
+      auction: 'Copart',
+      branchId: HOME_BRANCH_ID,
+      euPortId: calcPortId,
+      carType: 'Automobiles',
+      importTaxType: 'standard',
+      eurUsdRate: rateLoading ? FALLBACK_EUR_USD_RATE : eurUsdRate,
+    })
+    if (!result) return null
+    const commissionsEur = (result.auctionFee + result.bidBiddersFeeUsd) * result.eurUsdRate
+    const logisticsEur   = (result.usDelivery + result.oceanDelivery) * result.eurUsdRate
+    const taxesEur       = result.importDutyEur + result.vatAmountEur + result.customsAgencyEur
+    const savings        = Math.round(result.totalEur * 0.118)
+    return { commissionsEur, logisticsEur, taxesEur, totalEur: result.totalEur, vatPct: port.vatPct, portLabel: port.label, savings }
+  }, [calcBid, calcPortId, eurUsdRate, rateLoading])
   const fmtEur = (n: number) => '€' + Math.round(n).toLocaleString('en-US')
   const b2cModalRef = useRef<HTMLDivElement | null>(null)
   const b2bModalRef = useRef<HTMLDivElement | null>(null)
@@ -280,7 +289,7 @@ export function HomePage() {
       for (const card of cards) {
         const rawMake = card.make?.trim()
         const model = card.model?.trim()
-        if (!rawMake || rawMake === 'BID BIDDERS' || rawMake === 'Unknown') continue
+        if (!rawMake || rawMake === 'BID BID BIDDERS' || rawMake === 'Unknown') continue
         const make = normalizeMake(rawMake)
         if (!merged[make]) merged[make] = new Set()
         if (model && model !== 'Unknown') merged[make].add(model)
@@ -995,7 +1004,7 @@ export function HomePage() {
                   </div>
                   <div>
                     <strong>{t('homeCalcBadge')}</strong>
-                    <p>{t('homeCalcBadgeSave').replace('{amount}', fmtEur(calc.savings))}</p>
+                    <p>{t('homeCalcBadgeSave').replace('{amount}', fmtEur(calc?.savings ?? 0))}</p>
                   </div>
                 </div>
                 <div className="px-calc__actions" style={{ marginTop: 24 }}>
@@ -1021,8 +1030,8 @@ export function HomePage() {
                     </div>
                     <label className="px-calcx__dest" aria-label={t('homeCalcDestLabel')}>
                       <span className="px-calcx__dest-hint">Zmień port</span>
-                      <select value={calcPortId} onChange={(e) => setCalcPortId(e.target.value)}>
-                        {CALC_PORTS.map(p => (
+                      <select value={calcPortId} onChange={(e) => setCalcPortId(e.target.value as EuPortId)}>
+                        {HOME_CALC_PORTS.map(p => (
                           <option key={p.id} value={p.id}>USA → {p.label}</option>
                         ))}
                       </select>
@@ -1036,7 +1045,7 @@ export function HomePage() {
                       <em className="px-calcx__bid-hint">{t('homeCalcBidHint')}</em>
                     </span>
                     <div className="px-calcx__bid-input">
-                      <span className="px-calcx__bid-cur">€</span>
+                      <span className="px-calcx__bid-cur">$</span>
                       <input
                         type="number"
                         inputMode="numeric"
@@ -1052,15 +1061,14 @@ export function HomePage() {
                   </label>
 
                   <div className="px-calcx__rows">
-                    <div className="px-calc__line"><span>{t('homeCalcLine1')}</span><strong>{fmtEur(calc.commission)}</strong></div>
-                    <div className="px-calc__line"><span>{t('homeCalcLine2')}</span><strong>{fmtEur(calc.logisticsEu)}</strong></div>
-                    <div className="px-calc__line"><span>{t('homeCalcLine3').replace('{vat}', String(Math.round(calc.port.vat * 100)))}</span><strong>{fmtEur(calc.taxes)}</strong></div>
-                    <div className="px-calc__line"><span>{t('homeCalcLine4')}</span><strong>{fmtEur(calc.cityDelivery)}</strong></div>
+                    <div className="px-calc__line"><span>{t('homeCalcLine1')}</span><strong>{fmtEur(calc?.commissionsEur ?? 0)}</strong></div>
+                    <div className="px-calc__line"><span>{t('homeCalcLine2')}</span><strong>{fmtEur(calc?.logisticsEur ?? 0)}</strong></div>
+                    <div className="px-calc__line"><span>{t('homeCalcLine3').replace('{vat}', String(calc?.vatPct ?? 0))}</span><strong>{fmtEur(calc?.taxesEur ?? 0)}</strong></div>
                   </div>
 
                   <div className="px-calc__total">
-                    <span>{t('homeCalcTotal').replace('{port}', calc.port.label)}</span>
-                    <strong>{fmtEur(calc.total)}</strong>
+                    <span>{t('homeCalcTotal').replace('{port}', calc?.portLabel ?? '')}</span>
+                    <strong>{fmtEur(calc?.totalEur ?? 0)}</strong>
                   </div>
 
                   <p className="px-calcx__note">
@@ -1561,11 +1569,11 @@ export function HomePage() {
                   </span>
                   <span className="px-social__label">@bidders_com</span>
                 </a>
-                <a className="px-social px-social--facebook" href="https://www.facebook.com/bidders.com.ua" target="_blank" rel="noreferrer" aria-label="Facebook">
+                <a className="px-social px-social--facebook" href="https://www.facebook.com/bidbidders" target="_blank" rel="noreferrer" aria-label="Facebook">
                   <span className="px-social__icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.5-4.5-10-10-10S2 6.5 2 12c0 5 3.7 9.1 8.4 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7C18.3 21.1 22 17 22 12z"/></svg>
                   </span>
-                  <span className="px-social__label">bidders.com.ua</span>
+                  <span className="px-social__label">bidbidders_com</span>
                 </a>
                 <a className="px-social px-social--tiktok" href="https://www.tiktok.com/@bidders_com" target="_blank" rel="noreferrer" aria-label="TikTok">
                   <span className="px-social__icon" aria-hidden="true">
@@ -1585,12 +1593,6 @@ export function HomePage() {
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.26 2 11.5c0 2.85 1.31 5.4 3.38 7.14V22l3.1-1.7c.83.23 1.7.35 2.62.35 5.52 0 10-4.26 10-9.5S17.52 2 12 2zm1.02 12.78l-2.54-2.72-4.96 2.72 5.46-5.78 2.6 2.72 4.9-2.72-5.46 5.78z"/></svg>
                   </span>
                   <span className="px-social__label">Messenger</span>
-                </a>
-                <a className="px-social px-social--youtube" href="https://www.youtube.com/@bidders" target="_blank" rel="noreferrer" aria-label="YouTube">
-                  <span className="px-social__icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.2c-.3-1-1-1.8-2-2.1C19.2 4.6 12 4.6 12 4.6s-7.2 0-9 .5c-1 .3-1.7 1.1-2 2.1C.5 9 .5 12 .5 12s0 3 .5 4.8c.3 1 1 1.8 2 2.1 1.8.5 9 .5 9 .5s7.2 0 9-.5c1-.3 1.7-1.1 2-2.1.5-1.8.5-4.8.5-4.8s0-3-.5-4.8zM9.7 15.5V8.5l6 3.5-6 3.5z"/></svg>
-                  </span>
-                  <span className="px-social__label">BIDDERS</span>
                 </a>
               </div>
             </div>
@@ -1657,7 +1659,7 @@ export function HomePage() {
 
             <div className="px-loc__showroom" aria-hidden="true">
               <img src={`${import.meta.env.BASE_URL}images/location/showroom_new.jpg`} alt="" loading="lazy" />
-              <span className="px-loc__kicker">BIDDERS · SHOWROOM</span>
+              <span className="px-loc__kicker">BID BIDDERS · SHOWROOM</span>
               <span className="px-loc__pin">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>
               </span>

@@ -3,13 +3,51 @@ import { createPortal } from 'react-dom'
 import { Link, useParams } from 'react-router-dom'
 import { allAuctionCards, getAuctionCardById } from '../../../features/auction/model/auctionData'
 import type { AuctionCardData } from '../../../features/auction/model/auctionData'
-import { fetchInRouteCardById, fetchCatalogLotById, fetchCatalogLotByVin } from '../../../features/auction/model/inRoute.service'
+import { fetchInRouteCardById, fetchCatalogLotById, fetchCatalogLotByVin, fetchInRouteCards } from '../../../features/auction/model/inRoute.service'
 import { routePaths, localizedPath } from '../../../shared/config/routes'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
 import { Seo } from '../../../shared/seo/Seo'
 import './lot.css'
 
 type LotMode = 'catalog' | 'transit' | 'in-stock'
+
+// ── Technical value translations ─────────────────────────────────────────────
+const SPEC_TRANSLATIONS: Record<string, Record<string, string>> = {
+  pl: {
+    // Transmission
+    AUTOMATIC: 'Automatyczna', AUTO: 'Automatyczna', MANUAL: 'Manualna', CVT: 'CVT',
+    // Fuel
+    GASOLINE: 'Benzyna', GAS: 'Benzyna', DIESEL: 'Diesel',
+    HYBRID: 'Hybryda', ELECTRIC: 'Elektryczny', 'PLUG-IN HYBRID': 'Hybryda plug-in',
+    // Drive
+    AWD: 'AWD', FWD: 'Napęd przedni', RWD: 'Napęd tylny',
+    FULL: 'Napęd 4x4', '4X4': '4x4', '4X2': '4x2', '4WD': '4WD',
+  },
+  uk: {
+    AUTOMATIC: 'Автоматична', AUTO: 'Автоматична', MANUAL: 'Механічна', CVT: 'CVT',
+    GASOLINE: 'Бензин', GAS: 'Бензин', DIESEL: 'Дизель',
+    HYBRID: 'Гібрид', ELECTRIC: 'Електро', 'PLUG-IN HYBRID': 'Plug-in гібрид',
+    AWD: 'AWD', FWD: 'Передній привід', RWD: 'Задній привід',
+    FULL: 'Повний привід', '4X4': '4x4', '4X2': '4x2', '4WD': '4WD',
+  },
+  en: {
+    AUTOMATIC: 'Automatic', AUTO: 'Automatic', MANUAL: 'Manual', CVT: 'CVT',
+    GASOLINE: 'Gasoline', GAS: 'Gasoline', DIESEL: 'Diesel',
+    HYBRID: 'Hybrid', ELECTRIC: 'Electric', 'PLUG-IN HYBRID': 'Plug-in Hybrid',
+    AWD: 'AWD', FWD: 'Front-wheel Drive', RWD: 'Rear-wheel Drive',
+    FULL: 'Full-time AWD', '4X4': '4x4', '4X2': '4x2', '4WD': '4WD',
+  },
+}
+
+function hasValue(v: string | null | undefined): boolean {
+  return !!v && v.trim() !== '' && v.trim() !== '—' && v.trim() !== '-'
+}
+
+function translateSpec(value: string, locale: string): string {
+  if (!value || value === '—') return value
+  const map = SPEC_TRANSLATIONS[locale] ?? SPEC_TRANSLATIONS['en']
+  return map[value.trim().toUpperCase()] ?? value
+}
 
 function formatAddress(loc: string): React.ReactNode {
   // Split before postal code pattern like "05-850"
@@ -59,7 +97,7 @@ export function LotPage() {
 
   const fallbackCar = getAuctionCardById(lotId)
   const [liveCar, setLiveCar] = useState<typeof fallbackCar>(undefined)
-  const [liveLoadState, setLiveLoadState] = useState<'idle' | 'loading' | 'loaded' | 'failed'>('idle')
+  const [liveLoadState, setLiveLoadState] = useState<'idle' | 'loading' | 'loaded' | 'failed'>('loading')
   const isNumericLotId = /^\d+$/.test(lotId ?? '')
 
   useEffect(() => {
@@ -165,6 +203,16 @@ export function LotPage() {
   const [customsCalcOpen, setCustomsCalcOpen] = useState(false)
   const [faqOpen, setFaqOpen] = useState<number | null>(0)
 
+  const [transitCards, setTransitCards] = useState<AuctionCardData[]>([])
+
+  useEffect(() => {
+    let mounted = true
+    fetchInRouteCards().then((cards) => {
+      if (mounted) setTransitCards(cards)
+    }).catch(() => { /* ignore */ })
+    return () => { mounted = false }
+  }, [])
+
   const [bidValue, setBidValue] = useState(car ? car.currentBid + 100 : 0)
   const [leaseDownPct, setLeaseDownPct] = useState(30)
   const [leaseMonths, setLeaseMonths] = useState(36)
@@ -221,10 +269,53 @@ export function LotPage() {
 
   const similarCars = useMemo(() => {
     if (!car) return []
-    return allAuctionCards
-      .filter((item) => item.id !== car.id && item.status === car.status)
-      .slice(0, 5)
-  }, [car])
+
+    // Pool: live transit cards + static fallback, excluding current car
+    const livePool = transitCards.filter((item) => item.id !== car.id)
+    const staticPool = allAuctionCards.filter(
+      (item) => item.id !== car.id && item.status === 'transit',
+    )
+    // Merge: live cards take priority, add static only if not already present
+    const seen = new Set(livePool.map((c) => c.id))
+    const transitPool = [...livePool, ...staticPool.filter((c) => !seen.has(c.id))]
+
+    const carPrice = car.currentBid > 0 ? car.currentBid : (car.estimateLow > 0 ? car.estimateLow : 0)
+    const carMake  = (car.make ?? '').toLowerCase()
+
+    // 1st priority: same make, sorted by price proximity
+    const sameMake = transitPool
+      .filter((item) => (item.make ?? '').toLowerCase() === carMake)
+      .sort((a, b) => Math.abs((a.currentBid ?? 0) - carPrice) - Math.abs((b.currentBid ?? 0) - carPrice))
+
+    if (sameMake.length >= 3) return sameMake.slice(0, 5)
+
+    // 2nd priority: fill remaining slots with price-closest cars (±40%)
+    const priceRange = carPrice * 0.4
+    const byPrice = transitPool
+      .filter((item) => {
+        const p = item.currentBid ?? 0
+        return Math.abs(p - carPrice) <= priceRange
+      })
+      .sort((a, b) => Math.abs((a.currentBid ?? 0) - carPrice) - Math.abs((b.currentBid ?? 0) - carPrice))
+
+    const combined = [...sameMake]
+    for (const item of byPrice) {
+      if (!combined.find((c) => c.id === item.id)) combined.push(item)
+      if (combined.length >= 5) break
+    }
+
+    // 3rd fallback: any transit cars by price proximity
+    if (combined.length < 3) {
+      const fallback = transitPool
+        .sort((a, b) => Math.abs((a.currentBid ?? 0) - carPrice) - Math.abs((b.currentBid ?? 0) - carPrice))
+      for (const item of fallback) {
+        if (!combined.find((c) => c.id === item.id)) combined.push(item)
+        if (combined.length >= 5) break
+      }
+    }
+
+    return combined.slice(0, 5)
+  }, [car, transitCards])
 
   const subtotal = bidValue + 520 + 430 + 995 + 450 + selectedServices.length * 120
   const subtotalEur = subtotal * 0.91
@@ -234,7 +325,7 @@ export function LotPage() {
   const customsTotal = customsTax + vat + broker
   const finalTotal = subtotalEur + customsTotal
 
-  if (!car && isNumericLotId && liveLoadState === 'loading') {
+  if (!car && liveLoadState === 'loading') {
     return (
       <main className="lot-page lot-page--skeleton">
         {/* breadcrumb skeleton */}
@@ -372,7 +463,7 @@ export function LotPage() {
     <>
     <main className="lot-page">
       <Seo
-        title={car.title ? `${car.title} | BIDDERS` : t('seoLotTitle')}
+        title={car.title ? `${car.title} | BID BIDDERS` : t('seoLotTitle')}
         description={t('seoLotDescription')}
         path={isSlugMode ? `cars/${slug}` : `${routePaths.lotDetail.replace(':lotId', lotId ?? '')}`}
       />
@@ -445,10 +536,15 @@ export function LotPage() {
               <span className="lot-summary-item__value">{mode === 'catalog' ? car.auctionDateLabel : t('lotDeliveryTbd')}</span>
             </div>
           </div>
-          <button className={watching ? 'lot-watch-btn active' : 'lot-watch-btn'} type="button" onClick={() => setWatching((prev) => !prev)}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-            {watching ? t('lotWatching') : t('lotWatch')}
-          </button>
+          <div className="lot-title-bar__actions">
+            <button className="lot-carfax-btn" type="button" onClick={() => {}}>
+              {t('lotCarfaxBtn')}
+            </button>
+            <button className={watching ? 'lot-watch-btn active' : 'lot-watch-btn'} type="button" onClick={() => setWatching((prev) => !prev)}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              {watching ? t('lotWatching') : t('lotWatch')}
+            </button>
+          </div>
         </div>
       </section>
 
@@ -499,7 +595,9 @@ export function LotPage() {
                     {car.vin ? (
                       <>
                         <span className="lot-spec-mono">{car.vin}</span>
-                        <button className="lot-copy-btn" type="button" onClick={() => navigator.clipboard.writeText(car.vin)}>{t('lotCopyVin')}</button>
+                        <button className="lot-copy-btn" type="button" aria-label={t('lotCopyVin')} onClick={() => navigator.clipboard.writeText(car.vin)}>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        </button>
                       </>
                     ) : (
                       <span className="lot-spec-muted">—</span>
@@ -516,18 +614,18 @@ export function LotPage() {
             <div className="lot-spec-card">
               <h2 className="lot-spec-card__title">{t('lotSpecsTechTitle')}</h2>
               <dl className="lot-spec-list">
-                <div className="lot-spec-row"><dt>{t('lotLabelBodyType')}</dt><dd>{car.bodyStyle}</dd></div>
-                <div className="lot-spec-row"><dt>{t('lotLabelColor')}</dt><dd>{car.color}</dd></div>
+                {hasValue(car.bodyStyle) && <div className="lot-spec-row"><dt>{t('lotLabelBodyType')}</dt><dd>{car.bodyStyle}</dd></div>}
+                {hasValue(car.color) && <div className="lot-spec-row"><dt>{t('lotLabelColor')}</dt><dd>{car.color}</dd></div>}
                 <div className="lot-spec-row"><dt>{t('lotLabelEngine')}</dt><dd>{car.engine}</dd></div>
-                <div className="lot-spec-row"><dt>{t('lotLabelTransmission')}</dt><dd>{car.transmission}</dd></div>
-                <div className="lot-spec-row"><dt>{t('lotLabelFuel')}</dt><dd>{car.fuel}</dd></div>
-                <div className="lot-spec-row"><dt>{t('lotLabelDrive')}</dt><dd>{car.drive}</dd></div>
+                <div className="lot-spec-row"><dt>{t('lotLabelTransmission')}</dt><dd>{translateSpec(car.transmission, locale)}</dd></div>
+                <div className="lot-spec-row"><dt>{t('lotLabelFuel')}</dt><dd>{translateSpec(car.fuel, locale)}</dd></div>
+                <div className="lot-spec-row"><dt>{t('lotLabelDrive')}</dt><dd>{translateSpec(car.drive, locale)}</dd></div>
 
                 {moreSpecsOpen ? (
                   <>
                     <div className="lot-spec-row"><dt>{t('lotLabelStartCode')}</dt><dd className="lot-spec-ok">{t('lotLabelStartCodeValue')}</dd></div>
                     <div className="lot-spec-row"><dt>{t('lotLabelAcvRetail')}</dt><dd>{car.estimateLabel}</dd></div>
-                    <div className="lot-spec-row"><dt>{t('lotLabelBodyExtended')}</dt><dd>{car.bodyStyle} / 4-door</dd></div>
+                    {hasValue(car.bodyStyle) && <div className="lot-spec-row"><dt>{t('lotLabelBodyExtended')}</dt><dd>{car.bodyStyle} / 4-door</dd></div>}
                     <div className="lot-spec-row"><dt>{t('lotLabelSaleStatus')}</dt><dd className="lot-spec-process">{statusPill}</dd></div>
                   </>
                 ) : null}
@@ -537,7 +635,7 @@ export function LotPage() {
                 {moreSpecsOpen ? t('lotShowLess') : t('lotShowMore')}
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ transform: moreSpecsOpen ? 'rotate(180deg)' : 'none' }}><path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </button>
-              {car.sourceUrl ? (
+              {car.sourceUrl && mode !== 'transit' ? (
                 <a href={car.sourceUrl} target="_blank" rel="noreferrer" className="lot-source-link">
                   {t('lotSourceLink')} {car.auction}
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 3h6v6M9 3L3 9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
@@ -659,7 +757,7 @@ export function LotPage() {
                   <div className="lot-sb-estimate">{t('lotSbTurnkeyFixed')}</div>
 
                   <ul className="lot-sb-facts">
-                    <li><span>{t('lotLabelSeller')}</span><strong>BIDDERS</strong></li>
+                    <li><span>{t('lotLabelSeller')}</span><strong>BID BIDDERS</strong></li>
                     <li><span>{t('lotSbFactDelivery')}</span><strong>{t('lotSbFactDeliveryValue')}</strong></li>
                     <li><span>{t('lotLabelLocation')}</span><strong>{formatAddress(car.location)}</strong></li>
                   </ul>
@@ -690,7 +788,7 @@ export function LotPage() {
                   <div className="lot-sb-estimate">{t('lotSbReadyLviv')}</div>
 
                   <ul className="lot-sb-facts">
-                    <li><span>{t('lotLabelSeller')}</span><strong>CULT CARS</strong></li>
+                    <li><span>{t('lotLabelSeller')}</span><strong>BID BIDDERS</strong></li>
                     <li><span>{t('lotLabelDocuments')}</span><strong>{ts(car.titleStatus ?? '')}</strong></li>
                     <li><span>{t('lotSbFactCert')}</span><strong>{t('lotSbFactCertValue')}</strong></li>
                   </ul>
@@ -748,22 +846,31 @@ export function LotPage() {
             <p>{t('lotDescSubtitle')}</p>
           </header>
           <div className="lot-desc-grid">
+            {/* Row 1: Marka / Model */}
             <div className="lot-desc-item"><dt>{t('lotLabelMake')}</dt><dd>{car.make}</dd></div>
             <div className="lot-desc-item"><dt>{t('lotLabelModel')}</dt><dd>{car.model}</dd></div>
+            {/* Row 2: Rok / Cena */}
             <div className="lot-desc-item"><dt>{t('lotLabelYear')}</dt><dd>{car.year}</dd></div>
-            <div className="lot-desc-item"><dt>VIN</dt><dd className="lot-desc-mono">{car.vin}</dd></div>
             <div className="lot-desc-item"><dt>{t('lotLabelPrice')}</dt><dd>{car.currentBidLabel || fmt(car.currentBid)}</dd></div>
+            {/* Row 3: VIN (full width, inline) */}
+            <div className="lot-desc-item lot-desc-item--full lot-desc-item--inline"><dt>VIN</dt><dd className="lot-desc-mono">{car.vin}</dd></div>
+            {/* Row 4: Przebieg / Status */}
             <div className="lot-desc-item"><dt>{t('lotLabelMileage')}</dt><dd>{car.mileageLabel}</dd></div>
             <div className="lot-desc-item"><dt>{t('lotLabelStatus')}</dt><dd>{statusPill}</dd></div>
-            <div className="lot-desc-item"><dt>{t('lotLabelLocation')}</dt><dd>{car.location}</dd></div>
-            <div className="lot-desc-item"><dt>{t('lotLabelSeller')}</dt><dd>{car.seller}</dd></div>
-            <div className="lot-desc-item"><dt>{t('lotLabelBodyType')}</dt><dd>{car.bodyStyle}</dd></div>
-            <div className="lot-desc-item"><dt>{t('lotLabelColor')}</dt><dd>{car.color}</dd></div>
+            {/* Row 5: Silnik / Skrzynia */}
             <div className="lot-desc-item"><dt>{t('lotLabelEngine')}</dt><dd>{car.engine}</dd></div>
-            <div className="lot-desc-item"><dt>{t('lotLabelTransmission')}</dt><dd>{car.transmission}</dd></div>
-            <div className="lot-desc-item"><dt>{t('lotLabelFuel')}</dt><dd>{car.fuel}</dd></div>
-            <div className="lot-desc-item"><dt>{t('lotLabelDrive')}</dt><dd>{car.drive}</dd></div>
+            <div className="lot-desc-item"><dt>{t('lotLabelTransmission')}</dt><dd>{translateSpec(car.transmission, locale)}</dd></div>
+            {/* Row 6: Paliwo / Napęd */}
+            <div className="lot-desc-item"><dt>{t('lotLabelFuel')}</dt><dd>{translateSpec(car.fuel, locale)}</dd></div>
+            <div className="lot-desc-item"><dt>{t('lotLabelDrive')}</dt><dd>{translateSpec(car.drive, locale)}</dd></div>
+            {/* Opcjonalne */}
+            {hasValue(car.bodyStyle) && <div className="lot-desc-item"><dt>{t('lotLabelBodyType')}</dt><dd>{car.bodyStyle}</dd></div>}
+            {hasValue(car.color) && <div className="lot-desc-item"><dt>{t('lotLabelColor')}</dt><dd>{car.color}</dd></div>}
+            {/* Row last: Sprzedawca / Dokumenty */}
+            <div className="lot-desc-item"><dt>{t('lotLabelSeller')}</dt><dd>{car.seller}</dd></div>
             <div className="lot-desc-item"><dt>{t('lotLabelDocuments')}</dt><dd>{ts(car.titleStatus ?? '')}</dd></div>
+            {/* Row last: Lokalizacja (full width) */}
+            <div className="lot-desc-item lot-desc-item--full"><dt>{t('lotLabelLocation')}</dt><dd>{car.location}</dd></div>
           </div>
         </div>
       </section>
@@ -835,12 +942,12 @@ export function LotPage() {
               ))}
             </div>
             <div className="lot-similar-links">
-              <Link to={lp(mode === 'transit' ? routePaths.transit : mode === 'in-stock' ? routePaths.inStock : routePaths.catalog)} className="lot-similar-link">
-                {mode === 'transit' ? t('lotSimilarAllTransit') : mode === 'in-stock' ? t('lotSimilarAllInStock') : t('lotSimilarAllCatalog')}
+              <Link to={lp(routePaths.transit)} className="lot-similar-link">
+                {t('lotSimilarAllTransit')}
               </Link>
               <Link to={lp(routePaths.catalog)} className="lot-similar-link">{t('lotSimilarLinkCatalog')}</Link>
               <Link to={lp(routePaths.calculator)} className="lot-similar-link">{t('lotSimilarLinkCar')}</Link>
-              <Link to={lp(routePaths.calculator)} className="lot-similar-link">{t('lotSimilarLinkLogistics')}</Link>
+              <Link to={lp(routePaths.contacts)} className="lot-similar-link">{t('lotSimilarLinkLogistics')}</Link>
               <Link to={lp(routePaths.blog)} className="lot-similar-link">{t('lotSimilarLinkBlog')}</Link>
             </div>
           </div>

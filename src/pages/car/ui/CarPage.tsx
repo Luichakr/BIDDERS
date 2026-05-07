@@ -53,8 +53,8 @@ export function CarPage() {
   const carData = card !== 'loading' ? card : null
 
   const pageTitle = carData
-    ? `${carData.make} ${carData.model} ${carData.year} ${t('carPageH1Suffix')} | BIDDERS`
-    : `${slugTitle} ${t('carPageH1Suffix')} | BIDDERS`
+    ? `${carData.make} ${carData.model} ${carData.year} ${t('carPageH1Suffix')} | BID BIDDERS`
+    : `${slugTitle} ${t('carPageH1Suffix')} | BID BIDDERS`
 
   const pageDescription = t('carPageSeoText')
 
