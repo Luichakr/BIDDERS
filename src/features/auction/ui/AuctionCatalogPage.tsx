@@ -4,6 +4,7 @@ import type { AuctionCardData } from '../model/auctionData'
 import { fetchInRouteCardById } from '../model/inRoute.service'
 import { routePaths, localizedPath } from '../../../shared/config/routes'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
+import { translateSpec } from '../../../shared/utils/translateSpec'
 import './auction-catalog.css'
 
 
@@ -708,11 +709,11 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
           </div>
 
           <div className="card-specs">
-            <span className="spec-tag doc-tag">{docType}</span>
-            <span className="spec-tag">{card.drive}</span>
-            <span className="spec-tag">{card.engine}</span>
-            <span className="spec-tag">{card.fuel}</span>
-            <span className="spec-tag">{card.transmission}</span>
+            {docType && <span className="spec-tag doc-tag">{translateSpec(docType, locale)}</span>}
+            {card.drive && <span className="spec-tag">{translateSpec(card.drive, locale)}</span>}
+            {card.engine && <span className="spec-tag">{card.engine}</span>}
+            {card.fuel && <span className="spec-tag">{translateSpec(card.fuel, locale)}</span>}
+            {card.transmission && <span className="spec-tag">{translateSpec(card.transmission, locale)}</span>}
           </div>
 
           <div className="card-details">
