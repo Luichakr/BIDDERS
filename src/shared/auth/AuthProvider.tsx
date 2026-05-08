@@ -15,8 +15,12 @@ import {
   signInWithPassword,
   signOutSupabase,
   signUpWithPassword,
+  updateUserProfile,
+  type UserProfile,
 } from './supabaseAuth'
 import type { Locale } from '../i18n/messages'
+
+export type { UserProfile }
 
 type AuthContextValue = {
   user: AuthUser | null
@@ -28,6 +32,7 @@ type AuthContextValue = {
   signInWithGoogle: (locale: Locale) => Promise<void>
   signOut: () => Promise<void>
   refreshUser: () => Promise<void>
+  updateProfile: (profile: Partial<UserProfile>) => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
@@ -151,6 +156,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         clearAuthUser()
       }
       setUserState(nextUser)
+    },
+    async updateProfile(profile: Partial<UserProfile>) {
+      if (isSupabaseConfigured) {
+        await updateUserProfile(profile)
+        // refresh user state with updated name if provided
+        if (profile.name !== undefined) {
+          const nextUser = await getSupabaseAuthUser()
+          if (nextUser) {
+            setAuthUser(nextUser)
+            setUserState(nextUser)
+          }
+        }
+        return
+      }
+      // mock mode: update name in local state
+      if (profile.name !== undefined) {
+        const current = getAuthUser()
+        if (current) {
+          const updated = { ...current, name: profile.name }
+          setAuthUser(updated)
+          setUserState(updated)
+        }
+      }
     },
   }), [isLoading, user])
 

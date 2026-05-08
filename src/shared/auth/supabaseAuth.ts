@@ -76,6 +76,34 @@ export async function signOutSupabase(): Promise<void> {
   if (error) throw error
 }
 
+export type UserProfile = {
+  name: string
+  phone: string
+  company: string
+}
+
+export async function updateUserProfile(profile: Partial<UserProfile>): Promise<void> {
+  const client = requireSupabase()
+  const updateData: Record<string, string> = {}
+  if (profile.name !== undefined) updateData.full_name = profile.name
+  if (profile.phone !== undefined) updateData.phone = profile.phone
+  if (profile.company !== undefined) updateData.company = profile.company
+  const { error } = await client.auth.updateUser({ data: updateData })
+  if (error) throw error
+}
+
+export async function getUserProfile(): Promise<UserProfile> {
+  const client = requireSupabase()
+  const { data, error } = await client.auth.getUser()
+  if (error) throw error
+  const meta = data.user?.user_metadata ?? {}
+  return {
+    name: String(meta.full_name ?? meta.name ?? ''),
+    phone: String(meta.phone ?? ''),
+    company: String(meta.company ?? ''),
+  }
+}
+
 export function onSupabaseAuthStateChange(callback: (user: AuthUser | null) => void) {
   if (!supabaseClient) {
     return () => {}

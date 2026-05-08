@@ -4,8 +4,8 @@
   --cabinet-border: rgba(15, 23, 42, 0.08);
   --cabinet-ink: #0f172a;
   --cabinet-muted: #475467;
-  --cabinet-accent: #0f766e;
-  --cabinet-accent-soft: rgba(15, 118, 110, 0.12);
+  --cabinet-accent: #FF5C00;
+  --cabinet-accent-soft: rgba(255, 92, 0, 0.10);
   --cabinet-warm: #f97316;
   background:
     radial-gradient(circle at top left, rgba(255, 255, 255, 0.9), transparent 28%),
@@ -30,7 +30,7 @@
   border: 1px solid var(--cabinet-border);
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.7)),
-    linear-gradient(130deg, rgba(15, 118, 110, 0.1), rgba(249, 115, 22, 0.08));
+    linear-gradient(130deg, rgba(255, 92, 0, 0.08), rgba(249, 115, 22, 0.06));
   box-shadow: 0 30px 80px rgba(15, 23, 42, 0.12);
   overflow: hidden;
 }
@@ -42,7 +42,7 @@
   width: 18rem;
   height: 18rem;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(15, 118, 110, 0.15), transparent 68%);
+  background: radial-gradient(circle, rgba(255, 92, 0, 0.15), transparent 68%);
 }
 
 .cabinet-hero-head {
@@ -197,7 +197,7 @@
 }
 
 .cabinet-chip-active {
-  border-color: rgba(15, 118, 110, 0.28);
+  border-color: rgba(255, 92, 0, 0.28);
   background: var(--cabinet-accent-soft);
   color: var(--cabinet-accent);
 }
@@ -228,8 +228,8 @@
 }
 
 .cabinet-card-button-active {
-  border-color: rgba(15, 118, 110, 0.3);
-  box-shadow: 0 14px 35px rgba(15, 118, 110, 0.12);
+  border-color: rgba(255, 92, 0, 0.3);
+  box-shadow: 0 14px 35px rgba(255, 92, 0, 0.12);
 }
 
 .cabinet-card-photo,
@@ -243,7 +243,7 @@
 .cabinet-photo-placeholder {
   display: grid;
   place-items: center;
-  background: linear-gradient(135deg, rgba(15, 118, 110, 0.14), rgba(249, 115, 22, 0.14));
+  background: linear-gradient(135deg, rgba(255, 92, 0, 0.14), rgba(249, 115, 22, 0.14));
   color: var(--cabinet-ink);
   font-weight: 700;
   font-size: 0.75rem;
@@ -290,7 +290,7 @@
   padding: 0.28rem 0.6rem;
   font-size: 0.74rem;
   font-weight: 700;
-  background: rgba(15, 118, 110, 0.12);
+  background: rgba(255, 92, 0, 0.12);
   color: var(--cabinet-accent);
 }
 
@@ -458,8 +458,8 @@
   align-items: center;
   gap: 0.5rem;
   border-radius: 14px;
-  border: 1px dashed rgba(15, 118, 110, 0.35);
-  background: rgba(15, 118, 110, 0.08);
+  border: 1px dashed rgba(255, 92, 0, 0.35);
+  background: rgba(255, 92, 0, 0.08);
   color: var(--cabinet-accent);
   padding: 0.75rem 1rem;
   font-weight: 700;
@@ -522,7 +522,7 @@
 .cabinet-photo-primary {
   border: 0;
   border-radius: 12px;
-  background: rgba(15, 118, 110, 0.12);
+  background: rgba(255, 92, 0, 0.12);
   color: var(--cabinet-accent);
   padding: 0.55rem 0.7rem;
   cursor: pointer;
@@ -534,7 +534,7 @@
   justify-content: center;
   align-items: center;
   border-radius: 12px;
-  background: rgba(15, 118, 110, 0.16);
+  background: rgba(255, 92, 0, 0.16);
   color: var(--cabinet-accent);
   padding: 0.55rem 0.7rem;
   font-weight: 700;

@@ -14,6 +14,7 @@ import { initListingExpiry, renewListing } from '../model/listingExpiry'
 import { buildGetSelectOptionLabel, buildSelectFieldOptions, YEAR_OPTIONS } from '../model/cabinetFieldOptions'
 import { CabinetCarList } from './CabinetCarList'
 import { CabinetEditorPanel } from './CabinetEditorPanel'
+import { CabinetProfilePanel } from './CabinetProfilePanel'
 import '../../auth/ui/auth.css'
 import './cabinet.css'
 
@@ -79,6 +80,7 @@ export function CabinetPage() {
   const [syncMode, setSyncMode] = useState<CabinetSyncMode>('local')
   const [syncMessage, setSyncMessage] = useState('')
   const [isSaving, setIsSaving] = useState(false)
+  const [activeTab, setActiveTab] = useState<'cars' | 'profile'>('cars')
   const [isDecodingVin, setIsDecodingVin] = useState(false)
   const [vinMessage, setVinMessage] = useState('')
   const [vinMessageTone, setVinMessageTone] = useState<'helper' | 'error'>('helper')
@@ -247,7 +249,10 @@ export function CabinetPage() {
   }
 
   // ── Handlers ───────────────────────────────────────────────────────────────
-  const handleLogout = () => signOut()
+  const handleLogout = async () => {
+    await signOut()
+    window.location.href = lp(routePaths.login)
+  }
 
   function handleAddCar() {
     const nextCar = createEmptyCabinetCar(cars.length + 1)
@@ -465,8 +470,28 @@ export function CabinetPage() {
                 {user && <p>{user.email}</p>}
               </div>
               <div className="cabinet-hero-actions">
-                <button className="auth-btn auth-btn-primary" onClick={handleAddCar}>{copy.addCar}</button>
-                <button className="auth-btn auth-btn-secondary" onClick={handleLogout}>{t('authLogout')}</button>
+                <button
+                  className={`auth-btn ${activeTab === 'cars' ? 'auth-btn-primary' : 'auth-btn-secondary'}`}
+                  onClick={() => setActiveTab('cars')}
+                >
+                  {t('cabinetTabCars')}
+                </button>
+                <button
+                  className={`auth-btn ${activeTab === 'profile' ? 'auth-btn-primary' : 'auth-btn-secondary'}`}
+                  onClick={() => setActiveTab('profile')}
+                >
+                  {t('cabinetTabProfile')}
+                </button>
+                {activeTab === 'cars' && (
+                  <button className="auth-btn auth-btn-primary" onClick={handleAddCar}>{copy.addCar}</button>
+                )}
+                <button
+                  className="auth-btn"
+                  onClick={handleLogout}
+                  style={{ color: '#b42318', background: 'rgba(180,35,24,0.07)' }}
+                >
+                  {t('cabinetLogout')}
+                </button>
               </div>
             </div>
 
@@ -478,56 +503,60 @@ export function CabinetPage() {
             </div>
           </section>
 
-          <div className="cabinet-main-grid">
-            <CabinetCarList
-              filteredCars={filteredCars}
-              selectedCar={selectedCar}
-              search={search}
-              statusFilter={statusFilter}
-              statusEntries={statusEntries}
-              copy={copy}
-              locale={locale}
-              onSearch={setSearch}
-              onStatusFilter={setStatusFilter}
-              onSelect={setSelectedCarId}
-            />
+          {activeTab === 'profile' ? (
+            <CabinetProfilePanel />
+          ) : (
+            <div className="cabinet-main-grid">
+              <CabinetCarList
+                filteredCars={filteredCars}
+                selectedCar={selectedCar}
+                search={search}
+                statusFilter={statusFilter}
+                statusEntries={statusEntries}
+                copy={copy}
+                locale={locale}
+                onSearch={setSearch}
+                onStatusFilter={setStatusFilter}
+                onSelect={setSelectedCarId}
+              />
 
-            <section className="cabinet-panel cabinet-editor">
-              {!selectedCar && <div className="cabinet-editor-empty">{copy.noSelection}</div>}
-              {selectedCar && (
-                <CabinetEditorPanel
-                  selectedCar={selectedCar}
-                  cars={cars}
-                  copy={copy}
-                  locale={locale}
-                  isSaving={isSaving}
-                  isUploading={isUploading}
-                  uploadError={uploadError}
-                  isDecodingVin={isDecodingVin}
-                  vinMessage={vinMessage}
-                  vinMessageTone={vinMessageTone}
-                  duplicateVinExists={duplicateVinExists}
-                  statusEntries={statusEntries}
-                  publicationStatusEntries={publicationStatusEntries}
-                  makeOptions={makeOptions}
-                  yearOptions={YEAR_OPTIONS}
-                  availableModels={availableModels}
-                  selectFieldOptions={selectFieldOptions}
-                  getSelectOptionLabel={getSelectOptionLabel}
-                  onFieldChange={handleFieldChange}
-                  onVinBlur={handleVinBlur}
-                  onPhotoUpload={handlePhotoUpload}
-                  onPhotoRemove={handlePhotoRemove}
-                  onPhotoSetPrimary={handlePhotoSetPrimary}
-                  onDelete={handleDeleteCar}
-                  onSave={handleSaveNow}
-                  onPublish={handlePublishNow}
-                  onRenew={handleRenewListing}
-                  onPreview={handlePreviewListing}
-                />
-              )}
-            </section>
-          </div>
+              <section className="cabinet-panel cabinet-editor">
+                {!selectedCar && <div className="cabinet-editor-empty">{copy.noSelection}</div>}
+                {selectedCar && (
+                  <CabinetEditorPanel
+                    selectedCar={selectedCar}
+                    cars={cars}
+                    copy={copy}
+                    locale={locale}
+                    isSaving={isSaving}
+                    isUploading={isUploading}
+                    uploadError={uploadError}
+                    isDecodingVin={isDecodingVin}
+                    vinMessage={vinMessage}
+                    vinMessageTone={vinMessageTone}
+                    duplicateVinExists={duplicateVinExists}
+                    statusEntries={statusEntries}
+                    publicationStatusEntries={publicationStatusEntries}
+                    makeOptions={makeOptions}
+                    yearOptions={YEAR_OPTIONS}
+                    availableModels={availableModels}
+                    selectFieldOptions={selectFieldOptions}
+                    getSelectOptionLabel={getSelectOptionLabel}
+                    onFieldChange={handleFieldChange}
+                    onVinBlur={handleVinBlur}
+                    onPhotoUpload={handlePhotoUpload}
+                    onPhotoRemove={handlePhotoRemove}
+                    onPhotoSetPrimary={handlePhotoSetPrimary}
+                    onDelete={handleDeleteCar}
+                    onSave={handleSaveNow}
+                    onPublish={handlePublishNow}
+                    onRenew={handleRenewListing}
+                    onPreview={handlePreviewListing}
+                  />
+                )}
+              </section>
+            </div>
+          )}
 
         </div>
       </section>

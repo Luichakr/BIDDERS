@@ -1105,6 +1105,23 @@ export type MessageKey =
   | 'authLogout'
   | 'authModeMock'
   | 'authErrorGeneric'
+  | 'authEmailVerifyTitle'
+  | 'authEmailVerifyLead'
+  | 'authEmailVerifyBack'
+  | 'authOrDivider'
+  | 'authPasswordMinLength'
+  | 'cabinetLogout'
+  | 'cabinetTabCars'
+  | 'cabinetTabProfile'
+  | 'profileTitle'
+  | 'profileLead'
+  | 'profileNameLabel'
+  | 'profilePhoneLabel'
+  | 'profileCompanyLabel'
+  | 'profileEmailLabel'
+  | 'profileSaveBtn'
+  | 'profileSaveSuccess'
+  | 'profileSaveError'
   | 'authSessionLoadingTitle'
   | 'authSessionLoadingLead'
   | 'authCallbackLoadingTitle'
@@ -2269,6 +2286,23 @@ export const messages: Record<Locale, Messages> = {
     authLogout: 'Вийти',
     authModeMock: 'Демо-режим: поки немає ключів Supabase, вхід працює локально.',
     authErrorGeneric: 'Сталася помилка авторизації. Спробуйте ще раз.',
+    authEmailVerifyTitle: 'Перевірте пошту',
+    authEmailVerifyLead: 'Надіслали лист з посиланням активації. Натисніть на посилання, щоб підтвердити реєстрацію.',
+    authEmailVerifyBack: 'Назад до входу',
+    authOrDivider: 'або',
+    authPasswordMinLength: 'Пароль має бути мінімум 6 символів.',
+    cabinetLogout: 'Вийти',
+    cabinetTabCars: 'Мої авто',
+    cabinetTabProfile: 'Профіль',
+    profileTitle: 'Ваш профіль',
+    profileLead: 'Заповніть контактні дані.',
+    profileNameLabel: 'Ім\'я та прізвище',
+    profilePhoneLabel: 'Телефон',
+    profileCompanyLabel: 'Компанія / Імпортер',
+    profileEmailLabel: 'Email (не можна змінити)',
+    profileSaveBtn: 'Зберегти профіль',
+    profileSaveSuccess: 'Профіль оновлено!',
+    profileSaveError: 'Помилка збереження.',
     authSessionLoadingTitle: 'Перевіряємо сесію',
     authSessionLoadingLead: 'Зачекайте кілька секунд, ми перевіряємо ваш вхід.',
     authCallbackLoadingTitle: 'Завершуємо вхід через Google',
@@ -3430,6 +3464,23 @@ export const messages: Record<Locale, Messages> = {
     authLogout: 'Log out',
     authModeMock: 'Demo mode: until Supabase keys are configured, auth works locally.',
     authErrorGeneric: 'Authentication error. Please try again.',
+    authEmailVerifyTitle: 'Check your email',
+    authEmailVerifyLead: 'We sent an activation link to your email. Click it to confirm registration and sign in.',
+    authEmailVerifyBack: 'Back to login',
+    authOrDivider: 'or',
+    authPasswordMinLength: 'Password must be at least 6 characters.',
+    cabinetLogout: 'Log out',
+    cabinetTabCars: 'My cars',
+    cabinetTabProfile: 'Profile',
+    profileTitle: 'Your profile',
+    profileLead: 'Fill in your contact details.',
+    profileNameLabel: 'Full name',
+    profilePhoneLabel: 'Phone',
+    profileCompanyLabel: 'Company / Importer',
+    profileEmailLabel: 'Email (cannot be changed)',
+    profileSaveBtn: 'Save profile',
+    profileSaveSuccess: 'Profile updated!',
+    profileSaveError: 'Save error. Please try again.',
     authSessionLoadingTitle: 'Checking session',
     authSessionLoadingLead: 'Please wait a moment while we verify your sign-in.',
     authCallbackLoadingTitle: 'Finishing Google sign-in',
@@ -4591,6 +4642,23 @@ export const messages: Record<Locale, Messages> = {
     authLogout: 'Wyloguj się',
     authModeMock: 'Tryb demo: dopóki klucze Supabase nie są skonfigurowane, logowanie działa lokalnie.',
     authErrorGeneric: 'Błąd logowania. Spróbuj ponownie.',
+    authEmailVerifyTitle: 'Sprawdź swój email',
+    authEmailVerifyLead: 'Wysłaliśmy link aktywacyjny na Twój adres email. Kliknij w link, aby potwierdzić rejestrację i zalogować się.',
+    authEmailVerifyBack: 'Wróć do logowania',
+    authOrDivider: 'lub',
+    authPasswordMinLength: 'Hasło musi mieć minimum 6 znaków.',
+    cabinetLogout: 'Wyloguj się',
+    cabinetTabCars: 'Moje auta',
+    cabinetTabProfile: 'Profil',
+    profileTitle: 'Twój profil',
+    profileLead: 'Uzupełnij swoje dane kontaktowe.',
+    profileNameLabel: 'Imię i nazwisko',
+    profilePhoneLabel: 'Telefon',
+    profileCompanyLabel: 'Firma / Importer',
+    profileEmailLabel: 'Email (nie można zmienić)',
+    profileSaveBtn: 'Zapisz profil',
+    profileSaveSuccess: 'Profil zaktualizowany!',
+    profileSaveError: 'Błąd zapisu. Spróbuj ponownie.',
     authSessionLoadingTitle: 'Sprawdzanie sesji',
     authSessionLoadingLead: 'Poczekaj chwilę, weryfikujemy Twoje logowanie.',
     authCallbackLoadingTitle: 'Kończymy logowanie przez Google',
