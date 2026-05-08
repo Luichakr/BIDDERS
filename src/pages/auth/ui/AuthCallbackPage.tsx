@@ -17,6 +17,13 @@ export function AuthCallbackPage() {
     refreshUser()
       .then(() => {
         if (!isMounted) return
+        // If AccountLoginPage stored a custom destination, use it (e.g. /account)
+        const dest = sessionStorage.getItem('post_auth_dest')
+        if (dest) {
+          sessionStorage.removeItem('post_auth_dest')
+          navigate(dest, { replace: true })
+          return
+        }
         navigate(localizedPath(locale, routePaths.cabinet), { replace: true })
       })
       .catch(() => {

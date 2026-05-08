@@ -40,16 +40,14 @@ export function LoginPage() {
     setIsLoading(true)
 
     try {
-      if (isSupabaseMode) {
-        await signInWithGoogle(locale)
-        return
-      }
-
       await signInWithGoogle(locale)
-      navigate(redirectTo)
+      // In Supabase mode, signInWithOAuth redirects the page — no navigate needed.
+      // In mock mode, fall through to navigate.
+      if (!isSupabaseMode) {
+        navigate(redirectTo)
+      }
     } catch {
       setError(t('authErrorGeneric'))
-    } finally {
       setIsLoading(false)
     }
   }

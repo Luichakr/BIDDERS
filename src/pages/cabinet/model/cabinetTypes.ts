@@ -75,6 +75,8 @@ export type CabinetCar = {
   publicBadge: string
   publicHotOffer: boolean
   publishedAt: string
+  expiresAt: string   // ISO — when the listing expires (publishedAt + 41 days)
+  renewedAt: string   // ISO — last manual renewal date
   photos: CabinetPhoto[]
 }
 
@@ -139,6 +141,8 @@ export function createEmptyCabinetCar(index = 1): CabinetCar {
     publicBadge: '',
     publicHotOffer: false,
     publishedAt: '',
+    expiresAt: '',
+    renewedAt: '',
     photos: [],
   }
 }

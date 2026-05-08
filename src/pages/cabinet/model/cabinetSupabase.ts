@@ -62,6 +62,8 @@ type CabinetCarRow = {
   public_badge?: string
   public_hot_offer?: boolean
   published_at?: string
+  expires_at?: string
+  renewed_at?: string
   photos: unknown
 }
 
@@ -184,6 +186,8 @@ function mapRowToCabinetCar(row: CabinetCarRow): CabinetCar {
     publicBadge: row.public_badge ?? '',
     publicHotOffer: Boolean(row.public_hot_offer),
     publishedAt: row.published_at ?? '',
+    expiresAt: row.expires_at ?? '',
+    renewedAt: row.renewed_at ?? '',
     photos: Array.isArray(row.photos)
       ? row.photos.map(normalizePhoto).filter((photo): photo is CabinetPhoto => Boolean(photo))
       : [],
@@ -247,6 +251,8 @@ function mapCabinetCarToRow(userId: string, car: CabinetCar): CabinetCarRow {
     public_badge: car.publicBadge,
     public_hot_offer: car.publicHotOffer,
     published_at: car.publishedAt,
+    expires_at: car.expiresAt || undefined,
+    renewed_at: car.renewedAt || undefined,
     photos: car.photos.map(toStoredPhoto),
   }
 }

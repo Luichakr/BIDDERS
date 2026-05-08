@@ -5,6 +5,7 @@ import { ScrollToTop } from './ScrollToTop'
 import { LocaleRedirect } from '../shared/i18n/LocaleRedirect'
 import { LocaleGuard } from '../shared/i18n/LocaleGuard'
 import { GuestOnlyRoute, ProtectedRoute } from '../shared/auth/AuthRouteGate'
+import { WhitelistRoute } from '../shared/auth/WhitelistRoute'
 
 import { HomePage } from '../pages/home/ui/HomePage'
 import { CatalogPage } from '../pages/catalog/ui/CatalogPage'
@@ -25,6 +26,8 @@ import { ChinaCarsPage } from '../pages/china-cars/ui/ChinaCarsPage'
 import { DobieramyAutoPage } from '../pages/dobieramy-auto/ui/DobieramyAutoPage'
 import { CalculatorPage as CalculatorBaseSnapshotPage } from '../features/calculator-base/snapshot/CalculatorBase.snapshot'
 import { NotFoundPage } from '../pages/not-found/ui/NotFoundPage'
+import { AccountLoginPage } from '../pages/account/ui/AccountLoginPage'
+import { AccountPage } from '../pages/account/ui/AccountPage'
 
 
 // ─────────────────────────────────────────────
@@ -79,6 +82,10 @@ export function AppRouter() {
               <Route element={<ProtectedRoute />}>
                 <Route path="cabinet" element={<CabinetPage />} />
               </Route>
+              <Route path="account/login" element={<AccountLoginPage />} />
+              <Route element={<WhitelistRoute />}>
+                <Route path="account" element={<AccountPage />} />
+              </Route>
               <Route path="contacts" element={<ContactsPage />} />
               {/* /:locale/contact → /:locale/contacts */}
               <Route path="contact" element={<Navigate replace to="../contacts" />} />
@@ -104,6 +111,8 @@ export function AppRouter() {
         <Route path="/register" element={<Navigate replace to="/en/register" />} />
         <Route path="auth/callback" element={<Navigate replace to="/en/auth/callback" />} />
         <Route path="/cabinet" element={<Navigate replace to="/en/cabinet" />} />
+        <Route path="/account" element={<Navigate replace to="/pl/account" />} />
+        <Route path="/account/login" element={<Navigate replace to="/pl/account/login" />} />
         <Route path="/contacts" element={<Navigate replace to="/en/contacts" />} />
         <Route path="/contact" element={<Navigate replace to="/en/contacts" />} />
         <Route path="/privacy-policy" element={<Navigate replace to="/en/privacy-policy" />} />

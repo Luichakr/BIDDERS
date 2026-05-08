@@ -1,7 +1,7 @@
 import type { Locale } from '../../../shared/i18n/messages'
 import type { CabinetCarStatus, CabinetPublicationStatus } from '../model/cabinetTypes'
 
-type CabinetCopy = {
+export type CabinetCopy = {
   heroLead: string
   heroMetaLabel: string
   addCar: string
@@ -36,6 +36,10 @@ type CabinetCopy = {
   syncCloudReady: string
   syncLocalReady: string
   syncLocalFallback: string
+  renewListing: string
+  renewListingHint: string
+  listingExpiredBanner: string
+  listingExpiresSoonBanner: string
   sectionIdentity: string
   sectionSpecs: string
   sectionLogistics: string
@@ -135,6 +139,10 @@ const copy: Record<Locale, CabinetCopy> = {
     syncCloudReady: 'Синхронізація з Supabase активна',
     syncLocalReady: 'Локальний режим збереження',
     syncLocalFallback: 'Хмара недоступна, тимчасово працюємо локально',
+    renewListing: 'Продовжити публікацію',
+    renewListingHint: 'Оголошення буде активним ще 41 день',
+    listingExpiredBanner: 'Термін дії оголошення закінчився. Продовжте, щоб знову показати авто.',
+    listingExpiresSoonBanner: 'Оголошення скоро закінчується. Продовжте публікацію, щоб не втратити видимість.',
     sectionIdentity: 'Ідентифікація авто',
     sectionSpecs: 'Технічні характеристики',
     sectionLogistics: 'Купівля та логістика',
@@ -244,6 +252,10 @@ const copy: Record<Locale, CabinetCopy> = {
     syncCloudReady: 'Supabase sync active',
     syncLocalReady: 'Local save mode',
     syncLocalFallback: 'Cloud unavailable, temporarily saving locally',
+    renewListing: 'Renew listing',
+    renewListingHint: 'Listing will be active for another 41 days',
+    listingExpiredBanner: 'This listing has expired. Renew it to show the car again.',
+    listingExpiresSoonBanner: 'This listing expires soon. Renew to keep it visible.',
     sectionIdentity: 'Vehicle identity',
     sectionSpecs: 'Technical specification',
     sectionLogistics: 'Purchase and logistics',
@@ -353,6 +365,10 @@ const copy: Record<Locale, CabinetCopy> = {
     syncCloudReady: 'Synchronizacja Supabase aktywna',
     syncLocalReady: 'Tryb zapisu lokalnego',
     syncLocalFallback: 'Chmura niedostępna, tymczasowo zapis lokalny',
+    renewListing: 'Odnów ogłoszenie',
+    renewListingHint: 'Ogłoszenie będzie aktywne przez kolejne 41 dni',
+    listingExpiredBanner: 'Termin ogłoszenia wygasł. Odnów, aby ponownie pokazać auto.',
+    listingExpiresSoonBanner: 'Ogłoszenie wkrótce wygasa. Odnów publikację, żeby nie stracić widoczności.',
     sectionIdentity: 'Identyfikacja pojazdu',
     sectionSpecs: 'Specyfikacja techniczna',
     sectionLogistics: 'Zakup i logistyka',

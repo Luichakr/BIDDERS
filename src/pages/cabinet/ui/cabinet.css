@@ -546,6 +546,36 @@
   width: 100%;
 }
 
+.cabinet-expiry-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+}
+
+.cabinet-expiry-banner--warning {
+  background: rgba(249, 115, 22, 0.1);
+  border: 1px solid rgba(249, 115, 22, 0.35);
+  color: #c2410c;
+}
+
+.cabinet-expiry-banner--expired {
+  background: rgba(220, 38, 38, 0.08);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  color: #b91c1c;
+}
+
+.cabinet-renew-btn {
+  flex-shrink: 0;
+  padding: 0.35rem 1rem;
+  font-size: 0.8125rem;
+}
+
 .cabinet-bottom-actions {
   display: flex;
   justify-content: flex-end;
