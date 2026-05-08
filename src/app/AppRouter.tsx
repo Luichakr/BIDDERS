@@ -79,9 +79,6 @@ export function AppRouter() {
                 <Route path="register" element={<RegisterPage />} />
               </Route>
               <Route path="auth/callback" element={<AuthCallbackPage />} />
-              <Route element={<ProtectedRoute />}>
-                <Route path="cabinet" element={<CabinetPage />} />
-              </Route>
               <Route path="account/login" element={<AccountLoginPage />} />
               <Route element={<WhitelistRoute />}>
                 <Route path="account" element={<AccountPage />} />
@@ -95,6 +92,11 @@ export function AppRouter() {
               <Route path="cars/:slug" element={<LotPage />} />
               <Route path="china-cars" element={<ChinaCarsPage />} />
             </Route>
+          </Route>
+
+          {/* Cabinet — no AppLayout (has its own topbar) */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="cabinet" element={<CabinetPage />} />
           </Route>
         </Route>
 
