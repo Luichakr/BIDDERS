@@ -15,7 +15,6 @@ import { buildGetSelectOptionLabel, buildSelectFieldOptions, YEAR_OPTIONS } from
 import { CabinetCarList } from './CabinetCarList'
 import { CabinetEditorPanel } from './CabinetEditorPanel'
 import { CabinetProfilePanel } from './CabinetProfilePanel'
-import '../../auth/ui/auth.css'
 import './cabinet.css'
 
 // ─── Helper functions ────────────────────────────────────────────────────────
@@ -78,7 +77,6 @@ export function CabinetPage() {
   const [isUploading, setIsUploading] = useState(false)
   const [uploadError, setUploadError] = useState('')
   const [syncMode, setSyncMode] = useState<CabinetSyncMode>('local')
-  const [syncMessage, setSyncMessage] = useState('')
   const [isSaving, setIsSaving] = useState(false)
   const [activeTab, setActiveTab] = useState<'cars' | 'profile'>('cars')
   const [isDecodingVin, setIsDecodingVin] = useState(false)
@@ -98,7 +96,6 @@ export function CabinetPage() {
         setCars(nextCars)
         setSelectedCarId(nextCars[0]?.id ?? '')
         setSyncMode(nextSyncMode)
-        setSyncMessage(nextSyncMode === 'cloud' ? copy.syncCloudReady : copy.syncLocalReady)
         setIsReady(true)
       })
       .catch(() => {
@@ -107,7 +104,6 @@ export function CabinetPage() {
         setCars(fallbackCars)
         setSelectedCarId(fallbackCars[0].id)
         setSyncMode('local')
-        setSyncMessage(copy.syncLocalFallback)
         setIsReady(true)
       })
     return () => { isMounted = false }
@@ -125,7 +121,6 @@ export function CabinetPage() {
       void saveCabinetCars(cars, { userId: user?.id })
         .then((nextSyncMode) => {
           setSyncMode(nextSyncMode)
-          setSyncMessage(nextSyncMode === 'cloud' ? copy.syncCloudReady : copy.syncLocalFallback)
         })
         .finally(() => setIsSaving(false))
     }, 2000)
@@ -212,15 +207,6 @@ export function CabinetPage() {
   }, [selectedCar?.id, selectedCar?.vin, selectedCar?.year, selectedCar?.lotNumber, selectedCar?.stockNumber, selectedCar?.auction])
 
   // ── Derived counts ─────────────────────────────────────────────────────────
-  const totalPhotos = useMemo(() => cars.reduce((sum, c) => sum + c.photos.length, 0), [cars])
-  const activeCount = useMemo(
-    () => cars.filter((c) => ['research', 'bidding', 'won', 'shipping', 'repair'].includes(c.status)).length,
-    [cars],
-  )
-  const readyCount = useMemo(
-    () => cars.filter((c) => c.status === 'ready' || c.status === 'sold').length,
-    [cars],
-  )
   const duplicateVinExists = useMemo(() => {
     if (!selectedCar?.vin.trim()) return false
     const norm = selectedCar.vin.trim().toUpperCase()
@@ -285,7 +271,6 @@ export function CabinetPage() {
     try {
       const nextSyncMode = await saveCabinetCars(cars, { userId: user?.id })
       setSyncMode(nextSyncMode)
-      setSyncMessage(nextSyncMode === 'cloud' ? copy.syncCloudReady : copy.syncLocalFallback)
     } finally {
       setIsSaving(false)
     }
@@ -312,7 +297,6 @@ export function CabinetPage() {
     try {
       const nextSyncMode = await saveCabinetCars(nextCars, { userId: user?.id })
       setSyncMode(nextSyncMode)
-      setSyncMessage(nextSyncMode === 'cloud' ? copy.syncCloudReady : copy.syncLocalFallback)
     } finally {
       setIsSaving(false)
     }
@@ -327,7 +311,6 @@ export function CabinetPage() {
     try {
       const nextSyncMode = await saveCabinetCars(nextCars, { userId: user?.id })
       setSyncMode(nextSyncMode)
-      setSyncMessage(nextSyncMode === 'cloud' ? copy.syncCloudReady : copy.syncLocalFallback)
     } finally {
       setIsSaving(false)
     }
@@ -446,120 +429,119 @@ export function CabinetPage() {
 
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
-    <main className="px px-page cabinet-shell" style={{ paddingTop: '7.5rem', paddingBottom: '4rem' }}>
-      <section className="px-section">
-        <div className="cabinet-grid">
-
-          {/* Hero / stats */}
-          <section className="cabinet-hero">
-            <div className="cabinet-hero-head">
-              <div className="cabinet-hero-copy">
-                <span className="cabinet-kicker">{copy.heroMetaLabel}</span>
-                <div className="cabinet-title-row">
-                  <h1>{t('footerCabinet')}</h1>
-                  {user && (
-                    <span className="cabinet-user-pill">
-                      {t('cabinetWelcome')} <strong>{user.name}</strong>
-                    </span>
-                  )}
-                  <span className="cabinet-user-pill">
-                    {isSaving ? copy.syncSaving : syncMessage || (syncMode === 'cloud' ? copy.syncCloudReady : copy.syncLocalReady)}
-                  </span>
-                </div>
-                <p>{copy.heroLead}</p>
-                {user && <p>{user.email}</p>}
-              </div>
-              <div className="cabinet-hero-actions">
-                <button
-                  className={`auth-btn ${activeTab === 'cars' ? 'auth-btn-primary' : 'auth-btn-secondary'}`}
-                  onClick={() => setActiveTab('cars')}
-                >
-                  {t('cabinetTabCars')}
-                </button>
-                <button
-                  className={`auth-btn ${activeTab === 'profile' ? 'auth-btn-primary' : 'auth-btn-secondary'}`}
-                  onClick={() => setActiveTab('profile')}
-                >
-                  {t('cabinetTabProfile')}
-                </button>
-                {activeTab === 'cars' && (
-                  <button className="auth-btn auth-btn-primary" onClick={handleAddCar}>{copy.addCar}</button>
-                )}
-                <button
-                  className="auth-btn"
-                  onClick={handleLogout}
-                  style={{ color: '#b42318', background: 'rgba(180,35,24,0.07)' }}
-                >
-                  {t('cabinetLogout')}
-                </button>
-              </div>
-            </div>
-
-            <div className="cabinet-stats">
-              <article className="cabinet-stat"><span>{copy.totalCars}</span><strong>{cars.length}</strong></article>
-              <article className="cabinet-stat"><span>{copy.activeCars}</span><strong>{activeCount}</strong></article>
-              <article className="cabinet-stat"><span>{copy.readyCars}</span><strong>{readyCount}</strong></article>
-              <article className="cabinet-stat"><span>{copy.totalPhotos}</span><strong>{totalPhotos}</strong></article>
-            </div>
-          </section>
-
-          {activeTab === 'profile' ? (
-            <CabinetProfilePanel />
-          ) : (
-            <div className="cabinet-main-grid">
-              <CabinetCarList
-                filteredCars={filteredCars}
-                selectedCar={selectedCar}
-                search={search}
-                statusFilter={statusFilter}
-                statusEntries={statusEntries}
-                copy={copy}
-                locale={locale}
-                onSearch={setSearch}
-                onStatusFilter={setStatusFilter}
-                onSelect={setSelectedCarId}
-              />
-
-              <section className="cabinet-panel cabinet-editor">
-                {!selectedCar && <div className="cabinet-editor-empty">{copy.noSelection}</div>}
-                {selectedCar && (
-                  <CabinetEditorPanel
-                    selectedCar={selectedCar}
-                    cars={cars}
-                    copy={copy}
-                    locale={locale}
-                    isSaving={isSaving}
-                    isUploading={isUploading}
-                    uploadError={uploadError}
-                    isDecodingVin={isDecodingVin}
-                    vinMessage={vinMessage}
-                    vinMessageTone={vinMessageTone}
-                    duplicateVinExists={duplicateVinExists}
-                    statusEntries={statusEntries}
-                    publicationStatusEntries={publicationStatusEntries}
-                    makeOptions={makeOptions}
-                    yearOptions={YEAR_OPTIONS}
-                    availableModels={availableModels}
-                    selectFieldOptions={selectFieldOptions}
-                    getSelectOptionLabel={getSelectOptionLabel}
-                    onFieldChange={handleFieldChange}
-                    onVinBlur={handleVinBlur}
-                    onPhotoUpload={handlePhotoUpload}
-                    onPhotoRemove={handlePhotoRemove}
-                    onPhotoSetPrimary={handlePhotoSetPrimary}
-                    onDelete={handleDeleteCar}
-                    onSave={handleSaveNow}
-                    onPublish={handlePublishNow}
-                    onRenew={handleRenewListing}
-                    onPreview={handlePreviewListing}
-                  />
-                )}
-              </section>
-            </div>
-          )}
-
+    <div className="cb-page">
+      {/* Top navigation bar */}
+      <header className="cb-topbar">
+        <div className="cb-topbar-left">
+          <a href={lp('/')} className="cb-topbar-logo">BID BIDDERS</a>
+          <span className="cb-topbar-sep">/</span>
+          <span className="cb-topbar-title">{t('footerCabinet')}</span>
         </div>
-      </section>
-    </main>
+
+        <nav className="cb-tabs">
+          <button
+            type="button"
+            className={`cb-tab ${activeTab === 'cars' ? 'cb-tab-active' : ''}`}
+            onClick={() => setActiveTab('cars')}
+          >
+            {t('cabinetTabCars')}
+            <span className="cb-tab-count">{cars.length}</span>
+          </button>
+          <button
+            type="button"
+            className={`cb-tab ${activeTab === 'profile' ? 'cb-tab-active' : ''}`}
+            onClick={() => setActiveTab('profile')}
+          >
+            {t('cabinetTabProfile')}
+          </button>
+        </nav>
+
+        <div className="cb-topbar-right">
+          <span className={`cb-sync-badge ${isSaving ? 'cb-sync-saving' : ''}`}>
+            {isSaving ? copy.syncSaving : syncMode === 'cloud' ? '☁ saved' : '💾 local'}
+          </span>
+          {activeTab === 'cars' && (
+            <button type="button" className="cb-btn-add" onClick={handleAddCar}>
+              + {copy.addCar}
+            </button>
+          )}
+          <div className="cb-user-menu">
+            <div className="cb-user-avatar">
+              {(user?.name?.[0] ?? user?.email?.[0] ?? '?').toUpperCase()}
+            </div>
+            <span className="cb-user-name">{user?.name ?? user?.email}</span>
+            <button type="button" className="cb-logout-btn" onClick={handleLogout}>
+              {t('cabinetLogout')}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Page body */}
+      <div className="cb-body">
+        {activeTab === 'profile' ? (
+          <div style={{ gridColumn: '1 / -1' }}>
+            <CabinetProfilePanel />
+          </div>
+        ) : (
+          <>
+            {/* Sidebar */}
+            <CabinetCarList
+              filteredCars={filteredCars}
+              selectedCar={selectedCar}
+              search={search}
+              statusFilter={statusFilter}
+              statusEntries={statusEntries}
+              copy={copy}
+              locale={locale}
+              onSearch={setSearch}
+              onStatusFilter={setStatusFilter}
+              onSelect={setSelectedCarId}
+            />
+
+            {/* Main panel */}
+            <div className="cb-main">
+              {!selectedCar && (
+                <div className="cb-panel" style={{ padding: '40px', textAlign: 'center', color: '#94a3b8' }}>
+                  {copy.noSelection}
+                </div>
+              )}
+              {selectedCar && (
+                <CabinetEditorPanel
+                  selectedCar={selectedCar}
+                  cars={cars}
+                  copy={copy}
+                  locale={locale}
+                  isSaving={isSaving}
+                  isUploading={isUploading}
+                  uploadError={uploadError}
+                  isDecodingVin={isDecodingVin}
+                  vinMessage={vinMessage}
+                  vinMessageTone={vinMessageTone}
+                  duplicateVinExists={duplicateVinExists}
+                  statusEntries={statusEntries}
+                  publicationStatusEntries={publicationStatusEntries}
+                  makeOptions={makeOptions}
+                  yearOptions={YEAR_OPTIONS}
+                  availableModels={availableModels}
+                  selectFieldOptions={selectFieldOptions}
+                  getSelectOptionLabel={getSelectOptionLabel}
+                  onFieldChange={handleFieldChange}
+                  onVinBlur={handleVinBlur}
+                  onPhotoUpload={handlePhotoUpload}
+                  onPhotoRemove={handlePhotoRemove}
+                  onPhotoSetPrimary={handlePhotoSetPrimary}
+                  onDelete={handleDeleteCar}
+                  onSave={handleSaveNow}
+                  onPublish={handlePublishNow}
+                  onRenew={handleRenewListing}
+                  onPreview={handlePreviewListing}
+                />
+              )}
+            </div>
+          </>
+        )}
+      </div>
+    </div>
   )
 }

@@ -47,7 +47,7 @@ type FieldRowProps = {
 function FieldRow({ fieldKey, label, car, selectFieldOptions, getSelectOptionLabel, onFieldChange, disabled }: FieldRowProps) {
   const options = selectFieldOptions[fieldKey]
   return (
-    <div className="cabinet-field">
+    <div className="cb-field">
       <label htmlFor={fieldKey}>{label}</label>
       {options ? (
         <select
@@ -74,7 +74,7 @@ function FieldRow({ fieldKey, label, car, selectFieldOptions, getSelectOptionLab
 
 export function CabinetEditorPanel({
   selectedCar,
-  cars,
+  cars: _cars,
   copy,
   locale,
   isSaving,
@@ -103,49 +103,44 @@ export function CabinetEditorPanel({
   onPreview,
 }: Props) {
   return (
-    <section className="cabinet-panel cabinet-editor">
+    <div className="cb-panel">
       {/* Editor header */}
-      <div className="cabinet-editor-head">
+      <div className="cb-panel-head">
         <div>
-          <span className="cabinet-status">{copy.statusLabels[selectedCar.status]}</span>
           <h2>{[selectedCar.year, selectedCar.make, selectedCar.model].filter(Boolean).join(' ').trim() || selectedCar.title}</h2>
+          <p className="cb-panel-head-sub">{copy.statusLabels[selectedCar.status]}</p>
         </div>
-        <div className="cabinet-editor-actions">
-          <button className="auth-btn auth-btn-secondary" onClick={onDelete} type="button">{copy.deleteCar}</button>
+        <div className="cb-panel-actions">
+          <button className="cb-btn cb-btn-danger" onClick={onDelete} type="button">{copy.deleteCar}</button>
         </div>
       </div>
 
-      <div className="cabinet-sections">
+      <div className="cb-sections">
 
         {/* ── Identity ────────────────────────────────────────────────── */}
-        <section className="cabinet-section">
-          <div className="cabinet-section-head">
-            <div>
-              <h3>{copy.sectionIdentity}</h3>
-              <p>{copy.carCountLabel}: {cars.length}</p>
-            </div>
-          </div>
+        <div className="cb-section">
+          <div className="cb-section-title">{copy.sectionIdentity}</div>
 
-          <div className="cabinet-form-grid">
-            <div className="cabinet-field">
+          <div className="cb-grid-2">
+            <div className="cb-field">
               <label htmlFor="car-title">{copy.fieldTitle}</label>
               <input id="car-title" value={selectedCar.title} onChange={(e) => onFieldChange('title', e.target.value)} />
             </div>
-            <div className="cabinet-field">
+            <div className="cb-field">
               <label htmlFor="car-year">{copy.fieldYear}</label>
               <select id="car-year" value={selectedCar.year} onChange={(e) => onFieldChange('year', e.target.value)}>
                 <option value="">-</option>
                 {yearOptions.map((year) => <option key={year} value={year}>{year}</option>)}
               </select>
             </div>
-            <div className="cabinet-field">
+            <div className="cb-field">
               <label htmlFor="car-make">{copy.fieldMake}</label>
               <select id="car-make" value={selectedCar.make} onChange={(e) => onFieldChange('make', e.target.value)}>
                 <option value="">-</option>
                 {makeOptions.map((make) => <option key={make} value={make}>{make}</option>)}
               </select>
             </div>
-            <div className="cabinet-field">
+            <div className="cb-field">
               <label htmlFor="car-model">{copy.fieldModel}</label>
               <select
                 id="car-model"
@@ -157,7 +152,7 @@ export function CabinetEditorPanel({
                 {availableModels.map((model) => <option key={model} value={model}>{model}</option>)}
               </select>
             </div>
-            <div className="cabinet-field">
+            <div className="cb-field">
               <label htmlFor="car-vin">{copy.fieldVin}</label>
               <input
                 id="car-vin"
@@ -165,33 +160,33 @@ export function CabinetEditorPanel({
                 onBlur={onVinBlur}
                 onChange={(e) => onFieldChange('vin', e.target.value.toUpperCase())}
               />
-              {duplicateVinExists && <p className="cabinet-warning">{copy.duplicateVinWarning}</p>}
-              {isDecodingVin && <p className="cabinet-helper">{copy.vinDecodeLoading}</p>}
+              {duplicateVinExists && <p className="cb-field-hint cb-field-hint-warn">{copy.duplicateVinWarning}</p>}
+              {isDecodingVin && <p className="cb-field-hint">{copy.vinDecodeLoading}</p>}
               {!isDecodingVin && vinMessage && (
-                <p className={vinMessageTone === 'error' ? 'cabinet-error' : 'cabinet-helper'}>{vinMessage}</p>
+                <p className={vinMessageTone === 'error' ? 'cb-field-hint cb-field-hint-err' : 'cb-field-hint'}>{vinMessage}</p>
               )}
             </div>
-            <div className="cabinet-field">
+            <div className="cb-field">
               <label htmlFor="car-status">{copy.fieldStatus}</label>
               <select id="car-status" value={selectedCar.status} onChange={(e) => onFieldChange('status', e.target.value as CabinetCarStatus)}>
                 {statusEntries.map(([status, label]) => <option key={status} value={status}>{label}</option>)}
               </select>
             </div>
-            <div className="cabinet-field">
+            <div className="cb-field">
               <label htmlFor="car-lot">{copy.fieldLotNumber}</label>
               <input id="car-lot" readOnly value={selectedCar.lotNumber} />
-              <p className="cabinet-helper">{copy.autoGeneratedHint}</p>
+              <p className="cb-field-hint">{copy.autoGeneratedHint}</p>
             </div>
-            <div className="cabinet-field">
+            <div className="cb-field">
               <label htmlFor="car-stock">{copy.fieldStockNumber}</label>
               <input id="car-stock" readOnly value={selectedCar.stockNumber} />
-              <p className="cabinet-helper">{copy.autoGeneratedHint}</p>
+              <p className="cb-field-hint">{copy.autoGeneratedHint}</p>
             </div>
-            <div className="cabinet-field">
+            <div className="cb-field">
               <label htmlFor="car-source">{copy.fieldSourceUrl}</label>
               <input id="car-source" value={selectedCar.sourceUrl} onChange={(e) => onFieldChange('sourceUrl', e.target.value)} />
             </div>
-            <div className="cabinet-field">
+            <div className="cb-field">
               <label htmlFor="car-auction">{copy.fieldAuction}</label>
               <select disabled id="car-auction" value={selectedCar.auction} onChange={(e) => onFieldChange('auction', e.target.value)}>
                 <option value="">-</option>
@@ -201,17 +196,12 @@ export function CabinetEditorPanel({
               </select>
             </div>
           </div>
-        </section>
+        </div>
 
         {/* ── Specs ───────────────────────────────────────────────────── */}
-        <section className="cabinet-section">
-          <div className="cabinet-section-head">
-            <div>
-              <h3>{copy.sectionSpecs}</h3>
-              <p>{copy.fieldGeneration}, {copy.fieldEngineVolume}, {copy.fieldDrivetrain}, {copy.fieldTransmission}</p>
-            </div>
-          </div>
-          <div className="cabinet-form-grid-3">
+        <div className="cb-section">
+          <div className="cb-section-title">{copy.sectionSpecs}</div>
+          <div className="cb-grid-3">
             {(
               [
                 ['bodyStyle', copy.fieldBodyStyle],
@@ -242,17 +232,12 @@ export function CabinetEditorPanel({
               />
             ))}
           </div>
-        </section>
+        </div>
 
         {/* ── Logistics ───────────────────────────────────────────────── */}
-        <section className="cabinet-section">
-          <div className="cabinet-section-head">
-            <div>
-              <h3>{copy.sectionLogistics}</h3>
-              <p>{copy.fieldPurchasePriceUsd}, {copy.fieldRepairEstimateUsd}, {copy.fieldCustomsAndFeesUsd}</p>
-            </div>
-          </div>
-          <div className="cabinet-form-grid-3">
+        <div className="cb-section">
+          <div className="cb-section-title">{copy.sectionLogistics}</div>
+          <div className="cb-grid-3">
             {(
               [
                 ['countryOfOrigin', copy.fieldCountryOfOrigin],
@@ -277,17 +262,12 @@ export function CabinetEditorPanel({
               />
             ))}
           </div>
-        </section>
+        </div>
 
         {/* ── Condition ───────────────────────────────────────────────── */}
-        <section className="cabinet-section">
-          <div className="cabinet-section-head">
-            <div>
-              <h3>{copy.sectionCondition}</h3>
-              <p>{copy.fieldDamagePrimary}, {copy.fieldDamageSecondary}, {copy.fieldKeysStatus}</p>
-            </div>
-          </div>
-          <div className="cabinet-form-grid">
+        <div className="cb-section">
+          <div className="cb-section-title">{copy.sectionCondition}</div>
+          <div className="cb-grid-2">
             {(
               [
                 ['keysStatus', copy.fieldKeysStatus],
@@ -307,18 +287,13 @@ export function CabinetEditorPanel({
               />
             ))}
           </div>
-        </section>
+        </div>
 
         {/* ── Publication ─────────────────────────────────────────────── */}
-        <section className="cabinet-section">
-          <div className="cabinet-section-head">
-            <div>
-              <h3>{copy.sectionPublication}</h3>
-              <p>{copy.fieldPublicationStatus}, {copy.fieldPublicTitle}, {copy.fieldPublicPriceUsd}</p>
-            </div>
-          </div>
-          <div className="cabinet-form-grid">
-            <div className="cabinet-field">
+        <div className="cb-section">
+          <div className="cb-section-title">{copy.sectionPublication}</div>
+          <div className="cb-grid-2">
+            <div className="cb-field">
               <label htmlFor="publication-status">{copy.fieldPublicationStatus}</label>
               <select
                 id="publication-status"
@@ -329,96 +304,85 @@ export function CabinetEditorPanel({
                   <option key={status} value={status}>{label}</option>
                 ))}
               </select>
-              <button className="auth-btn auth-btn-secondary cabinet-preview-btn" onClick={onPreview} type="button">
+              <button className="cb-btn cb-btn-ghost" onClick={onPreview} type="button" style={{ marginTop: '6px' }}>
                 {copy.previewListing}
               </button>
             </div>
-            <div className="cabinet-field">
+            <div className="cb-field">
               <label htmlFor="public-title">{copy.fieldPublicTitle}</label>
               <input id="public-title" value={selectedCar.publicTitle} onChange={(e) => onFieldChange('publicTitle', e.target.value)} />
             </div>
-            <div className="cabinet-field">
+            <div className="cb-field">
               <label htmlFor="public-slug">{copy.fieldPublicSlug}</label>
               <input id="public-slug" value={selectedCar.publicSlug} onChange={(e) => onFieldChange('publicSlug', e.target.value)} />
             </div>
-            <div className="cabinet-field">
+            <div className="cb-field">
               <label htmlFor="public-price-usd">{copy.fieldPublicPriceUsd}</label>
               <input id="public-price-usd" value={selectedCar.publicPriceUsd} onChange={(e) => onFieldChange('publicPriceUsd', e.target.value)} />
             </div>
-            <div className="cabinet-field">
+            <div className="cb-field">
               <label htmlFor="public-estimate-usd">{copy.fieldPublicEstimateUsd}</label>
               <input id="public-estimate-usd" value={selectedCar.publicEstimateUsd} onChange={(e) => onFieldChange('publicEstimateUsd', e.target.value)} />
             </div>
-            <div className="cabinet-field">
+            <div className="cb-field">
               <label htmlFor="public-badge">{copy.fieldPublicBadge}</label>
               <input id="public-badge" value={selectedCar.publicBadge} onChange={(e) => onFieldChange('publicBadge', e.target.value)} />
             </div>
-            <div className="cabinet-field-wide">
+            <div className="cb-field cb-grid-full">
               <label htmlFor="public-description">{copy.fieldPublicDescription}</label>
               <textarea id="public-description" value={selectedCar.publicDescription} onChange={(e) => onFieldChange('publicDescription', e.target.value)} />
             </div>
-            <label className="cabinet-field cabinet-checkbox-field" htmlFor="public-hot-offer">
-              <span>{copy.fieldPublicHotOffer}</span>
+            <label className="cb-field" htmlFor="public-hot-offer" style={{ flexDirection: 'row', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
               <input
                 id="public-hot-offer"
                 checked={selectedCar.publicHotOffer}
                 onChange={(e) => onFieldChange('publicHotOffer', e.target.checked)}
                 type="checkbox"
+                style={{ width: 'auto' }}
               />
+              <span style={{ fontSize: '13px', fontWeight: 600, color: '#475569' }}>{copy.fieldPublicHotOffer}</span>
             </label>
           </div>
-        </section>
+        </div>
 
         {/* ── Gallery ─────────────────────────────────────────────────── */}
-        <section className="cabinet-section">
-          <div className="cabinet-section-head">
-            <div>
-              <h3>{copy.sectionGallery}</h3>
-              <p>{copy.uploadHelp}</p>
-            </div>
-            <div className="cabinet-status">{selectedCar.photos.length}/{CABINET_CAR_MAX_PHOTOS}</div>
+        <div className="cb-section">
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
+            <div className="cb-section-title" style={{ margin: 0 }}>{copy.sectionGallery}</div>
+            <span className="cb-field-hint">{selectedCar.photos.length}/{CABINET_CAR_MAX_PHOTOS}</span>
           </div>
 
-          <label className="cabinet-upload-label">
-            <input accept="image/*" multiple onChange={onPhotoUpload} type="file" />
-            {copy.addPhoto}
-          </label>
-
-          {isUploading && <p className="cabinet-helper">{copy.uploadProcessing}</p>}
-          {uploadError && <p className="cabinet-error">{uploadError}</p>}
-
-          <div className="cabinet-photo-grid">
+          <div className="cb-photo-grid">
             {selectedCar.photos.map((photo, index) => (
-              <article className="cabinet-photo-card" key={photo.id}>
+              <div className="cb-photo-item" key={photo.id}>
                 <img alt={photo.name} src={photo.url} />
-                <div className="cabinet-photo-copy">
-                  <strong>{photo.name}</strong>
-                  <span>{photo.sizeKb} KB · {photo.width}×{photo.height}</span>
+                <div className="cb-photo-actions">
+                  {index !== 0 && (
+                    <button className="cb-photo-btn cb-photo-btn-pin" onClick={() => onPhotoSetPrimary(photo.id)} type="button" title={copy.setPrimaryPhoto}>★</button>
+                  )}
+                  {index === 0 && (
+                    <button className="cb-photo-btn cb-photo-btn-pin cb-photo-btn-pin-on" type="button" title={copy.primaryPhotoBadge}>★</button>
+                  )}
+                  <button className="cb-photo-btn cb-photo-btn-del" onClick={() => onPhotoRemove(photo.id)} type="button" title={copy.removePhoto}>✕</button>
                 </div>
-                {index === 0 ? (
-                  <span className="cabinet-photo-badge">{copy.primaryPhotoBadge}</span>
-                ) : (
-                  <button className="cabinet-photo-primary" onClick={() => onPhotoSetPrimary(photo.id)} type="button">
-                    {copy.setPrimaryPhoto}
-                  </button>
-                )}
-                <button className="cabinet-photo-remove" onClick={() => onPhotoRemove(photo.id)} type="button">
-                  {copy.removePhoto}
-                </button>
-              </article>
+              </div>
             ))}
+            {selectedCar.photos.length < CABINET_CAR_MAX_PHOTOS && (
+              <label className="cb-photo-upload">
+                <input accept="image/*" multiple onChange={onPhotoUpload} type="file" />
+                + {copy.addPhoto}
+              </label>
+            )}
           </div>
-        </section>
+
+          {isUploading && <p className="cb-field-hint" style={{ marginTop: '8px' }}>{copy.uploadProcessing}</p>}
+          {uploadError && <p className="cb-field-hint cb-field-hint-err" style={{ marginTop: '8px' }}>{uploadError}</p>}
+        </div>
 
         {/* ── Notes ───────────────────────────────────────────────────── */}
-        <section className="cabinet-section">
-          <div className="cabinet-section-head">
-            <div>
-              <h3>{copy.sectionNotes}</h3>
-              <p>{copy.fieldDescription}, {copy.fieldServiceHistory}, {copy.fieldNotes}</p>
-            </div>
-          </div>
-          <div className="cabinet-form-grid">
+        <div className="cb-section">
+          <div className="cb-section-title">{copy.sectionNotes}</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {(
               [
                 ['description', copy.fieldDescription],
@@ -427,7 +391,7 @@ export function CabinetEditorPanel({
                 ['notes', copy.fieldNotes],
               ] as Array<[keyof CabinetCar, string]>
             ).map(([key, label]) => (
-              <div className="cabinet-field-wide" key={key}>
+              <div className="cb-field" key={key}>
                 <label htmlFor={key as string}>{label}</label>
                 <textarea
                   id={key as string}
@@ -437,31 +401,33 @@ export function CabinetEditorPanel({
               </div>
             ))}
           </div>
-        </section>
+        </div>
 
         {/* ── Expiry banner + actions ──────────────────────────────────── */}
         {selectedCar.publicationStatus === 'published' && (
-          <div className={`cabinet-expiry-banner ${isListingExpired(selectedCar) ? 'cabinet-expiry-banner--expired' : 'cabinet-expiry-banner--warning'}`}>
-            <span>{expiryLabel(selectedCar, locale as 'pl' | 'uk' | 'en')}</span>
-            {shouldShowRenewButton(selectedCar) && (
-              <button
-                className="auth-btn auth-btn-primary cabinet-renew-btn"
-                onClick={onRenew}
-                type="button"
-                disabled={isSaving}
-              >
-                {copy.renewListing}
-              </button>
-            )}
+          <div className="cb-section">
+            <div className={`cb-expiry-warn ${isListingExpired(selectedCar) ? 'cb-expiry-exp' : ''}`}>
+              <span className="cb-expiry-msg">{expiryLabel(selectedCar, locale as 'pl' | 'uk' | 'en')}</span>
+              {shouldShowRenewButton(selectedCar) && (
+                <button
+                  className="cb-btn cb-btn-primary"
+                  onClick={onRenew}
+                  type="button"
+                  disabled={isSaving}
+                >
+                  {copy.renewListing}
+                </button>
+              )}
+            </div>
           </div>
         )}
 
-        <div className="cabinet-bottom-actions">
-          <button className="auth-btn auth-btn-secondary" onClick={onSave} type="button">{copy.saveCar}</button>
-          <button className="auth-btn auth-btn-primary" onClick={onPublish} type="button">{copy.publishCar}</button>
-        </div>
-
       </div>
-    </section>
+
+      <div className="cb-panel-footer">
+        <button className="cb-btn" onClick={onSave} type="button">{copy.saveCar}</button>
+        <button className="cb-btn cb-btn-primary" onClick={onPublish} type="button">{copy.publishCar}</button>
+      </div>
+    </div>
   )
 }

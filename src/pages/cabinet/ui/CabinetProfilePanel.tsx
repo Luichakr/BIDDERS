@@ -45,54 +45,47 @@ export function CabinetProfilePanel() {
   }
 
   return (
-    <div className="cabinet-editor cabinet-panel">
-      <div className="cabinet-editor-head">
+    <div className="cb-panel">
+      <div className="cb-panel-head">
         <div>
           <h2>{t('profileTitle')}</h2>
-          <p style={{ margin: '4px 0 0', color: 'var(--cabinet-muted)', fontSize: '0.9rem' }}>
-            {t('profileLead')}
-          </p>
+          <p className="cb-panel-head-sub">{t('profileLead')}</p>
         </div>
       </div>
 
       <form onSubmit={onSubmit}>
-        <div className="cabinet-section">
-          <div className="cabinet-form-grid">
-            <div className="cabinet-field">
+        <div className="cb-section">
+          <div className="cb-grid-2">
+            <div className="cb-field">
               <label>{t('profileNameLabel')}</label>
               <input value={name} onChange={e => setName(e.target.value)} />
             </div>
-            <div className="cabinet-field">
+            <div className="cb-field">
               <label>{t('profilePhoneLabel')}</label>
               <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="+48 000 000 000" />
             </div>
-            <div className="cabinet-field">
+            <div className="cb-field">
               <label>{t('profileCompanyLabel')}</label>
               <input value={company} onChange={e => setCompany(e.target.value)} />
             </div>
-            <div className="cabinet-field">
+            <div className="cb-field">
               <label>{t('profileEmailLabel')}</label>
               <input value={user?.email ?? ''} disabled style={{ opacity: 0.6 }} />
             </div>
           </div>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginTop: '0.5rem' }}>
-            <button type="submit" className="btn btn-primary" disabled={isSaving}>
-              {t('profileSaveBtn')}
-            </button>
-            {saveMsg === 'success' && <span style={{ color: '#059669', fontWeight: 600 }}>{t('profileSaveSuccess')}</span>}
-            {saveMsg === 'error' && <span style={{ color: '#b42318', fontWeight: 600 }}>{t('profileSaveError')}</span>}
-          </div>
+        </div>
+        <div className="cb-panel-footer">
+          <button type="submit" className="cb-btn cb-btn-primary" disabled={isSaving}>
+            {t('profileSaveBtn')}
+          </button>
+          {saveMsg === 'success' && <span style={{ color: '#059669', fontWeight: 600, fontSize: '13px' }}>{t('profileSaveSuccess')}</span>}
+          {saveMsg === 'error' && <span style={{ color: '#b42318', fontWeight: 600, fontSize: '13px' }}>{t('profileSaveError')}</span>}
         </div>
       </form>
 
       {/* Auth info section */}
-      <div className="cabinet-section" style={{ marginTop: '1rem' }}>
-        <div className="cabinet-section-head">
-          <div>
-            <h3 style={{ margin: 0, fontSize: '1rem' }}>Metoda logowania</h3>
-          </div>
-        </div>
+      <div className="cb-section" style={{ borderTop: '1px solid #F1F5F9' }}>
+        <div className="cb-section-title">Metoda logowania</div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           {user?.provider === 'google' ? (
             <span style={{
