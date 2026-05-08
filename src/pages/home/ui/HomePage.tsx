@@ -816,9 +816,8 @@ export function HomePage() {
               <p className="px-sub">{t('homeRouteLead')}</p>
             </div>
           </div>
-          <div className={isProd ? 'px-grid-2' : 'px-grid-4'}>
-            {/* Card 1: In Stock — staging only */}
-            {!isProd && (
+          <div className={isProd ? 'px-grid-3' : 'px-grid-4'}>
+            {/* Card 1: In Stock */}
             <article className="px-route px-route--large">
               <div className="px-route__media">
                 <img
@@ -838,20 +837,19 @@ export function HomePage() {
                 </div>
                 <h3 className="px-route__title">{t('homeRouteStockTitle')}</h3>
                 <p className="px-route__desc">{t('homeRouteStockDesc')}</p>
-                <Link className="px-route__cta" to={localizedPath(locale, routePaths.inStock)}>
+                <Link className="px-route__cta px-route__cta--full" to={localizedPath(locale, routePaths.inStock)}>
                   {t('homeRouteViewCarsCta')}
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
                 </Link>
               </div>
             </article>
-            )}
 
             {/* Card 2: Transit — always shown */}
             <article className="px-route px-route--large">
               <div className="px-route__media">
                 <img src={`${import.meta.env.BASE_URL}${ROUTE_IMAGES.transit}`} alt={t('routeTransitAlt')} loading="lazy" />
                 <div className="px-route__top">
-                  <span className="px-route__num">{isProd ? '01' : '02'}</span>
+                  <span className="px-route__num">{isProd ? '02' : '02'}</span>
                   <span className="px-route__pill">{t('homeRoutePillTransit')}</span>
                 </div>
               </div>
@@ -861,7 +859,7 @@ export function HomePage() {
                 </div>
                 <h3 className="px-route__title">{t('homeRouteTransitTitle')}</h3>
                 <p className="px-route__desc">{t('homeRouteTransitDesc')}</p>
-                <Link className="px-route__cta" to={localizedPath(locale, routePaths.transit)}>
+                <Link className="px-route__cta px-route__cta--full" to={localizedPath(locale, routePaths.transit)}>
                   {t('homeRouteViewCarsCta')}
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
                 </Link>
@@ -873,7 +871,7 @@ export function HomePage() {
               <div className="px-route__media">
                 <img src={`${import.meta.env.BASE_URL}${ROUTE_IMAGES.order}`} alt={t('routeAuctionAlt')} loading="lazy" />
                 <div className="px-route__top">
-                  <span className="px-route__num">{isProd ? '02' : '03'}</span>
+                  <span className="px-route__num">{isProd ? '03' : '03'}</span>
                   <span className="px-route__pill">{t('homeRoutePillOrder')}</span>
                 </div>
               </div>
@@ -884,12 +882,12 @@ export function HomePage() {
                 <h3 className="px-route__title">{t('homeRouteOrderTitle')}</h3>
                 <p className="px-route__desc">{t('homeRouteOrderDesc')}</p>
                 {isProd ? (
-                  <button type="button" className="px-route__cta" onClick={() => openB2C(t('homeRouteOrderTitle'))}>
+                  <button type="button" className="px-route__cta px-route__cta--full" onClick={() => openB2C(t('homeRouteOrderTitle'))}>
                     {t('homeRouteGetEstimateCta')}
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
                   </button>
                 ) : (
-                  <Link className="px-route__cta" to={localizedPath(locale, routePaths.catalog)}>
+                  <Link className="px-route__cta px-route__cta--full" to={localizedPath(locale, routePaths.catalog)}>
                     {t('homeRouteGetEstimateCta')}
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
                   </Link>

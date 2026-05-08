@@ -1030,6 +1030,20 @@
   color: #fff;
 }
 
+/* Full-card clickable link: stretches ::after to cover the whole card */
+.px-route__cta--full::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+/* Keep interactive children above the overlay */
+.px-route__cta--full ~ *,
+.px-route .px-route__icon-wrap {
+  position: relative;
+  z-index: 2;
+}
+
 /* ======== CTA / BUTTONS ======== */
 
 .px-cta-row {
