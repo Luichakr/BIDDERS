@@ -35,6 +35,7 @@ export interface AuctionCardData {
   auctionEndMs?: number | null
   buyNow?: number | null
   buyNowLabel?: string | null
+  publicDescription?: string | null
 }
 
 function parseMoney(value: string): number {

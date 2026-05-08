@@ -171,6 +171,7 @@ export function Header() {
             </div>
             )}
             {isProd && <NavLink to={lp(routePaths.transit)}>{t('navTransit')}</NavLink>}
+            <NavLink to={lp(routePaths.inStock)}>{t('navInStock')}</NavLink>
 
             <NavLink to={lp(routePaths.calculator)}>{t('navCalculator')}</NavLink>
             {!isProd && <NavLink to={lp(routePaths.blog)}>{t('navBlog')}</NavLink>}
@@ -320,6 +321,7 @@ export function Header() {
           </div>
           )}
           {isProd && <NavLink to={lp(routePaths.transit)} onClick={closeMobile}>{t('navTransit')}</NavLink>}
+          <NavLink to={lp(routePaths.inStock)} onClick={closeMobile}>{t('navInStock')}</NavLink>
 
           <NavLink to={lp(routePaths.calculator)} onClick={closeMobile}>{t('navCalculator')}</NavLink>
           {!isProd && <NavLink to={lp(routePaths.blog)} onClick={closeMobile}>{t('navBlog')}</NavLink>}

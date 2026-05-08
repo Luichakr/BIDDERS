@@ -4,6 +4,8 @@ import { Link, useParams } from 'react-router-dom'
 import { allAuctionCards, getAuctionCardById } from '../../../features/auction/model/auctionData'
 import type { AuctionCardData } from '../../../features/auction/model/auctionData'
 import { fetchInRouteCardById, fetchCatalogLotById, fetchCatalogLotByVin, fetchInRouteCards } from '../../../features/auction/model/inRoute.service'
+import { fetchPublishedAuctionCardBySlug, mapCabinetCarToPublicAuctionCard } from '../../../features/auction/model/publicInventory'
+import { loadCabinetCars } from '../../cabinet/model/cabinetStore'
 import { routePaths, localizedPath } from '../../../shared/config/routes'
 import { useI18n } from '../../../shared/i18n/I18nProvider'
 import { Seo } from '../../../shared/seo/Seo'
@@ -68,12 +70,59 @@ export function LotPage() {
   const isNumericLotId = /^\d+$/.test(lotId ?? '')
 
   useEffect(() => {
-    // Slug mode: find by VIN
+    // Slug mode: find by public_slug or VIN
     if (isSlugMode) {
       let mounted = true
       setLiveLoadState('loading')
       const load = async () => {
         try {
+          // First: try to find by public_slug (cabinet published cars)
+          try {
+            const publishedCard = await fetchPublishedAuctionCardBySlug(slug!)
+            if (publishedCard && mounted) {
+              setLiveCar(publishedCard)
+              setLiveLoadState('loaded')
+              return
+            }
+          } catch {
+            // Not found or Supabase not configured — continue to fallback/VIN search
+          }
+
+          // Fallback: search in local cabinet cars by public_slug or VIN
+          try {
+            const { cars: cabinetCars } = await loadCabinetCars({})
+
+            // Exact slug match — allow preview (no status filter)
+            let byCabinet = cabinetCars.find(c => c.publicSlug === slug)
+
+            // UUID partial match
+            if (!byCabinet) {
+              const uuidPattern = /([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})/i
+              const uuidMatch = slug?.match(uuidPattern)
+              if (uuidMatch) {
+                const uuid = uuidMatch[1]!
+                byCabinet = cabinetCars.find(c => c.publicSlug?.includes(uuid))
+              }
+            }
+
+            // VIN match in cabinet cars
+            if (!byCabinet && vinFromSlug) {
+              byCabinet = cabinetCars.find(c => c.vin && c.vin.toUpperCase() === vinFromSlug)
+            }
+
+            if (byCabinet && mounted) {
+              const card = mapCabinetCarToPublicAuctionCard(byCabinet, true)
+              if (card) {
+                setLiveCar(card)
+                setLiveLoadState('loaded')
+                return
+              }
+            }
+          } catch {
+            // Cabinet search failed — continue to VIN search
+          }
+
+          // Second: try catalog data by VIN
           const found = await fetchCatalogLotByVin(vinFromSlug)
           if (!mounted) return
           if (found) {
@@ -181,8 +230,6 @@ export function LotPage() {
   }, [])
 
   const [bidValue, setBidValue] = useState(car ? car.currentBid + 100 : 0)
-  const [leaseDownPct, setLeaseDownPct] = useState(30)
-  const [leaseMonths, setLeaseMonths] = useState(36)
 
   useEffect(() => {
     if (!car) return
@@ -399,12 +446,6 @@ export function LotPage() {
   const statusPill = mode === 'transit' ? t('lotStatusTransit') : mode === 'in-stock' ? t('lotStatusInStock') : t('lotStatusAtAuction')
   const statusPillClass = mode === 'transit' ? 'lot-status-pill transit' : mode === 'in-stock' ? 'lot-status-pill instock' : 'lot-status-pill auction'
 
-  // Leasing placeholder (flat, no real formula)
-  const leasePrice = car.currentBid
-  const leaseDown = Math.round(leasePrice * (leaseDownPct / 100))
-  const leaseFinanced = leasePrice - leaseDown
-  const leaseMonthly = Math.round((leaseFinanced / leaseMonths) * 1.08)
-
   const FAQ_ITEMS = [
     { q: t('lotFaq1Q'), a: t('lotFaq1A') },
     { q: t('lotFaq2Q'), a: t('lotFaq2A') },
@@ -431,8 +472,11 @@ export function LotPage() {
     <main className="lot-page">
       <Seo
         title={car.title ? `${car.title} | BID BIDDERS` : t('seoLotTitle')}
-        description={t('seoLotDescription')}
+        description={car.publicDescription || [
+          car.year, car.make, car.model, car.engine, car.mileageLabel, car.location
+        ].filter(Boolean).join(' · ') || t('seoLotDescription')}
         path={isSlugMode ? `cars/${slug}` : `${routePaths.lotDetail.replace(':lotId', lotId ?? '')}`}
+        ogImage={images[0] || undefined}
       />
       {/* JSON-LD structured data for SEO */}
       <script
@@ -746,7 +790,7 @@ export function LotPage() {
               </>
             ) : null}
 
-            {/* === MODE: IN-STOCK (fixed price + leasing calc placeholder) === */}
+            {/* === MODE: IN-STOCK (fixed price + contact CTA) === */}
             {mode === 'in-stock' ? (
               <>
                 <div className="lot-sb-card lot-sb-card--hero">
@@ -762,42 +806,6 @@ export function LotPage() {
 
                   <button className="lot-cta-primary" type="button">{t('lotSbBuyNow')}</button>
                   <button className="lot-cta-secondary" type="button">{t('lotSbScheduleView')}</button>
-                </div>
-
-                <div className="lot-sb-card lot-sb-lease">
-                  <div className="lot-sb-kicker">{t('lotSbLeaseCalc')}</div>
-                  <h3 className="lot-sb-card__title">{t('lotSbMonthlyPayment')}</h3>
-                  <div className="lot-lease-monthly">{fmt(leaseMonthly)}<span>{t('lotSbPerMonth')}</span></div>
-
-                  <div className="lot-lease-row">
-                    <label>{t('lotSbDownPayment')} <strong>{leaseDownPct}%</strong> <span>({fmt(leaseDown)})</span></label>
-                    <input
-                      type="range"
-                      min={10}
-                      max={60}
-                      step={5}
-                      value={leaseDownPct}
-                      onChange={(event) => setLeaseDownPct(Number(event.target.value))}
-                    />
-                  </div>
-
-                  <div className="lot-lease-row">
-                    <label>{t('lotSbLeaseTerm')} <strong>{leaseMonths} {t('lotSbLeaseMonths')}</strong></label>
-                    <div className="lot-lease-chips">
-                      {[24, 36, 48, 60].map((m) => (
-                        <button
-                          key={m}
-                          type="button"
-                          className={leaseMonths === m ? 'lot-lease-chip active' : 'lot-lease-chip'}
-                          onClick={() => setLeaseMonths(m)}
-                        >
-                          {m}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <p className="lot-lease-note">{t('lotSbLeaseNote')}</p>
                 </div>
               </>
             ) : null}

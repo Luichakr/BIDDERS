@@ -33,6 +33,12 @@ function normalize(pathname: string): string {
 const PRODUCTION_ALLOWED_PREFIXES: readonly string[] = [
   '/pl/cars/',
   '/en/cars/',
+  '/pl/cabinet',
+  '/en/cabinet',
+  '/uk/cabinet',
+  '/pl/in-stock',
+  '/en/in-stock',
+  '/uk/in-stock',
 ]
 
 export function isRouteAllowed(pathname: string): boolean {

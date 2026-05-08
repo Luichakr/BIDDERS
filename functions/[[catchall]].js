@@ -68,7 +68,7 @@ export async function onRequestGet(context) {
   const descParts = [
     car.mileage ? `Przebieg: ${car.mileage}` : null,
     car.engine ? String(car.engine) : null,
-    car.location ? `Lokalizacja: ${car.location}` : null,
+    'Warszawa, Polska',
     'Import aut ze Stanów • BID BIDDERS',
   ].filter(Boolean)
   const desc = escapeHtml(descParts.join(' • '))

@@ -4,6 +4,7 @@ import { ProductionGate } from './ProductionGate'
 import { ScrollToTop } from './ScrollToTop'
 import { LocaleRedirect } from '../shared/i18n/LocaleRedirect'
 import { LocaleGuard } from '../shared/i18n/LocaleGuard'
+import { GuestOnlyRoute, ProtectedRoute } from '../shared/auth/AuthRouteGate'
 
 import { HomePage } from '../pages/home/ui/HomePage'
 import { CatalogPage } from '../pages/catalog/ui/CatalogPage'
@@ -14,6 +15,10 @@ import { BlogPage } from '../pages/blog/ui/BlogPage'
 import { CasesPage } from '../pages/cases/ui/CasesPage'
 import { FaqPage } from '../pages/faq/ui/FaqPage'
 import { ContactsPage } from '../pages/contacts/ui/ContactsPage'
+import { CabinetPage } from '../pages/cabinet/ui/CabinetPage'
+import { AuthCallbackPage } from '../pages/auth/ui/AuthCallbackPage'
+import { LoginPage } from '../pages/auth/ui/LoginPage'
+import { RegisterPage } from '../pages/auth/ui/RegisterPage'
 import { PrivacyPolicyPage } from '../pages/privacy/ui/PrivacyPolicyPage'
 import { TermsPage } from '../pages/terms/ui/TermsPage'
 import { ChinaCarsPage } from '../pages/china-cars/ui/ChinaCarsPage'
@@ -66,6 +71,14 @@ export function AppRouter() {
               <Route path="blog" element={<BlogPage />} />
               <Route path="cases" element={<CasesPage />} />
               <Route path="faq" element={<FaqPage />} />
+              <Route element={<GuestOnlyRoute />}>
+                <Route path="login" element={<LoginPage />} />
+                <Route path="register" element={<RegisterPage />} />
+              </Route>
+              <Route path="auth/callback" element={<AuthCallbackPage />} />
+              <Route element={<ProtectedRoute />}>
+                <Route path="cabinet" element={<CabinetPage />} />
+              </Route>
               <Route path="contacts" element={<ContactsPage />} />
               {/* /:locale/contact → /:locale/contacts */}
               <Route path="contact" element={<Navigate replace to="../contacts" />} />
@@ -87,6 +100,10 @@ export function AppRouter() {
         <Route path="/blog" element={<Navigate replace to="/en/blog" />} />
         <Route path="/cases" element={<Navigate replace to="/en/cases" />} />
         <Route path="/faq" element={<Navigate replace to="/en/faq" />} />
+        <Route path="/login" element={<Navigate replace to="/en/login" />} />
+        <Route path="/register" element={<Navigate replace to="/en/register" />} />
+        <Route path="auth/callback" element={<Navigate replace to="/en/auth/callback" />} />
+        <Route path="/cabinet" element={<Navigate replace to="/en/cabinet" />} />
         <Route path="/contacts" element={<Navigate replace to="/en/contacts" />} />
         <Route path="/contact" element={<Navigate replace to="/en/contacts" />} />
         <Route path="/privacy-policy" element={<Navigate replace to="/en/privacy-policy" />} />

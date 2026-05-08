@@ -1085,7 +1085,37 @@ export type MessageKey =
   | 'calcFaqQ6'
   | 'calcFaqA6'
   | 'footerCalculator'
+  | 'footerCabinet'
+  | 'cabinetIntro'
   | 'footerContacts'
+  | 'authLoginTitle'
+  | 'authLoginLead'
+  | 'authRegisterTitle'
+  | 'authRegisterLead'
+  | 'authNameLabel'
+  | 'authEmailLabel'
+  | 'authPasswordLabel'
+  | 'authLoginSubmit'
+  | 'authRegisterSubmit'
+  | 'authGoogleButton'
+  | 'authNoAccount'
+  | 'authHaveAccount'
+  | 'authGoRegister'
+  | 'authGoLogin'
+  | 'authLogout'
+  | 'authModeMock'
+  | 'authErrorGeneric'
+  | 'authSessionLoadingTitle'
+  | 'authSessionLoadingLead'
+  | 'authCallbackLoadingTitle'
+  | 'authCallbackLoadingLead'
+  | 'authCallbackErrorTitle'
+  | 'authCallbackErrorLead'
+  | 'cabinetNeedAuthTitle'
+  | 'cabinetNeedAuthLead'
+  | 'cabinetOpenLogin'
+  | 'cabinetOpenRegister'
+  | 'cabinetWelcome'
   | 'faqFullKicker'
   | 'faqFullTitle'
   | 'faqFullSub'
@@ -2219,7 +2249,37 @@ export const messages: Record<Locale, Messages> = {
     calcFaqQ6: 'Чи є прихована комісія?',
     calcFaqA6: 'Ні. Усі витрати прозорі і відображаються в калькуляторі до підтвердження угоди.',
     footerCalculator: 'Калькулятор',
+    footerCabinet: 'Особистий кабінет',
+    cabinetIntro: 'Це перша версія кабінету. Наступний крок — авторизація та приватні дані користувача.',
     footerContacts: 'Контакти',
+    authLoginTitle: 'Вхід',
+    authLoginLead: 'Увійдіть, щоб керувати своїми авто у кабінеті.',
+    authRegisterTitle: 'Реєстрація',
+    authRegisterLead: 'Створіть акаунт та почніть додавати власні авто.',
+    authNameLabel: 'Ім\'я',
+    authEmailLabel: 'Email',
+    authPasswordLabel: 'Пароль',
+    authLoginSubmit: 'Увійти',
+    authRegisterSubmit: 'Зареєструватися',
+    authGoogleButton: 'Увійти через Google',
+    authNoAccount: 'Ще немає акаунта?',
+    authHaveAccount: 'Вже маєте акаунт?',
+    authGoRegister: 'Створити акаунт',
+    authGoLogin: 'Увійти',
+    authLogout: 'Вийти',
+    authModeMock: 'Демо-режим: поки немає ключів Supabase, вхід працює локально.',
+    authErrorGeneric: 'Сталася помилка авторизації. Спробуйте ще раз.',
+    authSessionLoadingTitle: 'Перевіряємо сесію',
+    authSessionLoadingLead: 'Зачекайте кілька секунд, ми перевіряємо ваш вхід.',
+    authCallbackLoadingTitle: 'Завершуємо вхід через Google',
+    authCallbackLoadingLead: 'Повертаємо вас у кабінет і підтягуємо профіль.',
+    authCallbackErrorTitle: 'Не вдалося завершити вхід',
+    authCallbackErrorLead: 'Спробуйте ще раз на сторінці входу.',
+    cabinetNeedAuthTitle: 'Потрібна авторизація',
+    cabinetNeedAuthLead: 'Щоб користуватися кабінетом і додавати авто, увійдіть або зареєструйтесь.',
+    cabinetOpenLogin: 'До входу',
+    cabinetOpenRegister: 'До реєстрації',
+    cabinetWelcome: 'Ласкаво просимо до вашого кабінету',
     faqFullKicker: 'FAQ',
     faqFullTitle: 'Часті запитання про імпорт авто з США',
     faqFullSub: 'Відповіді на найпоширеніші питання про спроведення авто зі Штатів, вартість, терміни та митницю.',
@@ -3350,7 +3410,37 @@ export const messages: Record<Locale, Messages> = {
     calcFaqQ6: 'Are there any hidden fees?',
     calcFaqA6: 'No. All import costs — from auction fee to VAT — are transparent and shown in the calculator before you commit.',
     footerCalculator: 'Calculator',
+    footerCabinet: 'Personal cabinet',
+    cabinetIntro: 'This is the first cabinet placeholder. Next step is authentication and private user data.',
     footerContacts: 'Contacts',
+    authLoginTitle: 'Sign in',
+    authLoginLead: 'Log in to manage your own cars in the cabinet.',
+    authRegisterTitle: 'Sign up',
+    authRegisterLead: 'Create an account and start uploading your own cars.',
+    authNameLabel: 'Name',
+    authEmailLabel: 'Email',
+    authPasswordLabel: 'Password',
+    authLoginSubmit: 'Sign in',
+    authRegisterSubmit: 'Create account',
+    authGoogleButton: 'Continue with Google',
+    authNoAccount: 'No account yet?',
+    authHaveAccount: 'Already have an account?',
+    authGoRegister: 'Create account',
+    authGoLogin: 'Sign in',
+    authLogout: 'Log out',
+    authModeMock: 'Demo mode: until Supabase keys are configured, auth works locally.',
+    authErrorGeneric: 'Authentication error. Please try again.',
+    authSessionLoadingTitle: 'Checking session',
+    authSessionLoadingLead: 'Please wait a moment while we verify your sign-in.',
+    authCallbackLoadingTitle: 'Finishing Google sign-in',
+    authCallbackLoadingLead: 'Redirecting you to the cabinet and loading your profile.',
+    authCallbackErrorTitle: 'Could not finish sign-in',
+    authCallbackErrorLead: 'Please try again from the login page.',
+    cabinetNeedAuthTitle: 'Authorization required',
+    cabinetNeedAuthLead: 'To use your cabinet and upload cars, please sign in or register.',
+    cabinetOpenLogin: 'Open sign in',
+    cabinetOpenRegister: 'Open sign up',
+    cabinetWelcome: 'Welcome to your cabinet',
     faqFullKicker: 'FAQ',
     faqFullTitle: 'Frequently asked questions about importing cars from the USA',
     faqFullSub: 'Everything you need to know about USA car import — costs, timelines, customs, and the full process.',
@@ -4481,7 +4571,37 @@ export const messages: Record<Locale, Messages> = {
     calcFaqQ6: 'Czy są ukryte opłaty?',
     calcFaqA6: 'Nie. Wszystkie koszty sprowadzenia auta ze Stanów są przejrzyste i widoczne w kalkulatorze przed potwierdzeniem transakcji.',
     footerCalculator: 'Kalkulator',
+    footerCabinet: 'Panel klienta',
+    cabinetIntro: 'To jest pierwsza wersja panelu. Następny krok to logowanie i prywatne dane użytkownika.',
     footerContacts: 'Kontakty',
+    authLoginTitle: 'Logowanie',
+    authLoginLead: 'Zaloguj się, aby zarządzać swoimi autami w panelu.',
+    authRegisterTitle: 'Rejestracja',
+    authRegisterLead: 'Utwórz konto i zacznij dodawać własne auta.',
+    authNameLabel: 'Imię',
+    authEmailLabel: 'Email',
+    authPasswordLabel: 'Hasło',
+    authLoginSubmit: 'Zaloguj się',
+    authRegisterSubmit: 'Utwórz konto',
+    authGoogleButton: 'Kontynuuj z Google',
+    authNoAccount: 'Nie masz konta?',
+    authHaveAccount: 'Masz już konto?',
+    authGoRegister: 'Załóż konto',
+    authGoLogin: 'Zaloguj się',
+    authLogout: 'Wyloguj się',
+    authModeMock: 'Tryb demo: dopóki klucze Supabase nie są skonfigurowane, logowanie działa lokalnie.',
+    authErrorGeneric: 'Błąd logowania. Spróbuj ponownie.',
+    authSessionLoadingTitle: 'Sprawdzanie sesji',
+    authSessionLoadingLead: 'Poczekaj chwilę, weryfikujemy Twoje logowanie.',
+    authCallbackLoadingTitle: 'Kończymy logowanie przez Google',
+    authCallbackLoadingLead: 'Przekierowujemy Cię do panelu i wczytujemy profil.',
+    authCallbackErrorTitle: 'Nie udało się dokończyć logowania',
+    authCallbackErrorLead: 'Spróbuj ponownie na stronie logowania.',
+    cabinetNeedAuthTitle: 'Wymagane logowanie',
+    cabinetNeedAuthLead: 'Aby korzystać z panelu i dodawać auta, zaloguj się lub zarejestruj.',
+    cabinetOpenLogin: 'Przejdź do logowania',
+    cabinetOpenRegister: 'Przejdź do rejestracji',
+    cabinetWelcome: 'Witamy w Twoim panelu',
     faqFullKicker: 'FAQ',
     faqFullTitle: 'Często zadawane pytania o sprowadzanie aut z USA',
     faqFullSub: 'Odpowiedzi na pytania o koszt, czas, cło i cały proces importu auta z USA i samochodów ze Stanów.',

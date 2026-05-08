@@ -1,5 +1,14 @@
 # React + TypeScript + Vite
 
+## Auth
+
+The project now has a localized auth foundation with two modes:
+
+- Demo mode without Supabase keys.
+- Real Supabase auth with email/password and Google OAuth when env vars are present.
+
+Setup details live in `docs/AUTH_SETUP.md`.
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:

@@ -47,6 +47,7 @@ export function Footer() {
                 <li><Link to={lp(routePaths.transit)}>{t('navTransit')}</Link></li>
                 <li><Link to={lp(routePaths.calculator)}>{t('footerCalculator')}</Link></li>
                 <li><Link to={lp(routePaths.contacts)}>{t('footerContacts')}</Link></li>
+                <li><Link to={lp(routePaths.cabinet)}>{t('footerCabinet')}</Link></li>
                 <li><Link to={lp(routePaths.faq)}>{t('footerFaq')}</Link></li>
                 {!isProd && <li><Link to={lp(routePaths.blog)}>{t('footerBlog')}</Link></li>}
               </ul>
