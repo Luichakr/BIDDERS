@@ -569,7 +569,6 @@
 }
 
 .px-route__body {
-  position: relative;
   padding: 22px 22px 26px;
   display: flex;
   flex-direction: column;

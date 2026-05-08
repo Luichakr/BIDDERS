@@ -174,13 +174,7 @@ export function CabinetPage() {
     }).catch(() => setAllMakesModels(CAR_MAKES_MODELS))
   }, [])
 
-  // ── Auto-assign lot/stock/auction on car selection ────────────────────────
-  const selectedCar = useMemo(
-    () => cars.find((car) => car.id === selectedCarId) ?? filteredCars[0] ?? null,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [cars, selectedCarId],
-  )
-
+  // ── Filtered + selected car (filteredCars must come first) ───────────────
   const filteredCars = useMemo(() => {
     const term = search.trim().toLowerCase()
     return [...cars]
@@ -192,6 +186,11 @@ export function CabinetPage() {
       })
       .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
   }, [cars, search, statusFilter])
+
+  const selectedCar = useMemo(
+    () => cars.find((car) => car.id === selectedCarId) ?? filteredCars[0] ?? null,
+    [cars, selectedCarId, filteredCars],
+  )
 
   useEffect(() => {
     if (!selectedCar && filteredCars[0]) { setSelectedCarId(filteredCars[0].id); return }

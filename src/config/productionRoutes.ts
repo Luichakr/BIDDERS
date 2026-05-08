@@ -17,6 +17,12 @@ export const PRODUCTION_ALLOWED_ROUTES: readonly string[] = [
   '/pl/faq',
   '/en/faq',
   '/pl/dobieramy-auto',
+  '/pl/login',
+  '/en/login',
+  '/pl/register',
+  '/en/register',
+  '/pl/auth/callback',
+  '/en/auth/callback',
 ] as const
 
 export function isProductionDeploy(): boolean {
