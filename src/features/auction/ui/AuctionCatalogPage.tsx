@@ -176,6 +176,20 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
     postal: false,
   })
 
+  // Re-initialize price/mileage range when cards first arrive async (were empty on mount)
+  const cardsLoadedRef = useRef(false)
+  useEffect(() => {
+    if (cards.length === 0 || cardsLoadedRef.current) return
+    cardsLoadedRef.current = true
+    const saved = loadFilters(mode)
+    const [pMin, pMax] = parsePriceRange(cards)
+    const [oMin, oMax] = parseMileageRange(cards)
+    if (saved.priceMin === undefined) setPriceMin(pMin)
+    if (saved.priceMax === undefined) setPriceMax(pMax)
+    if (saved.odoMin === undefined) setOdoMin(oMin)
+    if (saved.odoMax === undefined) setOdoMax(oMax)
+  }, [cards, mode])
+
   const [brandSearch, setBrandSearch] = useState('')
   const [modelSearch, setModelSearch] = useState('')
   const [activeTab, setActiveTab] = useState<'all' | 'open' | 'live' | 'closed' | 'buynow'>(
