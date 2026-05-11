@@ -86,7 +86,7 @@ export function CabinetPage() {
 
   const canUseCloudSync = canUseCloudCabinet(user?.id)
 
-  // ── Load on mount + on tab focus ───────────────────────────────────────────
+  // ── Load on mount ──────────────────────────────────────────────────────────
   const loadCars = useRef<(() => void) | undefined>(undefined)
   useEffect(() => {
     let isMounted = true
@@ -111,9 +111,7 @@ export function CabinetPage() {
     }
     loadCars.current = doLoad
     doLoad()
-    const onFocus = () => { if (user?.id) doLoad() }
-    window.addEventListener('focus', onFocus)
-    return () => { isMounted = false; window.removeEventListener('focus', onFocus) }
+    return () => { isMounted = false }
   }, [copy.syncCloudReady, copy.syncLocalFallback, copy.syncLocalReady, user?.id])
 
   // ── Autosave with 2s debounce ──────────────────────────────────────────────
