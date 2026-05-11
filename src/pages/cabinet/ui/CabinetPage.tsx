@@ -87,7 +87,7 @@ export function CabinetPage() {
   const canUseCloudSync = canUseCloudCabinet(user?.id)
 
   // ── Load on mount + on tab focus ───────────────────────────────────────────
-  const loadCars = useRef<() => void>()
+  const loadCars = useRef<(() => void) | undefined>(undefined)
   useEffect(() => {
     let isMounted = true
     const doLoad = () => {
