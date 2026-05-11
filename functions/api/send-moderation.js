@@ -8,7 +8,7 @@
 
 const SITE = 'https://bidbidders.com'
 const TO_EMAIL = 'sales@bidbidders.com'
-const FROM_EMAIL = 'onboarding@resend.dev' // use resend dev sender until domain verified
+const FROM_EMAIL = 'noreply@bidbidders.com'
 
 function buildLink(action, carId, userId, section) {
   const params = new URLSearchParams({ action, carId, userId, section })
