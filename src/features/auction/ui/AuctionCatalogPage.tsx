@@ -693,7 +693,7 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
     const slides = showSlidesForCard(card)
     const slideIndex = slideByCard[card.id] ?? 0
     const currentImage = slides[slideIndex] || card.image
-    const docType = docByCardId[card.id] ?? docs[0]
+    const docType = mode !== 'in-stock' ? (docByCardId[card.id] ?? docs[0]) : null
 
     const isFixedPrice = mode === 'transit' || mode === 'in-stock'
     const topBadgeLabel = mode === 'transit'
@@ -872,7 +872,7 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
             <button className="reset-btn" type="button" onClick={resetAll}>{t('catalogFilterResetAll')}</button>
           </div>
 
-          {mode !== 'transit' ? (
+          {mode !== 'transit' && mode !== 'in-stock' ? (
             <>
               <div className="toggle-row"><span className="toggle-label">{t('catalogToggleWholesale')}</span><button className="toggle-switch on" type="button"></button></div>
               <div className="toggle-row"><span className="toggle-label">{t('catalogToggleRecent')}</span><button className="toggle-switch" type="button"></button></div>
@@ -880,7 +880,7 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
             </>
           ) : null}
 
-          {mode !== 'transit' ? (
+          {mode !== 'transit' && mode !== 'in-stock' ? (
           <div className={selectedDocTypes.length > 0 ? 'filter-group open has-selection' : 'filter-group open'} data-filter="doc">
             <div className="filter-head" onClick={() => toggleGroup('doc')}>
               <div className="filter-head-left"><span className="filter-name">{t('catalogFilterDocType')}</span><span className="filter-count">{selectedDocTypes.length}</span></div>
