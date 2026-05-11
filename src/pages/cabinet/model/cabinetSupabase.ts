@@ -177,7 +177,7 @@ function mapRowToCabinetCar(row: CabinetCarRow): CabinetCar {
     serviceHistory: row.service_history,
     modifications: row.modifications,
     notes: row.notes,
-    publicationStatus: row.publication_status === 'published' ? 'published' : 'private',
+    publicationStatus: (['published', 'pending_transit', 'pending_stock', 'rejected'].includes(row.publication_status ?? '') ? row.publication_status : 'private') as CabinetPublicationStatus,
     publicTitle: row.public_title ?? '',
     publicSlug: row.public_slug ?? '',
     publicDescription: row.public_description ?? '',
