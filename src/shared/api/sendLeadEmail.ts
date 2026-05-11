@@ -2,10 +2,28 @@
  * Sends lead email via Web3Forms API.
  * Access key is obtained at https://web3forms.com — enter sales@bidbidders.com,
  * confirm via email link, and paste the key into VITE_WEB3FORMS_KEY in .env
+ *
+ * Also sends lead to Google Sheets via Apps Script Web App.
+ * Set VITE_SHEETS_WEBHOOK_URL in .env (the deployed Apps Script URL).
  */
 
 const ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_KEY ?? ''
 const ENDPOINT = 'https://api.web3forms.com/submit'
+const SHEETS_URL = import.meta.env.VITE_SHEETS_WEBHOOK_URL ?? ''
+
+/** Fire-and-forget — отправляет в Google Sheets, не блокирует основной флоу */
+async function sendToSheets(payload: Record<string, string | number>): Promise<void> {
+  if (!SHEETS_URL) return
+  try {
+    await fetch(SHEETS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+  } catch {
+    // silent — не мешаем основному флоу
+  }
+}
 
 export type B2CLeadPayload = {
   // Contact
@@ -127,6 +145,28 @@ export async function sendB2CLead(payload: B2CLeadPayload): Promise<void> {
   if (!data.success) {
     throw new Error(data.message ?? 'Submission failed')
   }
+
+  // Параллельно — Google Sheets (fire-and-forget)
+  void sendToSheets({
+    source: payload.scenario?.includes('dobieramy-auto') ? 'Dobieramy auto' : 'B2C — Strona główna',
+    name: payload.name,
+    phone: payload.phone,
+    email: payload.email,
+    bodyType: payload.bodyType,
+    yearRange: `${payload.yearMin} – ${payload.yearMax}`,
+    budgetRange: `$${payload.budgetMin.toLocaleString('en-US')} – $${payload.budgetMax.toLocaleString('en-US')}`,
+    make: payload.make,
+    model: payload.model,
+    drive: payload.drive,
+    fuel: payload.fuel,
+    gearbox: payload.gearbox,
+    color: payload.color,
+    damageType: payload.damageType,
+    steering: payload.steering,
+    power: payload.power,
+    engineVol: payload.engineVol,
+    comment: payload.comment,
+  })
 }
 
 export async function sendB2BLead(payload: B2BLeadPayload): Promise<void> {
@@ -151,4 +191,15 @@ export async function sendB2BLead(payload: B2BLeadPayload): Promise<void> {
   if (!data.success) {
     throw new Error(data.message ?? 'Submission failed')
   }
+
+  // Параллельно — Google Sheets (fire-and-forget)
+  void sendToSheets({
+    source: 'B2B — Strona główna',
+    name: '—',
+    phone: payload.phone,
+    email: '—',
+    company: payload.company,
+    format: payload.format,
+    comment: payload.comment,
+  })
 }

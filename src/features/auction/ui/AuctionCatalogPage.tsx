@@ -23,6 +23,8 @@ interface PersistedFilters {
   selectedYears: number[]
   odoMin: number
   odoMax: number
+  priceMin: number
+  priceMax: number
   yearFrom: number | ''
   yearTo: number | ''
   sortMode: string
@@ -99,6 +101,16 @@ function parseYearRange(cards: AuctionCardData[]): [number, number] {
   return [Number.isFinite(min) ? min : 2005, Number.isFinite(max) ? max : 2027]
 }
 
+function parsePriceRange(cards: AuctionCardData[]): [number, number] {
+  const prices = cards.map((card) => card.currentBid).filter((v) => v > 0)
+  if (prices.length === 0) return [0, 50000]
+  const minRaw = Math.min(...prices)
+  const maxRaw = Math.max(...prices)
+  const min = Math.floor(minRaw / 500) * 500
+  const max = Math.ceil(maxRaw / 500) * 500
+  return [Math.max(0, min), Math.max(500, max)]
+}
+
 function parseMileageRange(cards: AuctionCardData[]): [number, number] {
   const mileages = cards.map((card) => card.mileageKm)
   const minRaw = Math.min(...mileages)
@@ -127,6 +139,7 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
   // ── Restore persisted filters ────────────────────────────────────────────
   const _saved = loadFilters(mode)
   const [_odoMinInit, _odoMaxInit] = parseMileageRange(cards)
+  const [_priceMinInit, _priceMaxInit] = parsePriceRange(cards)
 
   const [sortMode, setSortMode] = useState<SortMode>(
     (_saved.sortMode as SortMode) ?? (mode === 'catalog' ? 'auction_asc' : 'year_desc')
@@ -143,6 +156,10 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
   const [odoMax, setOdoMax] = useState<number>(_saved.odoMax ?? _odoMaxInit)
   const [odoMinInput, setOdoMinInput] = useState<string>('')
   const [odoMaxInput, setOdoMaxInput] = useState<string>('')
+  const [priceMin, setPriceMin] = useState<number>(_saved.priceMin ?? _priceMinInit)
+  const [priceMax, setPriceMax] = useState<number>(_saved.priceMax ?? _priceMaxInit)
+  const [priceMinInput, setPriceMinInput] = useState<string>('')
+  const [priceMaxInput, setPriceMaxInput] = useState<string>('')
   const [yearMinInput, setYearMinInput] = useState<string>('')
   const [yearMaxInput, setYearMaxInput] = useState<string>('')
   const [yearFrom, setYearFrom] = useState<number | ''>(_saved.yearFrom ?? '')
@@ -189,22 +206,27 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
 
   const [minYearAll, maxYearAll] = useMemo(() => parseYearRange(cards), [cards])
   const [odoMinLimit, odoMaxLimit] = useMemo(() => parseMileageRange(cards), [cards])
+  const [priceMinLimit, priceMaxLimit] = useMemo(() => parsePriceRange(cards), [cards])
 
   // ── Save filters to sessionStorage on every change ───────────────────────
   useEffect(() => {
     saveFilters(mode, {
       selectedDocTypes, selectedBrands, selectedModels, selectedFuels,
       selectedTransmission, selectedDrive, selectedYears,
-      odoMin, odoMax, yearFrom, yearTo,
+      odoMin, odoMax, priceMin, priceMax, yearFrom, yearTo,
       sortMode, activeTab, visibleCount,
     })
   }, [mode, selectedDocTypes, selectedBrands, selectedModels, selectedFuels,
       selectedTransmission, selectedDrive, selectedYears,
-      odoMin, odoMax, yearFrom, yearTo, sortMode, activeTab, visibleCount])
+      odoMin, odoMax, priceMin, priceMax, yearFrom, yearTo, sortMode, activeTab, visibleCount])
 
   const odoRange = Math.max(1, odoMaxLimit - odoMinLimit)
   const odoFillLeft = ((odoMin - odoMinLimit) / odoRange) * 100
   const odoFillRight = 100 - ((odoMax - odoMinLimit) / odoRange) * 100
+
+  const priceRange = Math.max(1, priceMaxLimit - priceMinLimit)
+  const priceFillLeft = ((priceMin - priceMinLimit) / priceRange) * 100
+  const priceFillRight = 100 - ((priceMax - priceMinLimit) / priceRange) * 100
 
   const sortLabelMap: Record<SortMode, string> = {
     auction_asc: t('catalogSortAuctionTime'),
@@ -225,6 +247,11 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
     setOdoMinInput(String(Math.round(odoMin)))
     setOdoMaxInput(String(Math.round(odoMax)))
   }, [odoMax, odoMin])
+
+  useEffect(() => {
+    setPriceMinInput(String(Math.round(priceMin)))
+    setPriceMaxInput(String(Math.round(priceMax)))
+  }, [priceMin, priceMax])
 
   useEffect(() => {
     if (yearFrom === '') return
@@ -256,6 +283,8 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
       yearTo?: number | ''
       odoMin?: number
       odoMax?: number
+      priceMin?: number
+      priceMax?: number
     },
   ) => {
     const docFilter = overrides?.selectedDocTypes ?? selectedDocTypes
@@ -269,6 +298,8 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
     const yearToFilter = overrides?.yearTo ?? yearTo
     const odoMinFilter = overrides?.odoMin ?? odoMin
     const odoMaxFilter = overrides?.odoMax ?? odoMax
+    const priceMinFilter = overrides?.priceMin ?? priceMin
+    const priceMaxFilter = overrides?.priceMax ?? priceMax
 
     if (docFilter.length > 0 && !docFilter.includes(docByCardId[card.id] ?? docs[0])) return false
     if (brandFilter.length > 0 && !brandFilter.includes(card.make)) return false
@@ -281,6 +312,7 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
     if (yearFromFilter !== '' && card.year < yearFromFilter) return false
     if (yearToFilter !== '' && card.year > yearToFilter) return false
     if (card.mileageKm < odoMinFilter || card.mileageKm > odoMaxFilter) return false
+    if (card.currentBid < priceMinFilter || card.currentBid > priceMaxFilter) return false
 
     return true
   }
@@ -311,7 +343,7 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
     })
 
     return sorted
-  }, [cards, docByCardId, docs, odoMax, odoMin, selectedBrands, selectedDocTypes, selectedDrive, selectedFuels, selectedModels, selectedTransmission, selectedYears, sortMode, yearFrom, yearTo])
+  }, [cards, docByCardId, docs, odoMax, odoMin, priceMin, priceMax, selectedBrands, selectedDocTypes, selectedDrive, selectedFuels, selectedModels, selectedTransmission, selectedYears, sortMode, yearFrom, yearTo])
 
   const brandOptionCounts = useMemo(() => {
     const counts = new Map<string, number>()
@@ -329,7 +361,7 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
       counts.set(card.model, (counts.get(card.model) ?? 0) + 1)
     })
     return counts
-  }, [cards, docByCardId, docs, odoMax, odoMin, selectedBrands, selectedDocTypes, selectedDrive, selectedFuels, selectedTransmission, selectedYears, yearFrom, yearTo])
+  }, [cards, docByCardId, docs, odoMax, odoMin, priceMin, priceMax, selectedBrands, selectedDocTypes, selectedDrive, selectedFuels, selectedTransmission, selectedYears, yearFrom, yearTo])
 
   const fuelOptionCounts = useMemo(() => {
     const counts = new Map<string, number>()
@@ -338,7 +370,7 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
       counts.set(card.fuel, (counts.get(card.fuel) ?? 0) + 1)
     })
     return counts
-  }, [cards, docByCardId, docs, odoMax, odoMin, selectedBrands, selectedDocTypes, selectedDrive, selectedModels, selectedTransmission, selectedYears, yearFrom, yearTo])
+  }, [cards, docByCardId, docs, odoMax, odoMin, priceMin, priceMax, selectedBrands, selectedDocTypes, selectedDrive, selectedModels, selectedTransmission, selectedYears, yearFrom, yearTo])
 
   const transmissionOptionCounts = useMemo(() => {
     const counts = new Map<string, number>()
@@ -347,7 +379,7 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
       counts.set(card.transmission, (counts.get(card.transmission) ?? 0) + 1)
     })
     return counts
-  }, [cards, docByCardId, docs, odoMax, odoMin, selectedBrands, selectedDocTypes, selectedDrive, selectedFuels, selectedModels, selectedYears, yearFrom, yearTo])
+  }, [cards, docByCardId, docs, odoMax, odoMin, priceMin, priceMax, selectedBrands, selectedDocTypes, selectedDrive, selectedFuels, selectedModels, selectedYears, yearFrom, yearTo])
 
   const yearOptionCounts = useMemo(() => {
     const counts = new Map<number, number>()
@@ -356,7 +388,7 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
       counts.set(card.year, (counts.get(card.year) ?? 0) + 1)
     })
     return counts
-  }, [cards, docByCardId, docs, odoMax, odoMin, selectedBrands, selectedDocTypes, selectedDrive, selectedFuels, selectedModels, selectedTransmission, yearFrom, yearTo])
+  }, [cards, docByCardId, docs, odoMax, odoMin, priceMin, priceMax, selectedBrands, selectedDocTypes, selectedDrive, selectedFuels, selectedModels, selectedTransmission, yearFrom, yearTo])
 
   const filteredBrands = useMemo(() => {
     const query = brandSearch.trim().toLowerCase()
@@ -453,6 +485,8 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
     setSelectedYears([])
     setOdoMin(odoMinLimit)
     setOdoMax(odoMaxLimit)
+    setPriceMin(priceMinLimit)
+    setPriceMax(priceMaxLimit)
     setYearFrom(mode === 'transit' ? minYearAll : '')
     setYearTo(mode === 'transit' ? maxYearAll : '')
     setBrandSearch('')
@@ -486,6 +520,47 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
   const handleOdoMaxChange = (rawValue: number) => {
     const nextValue = Math.min(odoMaxLimit, Math.max(rawValue, odoMin))
     setOdoMax(nextValue)
+  }
+
+  const handlePriceMinChange = (rawValue: number) => {
+    const nextValue = Math.max(priceMinLimit, Math.min(rawValue, priceMax))
+    setPriceMin(nextValue)
+  }
+
+  const handlePriceMaxChange = (rawValue: number) => {
+    const nextValue = Math.min(priceMaxLimit, Math.max(rawValue, priceMin))
+    setPriceMax(nextValue)
+  }
+
+  const handlePriceMinInputChange = (rawValue: string) => {
+    setPriceMinInput(rawValue)
+    if (rawValue.trim() === '') return
+    const parsed = Number(rawValue)
+    if (!Number.isFinite(parsed)) return
+    handlePriceMinChange(parsed)
+  }
+
+  const handlePriceMaxInputChange = (rawValue: string) => {
+    setPriceMaxInput(rawValue)
+    if (rawValue.trim() === '') return
+    const parsed = Number(rawValue)
+    if (!Number.isFinite(parsed)) return
+    handlePriceMaxChange(parsed)
+  }
+
+  const commitPriceInputs = () => {
+    const minParsed = Number(priceMinInput)
+    const maxParsed = Number(priceMaxInput)
+    if (Number.isFinite(minParsed)) {
+      handlePriceMinChange(minParsed)
+    } else {
+      setPriceMinInput(String(Math.round(priceMin)))
+    }
+    if (Number.isFinite(maxParsed)) {
+      handlePriceMaxChange(maxParsed)
+    } else {
+      setPriceMaxInput(String(Math.round(priceMax)))
+    }
   }
 
   const handleYearMinChange = (rawValue: number) => {
@@ -1052,6 +1127,73 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
                 ) : null}
               </div>
 
+              {/* ── Price range filter (desktop) ── */}
+              <div className="filter-group odo-group open" data-filter="price">
+                <div className="filter-head">
+                  <div className="filter-head-left"><span className="filter-name">{t('catalogFilterPrice')}</span></div>
+                  <button className="filter-reset" type="button" onClick={(event) => {
+                    event.stopPropagation()
+                    setPriceMin(priceMinLimit)
+                    setPriceMax(priceMaxLimit)
+                  }}>{t('catalogFilterReset')}</button>
+                  <span className="filter-arrow open">⌄</span>
+                </div>
+                <div className="filter-body">
+                  <div className="filter-inner">
+                    <div className="dual-range-wrap">
+                      <div className="dual-range-labels">
+                        <span>
+                          {t('catalogRangeFrom')} $
+                          <input
+                            className="range-val-input"
+                            inputMode="numeric"
+                            value={priceMinInput}
+                            onChange={(event) => handlePriceMinInputChange(event.target.value.replace(/[^0-9]/g, ''))}
+                            onBlur={commitPriceInputs}
+                          />
+                        </span>
+                        <span>
+                          {t('catalogRangeTo')} $
+                          <input
+                            className="range-val-input"
+                            inputMode="numeric"
+                            value={priceMaxInput}
+                            onChange={(event) => handlePriceMaxInputChange(event.target.value.replace(/[^0-9]/g, ''))}
+                            onBlur={commitPriceInputs}
+                          />
+                        </span>
+                      </div>
+                      <div className="dual-range">
+                        <div className="dual-range-track">
+                          <div
+                            className="dual-range-fill"
+                            style={{ left: `${priceFillLeft}%`, right: `${priceFillRight}%` }}
+                          ></div>
+                        </div>
+                        <input
+                          type="range"
+                          min={priceMinLimit}
+                          max={priceMaxLimit}
+                          step={500}
+                          value={priceMin}
+                          onInput={(event) => handlePriceMinChange(Number((event.target as HTMLInputElement).value))}
+                          onChange={(event) => handlePriceMinChange(Number(event.target.value))}
+                        />
+                        <input
+                          type="range"
+                          min={priceMinLimit}
+                          max={priceMaxLimit}
+                          step={500}
+                          value={priceMax}
+                          onInput={(event) => handlePriceMaxChange(Number((event.target as HTMLInputElement).value))}
+                          onChange={(event) => handlePriceMaxChange(Number(event.target.value))}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div className={selectedFuels.length > 0 ? 'filter-group has-selection' : 'filter-group'} data-filter="engine">
                 <div className="filter-head" onClick={() => toggleGroup('engine')}>
                   <div className="filter-head-left"><span className="filter-name">{t('catalogFilterFuel')}</span><span className="filter-count">{selectedFuels.length}</span></div>
@@ -1179,6 +1321,73 @@ export function AuctionCatalogPage({ title, cards, mode, isLoading = false }: Au
                     </div>
                   </div>
                 ) : null}
+              </div>
+
+              {/* ── Price range filter (mobile) ── */}
+              <div className="filter-group odo-group open" data-filter="price">
+                <div className="filter-head">
+                  <div className="filter-head-left"><span className="filter-name">{t('catalogFilterPrice')}</span></div>
+                  <button className="filter-reset" type="button" onClick={(event) => {
+                    event.stopPropagation()
+                    setPriceMin(priceMinLimit)
+                    setPriceMax(priceMaxLimit)
+                  }}>{t('catalogFilterReset')}</button>
+                  <span className="filter-arrow open">⌄</span>
+                </div>
+                <div className="filter-body">
+                  <div className="filter-inner">
+                    <div className="dual-range-wrap">
+                      <div className="dual-range-labels">
+                        <span>
+                          {t('catalogRangeFrom')} $
+                          <input
+                            className="range-val-input"
+                            inputMode="numeric"
+                            value={priceMinInput}
+                            onChange={(event) => handlePriceMinInputChange(event.target.value.replace(/[^0-9]/g, ''))}
+                            onBlur={commitPriceInputs}
+                          />
+                        </span>
+                        <span>
+                          {t('catalogRangeTo')} $
+                          <input
+                            className="range-val-input"
+                            inputMode="numeric"
+                            value={priceMaxInput}
+                            onChange={(event) => handlePriceMaxInputChange(event.target.value.replace(/[^0-9]/g, ''))}
+                            onBlur={commitPriceInputs}
+                          />
+                        </span>
+                      </div>
+                      <div className="dual-range">
+                        <div className="dual-range-track">
+                          <div
+                            className="dual-range-fill"
+                            style={{ left: `${priceFillLeft}%`, right: `${priceFillRight}%` }}
+                          ></div>
+                        </div>
+                        <input
+                          type="range"
+                          min={priceMinLimit}
+                          max={priceMaxLimit}
+                          step={500}
+                          value={priceMin}
+                          onInput={(event) => handlePriceMinChange(Number((event.target as HTMLInputElement).value))}
+                          onChange={(event) => handlePriceMinChange(Number(event.target.value))}
+                        />
+                        <input
+                          type="range"
+                          min={priceMinLimit}
+                          max={priceMaxLimit}
+                          step={500}
+                          value={priceMax}
+                          onInput={(event) => handlePriceMaxChange(Number((event.target as HTMLInputElement).value))}
+                          onChange={(event) => handlePriceMaxChange(Number(event.target.value))}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div className={(selectedYears.length > 0 || yearFrom !== '' || yearTo !== '') ? 'filter-group year-group open has-selection' : 'filter-group year-group open'} data-filter="year">

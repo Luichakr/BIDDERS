@@ -670,6 +670,7 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  flex-shrink: 0;
 }
 
 .catalog-page-react .dual-range-labels .range-val {
@@ -678,7 +679,7 @@
 }
 
 .catalog-page-react .range-val-input {
-  width: 84px;
+  width: 72px;
   border: none;
   border-bottom: 1px dashed rgba(255, 92, 0, 0.35);
   background: transparent;

@@ -15,6 +15,12 @@ function parseValues(value: string | null): string[] {
   return value.split(',').filter(Boolean)
 }
 
+/** Parse "$7,800" or "€1 200" → number (0 if unparseable) */
+function parseBid(raw: string): number {
+  const num = Number(raw.replace(/[^0-9.]/g, ''))
+  return isNaN(num) ? 0 : num
+}
+
 function buildFilters(items: InventoryItem[]): InventoryFilterGroup[] {
   const auctions = Array.from(new Set(items.map((item) => item.auction))).sort()
   const damage = Array.from(new Set(items.map((item) => item.damage))).sort()
@@ -29,7 +35,12 @@ function buildFilters(items: InventoryItem[]): InventoryFilterGroup[] {
   ]
 }
 
-function matchItem(item: InventoryItem, selected: SelectedFilters): boolean {
+function matchItem(
+  item: InventoryItem,
+  selected: SelectedFilters,
+  priceMin: number | null,
+  priceMax: number | null,
+): boolean {
   if (selected.auction.length > 0 && !selected.auction.includes(item.auction)) {
     return false
   }
@@ -43,7 +54,18 @@ function matchItem(item: InventoryItem, selected: SelectedFilters): boolean {
   if (selected.year.length > 0 && !selected.year.includes(item.year)) {
     return false
   }
+  const bid = parseBid(item.currentBid)
+  if (priceMin !== null && bid < priceMin) return false
+  if (priceMax !== null && bid > priceMax) return false
   return true
+}
+
+/** Derive min/max bid across all items (rounded to nice steps) */
+export function derivePriceBounds(items: InventoryItem[]): { globalMin: number; globalMax: number } {
+  if (items.length === 0) return { globalMin: 0, globalMax: 10000 }
+  const bids = items.map((i) => parseBid(i.currentBid)).filter((v) => v > 0)
+  if (bids.length === 0) return { globalMin: 0, globalMax: 10000 }
+  return { globalMin: Math.min(...bids), globalMax: Math.max(...bids) }
 }
 
 export function useInventoryFilters(items: InventoryItem[]) {
@@ -61,9 +83,21 @@ export function useInventoryFilters(items: InventoryItem[]) {
     [searchParams],
   )
 
+  const priceMin = useMemo(() => {
+    const raw = searchParams.get('priceMin')
+    return raw ? Number(raw) : null
+  }, [searchParams])
+
+  const priceMax = useMemo(() => {
+    const raw = searchParams.get('priceMax')
+    return raw ? Number(raw) : null
+  }, [searchParams])
+
+  const priceBounds = useMemo(() => derivePriceBounds(items), [items])
+
   const filteredItems = useMemo(
-    () => items.filter((item) => matchItem(item, selected)),
-    [items, selected],
+    () => items.filter((item) => matchItem(item, selected, priceMin, priceMax)),
+    [items, selected, priceMin, priceMax],
   )
 
   const toggleFilter = (key: FilterKey, option: string) => {
@@ -86,17 +120,32 @@ export function useInventoryFilters(items: InventoryItem[]) {
     setSearchParams(next)
   }
 
+  const setPriceRange = (min: number | null, max: number | null) => {
+    const next = new URLSearchParams(searchParams)
+    if (min !== null) next.set('priceMin', String(min))
+    else next.delete('priceMin')
+    if (max !== null) next.set('priceMax', String(max))
+    else next.delete('priceMax')
+    setSearchParams(next)
+  }
+
   const resetFilters = () => {
     const next = new URLSearchParams(searchParams)
     FILTER_KEYS.forEach((key) => next.delete(key))
+    next.delete('priceMin')
+    next.delete('priceMax')
     setSearchParams(next)
   }
 
   return {
     groups,
     selected,
+    priceMin,
+    priceMax,
+    priceBounds,
     filteredItems,
     toggleFilter,
+    setPriceRange,
     resetFilters,
   }
 }

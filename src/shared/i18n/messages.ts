@@ -65,6 +65,9 @@ export type MessageKey =
   | 'filterDamage'
   | 'filterFuel'
   | 'filterYear'
+  | 'filterPrice'
+  | 'filterPriceMin'
+  | 'filterPriceMax'
   | 'filters'
   | 'reset'
   | 'sortLabel'
@@ -426,6 +429,7 @@ export type MessageKey =
   | 'catalogFilterBrand'
   | 'catalogFilterModel'
   | 'catalogFilterMileage'
+  | 'catalogFilterPrice'
   | 'catalogFilterFuel'
   | 'catalogFilterTrans'
   | 'catalogFilterDrive'
@@ -513,6 +517,7 @@ export type MessageKey =
   | 'lotModeTransit'
   | 'lotModeInStock'
   | 'lotModeCatalog'
+  | 'lotBackButton'
   | 'lotStatusTransit'
   | 'lotStatusInStock'
   | 'lotStatusAtAuction'
@@ -1246,6 +1251,9 @@ export const messages: Record<Locale, Messages> = {
     filterDamage: 'Пошкодження',
     filterFuel: 'Паливо',
     filterYear: 'Рік',
+    filterPrice: 'Ціна (поточна ставка)',
+    filterPriceMin: 'від',
+    filterPriceMax: 'до',
     filters: 'Фільтри',
     reset: 'Скинути',
     sortLabel: 'Сортування',
@@ -1630,6 +1638,7 @@ export const messages: Record<Locale, Messages> = {
     lotModeTransit: 'Авто в дорозі',
     lotModeInStock: 'Авто в наявності',
     lotModeCatalog: 'Каталог',
+    lotBackButton: 'Назад',
     lotStatusTransit: 'В дорозі',
     lotStatusInStock: 'В наявності',
     lotStatusAtAuction: 'На аукціоні',
@@ -2008,6 +2017,7 @@ export const messages: Record<Locale, Messages> = {
     catalogFilterBrand: 'Марка',
     catalogFilterModel: 'Модель',
     catalogFilterMileage: 'Одометр',
+    catalogFilterPrice: 'Ціна (поточна ставка)',
     catalogFilterFuel: 'Тип двигуна',
     catalogFilterTrans: 'Трансмісія',
     catalogFilterDrive: 'Привід',
@@ -2424,6 +2434,9 @@ export const messages: Record<Locale, Messages> = {
     filterDamage: 'Damage',
     filterFuel: 'Fuel',
     filterYear: 'Year',
+    filterPrice: 'Price (current bid)',
+    filterPriceMin: 'from',
+    filterPriceMax: 'to',
     filters: 'Filters',
     reset: 'Reset',
     sortLabel: 'Sort',
@@ -2837,6 +2850,7 @@ export const messages: Record<Locale, Messages> = {
     catalogFilterBrand: 'Brand',
     catalogFilterModel: 'Model',
     catalogFilterMileage: 'Mileage',
+    catalogFilterPrice: 'Price (current bid)',
     catalogFilterFuel: 'Fuel type',
     catalogFilterTrans: 'Transmission',
     catalogFilterDrive: 'Drive type',
@@ -2871,6 +2885,7 @@ export const messages: Record<Locale, Messages> = {
     lotNotFoundBtn: 'Go to catalog',
     lotModeTransit: 'Cars in transit',
     lotModeInStock: 'In stock',
+    lotBackButton: 'Back',
     lotModeCatalog: 'Catalog',
     lotStatusTransit: 'In transit',
     lotStatusInStock: 'In stock',
@@ -3602,6 +3617,9 @@ export const messages: Record<Locale, Messages> = {
     filterDamage: 'Uszkodzenia',
     filterFuel: 'Paliwo',
     filterYear: 'Rok',
+    filterPrice: 'Cena (aktualna oferta)',
+    filterPriceMin: 'od',
+    filterPriceMax: 'do',
     filters: 'Filtry',
     reset: 'Resetuj',
     sortLabel: 'Sortowanie',
@@ -4015,6 +4033,7 @@ export const messages: Record<Locale, Messages> = {
     catalogFilterBrand: 'Marka',
     catalogFilterModel: 'Model',
     catalogFilterMileage: 'Przebieg',
+    catalogFilterPrice: 'Cena (aktualna oferta)',
     catalogFilterFuel: 'Typ silnika',
     catalogFilterTrans: 'Skrzynia biegów',
     catalogFilterDrive: 'Napęd',
@@ -4049,6 +4068,7 @@ export const messages: Record<Locale, Messages> = {
     lotNotFoundBtn: 'Przejdź do katalogu',
     lotModeTransit: 'Auta w drodze',
     lotModeInStock: 'W magazynie',
+    lotBackButton: 'Wstecz',
     lotModeCatalog: 'Katalog',
     lotStatusTransit: 'W drodze',
     lotStatusInStock: 'W magazynie',

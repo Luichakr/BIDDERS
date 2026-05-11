@@ -11,7 +11,17 @@ interface InventoryPageBodyProps {
 
 export function InventoryPageBody({ title, items }: InventoryPageBodyProps) {
   const { t } = useI18n()
-  const { groups, selected, filteredItems, toggleFilter, resetFilters } = useInventoryFilters(items)
+  const {
+    groups,
+    selected,
+    priceMin,
+    priceMax,
+    priceBounds,
+    filteredItems,
+    toggleFilter,
+    setPriceRange,
+    resetFilters,
+  } = useInventoryFilters(items)
 
   return (
     <main className="inventory-page">
@@ -19,6 +29,10 @@ export function InventoryPageBody({ title, items }: InventoryPageBodyProps) {
         groups={groups}
         selected={selected}
         onToggle={toggleFilter}
+        priceMin={priceMin}
+        priceMax={priceMax}
+        priceBounds={priceBounds}
+        onPriceRange={setPriceRange}
         onReset={resetFilters}
       />
       <section>

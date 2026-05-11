@@ -135,19 +135,29 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  color: rgba(255, 255, 255, 0.85) !important;
-  font-size: 12px;
-  font-weight: 500;
-  white-space: nowrap;
-  transition: border-color 0.2s, color 0.2s, background 0.2s;
-}
-.lot-back-btn:hover {
-  border-color: var(--lot-accent);
+  padding: 8px 16px;
+  border: 2px solid var(--lot-accent);
+  border-radius: 999px;
   color: var(--lot-accent) !important;
-  background: rgba(255, 107, 0, 0.06);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  background: rgba(255, 92, 0, 0.08);
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(255, 92, 0, 0.15);
+}
+
+.lot-back-btn:hover {
+  background: var(--lot-accent);
+  color: #fff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(255, 92, 0, 0.28);
+}
+
+.lot-back-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(255, 92, 0, 0.18);
 }
 
 /* ============================================================

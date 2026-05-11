@@ -512,8 +512,9 @@ export function LotPage() {
           <Link
             to={lp(mode === 'transit' ? routePaths.transit : mode === 'in-stock' ? routePaths.inStock : routePaths.catalog)}
             className="lot-back-btn"
+            aria-label={t('lotBackButton')}
           >
-            ← {modeLabel}
+            ← {t('lotBackButton')}
           </Link>
         </div>
       </div>
