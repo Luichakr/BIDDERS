@@ -10,6 +10,7 @@ export type ModerationSection = 'in-transit' | 'in-stock'
 export interface ModerationCarInfo {
   id: string
   userId: string
+  lotNumber: string
   title: string
   make: string
   model: string

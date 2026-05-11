@@ -54,6 +54,7 @@ export async function onRequestGet({ request, env }) {
   const carId = url.searchParams.get('carId')
   const userId = url.searchParams.get('userId')
   const section = url.searchParams.get('section')
+  const lotNumber = url.searchParams.get('lotNumber') || carId
 
   // ── Validate params ────────────────────────────────────────────────────────
   if (!action || !carId || !userId || !section) {
@@ -132,7 +133,7 @@ export async function onRequestGet({ request, env }) {
       `<div class="icon">✅</div>
        <h1>Ogłoszenie zatwierdzone!</h1>
        <div class="badge">ZATWIERDZONO</div>
-       <p>Samochód <strong>${carId}</strong> został dodany do sekcji</p>
+       <p>Samochód <strong>Lot #${lotNumber}</strong> został dodany do sekcji</p>
        <p><strong>${sectionLabel}</strong></p>
        <br/>`,
       '#16a34a',
@@ -143,7 +144,7 @@ export async function onRequestGet({ request, env }) {
       `<div class="icon">🚫</div>
        <h1>Ogłoszenie odrzucone</h1>
        <div class="badge" style="background:#dc2626">ODRZUCONO</div>
-       <p>Samochód <strong>${carId}</strong> nie został opublikowany.</p>
+       <p>Samochód <strong>Lot #${lotNumber}</strong> nie został opublikowany.</p>
        <br/>`,
       '#dc2626',
     )

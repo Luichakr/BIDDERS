@@ -86,27 +86,34 @@ export function CabinetPage() {
 
   const canUseCloudSync = canUseCloudCabinet(user?.id)
 
-  // ── Load on mount ──────────────────────────────────────────────────────────
+  // ── Load on mount + on tab focus ───────────────────────────────────────────
+  const loadCars = useRef<() => void>()
   useEffect(() => {
     let isMounted = true
-    loadCabinetCars({ userId: user?.id })
-      .then(({ cars: storedCars, syncMode: nextSyncMode }) => {
-        if (!isMounted) return
-        const nextCars = storedCars.length > 0 ? storedCars : [createEmptyCabinetCar(1)]
-        setCars(nextCars)
-        setSelectedCarId(nextCars[0]?.id ?? '')
-        setSyncMode(nextSyncMode)
-        setIsReady(true)
-      })
-      .catch(() => {
-        if (!isMounted) return
-        const fallbackCars = [createEmptyCabinetCar(1)]
-        setCars(fallbackCars)
-        setSelectedCarId(fallbackCars[0].id)
-        setSyncMode('local')
-        setIsReady(true)
-      })
-    return () => { isMounted = false }
+    const doLoad = () => {
+      loadCabinetCars({ userId: user?.id })
+        .then(({ cars: storedCars, syncMode: nextSyncMode }) => {
+          if (!isMounted) return
+          const nextCars = storedCars.length > 0 ? storedCars : [createEmptyCabinetCar(1)]
+          setCars(nextCars)
+          setSelectedCarId((prev) => prev || (nextCars[0]?.id ?? ''))
+          setSyncMode(nextSyncMode)
+          setIsReady(true)
+        })
+        .catch(() => {
+          if (!isMounted) return
+          const fallbackCars = [createEmptyCabinetCar(1)]
+          setCars(fallbackCars)
+          setSelectedCarId((prev) => prev || fallbackCars[0].id)
+          setSyncMode('local')
+          setIsReady(true)
+        })
+    }
+    loadCars.current = doLoad
+    doLoad()
+    const onFocus = () => { if (user?.id) doLoad() }
+    window.addEventListener('focus', onFocus)
+    return () => { isMounted = false; window.removeEventListener('focus', onFocus) }
   }, [copy.syncCloudReady, copy.syncLocalFallback, copy.syncLocalReady, user?.id])
 
   // ── Autosave with 2s debounce ──────────────────────────────────────────────

@@ -118,6 +118,7 @@ export function CabinetEditorPanel({
         {
           id: selectedCar.id,
           userId,
+          lotNumber: selectedCar.lotNumber,
           title: selectedCar.title,
           make: selectedCar.make,
           model: selectedCar.model,

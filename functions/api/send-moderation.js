@@ -10,15 +10,15 @@ const SITE = 'https://bidbidders.com'
 const TO_EMAIL = 'sales@bidbidders.com'
 const FROM_EMAIL = 'noreply@bidbidders.com'
 
-function buildLink(action, carId, userId, section) {
-  const params = new URLSearchParams({ action, carId, userId, section })
+function buildLink(action, carId, userId, section, lotNumber) {
+  const params = new URLSearchParams({ action, carId, userId, section, lotNumber: lotNumber || '' })
   return `${SITE}/api/moderate?${params.toString()}`
 }
 
 function buildHtml(car, section) {
   const sectionLabel = section === 'in-transit' ? '🚢 Auta w drodze' : '🏠 Auta w nalichii'
-  const approveUrl = buildLink('approve', car.id, car.userId, section)
-  const rejectUrl = buildLink('reject', car.id, car.userId, section)
+  const approveUrl = buildLink('approve', car.id, car.userId, section, car.lotNumber)
+  const rejectUrl = buildLink('reject', car.id, car.userId, section, car.lotNumber)
 
   return `<!DOCTYPE html>
 <html lang="pl">
@@ -34,7 +34,8 @@ function buildHtml(car, section) {
 
   <div style="padding:28px 32px">
     <table style="width:100%;border-collapse:collapse;font-size:14px;color:#0f172a">
-      <tr><td style="padding:7px 0;color:#64748b;width:120px;vertical-align:top">Tytuł</td><td style="padding:7px 0;font-weight:600">${car.title || '—'}</td></tr>
+      <tr><td style="padding:7px 0;color:#64748b;width:120px;vertical-align:top">Lot #</td><td style="padding:7px 0;font-weight:700;color:#e85d04">${car.lotNumber || '—'}</td></tr>
+      <tr><td style="padding:7px 0;color:#64748b">Tytuł</td><td style="padding:7px 0;font-weight:600">${car.title || '—'}</td></tr>
       <tr><td style="padding:7px 0;color:#64748b">Marka / Model</td><td style="padding:7px 0">${[car.make, car.model].filter(Boolean).join(' ') || '—'}</td></tr>
       <tr><td style="padding:7px 0;color:#64748b">Rok</td><td style="padding:7px 0">${car.year || '—'}</td></tr>
       <tr><td style="padding:7px 0;color:#64748b">VIN</td><td style="padding:7px 0;font-family:monospace;font-size:13px">${car.vin || '—'}</td></tr>
