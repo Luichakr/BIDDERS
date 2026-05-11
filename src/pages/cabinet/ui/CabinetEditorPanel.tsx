@@ -100,7 +100,7 @@ export function CabinetEditorPanel({
   onPhotoSetPrimary,
   onDelete,
   onSave,
-  onPublish,
+  onPublish: _onPublish,
   onRenew,
   onPreview,
   userId,
