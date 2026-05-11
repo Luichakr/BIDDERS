@@ -45,7 +45,7 @@ create table if not exists public.cabinet_cars (
   service_history text not null default '',
   modifications text not null default '',
   notes text not null default '',
-  publication_status text not null default 'private' check (publication_status in ('private', 'published')),
+  publication_status text not null default 'private' check (publication_status in ('private', 'published', 'pending_transit', 'pending_stock', 'rejected')),
   public_title text not null default '',
   public_slug text not null default '',
   public_description text not null default '',
@@ -59,7 +59,7 @@ create table if not exists public.cabinet_cars (
 );
 
 alter table public.cabinet_cars
-  add column if not exists publication_status text not null default 'private' check (publication_status in ('private', 'published')),
+  add column if not exists publication_status text not null default 'private' check (publication_status in ('private', 'published', 'pending_transit', 'pending_stock', 'rejected')),
   add column if not exists public_title text not null default '',
   add column if not exists public_slug text not null default '',
   add column if not exists public_description text not null default '',
@@ -155,6 +155,13 @@ from public.cabinet_cars
 where publication_status = 'published';
 
 grant select on public.public_inventory_lots to anon, authenticated;
+
+-- Allow anyone (anon) to read published cars so the public inventory page works
+create policy "cabinet_cars_select_published"
+  on public.cabinet_cars
+  for select
+  to anon
+  using (publication_status = 'published');
 
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values (

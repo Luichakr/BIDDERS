@@ -8,7 +8,12 @@ export type CabinetCarStatus =
   | 'ready'
   | 'sold'
 
-export type CabinetPublicationStatus = 'private' | 'published'
+export type CabinetPublicationStatus =
+  | 'private'
+  | 'published'
+  | 'pending_transit'   // submitted for "Auta w drodze" — awaiting moderation
+  | 'pending_stock'     // submitted for "Auta w nalichii" — awaiting moderation
+  | 'rejected'          // rejected by moderator
 
 export type CabinetPhoto = {
   id: string

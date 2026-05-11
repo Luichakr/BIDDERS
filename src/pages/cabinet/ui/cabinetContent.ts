@@ -215,6 +215,9 @@ const copy: Record<Locale, CabinetCopy> = {
     publicationStatusLabels: {
       private: 'Приватно',
       published: 'Опубліковано',
+      pending_transit: 'На перевірці (в дорозі)',
+      pending_stock: 'На перевірці (в наявності)',
+      rejected: 'Відхилено',
     },
   },
   en: {
@@ -328,6 +331,9 @@ const copy: Record<Locale, CabinetCopy> = {
     publicationStatusLabels: {
       private: 'Private',
       published: 'Published',
+      pending_transit: 'Pending review (in transit)',
+      pending_stock: 'Pending review (in stock)',
+      rejected: 'Rejected',
     },
   },
   pl: {
@@ -441,6 +447,9 @@ const copy: Record<Locale, CabinetCopy> = {
     publicationStatusLabels: {
       private: 'Prywatne',
       published: 'Opublikowane',
+      pending_transit: 'Oczekuje (w drodze)',
+      pending_stock: 'Oczekuje (w nalichii)',
+      rejected: 'Odrzucone',
     },
   },
 }

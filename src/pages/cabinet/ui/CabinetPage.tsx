@@ -536,6 +536,7 @@ export function CabinetPage() {
                   onPublish={handlePublishNow}
                   onRenew={handleRenewListing}
                   onPreview={handlePreviewListing}
+                  userId={user?.id}
                 />
               )}
             </div>

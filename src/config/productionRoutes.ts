@@ -17,6 +17,10 @@ export const PRODUCTION_ALLOWED_ROUTES: readonly string[] = [
   '/pl/faq',
   '/en/faq',
   '/pl/dobieramy-auto',
+  '/pl/privacy-policy',
+  '/en/privacy-policy',
+  '/pl/terms-of-use',
+  '/en/terms-of-use',
   '/pl/login',
   '/en/login',
   '/pl/register',
@@ -37,6 +41,7 @@ function normalize(pathname: string): string {
 }
 
 const PRODUCTION_ALLOWED_PREFIXES: readonly string[] = [
+  '/api/',
   '/pl/cars/',
   '/en/cars/',
   '/pl/cabinet',

@@ -1467,7 +1467,6 @@ export function HomePage() {
       </section>
       )}
 
-      {!isProd && (
       <section className="px px-section px-section--dark bp-animate" id="cases">
         <div className="px-wrap">
           <div className="px-header px-cases__header">
@@ -1548,7 +1547,6 @@ export function HomePage() {
           </div>
         </div>
       </section>
-      )}
 
       <section className="px px-section px-section--light bp-animate" id="instagram">
         <div className="px-wrap">

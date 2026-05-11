@@ -1,4 +1,5 @@
-import type { ChangeEvent } from 'react'
+import { useState, type ChangeEvent } from 'react'
+import { sendModerationEmail, type ModerationSection } from '../../../shared/api/sendModerationEmail'
 import { expiryLabel, isListingExpired, shouldShowRenewButton } from '../model/listingExpiry'
 import { CABINET_CAR_MAX_PHOTOS, type CabinetCar, type CabinetCarStatus, type CabinetPublicationStatus } from '../model/cabinetTypes'
 import type { CabinetCopy } from './cabinetContent'
@@ -32,6 +33,7 @@ type Props = {
   onPublish: () => void
   onRenew: () => void
   onPreview: () => void
+  userId?: string
 }
 
 type FieldRowProps = {
@@ -101,7 +103,43 @@ export function CabinetEditorPanel({
   onPublish,
   onRenew,
   onPreview,
+  userId,
 }: Props) {
+  const [moderationSection, setModerationSection] = useState<ModerationSection>('in-transit')
+  const [moderationSending, setModerationSending] = useState(false)
+  const [moderationMsg, setModerationMsg] = useState('')
+
+  async function handleSubmitForModeration() {
+    if (!userId) { setModerationMsg('Musisz być zalogowany.'); return }
+    setModerationSending(true)
+    setModerationMsg('')
+    try {
+      await sendModerationEmail(
+        {
+          id: selectedCar.id,
+          userId,
+          title: selectedCar.title,
+          make: selectedCar.make,
+          model: selectedCar.model,
+          year: selectedCar.year,
+          vin: selectedCar.vin,
+          mileageKm: selectedCar.mileageKm,
+          damagePrimary: selectedCar.damagePrimary,
+          publicPriceUsd: selectedCar.publicPriceUsd,
+          description: selectedCar.description,
+        },
+        moderationSection,
+      )
+      // update local status
+      onFieldChange('publicationStatus', moderationSection === 'in-transit' ? 'pending_transit' : 'pending_stock')
+      setModerationMsg('✅ Zgłoszenie wysłane! Oczekuj decyzji moderatora.')
+    } catch {
+      setModerationMsg('❌ Błąd wysyłania. Spróbuj ponownie.')
+    } finally {
+      setModerationSending(false)
+    }
+  }
+
   return (
     <div className="cb-panel">
       {/* Editor header */}
@@ -304,9 +342,6 @@ export function CabinetEditorPanel({
                   <option key={status} value={status}>{label}</option>
                 ))}
               </select>
-              <button className="cb-btn cb-btn-ghost" onClick={onPreview} type="button" style={{ marginTop: '6px' }}>
-                {copy.previewListing}
-              </button>
             </div>
             <div className="cb-field">
               <label htmlFor="public-title">{copy.fieldPublicTitle}</label>
@@ -422,11 +457,99 @@ export function CabinetEditorPanel({
           </div>
         )}
 
-      </div>
+        {/* ── Moderation section ───────────────────────────────────── */}
+        <div className="cb-section">
+          <h3 className="cb-section-title">📢 Publikacja na stronie</h3>
 
+          {/* Status badge */}
+          {selectedCar.publicationStatus === 'pending_transit' && (
+            <div className="cb-moderation-badge cb-moderation-pending">
+              ⏳ Oczekuje na weryfikację — <strong>Auta w drodze</strong>
+            </div>
+          )}
+          {selectedCar.publicationStatus === 'pending_stock' && (
+            <div className="cb-moderation-badge cb-moderation-pending">
+              ⏳ Oczekuje na weryfikację — <strong>Auta w nalichii</strong>
+            </div>
+          )}
+          {selectedCar.publicationStatus === 'rejected' && (
+            <div className="cb-moderation-badge cb-moderation-rejected">
+              ❌ Zgłoszenie odrzucone przez moderatora
+            </div>
+          )}
+          {selectedCar.publicationStatus === 'published' && (
+            <div className="cb-moderation-badge cb-moderation-approved">
+              ✅ Opublikowane na stronie
+            </div>
+          )}
+
+          {/* Submit form — show for private, rejected, and published (allow resubmit to different section) */}
+          {(selectedCar.publicationStatus === 'private' || selectedCar.publicationStatus === 'rejected' || selectedCar.publicationStatus === 'published') && (
+            <div className="cb-moderation-form">
+              <label className="cb-label">Wybierz sekcję na stronie</label>
+              <select
+                className="cb-select"
+                value={moderationSection}
+                onChange={(e) => setModerationSection(e.target.value as ModerationSection)}
+              >
+                <option value="in-transit">🚢 Auta w drodze</option>
+                <option value="in-stock">🏠 Auta w nalichii (magazyn)</option>
+              </select>
+              <button
+                type="button"
+                className="cb-btn cb-btn-primary"
+                onClick={handleSubmitForModeration}
+                disabled={moderationSending}
+                style={{ marginTop: 10 }}
+              >
+                {moderationSending ? 'Wysyłanie…' : '📨 Wyślij do weryfikacji'}
+              </button>
+              {moderationMsg && (
+                <p className="cb-field-helper" style={{ marginTop: 8 }}>{moderationMsg}</p>
+              )}
+            </div>
+          )}
+
+          {/* Allow withdrawing pending submission */}
+          {(selectedCar.publicationStatus === 'pending_transit' || selectedCar.publicationStatus === 'pending_stock') && (
+            <div className="cb-moderation-form">
+              <label className="cb-label">Wybierz sekcję na stronie</label>
+              <select
+                className="cb-select"
+                value={moderationSection}
+                onChange={(e) => setModerationSection(e.target.value as ModerationSection)}
+              >
+                <option value="in-transit">🚢 Auta w drodze</option>
+                <option value="in-stock">🏠 Auta w nalichii (magazyn)</option>
+              </select>
+              <button
+                type="button"
+                className="cb-btn cb-btn-primary"
+                onClick={handleSubmitForModeration}
+                disabled={moderationSending}
+                style={{ marginTop: 10 }}
+              >
+                {moderationSending ? 'Wysyłanie…' : '📨 Wyślij ponownie'}
+              </button>
+              {moderationMsg && (
+                <p className="cb-field-helper" style={{ marginTop: 8 }}>{moderationMsg}</p>
+              )}
+              <button
+                type="button"
+                className="cb-btn"
+                onClick={() => onFieldChange('publicationStatus', 'private')}
+                style={{ marginTop: 8, fontSize: 13 }}
+              >
+                Wycofaj zgłoszenie
+              </button>
+            </div>
+          )}
+        </div>
+
+      </div>
       <div className="cb-panel-footer">
-        <button className="cb-btn" onClick={onSave} type="button">{copy.saveCar}</button>
-        <button className="cb-btn cb-btn-primary" onClick={onPublish} type="button">{copy.publishCar}</button>
+        <button className="cb-btn" onClick={onPreview} type="button">{copy.previewListing}</button>
+        <button className="cb-btn cb-btn-primary" onClick={onSave} type="button">{copy.saveCar}</button>
       </div>
     </div>
   )
